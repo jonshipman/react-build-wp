@@ -30,9 +30,9 @@ const POST_QUERY = gql`
 const HOME_QUERY = gql`
   query {
     frontPage {
-      homepageMeta {
-        message
-        videoOverlayMessage
+      seo {
+        title
+        metaDesc
       }
     }
   }
@@ -42,9 +42,9 @@ class Home extends Component {
   state = {
     posts: [],
     frontPage: {
-      homepageMeta: {
-        message: '',
-        videoOverlayMessage: ''
+      seo: {
+        title: '',
+        metaDesc: ''
       }
     }
   };
@@ -103,7 +103,7 @@ class Home extends Component {
 
     return (
       <>
-        <BannerMessage message={frontPage.homepageMeta.message} />
+        <BannerMessage message={frontPage.seo.tite} />
         <div className="home--content">
           <div className="hero--container">
             <div className="hero">
@@ -111,7 +111,7 @@ class Home extends Component {
                 {/* Add a ResponsiveVideo Component here to have a background video */}
 
                 <div className="hero--title">
-                  {frontPage.homepageMeta.videoOverlayMessage}
+                  {frontPage.seo.title}
                 </div>
               </div>
             </div>
