@@ -1,0 +1,191 @@
+/**
+* Converted the js_composer styles to tachyon compatible ones. If you're
+* buidling ontop of a js_composer theme, import this in your styles.scss
+**/
+
+@mixin row-fullwidth {
+    $stretch-padding: calc( ( ( 100vw - #{$website-width} ) / 2 ) - #{$spacing-small} );
+
+    position: relative;
+    margin-left: calc( -50vw + 0.5rem );
+    width: calc( 100vw - 1rem - 1px );
+    left: 50%;
+
+  &:not([data-vc-stretch-content="true"]) {
+    padding-left: $stretch-padding;
+    padding-right: $stretch-padding;
+  }
+}
+
+.vc_section {
+  @extend .w-100;
+
+  &.wpex-vc-row-stretched {
+    @include row-fullwidth;
+  }
+}
+
+.wpb_row {
+  @extend .cf;
+
+  .wpb_column {
+    @extend .ph2, .mb2;
+
+    width: 100%;
+    float: left;
+
+    @at-root #{selector-replace(&, '.wpb_row', '.wpb_row.no-bottom-margins')} {
+      @extend .mb0;
+    }
+
+    @at-root #{selector-replace(&, '.wpb_row', '.wpb_row[data-vc-stretch-content="true"]')} {
+      &:first-child {
+        @extend .pl0;
+      }
+
+      &:first-child {
+        @extend .pr0;
+      }
+    }
+  }
+
+  &.vc_row-flex {
+    @extend .flex-l, .items-start, .content-start;
+
+    &.vc_row-o-content-middle {
+      @extend .items-center;
+    }
+
+    .wpb_column {
+      float: none;
+    }
+  }
+
+  @media #{$breakpoint-large} {
+    &.wpex-vc-row-stretched {
+      @include row-fullwidth;
+    }
+
+    .vc_col-sm-12 { width: 100%}
+    .vc_col-sm-11 { width: 91.66666667%}
+    .vc_col-sm-10 { width: 83.33333333%}
+    .vc_col-sm-9 { width: 75%}
+    .vc_col-sm-8 { width: 66.66666667%}
+    .vc_col-sm-7 { width: 58.33333333%}
+    .vc_col-sm-6 { width: 50%}
+    .vc_col-sm-5 { width: 41.66666667%}
+    .vc_col-sm-4 { width: 33.33333333%}
+    .vc_col-sm-3 { width: 25%}
+    .vc_col-sm-2 { width: 16.66666667%}
+    .vc_col-sm-1 { width: 8.33333333%}
+
+    .vc_col-sm-1\/5 {width: 20%;}
+  }
+}
+
+.one-half, .one-third, .one-fourth, .one-fifth {
+  @extend .w-100, .fl-ns;
+
+  clear: none !important;
+
+  &.first {
+    clear: both !important;
+  }
+
+  input {
+    @extend .w-100, .border-box;
+  }
+}
+
+#root {
+  @media #{$breakpoint-large} {
+    .one-half { width: 50%; }
+    .one-third { width: 33.33333%; }
+    .one-fourth { width: 25%; }
+    .one-fifth { width: 20%; }
+  }
+}
+
+.wpb_video_wrapper {
+  @extend .aspect-ratio, .aspect-ratio--16x9, .mb3;
+
+  z-index: 1;
+
+  iframe {
+    @extend .aspect-ratio--object,
+  }
+}
+
+.vc_clearfix {
+  @extend .cb;
+}
+
+.vc_custom_heading, .vcex-heading {
+  @extend .f2, .fw7;
+
+  a {
+    color:inherit;
+  }
+}
+
+.vc_figure {
+  @extend .ma0;
+}
+
+.typography-white {
+  &, & * {
+    @extend .white;
+  }
+}
+
+.vcex-recent-news {
+  @extend .tc, .tl-l;
+
+  .vcex-recent-news-date {
+    @extend .bg-blue, .pa2, .tc, .mb2, .mw4, .center;
+
+    .day {
+      @extend .fw6;
+    }
+
+    .month {
+      @extend .db, .nowrap, .pa2;
+
+      font-size: 0.7em;
+    }
+  }
+
+  .vcex-recent-news-entry {
+    @extend .flex-l, .items-start;
+  }
+
+  .vcex-news-entry-details {
+    @extend .pl3-l;
+
+    .vcex-recent-news-entry-title-heading {
+      @extend .mt0;
+    }
+
+    .vcex-recent-news-entry-excerpt {
+      @extend .tj, .tl-l;
+    }
+  }
+}
+
+.vcex-image {
+  img {
+    @extend .db;
+  }
+}
+
+.vc_btn3 {
+  @extend .theme-button;
+
+  @at-root .bg-orange & {
+    @extend .bg-blue;
+  }
+
+  &.vc_btn3-block {
+    @extend .db, .tc;
+  }
+}

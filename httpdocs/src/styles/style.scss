@@ -1,5 +1,10 @@
 @import "tachyons";
 
+.main {
+  @import "./wordpress-classic.scss";
+  @import "./wordpress.scss";
+}
+
 .f-headline {
   @extend .f-headline, .sans-serif;
 }

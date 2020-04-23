@@ -11,9 +11,9 @@ import Category from './Category';
 import { BACKEND_URL } from '../constants';
 
 export default () => (
-  <div className="center">
+  <>
     <Header />
-    <div className="">
+    <div className="main">
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
@@ -30,5 +30,5 @@ export default () => (
       </Switch>
     </div>
     <Footer />
-  </div>
+  </>
 );
