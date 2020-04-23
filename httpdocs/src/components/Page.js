@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
+import { Helmet } from "react-helmet";
 import gql from 'graphql-tag';
 
 /**
@@ -12,6 +13,10 @@ const PAGE_QUERY = gql`
       pageId
       title
       content
+      seo {
+        title
+        metaDesc
+      }
     }
   }
 `;
@@ -23,7 +28,11 @@ class Page extends Component {
   state = {
     page: {
       title: '',
-      content: ''
+      content: '',
+      seo: {
+        title: '',
+        metaDesc: ''
+      }
     },
   };
 
@@ -62,16 +71,22 @@ class Page extends Component {
 
     if ( null !== page ) {
       return (
-        <div className={`content mh4 mv4 w-two-thirds-l center-l post-${page.pageId}`}>
-          <h1 className="tc mv5 f1">{page.title}</h1>
+        <>
+          <Helmet>
+            <title>{page.seo.title}</title>
+            <meta name="description" content={page.seo.metaDesc}/>
+          </Helmet>
+          <div className={`content mh4 mv4 w-two-thirds-l center-l post-${page.pageId}`}>
+            <h1 className="tc mv5 f1">{page.title}</h1>
 
-          <div
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: page.content,
-            }}
-          />
-        </div>
+            <div
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: page.content,
+              }}
+            />
+          </div>
+        </>
       );
     } else {
       return (

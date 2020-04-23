@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
+import { Helmet } from "react-helmet";
 import gql from 'graphql-tag';
 import HomepageRow from './HomepageRow';
 import BannerMessage from './BannerMessage';
@@ -103,6 +104,10 @@ class Home extends Component {
 
     return (
       <>
+        <Helmet>
+          <title>{frontPage.seo.title}</title>
+          <meta name="description" content={frontPage.seo.metaDesc}/>
+        </Helmet>
         <BannerMessage message={frontPage.seo.tite} />
         <div className="home--content">
           <div className="hero--container">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
+import { Helmet } from "react-helmet";
 import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 
@@ -23,6 +24,10 @@ const CATEGORY_QUERY = gql`
         node {
           name
           categoryId
+          seo {
+            metaDesc
+            title
+          }
         }
       }
     }
@@ -37,6 +42,10 @@ class Category extends Component {
     category: {
       name: '',
       posts: [],
+      seo: {
+        title: '',
+        metaDesc: ''
+      }
     },
   };
 
@@ -73,37 +82,43 @@ class Category extends Component {
   render() {
     const { category } = this.state;
     return (
-      <div className="content mh4 mt4 mb6 w-two-thirds-l center-l">
-        <span className="gray f3 b">Category Archives:</span>
-        <h1 className="f1 mt3">{category.name}</h1>
-        <div className="flex mt2 items-start">
-          <div className="flex items-center" />
-          <div className="ml1">
-            {category.posts.map((post, index) => (
-              <div key={post.node.slug}>
-                <h2 className="mt5">
-                  <Link to={post.node.link}>
-                    {post.node.title}
+      <>
+        <Helmet>
+          <title>{category.seo.title}</title>
+          <meta name="description" content={category.seo.metaDesc}/>
+        </Helmet>
+        <div className="content mh4 mt4 mb6 w-two-thirds-l center-l">
+          <span className="gray f3 b">Category Archives:</span>
+          <h1 className="f1 mt3">{category.name}</h1>
+          <div className="flex mt2 items-start">
+            <div className="flex items-center" />
+            <div className="ml1">
+              {category.posts.map((post, index) => (
+                <div key={post.node.slug}>
+                  <h2 className="mt5">
+                    <Link to={post.node.link}>
+                      {post.node.title}
+                    </Link>
+                  </h2>
+                  <div
+                    className="mv4"
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={{
+                      __html: post.node.excerpt,
+                    }}
+                  />
+                  <Link
+                    to={post.node.link}
+                    className="round-btn invert ba bw1 pv2 ph3"
+                  >
+                    Read more
                   </Link>
-                </h2>
-                <div
-                  className="mv4"
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{
-                    __html: post.node.excerpt,
-                  }}
-                />
-                <Link
-                  to={post.node.link}
-                  className="round-btn invert ba bw1 pv2 ph3"
-                >
-                  Read more
-                </Link>
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

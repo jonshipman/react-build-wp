@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
+import { Helmet } from "react-helmet";
 import gql from 'graphql-tag';
 
 /**
@@ -13,6 +14,10 @@ const POST_QUERY = gql`
       content
       author {
         nickname
+      }
+      seo {
+        title
+        metaDesc
       }
     }
   }
@@ -29,6 +34,10 @@ class Post extends Component {
       author: {
         nickname: '',
       },
+      seo: {
+        title: '',
+        metaDesc: ''
+      }
     },
   };
 
@@ -61,15 +70,21 @@ class Post extends Component {
 
     if ( null !== post ) {
       return (
-        <div className={`content mh4 mv4 w-two-thirds-l center-l post-${post.id} post-type-post`}>
-          <h1>{post.title}</h1>
-          <div
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: post.content,
-            }}
-          />
-        </div>
+        <>
+          <Helmet>
+            <title>{page.seo.title}</title>
+            <meta name="description" content={page.seo.metaDesc}/>
+          </Helmet>
+          <div className={`content mh4 mv4 w-two-thirds-l center-l post-${post.id} post-type-post`}>
+            <h1>{post.title}</h1>
+            <div
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: post.content,
+              }}
+            />
+          </div>
+        </>
       );
     } else {
       return (
