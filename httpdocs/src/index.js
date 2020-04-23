@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'tachyons/css/tachyons.min.css';
-import './styles/style.scss';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter } from 'react-router-dom';
 import { createHttpLink } from 'apollo-link-http';
+import './styles/style.scss';
 import App from './components/App';
 import Config from './config';
 
