@@ -32,6 +32,9 @@ require_once 'inc/acf-options.php';
 // Add GraphQL resolvers.
 require_once 'inc/graphql/resolvers.php';
 
+// Prevent double HTML entity wrapping.
+require_once 'inc/html-entities.php';
+
 add_action(
     'after_setup_theme',
     function () {
