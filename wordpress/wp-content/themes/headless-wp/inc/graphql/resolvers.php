@@ -10,4 +10,6 @@ if ( function_exists( 'register_graphql_field' ) ) {
     // Add menu resolver.
     require_once 'resolvers/nested-menu.php';
     require_once 'resolvers/front-page.php';
+    require_once 'resolvers/post.php';
+    require_once 'resolvers/wpb.php';
 }
