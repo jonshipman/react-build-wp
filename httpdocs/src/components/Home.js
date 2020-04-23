@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
 import { Helmet } from "react-helmet";
 import gql from 'graphql-tag';
-import HomepageRow from './HomepageRow';
-import BannerMessage from './BannerMessage';
+import HomepageRow from './elements/HomepageRow';
+import BannerMessage from './elements/BannerMessage';
 
 const POST_QUERY = gql`
   query PostsQuery {

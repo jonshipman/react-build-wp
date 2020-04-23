@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { ReactComponent as SearchIcon } from '../static/images/search.svg';
+import { ReactComponent as SearchIcon } from '../../static/images/search.svg';
 import NestedMenu from './NestedMenu';
 import Image from 'react-image-webp';
 
@@ -13,8 +13,8 @@ class Header extends Component {
             <Link to="/">
                 <Image
                   height={65}
-                  src={require('../static/images/logo-raster.png')}
-                  webp={require('../static/images/logo-raster.webp')}
+                  src={require('../../static/images/logo-raster.png')}
+                  webp={require('../../static/images/logo-raster.webp')}
                 />
             </Link>
           </div>

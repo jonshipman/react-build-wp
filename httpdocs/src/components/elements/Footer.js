@@ -8,8 +8,8 @@ const Footer = () => (
     <Link to="/">
       <Image
         width={128}
-        src={require('../static/images/logo-raster.png')}
-        webp={require('../static/images/logo-raster.webp')}
+        src={require('../../static/images/logo-raster.png')}
+        webp={require('../../static/images/logo-raster.webp')}
         />
     </Link>
   </div>
