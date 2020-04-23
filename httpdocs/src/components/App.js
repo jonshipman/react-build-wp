@@ -5,8 +5,7 @@ import Footer from './elements/Footer';
 import Home from './Home';
 import Login from './Login';
 import Search from './Search';
-import Page from './Page';
-import Post from './Post';
+import Single from './Single';
 import Category from './Category';
 import { BACKEND_URL } from '../constants';
 
@@ -18,7 +17,6 @@ export default () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/search" component={Search} />
-        <Route exact path="/blog/:slug" component={Post} />
         <Route exact path="/category/:slug" component={Category} />
         <Route exact path="/wp-admin" render={() => {
           global.window && (global.window.location.href = BACKEND_URL + '/wp-admin');
@@ -26,7 +24,7 @@ export default () => (
           return null;
         }} />
 
-        <Route exact path="/:slug" component={Page} />
+        <Route path="*" component={Single} />
       </Switch>
     </div>
     <Footer />

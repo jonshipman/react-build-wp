@@ -1,46 +1,16 @@
 @import "tachyons-sass";
-
-.main {
-  @import "./wordpress-classic.scss";
-  @import "./wordpress.scss";
-}
-
-.f-headline {
-  @extend .f-headline, .sans-serif;
-}
-.f-subheadline {
-  @extend .f-subheadline, .sans-serif;
-}
-h1,h2,h3,h4,h5 {
-  @extend .sans-serif;
-}
-.h0 { height: 0px; }
-.w0 { width: 0px; }
-.h6 { height: 32rem; }
-.f7 { font-size: 0.7rem; }
-.f8 { font-size: 0.66rem; }
-.f-grow { flex-grow: 1; }
-.f-shrink { flex-shrink: 1; }
-.nf-grow { flex-grow: 0; }
-.nf-shrink { flex-shrink: 0; }
-.text-shadow { text-shadow: 1px 0px 8px rgba(0, 0, 0, 0.55) };
-.large-link {
-  @extend .absolute, .top-0, .left-0, .w-100, .h-100;
-
-  z-index: 10;
-}
+@import "./tachyon-overrides.scss";
 
 body {
   @extend .ma0, .pa0, .f5, .serif;
 }
 
-.wp-block-button,
-.wp-block-button__link {
-  @extend .white;
+.main {
+  @import "./wordpress-classic.scss";
+  @import "./wordpress.scss";
 
-  &:hover,
-  &:hover a {
-    @extend .black, .no-underline;
+  article.content {
+    @extend .ma4, .w-two-thirds-l, .center-l;
   }
 }
 

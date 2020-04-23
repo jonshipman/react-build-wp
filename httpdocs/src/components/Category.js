@@ -3,6 +3,7 @@ import { withApollo } from 'react-apollo';
 import { Helmet } from "react-helmet";
 import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
+import { FRONTEND_URL } from '../constants';
 
 /**
  * GraphQL category query that takes a category slug as a filter
@@ -24,6 +25,7 @@ const CATEGORY_QUERY = gql`
         node {
           name
           categoryId
+          slug
           seo {
             metaDesc
             title
@@ -42,6 +44,7 @@ class Category extends Component {
     category: {
       name: '',
       posts: [],
+      slug: '',
       seo: {
         title: '',
         metaDesc: ''
@@ -86,6 +89,7 @@ class Category extends Component {
         <Helmet>
           <title>{category.seo.title}</title>
           <meta name="description" content={category.seo.metaDesc}/>
+          <link rel="canonical" href={`${FRONTEND_URL}/${category.slug}`} />
         </Helmet>
         <div className="content mh4 mt4 mb6 w-two-thirds-l center-l">
           <span className="gray f3 b">Category Archives:</span>
