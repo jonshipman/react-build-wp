@@ -64,8 +64,17 @@ function postlight_headless_wp_nav_menu_item( $item ) {
         'label' => html_entity_decode( $item->title ),
     );
 
-    $url_arr = explode( '/', $item->url );
-    $slug    = $url_arr[ count( $url_arr ) - 2 ];
+    $slug = $item->url;
+
+    if ( false !== stripos( $slug, '/' ) ) {
+        $explode = explode( '/', $slug );
+
+        array_shift( $explode );
+        array_shift( $explode );
+        array_shift( $explode );
+        $explode = array_filter( $explode );
+        $slug    = implode( '/', $explode );
+    }
 
     switch ( $item->object ) {
         case 'post':
@@ -78,7 +87,7 @@ function postlight_headless_wp_nav_menu_item( $item ) {
             $resolve['url'] = '/' . $slug;
             break;
         case 'custom':
-            $resolve['url'] = $item->url;
+            $resolve['url'] = str_replace( get_frontend_origin(), '', $item->url );
             break;
         default:
             break;

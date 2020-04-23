@@ -34,22 +34,20 @@ const ChildItem = (props) => {
   }
 
   return (
-    <li id={ 'menu-item-' + menu.itemID } key={ 'menu-item-' + menu.itemID }>
+    <li id={ 'menu-item-' + menu.itemID } key={ 'menu-item-' + menu.itemID } className={(menu.hasChildren ? ' has-children' : '')}>
       <Link to={menu.url} className="sf-with-ul">
-        <span className="link-inner">
-          {menu.label}
-        </span>
+        <span className="link-inner">{menu.label}</span>
       </Link>
       {menu.hasChildren ? (
-        <ul className="sub-menu list pl0 dn">
+        <ul className="sub-menu dn">
           {new_children.map(m => {
             if (m.parent === menu.itemID) {
               return (
-                <ChildItem menu={m} menus={menus} />
+                <ChildItem key={ 'menu-item-' + m.itemID } menu={m} menus={menus} />
               );
-              } else {
-                return false;
-              }
+            } else {
+              return false;
+            }
           })}
         </ul>
       ) : (
@@ -65,7 +63,7 @@ class NestedMenu extends Component {
     location: '',
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.executeMenu();
   }
 
