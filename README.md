@@ -9,3 +9,5 @@ I wanted something a little leaner to deploy and more catered to my working envi
 5. **Tachyon CSS is imported into the project's SASS.** The benefit is that you can extend classes from tachyon in your project scss files.
 
 Basically, I wanted something I can wget on the server and run a .sh file to build. We setup WordPress through Plesk so the intial WordPress building is not included, but if you replace the Postlight frontend-graphql folder with my httpdocs folder and replace the wordpress theme, it should work in Postlight's environment.
+
+Ignoring yarn.lock because each project is started with the newest packages.

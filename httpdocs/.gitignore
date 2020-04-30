@@ -27,3 +27,6 @@ graphql.schema.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Not including Yarn lock, because I like bleeding edge!
+yarn.lock
