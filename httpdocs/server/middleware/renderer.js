@@ -38,6 +38,7 @@ export default (req, res) => {
   fs.readFile(filePath, 'utf8', (err, htmlData) => {
     if (err) {
       console.error('err', err);
+
       return res.status(500)
         .send('<html><head><title>500 Error</title></head><body><h1>500 Status Error</h1><h2>Did you forget to yarn build?</h2></body></html>')
         .end();
