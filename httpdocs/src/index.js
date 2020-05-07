@@ -15,7 +15,15 @@ const client = new ApolloClient({
   cache: new InMemoryCache().restore(window.__APOLLO_STATE__ || null),
 });
 
-ReactDOM.hydrate(
+let renderMethod;
+
+if ('client' === process.env.REACT_APP_RENDER) {
+  renderMethod = ReactDOM.render;
+} else {
+  renderMethod = ReactDOM.hydrate;
+}
+
+renderMethod(
   <BrowserRouter>
     <ApolloProvider client={client}>
       <ScrollToTop>
