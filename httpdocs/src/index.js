@@ -1,26 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-boost';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 import { BrowserRouter } from 'react-router-dom';
-import { createHttpLink } from 'apollo-link-http';
 import './styles/style.scss';
-import App from './components/App';
 import Config from './config';
+import App from './components/App';
+import ScrollToTop from './components/elements/ScrollToTop';
 
 // Apollo GraphQL client
 const client = new ApolloClient({
-  link: createHttpLink({
+  link: new HttpLink({
     uri: Config.gqlUrl,
   }),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache().restore(window.__APOLLO_STATE__ || null),
 });
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <BrowserRouter>
     <ApolloProvider client={client}>
-      <App />
+      <ScrollToTop>
+        <App />
+      </ScrollToTop>
     </ApolloProvider>
   </BrowserRouter>,
   document.getElementById('root'),

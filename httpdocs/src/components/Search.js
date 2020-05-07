@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Link } from 'react-router-dom';
+import { gql, ApolloConsumer } from '@apollo/client';
+import PostExcerpt from './elements/PostExcerpt';
+
 /**
  * GraphQL post search query that takes a filter
  * Returns the titles, slugs and authors of posts found
@@ -11,11 +11,12 @@ const POST_SEARCH_QUERY = gql`
     posts(where: { search: $filter }) {
       edges {
         node {
+          id
+          postId
           title
           slug
-          author {
-            nickname
-          }
+          excerpt
+          dateFormatted
         }
       }
     }
@@ -42,61 +43,74 @@ class Search extends Component {
    * Execute search query, process the response and set the state
    */
   executeSearch = async () => {
-    const { client } = this.props;
-    const { filter } = this.state;
-    let posts = [];
-    if (filter.length === 0) {
-      this.setState({ posts });
-    } else {
-      const result = await client.query({
-        query: POST_SEARCH_QUERY,
-        variables: { filter },
-      });
-      posts = result.data.posts.edges;
-      posts = posts.map(post => {
-        const finalLink = `/post/${post.node.slug}`;
-        const modifiedPost = { ...post };
-        modifiedPost.node.link = finalLink;
-        return modifiedPost;
-      });
-      this.setState({ posts });
+    if (this.client) {
+      const { filter } = this.state;
+      let posts = [];
+      if (filter.length === 0) {
+        this.setState({ posts });
+      } else {
+        const result = await this.client.query({
+          query: POST_SEARCH_QUERY,
+          variables: { filter },
+        });
+        if (result.data.posts.edges) {
+          result.data.posts.edges.map(post => {
+            const finalLink = `/${post.node.slug}`;
+            const modifiedPost = {node:{}};
+            Object.entries(post.node).map(([key, value]) => {
+              modifiedPost.node[key] = value;
+
+              return null;
+            });
+            modifiedPost.node.link = finalLink;
+            posts.push(modifiedPost);
+
+            return null;
+          });
+        }
+        this.setState({ posts });
+      }
     }
   };
 
   render() {
     const { posts } = this.state;
     return (
-      <div className="content login mh4 mv4 w-two-thirds-l center-l">
-        <div>
-          <h1>Search</h1>
-          <input
-            className="db w-100 pa3 mv3 br6 ba b--black"
-            type="text"
-            placeholder="Search by name and content"
-            onChange={e => this.setState({ filter: e.target.value })}
-            onKeyDown={this.handleKeyDown}
-          />
-          <button
-            className="round-btn invert ba bw1 pv2 ph3"
-            type="button"
-            onClick={() => this.executeSearch()}
-          >
-            Submit
-          </button>
-        </div>
-        <div className="mv4">
-          {posts.map((post, index) => (
-            <div className="mv4" key={post.node.slug}>
-              <span className="gray">{index + 1}.</span>
-              <Link to={post.node.link} className="ml1 black">
-                <h3>{post.node.title}</h3>
-              </Link>
+      <ApolloConsumer>
+        {client => {
+          this.client = client;
+          return (
+            <div className="content w-two-thirds-l center-l">
+              <div>
+                <h1>Search</h1>
+                <input
+                  className="db w-100 pa3 mv3 br6 ba b--black"
+                  type="text"
+                  placeholder="Search by name and content"
+                  onChange={e => this.setState({ filter: e.target.value })}
+                  onKeyDown={this.handleKeyDown}
+                />
+                <button
+                  className="round-btn invert ba bw1 pv2 ph3"
+                  type="button"
+                  onClick={() => this.executeSearch()}
+                >
+                  Submit
+                </button>
+              </div>
+              <div className="mv4 content--body">
+                <div className="search-entries">
+                  {posts.map(post => (
+                    <PostExcerpt key={post.node.id} post={post} />
+                  ))}
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
+          );
+        }}
+      </ApolloConsumer>
     );
   }
 }
 
-export default withApollo(Search);
+export default Search;

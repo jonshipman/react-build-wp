@@ -1,11 +1,9 @@
 import React from 'react';
 
-const PostContent = (props) => (
+export default ({ className, content }) => (
   <div
-    className={`post-content ${(props.className || '')}`}
+    className={`post-content ${(className || '')}`}
     // eslint-disable-next-line react/no-danger
-    dangerouslySetInnerHTML={{ __html: props.content }}
+    dangerouslySetInnerHTML={{ __html: content }}
   />
 );
-
-export default PostContent;

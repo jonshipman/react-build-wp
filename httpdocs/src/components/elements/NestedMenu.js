@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { gql, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import gql from 'graphql-tag';
-import { withApollo } from 'react-apollo';
-import { compose } from 'recompose';
+import Loading from './Loading';
+import LoadingError from './LoadingError';
 
 /**
  * GraphQL menu query
@@ -57,52 +57,37 @@ const ChildItem = (props) => {
   );
 };
 
-class NestedMenu extends Component {
-  state = {
-    menus: [],
-    location: '',
-  };
+const OnQueryFinished = props => {
+  const { menus, location } = props;
 
-  componentDidMount = () => {
-    this.executeMenu();
-  }
+  return (
+    <ul id={ 'menu-' + location } style={{touchAction: 'pan-y'}}>
 
-  /**
-   * Execute the menu query, parse the result and set the state
-   */
-  executeMenu = async () => {
-    const { client, location } = this.props;
+      {menus.map(menu => {
+        if (menu.parent === 0) {
+          return (
+            <ChildItem key={menu.itemID} menu={menu} menus={menus} />
+          );
+        } else {
+          return false;
+        }
+      })}
 
-    const result = await client.query({
-      query: MENU_QUERY,
-      variables: { location },
-    });
-    const menus = result.data.nestedMenu;
-    this.setState({ menus, location });
-  };
-
-  render() {
-    const { menus, location } = this.state;
-
-    return (
-      <ul id={ 'menu-' + location } style={{touchAction: 'pan-y'}}>
-
-        {menus.map(menu => {
-          if (menu.parent === 0) {
-            return (
-              <ChildItem key={menu.itemID} menu={menu} menus={menus} />
-            );
-          } else {
-            return false;
-          }
-        })}
-
-      </ul>
-    );
-  }
+    </ul>
+  );
 }
 
-export default compose(
-  withApollo
-)(NestedMenu);
+export default props => {
+  const { location } = props;
 
+  const { loading, error, data } = useQuery(MENU_QUERY, {
+    variables: { location }
+  });
+
+  if (loading) return <Loading />;
+  if (error) return <LoadingError error={error.message} />;
+
+  const menus = data.nestedMenu;
+
+  return <OnQueryFinished menus={menus} location={location} />
+}

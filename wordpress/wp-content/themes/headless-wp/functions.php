@@ -35,6 +35,9 @@ require_once 'inc/graphql/resolvers.php';
 // Prevent double HTML entity wrapping.
 require_once 'inc/html-entities.php';
 
+// Adds a settings page for options.
+require_once 'inc/settings.php';
+
 add_action(
     'after_setup_theme',
     function () {

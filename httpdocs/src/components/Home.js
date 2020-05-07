@@ -1,12 +1,23 @@
-import React, { Component } from 'react';
-import { withApollo } from 'react-apollo';
+import React from 'react';
 import { Helmet } from "react-helmet";
-import gql from 'graphql-tag';
-import HomepageRow from './elements/HomepageRow';
-import BannerMessage from './elements/BannerMessage';
+import LazyLoad from 'react-lazy-load';
+import { gql, useQuery } from '@apollo/client';
 
-const POST_QUERY = gql`
+import Hero from './elements/Hero';
+import HomepageRow from './elements/HomepageRow';
+import Loading from './elements/Loading';
+import LoadingError from './elements/LoadingError';
+
+const HOME_QUERY = gql`
   query PostsQuery {
+    frontPage {
+      title
+      content
+      seo {
+        title
+        metaDesc
+      }
+    }
     posts(first: 8, where: {status: PUBLISH}) {
       edges {
         node {
@@ -21,6 +32,7 @@ const POST_QUERY = gql`
             sourceUrl(size: MEDIUM_LARGE)
           }
           slug
+          postId
           id
         }
       }
@@ -28,70 +40,13 @@ const POST_QUERY = gql`
   }
 `;
 
-const HOME_QUERY = gql`
-  query {
-    frontPage {
-      seo {
-        title
-        metaDesc
-      }
-    }
-  }
-`;
+const StaticContent = ({ children, posts }) => {
+  let items = [];
+  let type = 1;
+  let current_type;
+  let key;
 
-class Home extends Component {
-  state = {
-    posts: [],
-    frontPage: {
-      seo: {
-        title: '',
-        metaDesc: ''
-      }
-    }
-  };
-
-  componentDidMount() {
-    this.executePostsQuery();
-    this.executeHomeQuery();
-  }
-
-  /**
-   * Execute the pages and categories query and set the state
-   */
-  executePostsQuery = async () => {
-    const { client } = this.props;
-
-    const result = await client.query({
-      query: POST_QUERY,
-    });
-    let posts = result.data.posts.edges;
-    posts = posts.map(post => {
-      const finalLink = `/blog/${post.node.slug}`;
-      const modifiedPost = { ...post };
-      modifiedPost.node.link = finalLink;
-      return modifiedPost;
-    });
-
-    this.setState({ posts });
-  };
-
-  executeHomeQuery = async () => {
-    const { client } = this.props;
-    const result = await client.query({
-      query: HOME_QUERY,
-    });
-
-    const { frontPage } = result.data;
-    this.setState({ frontPage });
-  };
-
-  render() {
-    const { posts, frontPage } = this.state;
-    let items = [];
-    let type = 1;
-    let current_type;
-    let key;
-
+  if (posts) {
     posts.map((post, index) => {
       if (index % 2 === 0) {
         items.push([post]);
@@ -101,47 +56,74 @@ class Home extends Component {
 
       return null;
     });
-
-    return (
-      <>
-        <Helmet>
-          <title>{frontPage.seo.title}</title>
-          <meta name="description" content={frontPage.seo.metaDesc}/>
-        </Helmet>
-        <BannerMessage message={frontPage.seo.tite} />
-        <div className="home--content">
-          <div className="hero--container">
-            <div className="hero">
-              <div className="hero--inner">
-                {/* Add a ResponsiveVideo Component here to have a background video */}
-
-                <div className="hero--title">
-                  {frontPage.seo.title}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="home--rows">
-            {items.map(itm => {
-              current_type = type;
-              type = type === 2 ? 1 : 2;
-              key = '';
-
-              itm.map(i => {
-                key += i.node.id.toString();
-                return null;
-              });
-
-              return (
-                <HomepageRow key={key} items={itm} type={current_type}/>
-              );
-            })}
-          </div>
-        </div>
-      </>
-    );
   }
+
+  return (
+    <div className="home--content mb0">
+      <Hero>
+        {children}
+      </Hero>
+
+      <div className="home--rows">
+        {items.map(itm => {
+          current_type = type;
+          type = type === 2 ? 1 : 2;
+          key = '';
+
+          itm.map(i => {
+            key += i.node.id.toString();
+            return null;
+          });
+
+          return (
+            <LazyLoad key={key}>
+              <HomepageRow items={itm} type={current_type}/>
+            </LazyLoad>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
-export default withApollo(Home);
+const OnQueryFinished = ({ frontPage, posts }) => (
+  <>
+    <Helmet>
+      <title>{frontPage.seo.title}</title>
+      <meta name="description" content={frontPage.seo.metaDesc}/>
+    </Helmet>
+    <StaticContent posts={posts}>
+      {frontPage.seo.title}
+    </StaticContent>
+  </>
+);
+
+export default () => {
+  const { loading, error, data } = useQuery(HOME_QUERY);
+
+  if (loading) return (
+    <StaticContent>
+      <Loading />
+    </StaticContent>
+  );
+  if (error) return <LoadingError error={error.message} />
+
+  let posts = [];
+  if (data.posts.edges) {
+    data.posts.edges.map(post => {
+      const finalLink = `/blog/${post.node.slug}`;
+      let modifiedPost = {node:{}};
+      Object.entries(post.node).map(([key, value]) => {
+        modifiedPost.node[key] = value;
+
+        return null;
+      });
+      modifiedPost.node.link = finalLink;
+      posts.push(modifiedPost);
+
+      return null;
+    });
+  }
+
+  return <OnQueryFinished frontPage={data.frontPage} posts={posts} />
+}

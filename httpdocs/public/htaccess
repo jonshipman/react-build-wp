@@ -1,0 +1,7 @@
+# Htaccess presence on Plesk switches to apache instead of loading the node server.
+# Kept in repo as the build folder can still be loaded by apache.
+
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.html [QSA,L]

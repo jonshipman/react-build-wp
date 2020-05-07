@@ -2,7 +2,11 @@
 @import "./tachyon-overrides.scss";
 
 body {
-  @extend .ma0, .pa0, .f5, .serif;
+  @extend .ma0, .pa0, .f5, .sans-serif;
+}
+
+a {
+  @extend .blue, .no-underline;
 }
 
 .main {
@@ -14,35 +18,9 @@ body {
   }
 }
 
-.color-logo {
-  @extend .flex, .justify-center;
-
-  svg path {
-    fill: #fff !important;
-  }
-}
-
 .labs-footer {
   @extend .flex, .justify-center, .items-center, .flex-column;
   height: 16.25rem;
-
-  svg path {
-    fill: #fff;
-  }
-}
-
-a {
-  @extend .blue, .no-underline;
-}
-
-.resp-video {
-  @extend .db, .aspect-ratio--16x9, .aspect-ratio;
-
-  z-index: 1;
-
-  video {
-    @extend .db, .aspect-ratio--object;
-  }
 }
 
 #header {
@@ -56,6 +34,10 @@ a {
     svg {
       @extend .db;
     }
+  }
+
+  .navigation {
+    @extend .flex, .justify-between, .items-center;
   }
 
   #menu-header-menu {
@@ -93,14 +75,14 @@ a {
   .search-icon {
     @extend .br-100, .bg-blue, .flex, .items-center;
 
-    width: 1.25rem;
-    height: 1.25rem;
+    width: $font-size-4;
+    height: $font-size-4;
 
     svg {
       @extend .center;
 
-      width: 0.5rem;
-      height: 0.5rem;
+      width: $spacing-small;
+      height: $spacing-small;
 
       path {
         stroke: #fff;
@@ -113,25 +95,19 @@ a {
   }
 }
 
-.banner-message {
-  @extend .pv2, .bg-light-gray, .tc, .blue, .f4, .serif;
-}
-
 .hero {
-  @extend .sans-serif, .aspect-ratio--16x9, .aspect-ratio;
+  @extend .cover, .pv5, .bg-center, .relative, .white;
 
   z-index: 1;
 
-  &--container {
-    @extend .center, .w-100, .w-80-l;
-  }
-
   &--inner {
-    @extend .aspect-ratio--object;
+    @extend .relative, .w-two-thirds-l, .center-l;
+
+    min-height: $max-width-6;
   }
 
-  &--title {
-    @extend .white, .f1, .tc, .ttu, .tracked, .absolute, .bottom-0, .left-0, .w-100, .text-shadow, .pb5;
+  &--section {
+    @extend .absolute, .bottom-0, .f1, .tc, .w-100;
 
     z-index: 2;
   }
@@ -153,7 +129,7 @@ a {
       @extend .fl, .w-100, .pa3, .relative;
 
       z-index: 1;
-      height: 26rem;
+      height: $max-width-6;
 
       &--inner {
         @extend .w-100, .cover, .bg-center, .h-100, .relative;

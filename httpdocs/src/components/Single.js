@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+import React from 'react';
+import { gql, useQuery } from '@apollo/client';
 import NotFound from './elements/NotFound';
 import Page from './elements/Page';
 import Post from './elements/Post';
+import Loading from './elements/Loading';
+import LoadingError from './elements/LoadingError';
 
 /**
  * GraphQL page query that takes a page slug as a uri
@@ -13,9 +14,11 @@ const POST_QUERY = gql`
   query PageQuery($uri: String!) {
     pageBy(uri: $uri) {
       pageId
-			slug
+      slug
       title(format: RENDERED)
       content(format: RENDERED)
+      wpbCustomCss
+      pageTemplate
       seo {
         title
         metaDesc
@@ -23,10 +26,11 @@ const POST_QUERY = gql`
     }
     postBy(uri: $uri) {
       postId
-			slug
-			date
+      slug
       title(format: RENDERED)
       content(format: RENDERED)
+      wpbCustomCss
+      dateFormatted
       seo {
         title
         metaDesc
@@ -44,112 +48,96 @@ const POST_QUERY = gql`
   }
 `;
 
-/**
- * Fetch and display a Page
- */
-class Single extends Component {
-  constructor(props) {
-    super(props);
+const initialPage = {
+  databaseId: 0,
+  title: '',
+  content: '',
+  seo: {
+    title: '',
+    metaDesc: ''
+  },
+  wpbCustomCss: '',
+  pageTemplate: '',
+};
 
-    this.state = {
-      page: {
-        databaseId: 0,
-				title: '',
-				slug: '',
-        content: '',
-        seo: {
-          title: '',
-          metaDesc: ''
-        }
-      },
-      post: {
-        databaseId: 0,
-				title: '',
-				slug: '',
-				date: '',
-        content: '',
-        seo: {
-          title: '',
-          metaDesc: ''
-        },
-        categories: {
-          edges: []
-        },
-        mainTitle: ''
-      },
-      finished: false
-    };
-  }
+const initialPost = {
+  databaseId: 0,
+  title: '',
+  content: '',
+  seo: {
+    title: '',
+    metaDesc: ''
+  },
+  wpbCustomCss: '',
+  dateFormatted: '',
+  categories: {
+    edges: []
+  },
+  mainTitle: ''
+};
 
-  componentDidMount() {
-    this.executeQuery();
-  }
+const sanitizeData = data => {
+  let page = {};
+  let post = {};
 
-  componentDidUpdate(prevProps) {
-    if (this.props.match.url !== prevProps.match.url) {
-      this.executeQuery();
-    }
-  }
+  if (data.pageBy) {
+    page = {};
+    Object.entries(data.pageBy).map(([key, value]) => {
+      page[key] = JSON.parse(JSON.stringify(value));
 
-  /**
-   * Execute page query, process the response and set the state
-   */
-  executeQuery = async () => {
-    const { match, client } = this.props;
-    let { page, post } = this.state;
-
-    let uri = match.url;
-
-    if (!uri) {
-      uri = '404';
-    } else {
-			uri = match.url.replace(/^\//, '');
-
-			// This next line removes /blog from the begining.
-			uri = match.url.replace(/^blog\//, '');
-    }
-
-    const result = await client.query({
-      query: POST_QUERY,
-      variables: { uri },
+      return null;
     });
+    page.databaseId = page.pageId;
 
-    if (result.data.pageBy) {
-      page = result.data.pageBy;
-      page.databaseId = page.pageId;
-    }
-
-    if (result.data.postBy) {
-      post = result.data.postBy;
-      post.databaseId = post.postId;
-
-      if (post.categories.edges) {
-        post.mainTitle = post.categories.edges[0].node.name;
-      }
-    }
-
-    this.setState({ page, post, finished: true });
+    post = initialPost;
   }
 
-  render() {
-    const { page, post, finished } = this.state;
+  if (data.postBy) {
+    post = {};
+    Object.entries(data.postBy).map(([key, value]) => {
+      post[key] = value;
 
-    if (page.databaseId) {
-      return <Page page={page} />
+      return null;
+    });
+    post.databaseId = post.postId;
+
+    if (post.categories.edges) {
+      post.mainTitle = post.categories.edges[0].node.name;
     }
 
-    if (post.databaseId) {
-      return <Post post={post} />
-    }
+    page = initialPage;
+  }
 
-    if (finished) {
-      return (
-        <NotFound/>
-      );
-    }
-
-    return null;
+  return {
+    page,
+    post
   }
 }
 
-export default withApollo(Single);
+export default props => {
+  const { match } = props;
+  let uri = match.url;
+
+  if (!uri) {
+    uri = '404';
+  } else {
+    uri = match.url.replace(/^\//, '');
+  }
+
+  const { loading, error, data } = useQuery(POST_QUERY, { variables: { uri } });
+
+  if (loading) return <Loading />;
+  if (error) return <LoadingError error={error.message} />;
+
+  const { page, post } = sanitizeData(data);
+
+  if (page.databaseId) {
+    return <Page page={page} />
+  }
+
+  if (post.databaseId) {
+    return <Post post={post} />
+  }
+
+  return <NotFound />
+}
