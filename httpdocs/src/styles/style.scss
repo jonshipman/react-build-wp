@@ -42,7 +42,7 @@ a {
   }
 
   #menu-header-menu {
-    @extend .flex, .items-center, .list, .pa0, .ma0, .h-100, .f-grow, .ph2;
+    @extend .flex, .items-center, .list, .pa0, .ma0, .h-100, .ph2;
 
     > li {
       @extend .h-100;
