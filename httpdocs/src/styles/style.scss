@@ -1,5 +1,7 @@
+@import "./_theme.scss";
 @import "tachyons-sass";
-@import "./tachyon-overrides.scss";
+
+.text-shadow { text-shadow: 1px 0px 8px rgba(0, 0, 0, 0.55) };
 
 body {
   @extend .ma0, .pa0, .f5, .sans-serif;
@@ -10,8 +12,7 @@ a {
 }
 
 .main {
-  @import "./wordpress-classic.scss";
-  @import "./wordpress.scss";
+  @import "./_wordpress.scss";
 
   article.content {
     @extend .ma4, .w-two-thirds-l, .center-l;
