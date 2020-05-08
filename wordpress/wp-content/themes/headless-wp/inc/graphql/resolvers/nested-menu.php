@@ -67,13 +67,7 @@ function postlight_headless_wp_nav_menu_item( $item ) {
     $slug = $item->url;
 
     if ( false !== stripos( $slug, '/' ) ) {
-        $explode = explode( '/', $slug );
-
-        array_shift( $explode );
-        array_shift( $explode );
-        array_shift( $explode );
-        $explode = array_filter( $explode );
-        $slug    = implode( '/', $explode );
+        $slug = rtrim( str_replace( trailingslashit( get_site_url() ), '', $slug ), '/' );
     }
 
     switch ( $item->object ) {
@@ -87,7 +81,14 @@ function postlight_headless_wp_nav_menu_item( $item ) {
             $resolve['url'] = '/' . $slug;
             break;
         case 'custom':
-            $resolve['url'] = str_replace( get_frontend_origin(), '', $item->url );
+            $resolve['url'] = str_replace(
+                array(
+                    get_frontend_origin(),
+                    get_site_url(),
+                ),
+                '/',
+                $item->url
+            );
             break;
         default:
             break;
