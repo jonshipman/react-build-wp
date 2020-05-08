@@ -13,16 +13,27 @@
 add_action(
     'template_redirect',
     function () {
-        if ( is_singular() ) {
-            header(
-                sprintf(
-                    'Location: /wp-json/wp/v2/%s/%s',
-                    get_post_type_object( get_post_type() )->rest_base,
-                    get_post()->ID
-                )
-            );
-        } else {
-            header( 'Location: /wp-json/' );
+        $rest_url = wp_parse_url( rest_url() );
+        $current_url = wp_parse_url( add_query_arg( array( ) ) );
+
+        if ( 0 !== strpos( $current_url['path'], $rest_url['path'] ) ) {
+            if ( is_singular() ) {
+                header(
+                    sprintf(
+                        'Location: %s/wp/v2/%s/%s',
+                        rtrim( rest_url(), '/' ),
+                        get_post_type_object( get_post_type() )->rest_base,
+                        get_post()->ID
+                    )
+                );
+            } else {
+                header(
+                    sprintf(
+                        'Location: %s',
+                        rest_url()
+                    )
+                );
+            }
         }
     }
 );
