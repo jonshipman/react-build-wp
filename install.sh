@@ -27,6 +27,7 @@ wp plugin install --activate --force \
 		export-import-menus \
 		https://github.com/wp-graphql/wp-graphql/archive/develop.zip \
 		https://github.com/wp-graphql/wp-graphql-jwt-authentication/archive/develop.zip \
+		https://github.com/wp-graphql/wp-graphql-custom-post-type-ui/archive/master.zip \
 		https://github.com/wp-graphql/wp-graphql-acf/archive/develop.zip \
 		https://github.com/ashhitch/wp-graphql-yoast-seo/archive/master.zip
 
