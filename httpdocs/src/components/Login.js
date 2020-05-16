@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { gql } from '@apollo/client';
 import { Mutation } from '@apollo/react-components';
 import { AUTH_TOKEN, USERNAME } from '../constants';
+import PageWidth from './layout/PageWidth';
 
 /**
  * GraphQL mutation used for logging in
@@ -59,7 +60,7 @@ class Login extends Component {
         .toString(36)
         .substring(2) + new Date().getTime().toString(36);
     return (
-      <div className="content login mh4 mv4 w-two-thirds-l center-l">
+      <PageWidth className="content">
         <div>
           <h1>Log in</h1>
           <p>Starter Kit allows you to log in via the JavaScript frontend, meaning you can interact with the backend without gaining admin access.</p>
@@ -92,7 +93,7 @@ class Login extends Component {
             )}
           </Mutation>
         </div>
-      </div>
+      </PageWidth>
     );
   }
 }

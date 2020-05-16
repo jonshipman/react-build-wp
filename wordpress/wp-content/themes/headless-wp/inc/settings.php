@@ -5,85 +5,125 @@
  * @package  Postlight_Headless_WP
  */
 
-define( 'HEADLESS_WP_KEY', 'headless_wp' );
+class HeadlessWpSettings {
+    const HEADLESS_WP_KEY = 'headless_wp';
 
-/**
- * Adds settings to the wp-admin.
- *
- * @return void
- */
-add_action(
-    'admin_menu',
-    function () {
+    private $settings;
+
+    // Start up the class.
+    public function __construct() {
+        add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+        add_action( 'admin_init', array( $this, 'admin_init' ) );
+        add_action( 'init', array( $this, 'register' ) );
+
+        $this->settings = array(
+            'google_recaptcha' => array(
+                'label' => __( 'Google Recaptcha', 'postlight-headless-wp' ),
+                'fields' => array(
+                    'google_site_key' => array(
+                        'label' => __( 'Site Key', 'postlight-headless-wp' ),
+                    ),
+                    'google_secret_key' => array(
+                        'label' => __( 'Secret Key', 'postlight-headless-wp' )
+                    ),
+                ),
+            ),
+            'company_info' => array(
+                'label' => __( 'Company Info', 'postlight-headless-wp' ),
+                'fields' => array(
+                    'phone_number' => array(
+                        'label' => __( 'Phone Number', 'postlight-headless-wp' ),
+                        'args' => array(
+                            'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
+                            'show_in_graphql' => true,
+                        ),
+                    ),
+                    'contact_email' => array(
+                        'label' => __( 'Contact Email', 'postlight-headless-wp' ),
+                        'args' => array(
+                            'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
+                            'show_in_graphql' => true,
+                        ),
+                    ),
+                ),
+            )
+        );
+    }
+
+    // Create the admin menu.
+    public function admin_menu() {
         add_options_page(
             __( 'Headless Theme Settings', 'postlight-headless-wp' ),
             __( 'Headless Theme', 'postlight-headless-wp' ),
             'manage_options',
-            HEADLESS_WP_KEY,
-            'headless_wp_settings_display_options_page'
+            self::HEADLESS_WP_KEY,
+            array( $this, 'display_options_page' )
         );
     }
-);
 
-/**
- * This is the output for the settings page.
- */
-function headless_wp_settings_display_options_page() {
-    ob_start();
-    settings_fields( HEADLESS_WP_KEY );
-    do_settings_sections( HEADLESS_WP_KEY );
-    submit_button();
-    $settings = ob_get_clean();
+    // Markup for options page.
+    public function display_options_page() {
+        ob_start();
+        settings_fields( self::HEADLESS_WP_KEY );
+        do_settings_sections( self::HEADLESS_WP_KEY );
+        submit_button();
+        $settings = ob_get_clean();
 
-    printf(
-        '<div class="wrap"><h2>%s</h2><form action="options.php" method="post">%s</form></div>',
-        esc_html( get_admin_page_title() ),
-        $settings
-    );
-}
-
-/**
- * This is the action that adds the sections for the options page.
- */
-add_action(
-    'admin_init',
-    function () {
-        add_settings_section(
-            'headless_wp_google_recaptcha',
-            __( 'Google Recaptcha', HEADLESS_WP_KEY ),
-            '__return false',
-            HEADLESS_WP_KEY
+        printf(
+            '<div class="wrap"><h2>%s</h2><form action="options.php" method="post">%s</form></div>',
+            esc_html( get_admin_page_title() ),
+            $settings
         );
-
-        add_settings_field(
-            'headless_wp_google_site_key',
-            __( 'Site Key', HEADLESS_WP_KEY ),
-            'headless_wp_site_key_cb',
-            HEADLESS_WP_KEY,
-            'headless_wp_google_recaptcha',
-            array( 'label_for' => 'headless_wp_google_site_key' )
-        );
-
-        add_settings_field(
-            'headless_wp_google_secret_key',
-            __( 'Client Secret', HEADLESS_WP_KEY ),
-            'headless_wp_secret_key_cb',
-            HEADLESS_WP_KEY,
-            'headless_wp_google_recaptcha',
-            array( 'label_for' => 'headless_wp_google_secret_key' )
-        );
-
-        register_setting( HEADLESS_WP_KEY, 'headless_wp_google_site_key', 'sanitize_text_field' );
-        register_setting( HEADLESS_WP_KEY, 'headless_wp_google_secret_key', 'sanitize_text_field' );
     }
-);
 
-function headless_wp_site_key_cb() {
-    $key = get_option( 'headless_wp_google_site_key' );
-    echo '<input class="large-text" type="text" name="headless_wp_google_site_key" id="headless_wp_google_site_key" value="' . $key . '"> ';
+    // Builds our settings.
+    public function admin_init() {
+        foreach ( $this->settings as $group => $options ) {
+            add_settings_section(
+                $group,
+                $options['label'],
+                '__return_false',
+                self::HEADLESS_WP_KEY
+            );
+
+            foreach ( $options['fields'] as $field => $field_options ) {
+                add_settings_field(
+                    $field,
+                    $field_options['label'],
+                    function() use ( $field ) {
+                        $value = get_option( $field );
+                        printf( '<input class="large-text" type="text" name="%s" id="%s" value="%s"> ', esc_attr( $field ), esc_attr( $field ), esc_attr( $value ) );
+                    },
+                    self::HEADLESS_WP_KEY,
+                    $group,
+                    array( 'label_for' => $field )
+                );
+            }
+        }
+    }
+
+    // Register the settings on the frontend too for wp-graphql.
+    public function register() {
+        foreach ( $this->settings as $group => $options ) {
+            foreach ( $options['fields'] as $field => $field_options ) {
+                if ( ! empty( $field_options['args'] ) ) {
+                    register_setting(
+                        self::HEADLESS_WP_KEY,
+                        $field,
+                        $field_options['args']
+                    );
+                } else {
+                    register_setting(
+                        self::HEADLESS_WP_KEY,
+                        $field,
+                        'sanitize_text_field'
+                    );
+                }
+            }
+        }
+    }
 }
 
-function headless_wp_secret_key_cb() {
-    $secret = get_option( 'headless_wp_google_secret_key' );
-    echo '<input class="large-text" type="text" name="headless_wp_google_secret_key" id="headless_wp_google_secret_key" value="' . $secret . '"> ';
-}
+new HeadlessWpSettings();

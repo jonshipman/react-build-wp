@@ -1,0 +1,162 @@
+@mixin loading-lines($lines: 3) {
+  $loopLines: $lines + 1;
+  $background: var(--white-blur);
+  $size: var(--blur-width) var(--text-block-lines-#{$lines}-height);
+  $pos: null;
+
+  @for $i from 1 to $loopLines {
+    $background: #{$background}, var(--text-line-skeleton);
+    $size: #{$size}, var(--text-line-width-#{$i}) var(--text-line-height);
+    $pos: #{$pos}, var(--text-line-position-#{$i});
+  }
+
+  :root {
+    --text-line-spacing: 14px;
+    --text-line-height: 1em;
+    --text-line-skeleton:linear-gradient(#{$moon-gray} var(--text-line-height), transparent 0);
+
+    @for $i from 1 to $loopLines {
+      --text-line-width-#{$i}: #{random(55) + 45}%;
+      --text-line-position-#{$i}:0 calc( (var(--text-line-height) * (#{$i} - 1)) + (var(--text-line-spacing) * (#{$i} - 1 )) );
+    }
+
+    --text-block-lines-#{$lines}-height: calc( (var(--text-line-height) * #{$lines}) + (var(--text-line-spacing) * (#{$lines} - 1)) );
+  }
+
+  .text-loading.lines-#{$lines} {
+    &:empty::after {
+      content:"";
+      width: 100%;
+      height: var(--text-block-lines-#{$lines}-height);
+      display:block;
+
+      background-image: $background;
+      background-size: $size;
+      background-position: -150% 0 $pos;
+
+      background-repeat: no-repeat;
+      animation: loadingTextLines#{$lines} 1.5s infinite;
+    }
+  }
+
+  @keyframes loadingTextLines#{$lines} {
+    to {
+      background-position: 350% 0 $pos;
+    }
+  }
+}
+
+:root {
+  --blur-width: 200px;
+  --hero-blur: linear-gradient(
+    90deg,
+    #{rgba($light-gray, 0)} 0,
+    #{rgba($light-gray, .8)} 50%,
+    #{rgba($light-gray, 0)} 100%
+  );
+
+  --white-blur: linear-gradient(
+    90deg,
+    #{rgba($white, 0)} 0,
+    #{rgba($white, .8)} 50%,
+    #{rgba($white, 0)} 100%
+  );
+
+  --hero-spacing: 26px;
+
+  --heading-height: 46px;
+  --heading-width: 30%;
+  --heading-skeleton:linear-gradient(#{$moon-gray} var( --heading-height), transparent 0);
+
+  --subheading-height: 42px;
+  --subheading-width: 673px;
+  --subheading-skeleton:linear-gradient(#{$moon-gray} var(--subheading-height), transparent 0);
+
+  --hero-heading-position: 50% 0;
+  --hero-subheading-position: 50% calc( var(--heading-height) + var(--hero-spacing) );
+
+  --hero-height: calc(
+    var(--heading-height) +
+    var(--subheading-height) +
+    var(--hero-spacing)
+  );
+}
+
+.hero--inner {
+  &:empty::after {
+    content:"";
+    width: 100%;
+    height: var(--hero-height);
+    display:block;
+
+    background-image:
+      var(--hero-blur),
+      var(--heading-skeleton),
+      var(--subheading-skeleton)
+    ;
+
+    background-size:
+      var(--blur-width) var(--hero-height),
+      var(--heading-width) var(--heading-height),
+      var(--subheading-width) var(--subheading-height)
+    ;
+
+    background-position:
+      -150% 0,
+      var(--hero-heading-position),
+      var(--hero-subheading-position)
+    ;
+
+    background-repeat: no-repeat;
+    animation: loadingHero 1.5s infinite;
+  }
+}
+
+@keyframes loadingHero {
+  to {
+    background-position:
+      350% 0,
+      var(--hero-heading-position),
+      var(--hero-subheading-position)
+    ;
+  }
+}
+
+.header-loading, .content--title-inner {
+  &:empty::after {
+    content:"";
+    width: 100%;
+    height: var(--heading-height);
+    display:block;
+
+    background-image:
+      var(--hero-blur),
+      var(--heading-skeleton)
+    ;
+
+    background-size:
+      var(--blur-width) var(--hero-height),
+      var(--heading-width) var(--heading-height)
+    ;
+
+    background-position:
+      -150% 0,
+      0 0
+    ;
+
+    background-repeat: no-repeat;
+    animation: loadingHeading 1.5s infinite;
+  }
+}
+
+@keyframes loadingHeading {
+  to {
+    background-position:
+      350% 0,
+      0 0
+    ;
+  }
+}
+
+@include loading-lines(12);
+@include loading-lines(6);

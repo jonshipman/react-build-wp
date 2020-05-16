@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default props => {
-  return <>Loading...</>
+  return <span { ...props }><span className="lds-ring"><span></span><span></span><span></span><span></span></span></span>
 }

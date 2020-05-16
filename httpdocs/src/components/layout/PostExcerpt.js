@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import PostContent from './PostContent';
+import Button from '../elements/Button';
+import PostContent from '../elements/PostContent';
 
 export default ({ post }) => (
   <article key={post.node.slug} className={`content blog-entry post-${post.node.postId}`}>
@@ -11,11 +12,10 @@ export default ({ post }) => (
         </Link>
       </h2>
       <PostContent className="mv4" content={post.node.excerpt || post.node.content} />
-      <Link
-        to={post.node.link}
-        className="round-btn invert ba bw1 pv2 ph3"
-      >
-        Read more
-      </Link>
+      <div>
+        <Button to={post.node.link} type={3}>
+          Read more
+        </Button>
+      </div>
   </article>
 );

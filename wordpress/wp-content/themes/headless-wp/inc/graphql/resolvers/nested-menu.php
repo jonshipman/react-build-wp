@@ -5,7 +5,7 @@
  * @package Postlight_Headless_WP
  */
 
-require_once __DIR__ . '/../types/class-nestedmenutype.php';
+require_once __DIR__ . '/../types/nested-menu.php';
 
 /**
  * Get menu items

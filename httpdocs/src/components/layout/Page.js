@@ -1,8 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import PostContent from './PostContent';
-import Style from './Style';
+import PostContent from '../elements/PostContent';
+import PageWidth from '../layout/PageWidth';
+import Title from '../layout/Title';
 
 import { FRONTEND_URL } from '../../constants';
 
@@ -13,19 +14,15 @@ export default props => (
       <meta name="description" content={props.page.seo.metaDesc}/>
       <link rel="canonical" href={`${FRONTEND_URL}/${props.page.slug}`} />
     </Helmet>
-    {props.page.wpbCustomCss && (
-      <Style style={props.page.wpbCustomCss}/>
-    )}
+
     <article className={`content post-${props.page.databaseId}`}>
       {props.page.title && (
-        <h1 className="content--title f1 tc mb4">
-          <span className="content--title-inner">{props.page.title}</span>
-        </h1>
+        <Title>{props.page.title}</Title>
       )}
 
-      <div className="content--body">
+      <PageWidth className="content--body">
         <PostContent content={props.page.content}/>
-      </div>
+      </PageWidth>
     </article>
   </>
 );

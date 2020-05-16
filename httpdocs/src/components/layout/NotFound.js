@@ -2,7 +2,7 @@ import React from 'react';
 
 export default () => (
   <div className="content post-not-found">
-    <h1 className="content--title">
+    <h1 className="content--title tc">
       <span className="content--title-inner">404: Page Not Found</span>
     </h1>
 

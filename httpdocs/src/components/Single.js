@@ -1,10 +1,12 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import NotFound from './elements/NotFound';
-import Page from './elements/Page';
-import Post from './elements/Post';
-import Loading from './elements/Loading';
+
+import NotFound from './layout/NotFound';
+import Page from './layout/Page';
+import Post from './layout/Post';
+import PageSkeleton from './layout/PageSkeleton';
 import LoadingError from './elements/LoadingError';
+import PageWidth from './layout/PageWidth';
 
 /**
  * GraphQL page query that takes a page slug as a uri
@@ -17,7 +19,6 @@ const POST_QUERY = gql`
       slug
       title(format: RENDERED)
       content(format: RENDERED)
-      wpbCustomCss
       pageTemplate
       seo {
         title
@@ -29,7 +30,6 @@ const POST_QUERY = gql`
       slug
       title(format: RENDERED)
       content(format: RENDERED)
-      wpbCustomCss
       dateFormatted
       seo {
         title
@@ -56,7 +56,6 @@ const initialPage = {
     title: '',
     metaDesc: ''
   },
-  wpbCustomCss: '',
   pageTemplate: '',
 };
 
@@ -68,7 +67,6 @@ const initialPost = {
     title: '',
     metaDesc: ''
   },
-  wpbCustomCss: '',
   dateFormatted: '',
   categories: {
     edges: []
@@ -126,18 +124,28 @@ export default props => {
 
   const { loading, error, data } = useQuery(POST_QUERY, { variables: { uri } });
 
-  if (loading) return <Loading />;
+  if (loading) return (
+    <PageSkeleton />
+  );
   if (error) return <LoadingError error={error.message} />;
 
   const { page, post } = sanitizeData(data);
 
   if (page.databaseId) {
-    return <Page page={page} />
+    return (
+      <Page page={page} />
+    );
   }
 
   if (post.databaseId) {
-    return <Post post={post} />
+    return (
+      <Post post={post} />
+    );
   }
 
-  return <NotFound />
+  return (
+    <PageWidth>
+      <NotFound />
+    </PageWidth>
+  );
 }

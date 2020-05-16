@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { gql, ApolloConsumer } from '@apollo/client';
-import PostExcerpt from './elements/PostExcerpt';
+import PostExcerpt from './layout/PostExcerpt';
+import PageWidth from './layout/PageWidth';
 
 /**
  * GraphQL post search query that takes a filter
@@ -80,7 +81,7 @@ class Search extends Component {
         {client => {
           this.client = client;
           return (
-            <div className="content w-two-thirds-l center-l">
+            <PageWidth className="content">
               <div>
                 <h1>Search</h1>
                 <input
@@ -105,7 +106,7 @@ class Search extends Component {
                   ))}
                 </div>
               </div>
-            </div>
+            </PageWidth>
           );
         }}
       </ApolloConsumer>

@@ -1,0 +1,63 @@
+
+@mixin fade-out($speed: 200ms, $selector: '') {
+  &-enter #{$selector} {
+    opacity: 0;
+  }
+  &-enter-active #{$selector} {
+    opacity: 1;
+    transition: opacity $speed;
+  }
+  &-exit #{$selector} {
+    opacity: 1;
+  }
+  &-exit-active #{$selector} {
+    opacity: 0;
+    transition: opacity $speed;
+  }
+}
+
+.advantages {
+  @include fade-out(500ms);
+}
+
+.therapies {
+  @include fade-out(100ms, '.flex-l > div:nth-child(1)');
+  @include fade-out(500ms, '.flex-l > div:nth-child(2)');
+  @include fade-out(1000ms, '.flex-l > div:nth-child(3)');
+}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 2.5em;
+  height: 2.5em;
+}
+.lds-ring span {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  margin: 0.25em;
+  border: 0.25em solid $green;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: $green transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

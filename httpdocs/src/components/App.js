@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 // Misc internal
 import { BACKEND_URL } from '../constants';
 import { isWebpSupported } from './utils/Browser';
+
 import Header from './elements/Header';
 import Footer from './elements/Footer';
 
@@ -18,6 +19,7 @@ import Login from './Login';
 import Search from './Search';
 import Single from './Single';
 import Archive from './Archive';
+import Contact from './Contact';
 
 class App extends Component {
   componentDidMount() {
@@ -34,13 +36,17 @@ class App extends Component {
     return (
       <>
         <Header />
-        <div className="main">
+        <div className="main lh-copy relative z-1">
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/search" component={Search} />
 
-            <Route exact path="/blog/:slug" component={Archive} />
+            <Route exact path="/blog" render={props => <Archive { ...props } allPosts={true} />} />
+            <Route exact path="/blog/:category" component={Archive} />
+
+            <Route exact path="/contact" component={Contact} />
+            <Route exact path="/contact-us" component={Contact} />
 
             <Route exact path="/wp-admin" render={() => {
               global.window && (global.window.location.href = BACKEND_URL + '/wp-admin');

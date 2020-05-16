@@ -22,9 +22,7 @@ wp plugin install --activate --force \
 		advanced-custom-fields \
 		custom-post-type-ui \
 		wordpress-importer \
-		bulkpress \
 		wordpress-seo \
-		export-import-menus \
 		https://github.com/wp-graphql/wp-graphql/archive/develop.zip \
 		https://github.com/wp-graphql/wp-graphql-jwt-authentication/archive/develop.zip \
 		https://github.com/wp-graphql/wp-graphql-custom-post-type-ui/archive/master.zip \
@@ -32,7 +30,9 @@ wp plugin install --activate --force \
 		https://github.com/ashhitch/wp-graphql-yoast-seo/archive/master.zip
 
 wp term update category 1 --name="Sample Category"
-wp post delete 1 2
+wp post delete 1
+
+wp option update page_on_front 2
 
 cd ../httpdocs
 
