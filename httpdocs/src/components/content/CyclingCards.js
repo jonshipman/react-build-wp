@@ -110,7 +110,7 @@ class CyclingCards extends Component {
             <div className="w-100 bg-white aspect-ratio-l aspect-ratio--16x9-l">
               <div className="advantage--inner w-100 absolute-l z-1 pa2 pa0-l">
                 <div className="w-100 grow">
-                  <img src="https://www.fillmurray.com/64/64" alt="Replace with featured image or custom meta (paste svg into acf textarea)" />
+                  <img src="https://www.fillmurray.com/64/64" alt="Replace with featured or custom meta (paste svg into acf textarea)" />
                 </div>
                 <div className="mt2 f7 fw7 w-90 center">{advantage.node.title}</div>
               </div>

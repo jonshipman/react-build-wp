@@ -45,7 +45,7 @@ const Row = ({ items, count }) => {
 
             return (
               <div className={variant} key={item.node.id}>
-                <div className="cell--inner w-100 cover bg-center h-100 relative z-1" style={{backgroundImage: `url(${localBackground})`}} aria-hidden="Replace background with featured image.">
+                <div className="cell--inner w-100 cover bg-center h-100 relative z-1" style={{backgroundImage: `url(${localBackground})`}} aria-label="Replace background with featured image.">
                   <div className="post-title white f4 absolute z-1 bottom-0 left-0 w-100 text-shadow pa2 pl3">{item.node.title}</div>
                   <Link to={item.node.link} className="large-link db absolute absolute--fill z-2"/>
                 </div>
