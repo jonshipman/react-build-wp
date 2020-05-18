@@ -25,14 +25,14 @@ const MENU_QUERY = gql`
 
 const defaultClasses = {
   primary: {
-    li: 'dib relative z-1 hover-z-2 pv3',
-    a: 'f6 fw4 hover-green no-underline dark-gray dn dib-l pv2 ph3',
-    submenu: 'tl list pl0 absolute pv3 top-100 left-0 bg-white ba b--light-gray w5'
+    li: 'db dib-l relative z-1 hover-z-2 pv3',
+    a: 'f6 fw4 hover-green no-underline dark-gray dib pv2 ph3',
+    submenu: 'tl-l list pl0 absolute-l pv3 top-100-l left-0-l bg-white ba b--light-gray w5'
   },
   secondary: {
     li: 'pa2 relative z-1 hover-z-2',
     a: 'hover-green dark-gray db',
-    submenu: 'list ph3 absolute top-0 left-100 bg-white ba b--light-gray'
+    submenu: 'list ph3 absolute-l top-0-l left-100-l bg-white ba b--light-gray'
   },
   tertiary: {
     li: 'pa2 nowrap'
@@ -84,7 +84,7 @@ const ChildItem = ({ menu, level, ...props }) => {
             <span className="link-inner">{menu.label}</span>
           </a>
         :
-          <Link to={menu.url} className={aClassName}>
+          <Link to={menu.url} className={aClassName} onClick={props.anchorOnclick}>
             <span className="link-inner">{menu.label}</span>
           </Link>
       }
@@ -145,7 +145,8 @@ OnQueryFinished.defaultProps = {
     submenu: [
       defaultClasses.primary.submenu,
       defaultClasses.secondary.submenu
-    ]
+    ],
+    anchorOnclick: () => {}
   }
 };
 

@@ -55,12 +55,6 @@ svg {
 }
 
 #header {
-  .brand {
-    a {
-      @extend .hover-green, .no-underline, .dark-gray;
-    }
-  }
-
   .menu-item.level-1, .menu-item.level-2 {
     &:hover {
       > .sub-menu {
@@ -69,13 +63,12 @@ svg {
     }
   }
 
-  #menu-header-menu {
-    > li {
-      @extend .dib;
-
-      > a {
-        @extend .f6, .fw4, .hover-green, .no-underline, .dark-gray, .dn, .dib-ns, .pv2, .ph3;
-      }
+  .mobile-toggle {
+    div {
+      width: $spacing-large;
+      height: $spacing-extra-small;
+      background-color: $black;
+      margin: $spacing-extra-small auto;
     }
   }
 }
