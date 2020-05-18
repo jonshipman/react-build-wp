@@ -11,6 +11,7 @@ const build_path = path.resolve(__dirname, '..', 'build');
 
 // root (/) should always serve our server rendered page
 router.use('^/$', serverRenderer);
+router.use('^/index.html$', serverRenderer);
 
 // other static resources should just be served as they are
 router.use(express.static(
