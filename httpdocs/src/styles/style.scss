@@ -8,13 +8,13 @@
 .text-shadow { text-shadow: 1px 0px 8px rgba(0, 0, 0, 0.55) };
 
 .drop-last-br {
-  > *:last-child {
+  &:last-child {
     border-right: 0;
   }
 }
 
 .drop-last-bb {
-  > *:last-child {
+  &:last-child {
     border-bottom: 0;
   }
 }

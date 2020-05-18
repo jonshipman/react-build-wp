@@ -29,9 +29,9 @@ export default props => (
         <div className="post-categories dib">
             {props.post.categories.edges && (
               <>
-                <ul className="list pl0 dib drop-last-br">
+                <ul className="list pl0 dib">
                   {props.post.categories.edges.map(category => (
-                    <li key={`cat-${category.node.categoryId}-post-cats`} className="dib mr2 pr2 br b--near-white">
+                    <li key={`cat-${category.node.categoryId}-post-cats`} className="dib mr2 pr2 br b--near-white drop-last-br">
                       <Link to={`/blog/${category.node.slug}`}>
                         {category.node.name}
                       </Link>

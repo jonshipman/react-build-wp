@@ -63,8 +63,8 @@ const Footer = ({ settings, desc, title, loading }) => (
         <div className="footer--links">
           <div className="b f4 black mb3">Useful Links</div>
           <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
-          <NestedMenu location="footer-menu" className="list pl0 nt3 drop-last-bb" classNames={{
-            li: ['db bl-0 br-0 bt-0 bb b--dashed b--moon-gray f7'],
+          <NestedMenu location="footer-menu" className="list pl0 nt3" classNames={{
+            li: ['db bl-0 br-0 bt-0 bb b--dashed drop-last-bb b--moon-gray f7'],
             a: ['db pv3 gray hover-green'],
             submenu: ['dn'],
           }}/>
