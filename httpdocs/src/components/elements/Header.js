@@ -22,7 +22,7 @@ const Header = ({ sticky }) => (
       <nav>
         <PageWidth className="dt-l">
           <div className="brand flex items-center tc dtc-l v-mid-l tl-l">
-            <div className="mobile-toggle pa3 db dn-l" onClick={openMenu}>
+            <div className="mobile-toggle pr3 pv3 db dn-l" onClick={openMenu}>
               <div/><div/><div/>
             </div>
             <Link to="/" className="dib grow-large border-box">
