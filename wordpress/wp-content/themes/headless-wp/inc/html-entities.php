@@ -78,6 +78,13 @@ class HTMLEntities {
                 $decode = true;
             }
         }
+        if ( 'generalSettingsTitle' === $field_key ) {
+            $decode = true;
+        }
+
+        if ( 'generalSettingsDescription' === $field_key ) {
+            $decode = true;
+        }
         if ( $decode ) {
             return \html_entity_decode( trim( $result ) );
         }
