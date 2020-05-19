@@ -27,10 +27,9 @@ if ('client' === process.env.REACT_APP_RENDER) {
 
 renderMethod(
   <BrowserRouter>
+    <ScrollToTop />
     <ApolloProvider client={client}>
-      <ScrollToTop>
-        <App />
-      </ScrollToTop>
+      <App />
     </ApolloProvider>
   </BrowserRouter>,
   document.getElementById('root'),
