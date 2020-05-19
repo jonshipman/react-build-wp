@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
 import serverRenderer from './middleware/renderer';
+import robots from './middleware/robots';
+import sitemap from './middleware/sitemap';
 
 const PORT = 3000;
 
