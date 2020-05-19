@@ -12,6 +12,13 @@ const build_path = path.resolve(__dirname, '..', 'build');
 // root (/) should always serve our server rendered page
 router.use('^/$', serverRenderer);
 router.use('^/index.html$', serverRenderer);
+router.use('^/robots.txt$', robots);
+
+// Sitemaps
+router.use('^/sitemap_index.xml$', sitemap);
+router.use('^/post-sitemap.xml$', sitemap);
+router.use('^/page-sitemap.xml$', sitemap);
+router.use('^/category-sitemap.xml$', sitemap);
 
 // other static resources should just be served as they are
 router.use(express.static(

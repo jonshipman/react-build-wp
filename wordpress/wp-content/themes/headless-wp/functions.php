@@ -47,6 +47,9 @@ require_once 'inc/redirect.php';
 // Form actions that trigger on a successful submittion.
 require_once 'inc/form-actions.php';
 
+// Increases the maximum post count for sitemaps.
+require_once 'inc/increase-max-post-limit.php';
+
 // Adds thumbnails.
 add_action(
     'after_setup_theme',
