@@ -54,15 +54,11 @@ add_filter(
  */
 add_filter(
     'get_sample_permalink',
-    function( $permalink,  $post_id,  $title,  $name ) {
-        $permalink = array(
-            sprintf( '%s/%%postname%%', get_frontend_origin() ),
-            $name
-        );
+    function( $permalink ) {
+        $permalink[0] = rtrim( str_replace( get_site_url(), get_frontend_origin(), $permalink[0] ), '/' );
+
         return $permalink;
-    },
-    10,
-    4
+    }
 );
 
 /**
