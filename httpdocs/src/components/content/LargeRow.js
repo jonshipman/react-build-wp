@@ -90,7 +90,7 @@ export default () => {
   if (data) {
     if (data.posts.edges) {
       data.posts.edges.map(post => {
-        const finalLink = `/blog/${post.node.slug}`;
+        const finalLink = `/${post.node.slug}`;
         let modifiedPost = {node:{}};
         Object.entries(post.node).map(([key, value]) => {
           modifiedPost.node[key] = value;
