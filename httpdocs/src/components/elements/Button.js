@@ -1,15 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+export const PrimaryClasses = 'pointer f6 link bg-animate hover-bg-blue br2 ph4 pv2 mb2 dib white bg-green';
+export const SecondaryClasses = 'pointer f6 link dim br2 ph4 pv2 mb2 dib white ba b--white';
+export const TertiaryClasses = 'pointer f6 link dim br2 ph4 pv2 mb2 dib green ba b--green';
+
 export default ({ children, className, type, ...rest }) => {
-  let classNames = 'pointer f6 link bg-animate hover-bg-blue br2 ph4 pv2 mb2 dib white bg-green';
+  let classNames = PrimaryClasses;
 
   if (2 === type) {
-    classNames = 'pointer f6 link dim br2 ph4 pv2 mb2 dib white ba b--white';
+    classNames = SecondaryClasses;
   }
 
   if (3 === type) {
-    classNames = 'pointer f6 link dim br2 ph4 pv2 mb2 dib green ba b--green';
+    classNames = TertiaryClasses;
   }
 
   if (rest.href) {
