@@ -54,8 +54,8 @@ class App extends Component {
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/contact-us" component={Contact} />
 
-            <Route exact path="/wp-admin" render={Admin} />
-            <Route exact path="/wp-login.php" render={Admin} />
+            <Route exact path="/wp-admin" render={this.Admin} />
+            <Route exact path="/wp-login.php" render={this.Admin} />
 
             <Route path="*" component={Single} />
           </Switch>
