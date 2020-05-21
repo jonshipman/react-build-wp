@@ -3,13 +3,14 @@ import { Helmet } from "react-helmet";
 import LazyLoad from 'react-lazy-load';
 import { gql, useQuery } from '@apollo/client';
 
-import Hero from './layout/Hero';
+import Hero, { HeroSkeleton } from './layout/Hero';
 import { BlocksTwo, BlocksTwoFull } from './layout/Blocks';
 
 import Image from './elements/Image';
 import LeadForm from './elements/LeadForm';
 import PostContent from './elements/PostContent';
 import Button from './elements/Button';
+import PageWidth from './layout/PageWidth';
 import LoadingError from './elements/LoadingError';
 
 import CyclingCards from './content/CyclingCards';
@@ -34,19 +35,28 @@ const HOME_QUERY = gql`
   }
 `;
 
+const Random = () => {
+  let items = [40, 50, 60, 70, 80];
+  return items[Math.floor(Math.random() * items.length)]
+}
+
 const Skeleton = ({ children }) => (
   <div className="home--content mb0">
-    <Hero
-      background="data:null"
-      className="bg-light-gray"
-    />
+    <HeroSkeleton />
 
-    {children}
+    <PageWidth className="mv4">
+      {children}
+    </PageWidth>
 
     <BlocksTwo
       left={(
         <>
-          <div className="mb4 text-loading lines-6" />
+          <div className="mb4">
+            <div className={`mb2 h1 w-${Random()} loading-block`} />
+            <div className={`mb2 h1 w-${Random()} loading-block`} />
+            <div className={`mb2 h1 w-${Random()} loading-block`} />
+            <div className={`mb2 h1 w-${Random()} loading-block`} />
+          </div>
 
           <Button className="mr3" to="/contact-us">
             Make an Appointment

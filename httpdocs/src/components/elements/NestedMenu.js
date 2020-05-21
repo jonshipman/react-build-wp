@@ -2,12 +2,51 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
-import Loading from './Loading';
 import LoadingError from './LoadingError';
 
 /**
- * GraphQL menu query
- * Gets the labels, types (internal or external) and URLs
+ * Loading functional component that loads the skeleton, error,
+ * or finished component based on results.
+ */
+const NestedMenu = props => {
+  const { loading, error, data } = useQuery(MENU_QUERY, {
+    variables: { location: props.location }
+  });
+
+  if (loading) return <Skeleton { ...props } />
+  if (error) return <LoadingError error={error.message} />
+
+  const menus = data.nestedMenu;
+
+  return <OnQueryFinished { ...props } menus={menus} />
+}
+
+/**
+ * Default properties.
+ */
+NestedMenu.defaultProps = {
+  location: 'header-menu',
+  ignoreClasses: false,
+  classNames: {
+    li: [
+      'db dib-l relative z-1 hover-z-2 pv3',
+      'pa2 relative z-1 hover-z-2',
+      'pa2 nowrap'
+    ],
+    a: [
+      'f6 fw4 hover-blue no-underline dark-gray dib pv2 ph3',
+      'hover-blue dark-gray db'
+    ],
+    submenu: [
+      'tl-l list pl0 absolute-l pv3 top-100-l left-0-l bg-white ba b--light-gray w5',
+      'list ph3 absolute-l top-0-l left-100-l bg-white ba b--light-gray'
+    ],
+    anchorOnclick: () => {}
+  }
+};
+
+/**
+ * Menu query that returns the nested menu items.
  */
 const MENU_QUERY = gql`
   query MenuQuery($location: String!) {
@@ -23,22 +62,9 @@ const MENU_QUERY = gql`
   }
 `;
 
-const defaultClasses = {
-  primary: {
-    li: 'db dib-l relative z-1 hover-z-2 pv3',
-    a: 'f6 fw4 hover-green no-underline dark-gray dib pv2 ph3',
-    submenu: 'tl-l list pl0 absolute-l pv3 top-100-l left-0-l bg-white ba b--light-gray w5'
-  },
-  secondary: {
-    li: 'pa2 relative z-1 hover-z-2',
-    a: 'hover-green dark-gray db',
-    submenu: 'list ph3 absolute-l top-0-l left-100-l bg-white ba b--light-gray'
-  },
-  tertiary: {
-    li: 'pa2 nowrap'
-  }
-}
-
+/**
+ * Child item that loops to created the nested menu.
+ */
 const ChildItem = ({ menu, level, ...props }) => {
   const { menus, classNames } = props;
   let localLevel = level ? level + 1 : 1;
@@ -112,14 +138,41 @@ const ChildItem = ({ menu, level, ...props }) => {
   );
 };
 
+/**
+ * The placeholder skeleton that shows before query loads.
+ */
+const Skeleton = props => (
+  <ul
+    id={`menu-${props.location}`}
+    className={`nested-menu ${props.className}`}
+    style={{touchAction: 'pan-y'}}
+  >
+    {Array.from(new Array(5)).map(() => (
+      <li
+        key={Math.random()}
+        className={!props.ignoreClasses && props.classNames ? `menu-item level-1 ${props.classNames.li[0]}` : ''}
+      >
+        <div className={!props.ignoreClasses && props.classNames ? props.classNames.a[0] : ''} >
+          <span className="h1 w3 ml2 loading-block db" />
+        </div>
+      </li>
+    ))}
+  </ul>
+);
+
+/**
+ * Component that loads the UL and loops the child item from the menu query.
+ */
 const OnQueryFinished = props => (
-  <ul id={`menu-${props.location}`} className={`nested-menu ${props.className}`} style={{touchAction: 'pan-y'}}>
+  <ul
+    id={`menu-${props.location}`}
+    className={`nested-menu ${props.className}`}
+    style={{touchAction: 'pan-y'}}
+  >
 
     {props.menus.map(menu => {
       if (menu.parent === 0) {
-        return (
-          <ChildItem key={menu.itemID} menu={menu} { ...props } />
-        );
+        return <ChildItem key={menu.itemID} menu={menu} { ...props } />
       } else {
         return false;
       }
@@ -128,37 +181,4 @@ const OnQueryFinished = props => (
   </ul>
 );
 
-OnQueryFinished.defaultProps = {
-  menus: [],
-  location: 'header-menu',
-  ignoreClasses: false,
-  classNames: {
-    li: [
-      defaultClasses.primary.li,
-      defaultClasses.secondary.li,
-      defaultClasses.tertiary.li
-    ],
-    a: [
-      defaultClasses.primary.a,
-      defaultClasses.secondary.a
-    ],
-    submenu: [
-      defaultClasses.primary.submenu,
-      defaultClasses.secondary.submenu
-    ],
-    anchorOnclick: () => {}
-  }
-};
-
-export default props => {
-  const { loading, error, data } = useQuery(MENU_QUERY, {
-    variables: { location: props.location }
-  });
-
-  if (loading) return <Loading className="f7" />;
-  if (error) return <LoadingError error={error.message} />;
-
-  const menus = data.nestedMenu;
-
-  return <OnQueryFinished menus={menus} { ...props } />
-}
+export default NestedMenu;

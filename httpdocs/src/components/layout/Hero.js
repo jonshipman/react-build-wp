@@ -2,6 +2,19 @@ import React from 'react';
 
 import Button from '../elements/Button';
 
+export const HeroSkeleton = ({ className, ...props }) => (
+  <div className={`hero bg-light-gray bg-left bg-center-l relative z-1 overflow-hidden ${className || ''}`} { ...props } >
+    <div className="tc-l mt4 mt5-m mt6-l ph3">
+      <div className="hero--inner relative z-1 pv6">
+          <div className="f2 f1-l fw2 white-90 mb0 mt4 h2 w-20 center loading-block" />
+          <div className="fw1 f3 white-80 mt3 mb4 h1 w-40 center loading-block" />
+
+          <Button className="v-mid h2" />
+      </div>
+    </div>
+  </div>
+);
+
 export default ({ className, heading, subheading, cta, secondaryCta, background }) => {
   let localBackground = '';
 
