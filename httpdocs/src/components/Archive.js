@@ -7,6 +7,7 @@ import NotFound from './layout/NotFound';
 import PageWidth from './layout/PageWidth';
 import PostExcerpt from './layout/PostExcerpt';
 
+import Button from './elements/Button';
 import Loading from './elements/Loading';
 import LoadingError from './elements/LoadingError';
 
@@ -125,31 +126,31 @@ const OnQueryFinished = ({ pageInfo, category, setDirection, setPageInfo }) => (
       <Title>{category.name || 'Blog'}</Title>
 
       {category.posts && (
-        <PageWidth className="content--body cf">
-          <div className="blog-entries">
+        <PageWidth className="content--body cf mb3">
+          <div className="blog-entries mb3">
             {category.posts.map(post => (
               <PostExcerpt key={`archive-${post.node.postId}`} post={post} />
             ))}
           </div>
 
           {pageInfo.hasPreviousPage && (
-            <div className="theme-button fl" onClick={() => {
+            <Button className="fl" onClick={() => {
               setPageInfo(pageInfo);
               setDirection(PREV);
               window.scrollTo(0, 0);
             }}>
               Previous
-            </div>
+            </Button>
           )}
 
           {pageInfo.hasNextPage && (
-            <div className="theme-button fr" onClick={() => {
+            <Button className="fr" onClick={() => {
               setPageInfo(pageInfo);
               setDirection(NEXT);
               window.scrollTo(0, 0);
             }}>
               Next
-            </div>
+            </Button>
           )}
         </PageWidth>
       )}
