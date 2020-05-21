@@ -15,10 +15,10 @@ import PageWidth from './layout/PageWidth';
 const POST_QUERY = gql`
   query PageQuery($uri: String!) {
     pageBy(uri: $uri) {
-      pageId
+      databaseId
       slug
-      title(format: RENDERED)
-      content(format: RENDERED)
+      title
+      content
       pageTemplate
       seo {
         title
@@ -26,10 +26,10 @@ const POST_QUERY = gql`
       }
     }
     postBy(uri: $uri) {
-      postId
+      databaseId
       slug
-      title(format: RENDERED)
-      content(format: RENDERED)
+      title
+      content
       dateFormatted
       seo {
         title
@@ -48,46 +48,15 @@ const POST_QUERY = gql`
   }
 `;
 
-const initialPage = {
-  databaseId: 0,
-  title: '',
-  content: '',
-  seo: {
-    title: '',
-    metaDesc: ''
-  },
-  pageTemplate: '',
-};
-
-const initialPost = {
-  databaseId: 0,
-  title: '',
-  content: '',
-  seo: {
-    title: '',
-    metaDesc: ''
-  },
-  dateFormatted: '',
-  categories: {
-    edges: []
-  },
-  mainTitle: ''
-};
-
+/**
+ * Performs data transforms.
+ */
 const sanitizeData = data => {
   let page = {};
   let post = {};
 
   if (data.pageBy) {
-    page = {};
-    Object.entries(data.pageBy).map(([key, value]) => {
-      page[key] = JSON.parse(JSON.stringify(value));
-
-      return null;
-    });
-    page.databaseId = page.pageId;
-
-    post = initialPost;
+    page = data.pageBy;
   }
 
   if (data.postBy) {
@@ -97,13 +66,10 @@ const sanitizeData = data => {
 
       return null;
     });
-    post.databaseId = post.postId;
 
     if (post.categories.edges) {
       post.mainTitle = post.categories.edges[0].node.name;
     }
-
-    page = initialPage;
   }
 
   return {
@@ -116,31 +82,19 @@ export default props => {
   const { match } = props;
   let uri = match.url;
 
-  if (!uri) {
-    uri = '404';
-  } else {
-    uri = match.url.replace(/^\//, '');
-  }
-
   const { loading, error, data } = useQuery(POST_QUERY, { variables: { uri } });
 
-  if (loading) return (
-    <PageSkeleton />
-  );
+  if (loading) return <PageSkeleton />
   if (error) return <LoadingError error={error.message} />;
 
   const { page, post } = sanitizeData(data);
 
   if (page.databaseId) {
-    return (
-      <Page page={page} />
-    );
+    return <Page page={page} />
   }
 
   if (post.databaseId) {
-    return (
-      <Post post={post} />
-    );
+    return <Post post={post} />
   }
 
   return (
