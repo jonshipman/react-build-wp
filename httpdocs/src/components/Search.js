@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { gql, ApolloConsumer } from '@apollo/client';
+
 import PostExcerpt from './layout/PostExcerpt';
 import PageWidth from './layout/PageWidth';
 
 /**
  * GraphQL post search query that takes a filter
- * Returns the titles, slugs and authors of posts found
+ * Returns the titles, uris, and authors of posts found
  */
 const POST_SEARCH_QUERY = gql`
   query PostSearchQuery($filter: String!) {
@@ -15,7 +16,7 @@ const POST_SEARCH_QUERY = gql`
           id
           postId
           title
-          slug
+          uri
           excerpt
           dateFormatted
         }
@@ -47,6 +48,7 @@ class Search extends Component {
     if (this.client) {
       const { filter } = this.state;
       let posts = [];
+
       if (filter.length === 0) {
         this.setState({ posts });
       } else {
@@ -54,22 +56,10 @@ class Search extends Component {
           query: POST_SEARCH_QUERY,
           variables: { filter },
         });
+
         if (result.data.posts.edges) {
-          result.data.posts.edges.map(post => {
-            const finalLink = `/${post.node.slug}`;
-            const modifiedPost = {node:{}};
-            Object.entries(post.node).map(([key, value]) => {
-              modifiedPost.node[key] = value;
-
-              return null;
-            });
-            modifiedPost.node.link = finalLink;
-            posts.push(modifiedPost);
-
-            return null;
-          });
+          this.setState({ posts: result.data.posts.edges });
         }
-        this.setState({ posts });
       }
     }
   };

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { gql } from '@apollo/client';
 import { Mutation } from '@apollo/react-components';
-import { AUTH_TOKEN, USERNAME } from '../constants';
+
 import PageWidth from './layout/PageWidth';
+
+import { AUTH_TOKEN, USERNAME } from '../constants';
 
 /**
  * GraphQL mutation used for logging in

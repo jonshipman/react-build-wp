@@ -35,7 +35,7 @@ const CATEGORY_QUERY = gql`
       edges {
         node {
           title
-          slug
+          uri
           excerpt
           postId
           dateFormatted
@@ -84,7 +84,7 @@ const ARCHIVE_QUERY = gql`
       edges {
         node {
           title
-          slug
+          uri
           excerpt
           postId
           dateFormatted
@@ -162,34 +162,20 @@ const sanitizeData = data => {
   let sPageInfo = {};
   let sCategory = {};
 
-  if (data.categories && data.categories.edges.length > 0) {
+  if (data.categories.edges) {
     const { name, seo, slug } = data.categories.edges[0].node;
 
     sCategory = {
       name,
       seo,
-      slug
+      slug,
+      posts: []
     };
   }
 
-  let posts = [];
   if (data.posts.edges) {
-    data.posts.edges.map(post => {
-      const finalLink = `/${post.node.slug}`;
-      const modifiedPost = {node:{}};
-      Object.entries(post.node).map(([key, value]) => {
-        modifiedPost.node[key] = value;
-
-        return null;
-      });
-      modifiedPost.node.link = finalLink;
-      posts.push(modifiedPost);
-
-      return null;
-    });
-
     sPageInfo = data.posts.pageInfo;
-    sCategory.posts = posts;
+    sCategory.posts = data.posts.edges;
   }
 
   return {
@@ -228,14 +214,13 @@ export default props => {
   }
 
   if (allPosts) {
-    // slug = match.url.replace(/^\//, '');
     query = ARCHIVE_QUERY;
   }
 
   const { loading, error, data } = useQuery(query, { variables });
 
-  if (loading) return <Loading />;
-  if (error) return <LoadingError error={error.message} />;
+  if (loading) return <Loading />
+  if (error) return <LoadingError error={error.message} />
 
   const { sPageInfo, sCategory } = sanitizeData(data);
 
@@ -250,5 +235,5 @@ export default props => {
     );
   }
 
-  return <NotFound />;
+  return <NotFound />
 }

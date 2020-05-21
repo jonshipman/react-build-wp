@@ -13,7 +13,7 @@ export default props => (
     <Helmet>
       <title>{props.post.seo.title}</title>
       <meta name="description" content={props.post.seo.metaDesc}/>
-      <link rel="canonical" href={`${FRONTEND_URL}/${props.post.slug}`} />
+      <link rel="canonical" href={`${FRONTEND_URL}/${props.post.uri}`} />
     </Helmet>
     <article className={`content post-${props.post.postId}`}>
       {props.post.mainTitle && (

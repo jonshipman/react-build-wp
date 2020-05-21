@@ -32,6 +32,12 @@ class App extends Component {
     document.getElementById('root').classList.add('loaded');
   }
 
+  Admin = () => {
+    global.window && (global.window.location.href = BACKEND_URL + '/wp-admin');
+
+    return null;
+  }
+
   render() {
     return (
       <>
@@ -48,11 +54,8 @@ class App extends Component {
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/contact-us" component={Contact} />
 
-            <Route exact path="/wp-admin" render={() => {
-              global.window && (global.window.location.href = BACKEND_URL + '/wp-admin');
-
-              return null;
-            }} />
+            <Route exact path="/wp-admin" render={Admin} />
+            <Route exact path="/wp-login.php" render={Admin} />
 
             <Route path="*" component={Single} />
           </Switch>
