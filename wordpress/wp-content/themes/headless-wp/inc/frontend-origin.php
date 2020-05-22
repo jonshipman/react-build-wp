@@ -12,6 +12,10 @@
  *
  * @return str Frontend origin URL, i.e., http://localhost:3000.
  */
-function get_frontend_origin() {
-    return 'http://localhost:3000';
+function get_frontend_origin( $original_url = '' ) {
+    $origin = 'http://localhost:3000';
+    if ( ! empty( $original_url ) ) {
+        return str_replace( get_site_url(), $origin, $original_url );
+    }
+    return $origin;
 }

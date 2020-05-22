@@ -47,6 +47,15 @@ class HeadlessWpSettings {
                             'show_in_graphql' => true,
                         ),
                     ),
+                    'redirect_page_to_frontend_origin' => array(
+                        'label' => __( 'Redirect frontend to React instead of REST API', 'postlight-headless-wp' ),
+                        'args' => array(
+                            'type' => 'boolean',
+                            'sanitize_callback' => function( $var ) {
+                                return filter_var( $var, FILTER_SANITIZE_NUMBER_INT );
+                            },
+                        ),
+                    ),
                 ),
             )
         );
@@ -89,13 +98,35 @@ class HeadlessWpSettings {
             );
 
             foreach ( $options['fields'] as $field => $field_options ) {
+                if ( isset( $field_options['callback'] ) && is_callable( $field_options['callback'] ) && ! is_string( $field_options['callback'] ) ) {
+                    $callback = function() use ( $field ) {
+                        $field_options['callback']( $field );
+                    }
+                } else {
+                    $callback = function() use ( $field ) {
+                        $value = get_option( $field );
+
+                        if ( isset( $field_options['args'] ) && isset( $field_options['args']['type'] ) ) {
+                            if ( 'boolean' === $field_options['args']['type'] ) ) {
+                                printf(
+                                    '<select name="%s" id="%s"><option value="0" %s>No</option><option value="1" %s>Yes</option></select>',
+                                    esc_attr( $field ),
+                                    esc_attr( $field ),
+                                    selected($value, '0', false),
+                                    selected($value, '1', false)
+                                );
+
+                                return;
+                            }
+                        }
+
+                        printf( '<input class="large-text" type="text" name="%s" id="%s" value="%s"> ', esc_attr( $field ), esc_attr( $field ), esc_attr( $value ) );
+                    }
+                }
                 add_settings_field(
                     $field,
                     $field_options['label'],
-                    function() use ( $field ) {
-                        $value = get_option( $field );
-                        printf( '<input class="large-text" type="text" name="%s" id="%s" value="%s"> ', esc_attr( $field ), esc_attr( $field ), esc_attr( $value ) );
-                    },
+                    $callback,
                     self::HEADLESS_WP_KEY,
                     $group,
                     array( 'label_for' => $field )

@@ -18,6 +18,19 @@ add_action(
 
         if ( 0 !== strpos( $current_url['path'], $rest_url['path'] ) ) {
             if ( is_singular() ) {
+                if ( get_option( 'redirect_page_to_frontend_origin' ) ) {
+                    header(
+                        sprintf(
+                            'Location: %s',
+                            get_frontend_origin( get_permalink( get_post() ) )
+                        ),
+                        true,
+                        301
+                    );
+
+                    die;
+                }
+
                 header(
                     sprintf(
                         'Location: %s/wp/v2/%s/%s',
@@ -27,6 +40,19 @@ add_action(
                     )
                 );
             } else {
+                if ( get_option( 'redirect_page_to_frontend_origin' ) ) {
+                    header(
+                        sprintf(
+                            'Location: %s',
+                            get_frontend_origin()
+                        ),
+                        true,
+                        301
+                    );
+
+                    die;
+                }
+
                 header(
                     sprintf(
                         'Location: %s',
