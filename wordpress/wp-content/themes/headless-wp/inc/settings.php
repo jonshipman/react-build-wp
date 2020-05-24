@@ -101,13 +101,13 @@ class HeadlessWpSettings {
                 if ( isset( $field_options['callback'] ) && is_callable( $field_options['callback'] ) && ! is_string( $field_options['callback'] ) ) {
                     $callback = function() use ( $field ) {
                         $field_options['callback']( $field );
-                    }
+                    };
                 } else {
                     $callback = function() use ( $field ) {
                         $value = get_option( $field );
 
                         if ( isset( $field_options['args'] ) && isset( $field_options['args']['type'] ) ) {
-                            if ( 'boolean' === $field_options['args']['type'] ) ) {
+                            if ( 'boolean' === $field_options['args']['type'] ) {
                                 printf(
                                     '<select name="%s" id="%s"><option value="0" %s>No</option><option value="1" %s>Yes</option></select>',
                                     esc_attr( $field ),
@@ -120,8 +120,13 @@ class HeadlessWpSettings {
                             }
                         }
 
-                        printf( '<input class="large-text" type="text" name="%s" id="%s" value="%s"> ', esc_attr( $field ), esc_attr( $field ), esc_attr( $value ) );
-                    }
+                        printf(
+                            '<input class="large-text" type="text" name="%s" id="%s" value="%s"> ',
+                            esc_attr( $field ),
+                            esc_attr( $field ),
+                            esc_attr( $value )
+                        );
+                    };
                 }
                 add_settings_field(
                     $field,
