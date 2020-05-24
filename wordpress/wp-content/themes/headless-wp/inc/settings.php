@@ -103,7 +103,7 @@ class HeadlessWpSettings {
                         $field_options['callback']( $field );
                     };
                 } else {
-                    $callback = function() use ( $field ) {
+                    $callback = function() use ( $field, $field_options ) {
                         $value = get_option( $field );
 
                         if ( isset( $field_options['args'] ) && isset( $field_options['args']['type'] ) ) {
