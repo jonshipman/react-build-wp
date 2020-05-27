@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ApolloConsumer } from '@apollo/client';
 
-export default (WrappedComponent) => {
+export default WrappedComponent => {
   return class extends Component {
     render() {
       return (
