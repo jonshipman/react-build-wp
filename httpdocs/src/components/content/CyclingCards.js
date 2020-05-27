@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { gql, ApolloConsumer } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+import withApolloClient from '../hoc/withApolloClient';
 
 import { isMobile } from '../utils/Browser';
 
@@ -62,7 +64,7 @@ class CyclingCards extends Component {
   }
 
   executeQuery = async () => {
-    if (this.client) {
+    if (this.props.client) {
       const { pageInfo } = this.state;
       let postsPerPage = 4;
 
@@ -88,7 +90,7 @@ class CyclingCards extends Component {
         variables.last = null;
       }
 
-      const result = await this.client.query({
+      const result = await this.props.client.query({
         query: ADVANTAGES_QUERY,
         variables
       });
@@ -125,36 +127,29 @@ class CyclingCards extends Component {
     const { triggerAnimation } = this.state;
 
     return (
-      <ApolloConsumer>
-        {client => {
-          this.client = client;
-          return (
-            <div className="w-100 h-100 bg-dark-gray pa4 tc flex-l items-center-l">
-              <div className="w-100-l">
-                <h3><span className="fw4 f2 white">Our Company <span className="fw7">Advantage</span></span></h3>
-                <CSSTransition
-                  in={triggerAnimation}
-                  timeout={501}
-                  classNames="advantages"
-                  onExited={() => {
-                    this.setState({ triggerAnimation: !this.state.triggerAnimation });
-                  }}
-                  onEnter={() => {
-                    this.setState(this.nextState);
-                  }}
-                  onEntered={() => {
-                    this.callTimeout(this.executeQuery);
-                  }}
-                >
-                  {this.Inner}
-                </CSSTransition>
-              </div>
-            </div>
-          );
-        }}
-      </ApolloConsumer>
+      <div className="w-100 h-100 bg-dark-gray pa4 tc flex-l items-center-l">
+        <div className="w-100-l">
+          <h3><span className="fw4 f2 white">Our Company <span className="fw7">Advantage</span></span></h3>
+          <CSSTransition
+            in={triggerAnimation}
+            timeout={501}
+            classNames="advantages"
+            onExited={() => {
+              this.setState({ triggerAnimation: !this.state.triggerAnimation });
+            }}
+            onEnter={() => {
+              this.setState(this.nextState);
+            }}
+            onEntered={() => {
+              this.callTimeout(this.executeQuery);
+            }}
+          >
+            {this.Inner}
+          </CSSTransition>
+        </div>
+      </div>
     );
   }
 }
 
-export default CyclingCards;
+export default withApolloClient(CyclingCards);

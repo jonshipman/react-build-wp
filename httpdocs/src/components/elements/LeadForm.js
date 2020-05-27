@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { gql, ApolloConsumer } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { Mutation } from '@apollo/react-components';
 import { Formik, Form } from 'formik';
 
@@ -7,6 +7,8 @@ import Loading from './Loading';
 import Recaptcha, { resetToken } from '../external-scripts/Recaptcha';
 
 import DefaultForm from '../forms/DefaultForm';
+
+import withApolloClient from '../hoc/withApolloClient';
 
 /**
  * To add a new form - copy ./forms/DefaultForm and pass it as the prop
@@ -51,8 +53,8 @@ class LeadForm extends Component {
   }
 
   executeLocationQuery = async () => {
-    if (this.client) {
-      const result = await this.client.query({
+    if (this.props.client) {
+      const result = await this.props.client.query({
         query: FORM_DATA,
       });
 
@@ -111,77 +113,69 @@ class LeadForm extends Component {
     let localSuccessMessage = '';
 
     return (
-      <ApolloConsumer>
-        {client => {
-          this.client = client;
+      <div className={`lead-form relative ${className || ''}`}>
+        <Mutation mutation={localMutation}>
+          {(mutation, { loading, data }) => {
+            if (data) {
+              const { success, errorMessage } = this.Form.getMutationData(data);
 
-          return (
-            <div className={`lead-form relative ${className || ''}`}>
-              <Mutation mutation={localMutation}>
-                {(mutation, { loading, data }) => {
-                  if (data) {
-                    const { success, errorMessage } = this.Form.getMutationData(data);
+              if (success) {
+                resetToken.reset();
+                localSuccessMessage = "Form submitted. Thank you for your submission.";
+              }
 
-                    if (success) {
-                      resetToken.reset();
-                      localSuccessMessage = "Form submitted. Thank you for your submission.";
-                    }
+              if (errorMessage) {
+                localErrorMessage = errorMessage;
+              }
+            }
 
-                    if (errorMessage) {
-                      localErrorMessage = errorMessage;
-                    }
-                  }
+            return (
+              <Formik
+              initialValues={formValues}
+                validate={this.executeValidation}
+                onSubmit={values => {
+                  values.gToken = this.token;
+                  values.wpNonce = this.nonce;
+                  values.clientMutationId = this.token + this.nonce;
 
-                  return (
-                    <Formik
-                    initialValues={formValues}
-                      validate={this.executeValidation}
-                      onSubmit={values => {
-                        values.gToken = this.token;
-                        values.wpNonce = this.nonce;
-                        values.clientMutationId = this.token + this.nonce;
-
-                        mutation({ variables: values });
-                      }}
-                    >
-                      <Form>
-                        {localErrorMessage && (
-                          <div className="error-message red fw7 f7 mb3">{localErrorMessage}</div>
-                        )}
-
-                        {localSuccessMessage && (
-                          <>
-                            <div className="success-message green fw7 f6 mb3">{localSuccessMessage}</div>
-                            <div className="absolute absolute--fill"/>
-                          </>
-                        )}
-
-                        {showRecaptcha && (
-                          <Recaptcha callback={this.processToken}/>
-                        )}
-
-                        <div className="form-groups">
-                          <this.Form.component />
-                        </div>
-
-                        {loading
-                        ? <Loading />
-                        : (
-                          <button className="pointer f6 link bg-animate hover-bg-blue br2 ph4 pv2 mb2 dib white bg-green bn" type="submit" disabled={loading}>
-                            {this.Form.getButton()}
-                          </button>
-                        )}
-                      </Form>
-                    </Formik>
-                  );
+                  mutation({ variables: values });
                 }}
-              </Mutation>
-            </div>
-          );
-        }}
-      </ApolloConsumer>
+              >
+                <Form>
+                  {localErrorMessage && (
+                    <div className="error-message red fw7 f7 mb3">{localErrorMessage}</div>
+                  )}
+
+                  {localSuccessMessage && (
+                    <>
+                      <div className="success-message green fw7 f6 mb3">{localSuccessMessage}</div>
+                      <div className="absolute absolute--fill"/>
+                    </>
+                  )}
+
+                  {showRecaptcha && (
+                    <Recaptcha callback={this.processToken}/>
+                  )}
+
+                  <div className="form-groups">
+                    <this.Form.component />
+                  </div>
+
+                  {loading
+                  ? <Loading />
+                  : (
+                    <button className="pointer f6 link bg-animate hover-bg-blue br2 ph4 pv2 mb2 dib white bg-green bn" type="submit" disabled={loading}>
+                      {this.Form.getButton()}
+                    </button>
+                  )}
+                </Form>
+              </Formik>
+            );
+          }}
+        </Mutation>
+      </div>
     );
   }
 }
 
-export default LeadForm;
+export default withApolloClient(LeadForm);

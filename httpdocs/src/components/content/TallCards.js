@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { gql, ApolloConsumer } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 import { isMobile } from '../utils/Browser';
 
 import { BlocksThree } from '../layout/Blocks';
+
+import withApolloClient from '../hoc/withApolloClient';
 
 import PostContent from '../elements/PostContent';
 
@@ -72,7 +74,7 @@ class ProgramsAndTherapies extends Component {
   }
 
   executeQuery = async () => {
-    if (this.client) {
+    if (this.props.client) {
       const { pageInfo } = this.state;
       let postsPerPage = 3;
 
@@ -98,7 +100,7 @@ class ProgramsAndTherapies extends Component {
         variables.last = null;
       }
 
-      const result = await this.client.query({
+      const result = await this.props.client.query({
         query: THERAPIES_QUERY,
         variables
       });
@@ -114,59 +116,52 @@ class ProgramsAndTherapies extends Component {
     const { therapies, triggerAnimation } = this.state;
 
     return (
-      <ApolloConsumer>
-        {client => {
-          this.client = client;
-          return (
-            <CSSTransition
-              in={triggerAnimation}
-              timeout={1001}
-              classNames="therapies"
-              onEnter={() => {
-                this.setState(this.nextState);
-                console.log('enter');
-              }}
-              onEntered={() => {
-                this.callTimeout(this.executeQuery);
-              }}
-              onExited={() => {
-                this.setState({ triggerAnimation: !this.state.triggerAnimation });
-              }}
-            >
-              <BlocksThree
-                items={therapies}
-                onMouseOver={() => {
-                  this.killTimeout();
-                }}
-                onMouseOut={() => {
-                  this.callTimeout(this.executeQuery);
-                }}
-              >
-                {therapy => (
-                  <div className="therapy bg-near-white h-100 ba b--light-gray relative z-1">
-                    <div className="therapy--image">
-                      <img className="center db" alt={therapy.node.title} width={300} height={180} src="https://www.fillmurray.com/300/180" />
-                    </div>
-                    <div className="therapy--text pa4">
-                      <div className="therapy--title ttu f7 fw7">{therapy.node.title}</div>
-                      <PostContent className="therapy--content pb2 f7" content={therapy.node.excerpt} />
-                      {therapy.node.uri && (
-                        <div className="ba b--light-gray absolute bottom-0 right-0 left-0">
-                          <a className="dark-gray fw7 ttu f7 db ph4 pv2 hover-white hover-bg-green" href={therapy.node.uri} title="Replace this with ACF external link">
-                            Learn More
-                          </a>
-                        </div>
-                      )}
-                    </div>
+      <CSSTransition
+        in={triggerAnimation}
+        timeout={1001}
+        classNames="therapies"
+        onEnter={() => {
+          this.setState(this.nextState);
+          console.log('enter');
+        }}
+        onEntered={() => {
+          this.callTimeout(this.executeQuery);
+        }}
+        onExited={() => {
+          this.setState({ triggerAnimation: !this.state.triggerAnimation });
+        }}
+      >
+        <BlocksThree
+          items={therapies}
+          onMouseOver={() => {
+            this.killTimeout();
+          }}
+          onMouseOut={() => {
+            this.callTimeout(this.executeQuery);
+          }}
+        >
+          {therapy => (
+            <div className="therapy bg-near-white h-100 ba b--light-gray relative z-1">
+              <div className="therapy--image">
+                <img className="center db" alt={therapy.node.title} width={300} height={180} src="https://www.fillmurray.com/300/180" />
+              </div>
+              <div className="therapy--text pa4">
+                <div className="therapy--title ttu f7 fw7">{therapy.node.title}</div>
+                <PostContent className="therapy--content pb2 f7" content={therapy.node.excerpt} />
+                {therapy.node.uri && (
+                  <div className="ba b--light-gray absolute bottom-0 right-0 left-0">
+                    <a className="dark-gray fw7 ttu f7 db ph4 pv2 hover-white hover-bg-green" href={therapy.node.uri} title="Replace this with ACF external link">
+                      Learn More
+                    </a>
                   </div>
                 )}
-              </BlocksThree>
-            </CSSTransition>
-          );
-        }}
-      </ApolloConsumer>
+              </div>
+            </div>
+          )}
+        </BlocksThree>
+      </CSSTransition>
     );
   }
 }
 
-export default ProgramsAndTherapies;
+export default withApolloClient(ProgramsAndTherapies);

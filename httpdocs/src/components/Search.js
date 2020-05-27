@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { gql, ApolloConsumer } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 import PostExcerpt from './layout/PostExcerpt';
 import PageWidth from './layout/PageWidth';
+
+import withApolloClient from './hoc/withApolloClient';
 
 /**
  * GraphQL post search query that takes a filter
@@ -45,14 +47,14 @@ class Search extends Component {
    * Execute search query, process the response and set the state
    */
   executeSearch = async () => {
-    if (this.client) {
+    if (this.props.client) {
       const { filter } = this.state;
       let posts = [];
 
       if (filter.length === 0) {
         this.setState({ posts });
       } else {
-        const result = await this.client.query({
+        const result = await this.props.client.query({
           query: POST_SEARCH_QUERY,
           variables: { filter },
         });
@@ -67,41 +69,34 @@ class Search extends Component {
   render() {
     const { posts } = this.state;
     return (
-      <ApolloConsumer>
-        {client => {
-          this.client = client;
-          return (
-            <PageWidth className="content">
-              <div>
-                <h1>Search</h1>
-                <input
-                  className="db w-100 pa3 mv3 br6 ba b--black"
-                  type="text"
-                  placeholder="Search by name and content"
-                  onChange={e => this.setState({ filter: e.target.value })}
-                  onKeyDown={this.handleKeyDown}
-                />
-                <button
-                  className="round-btn invert ba bw1 pv2 ph3"
-                  type="button"
-                  onClick={() => this.executeSearch()}
-                >
-                  Submit
-                </button>
-              </div>
-              <div className="mv4 content--body">
-                <div className="search-entries">
-                  {posts.map(post => (
-                    <PostExcerpt key={post.node.id} post={post} />
-                  ))}
-                </div>
-              </div>
-            </PageWidth>
-          );
-        }}
-      </ApolloConsumer>
+      <PageWidth className="content">
+        <div>
+          <h1>Search</h1>
+          <input
+            className="db w-100 pa3 mv3 br6 ba b--black"
+            type="text"
+            placeholder="Search by name and content"
+            onChange={e => this.setState({ filter: e.target.value })}
+            onKeyDown={this.handleKeyDown}
+          />
+          <button
+            className="round-btn invert ba bw1 pv2 ph3"
+            type="button"
+            onClick={() => this.executeSearch()}
+          >
+            Submit
+          </button>
+        </div>
+        <div className="mv4 content--body">
+          <div className="search-entries">
+            {posts.map(post => (
+              <PostExcerpt key={post.node.id} post={post} />
+            ))}
+          </div>
+        </div>
+      </PageWidth>
     );
   }
 }
 
-export default Search;
+export default withApolloClient(Search);

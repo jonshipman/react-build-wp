@@ -1,6 +1,8 @@
 
-import React, { Component } from 'react';
-import { gql, ApolloConsumer } from '@apollo/client';
+import { Component } from 'react';
+import { gql } from '@apollo/client';
+
+import withApolloClient from '../hoc/withApolloClient';
 
 /**
  * GraphQL query should return the Recaptcha site key as string
@@ -53,9 +55,9 @@ class Recaptcha extends Component {
   componentDidMount = async () => {
     const { googleSiteKey, token } = this.state;
 
-    if (this.client) {
+    if (this.props.client) {
       if (!googleSiteKey) {
-        const result = await this.client.query({
+        const result = await this.props.client.query({
           query: CHECK_RECAPTCHA,
         });
 
@@ -138,12 +140,8 @@ class Recaptcha extends Component {
   render() {
     this.fireCallback();
 
-    return (
-      <ApolloConsumer>
-        {client => {this.client = client;}}
-      </ApolloConsumer>
-    );
+    return null;
   }
 };
 
-export default Recaptcha;
+export default withApolloClient(Recaptcha);
