@@ -34,6 +34,12 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
     padding: 0;
   }
 
+  &:after, &:before {
+    display: table;
+    content: "";
+    clear: both;
+  }
+
   > .wpb_column {
     width: 100%;
     float: left;
