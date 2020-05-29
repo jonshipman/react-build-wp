@@ -41,12 +41,35 @@ class Login extends Component {
     message: '',
   };
 
+  componentDidMount() {
+    const { history } = this.props;
+    const redirect = localStorage.getItem('redirect');
+    const authToken = localStorage.getItem(AUTH_TOKEN);
+
+    if (authToken) {
+      if (redirect) {
+        localStorage.removeItem('redirect');
+        history.push(redirect);
+      } else {
+        history.push(`/`);
+      }
+    }
+  }
+
   confirm = async data => {
     const { history } = this.props;
     const { authToken, user } = data.login;
+    const redirect = localStorage.getItem('redirect');
+
     localStorage.setItem(AUTH_TOKEN, authToken);
     localStorage.setItem(USERNAME, user.nickname);
-    history.push(`/`);
+
+    if (redirect) {
+      localStorage.removeItem('redirect');
+      history.push(redirect);
+    } else {
+      history.push(`/`);
+    }
   };
 
   handleError = () => {

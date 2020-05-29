@@ -53,6 +53,9 @@ require_once 'inc/increase-max-post-limit.php';
 // Add frontend url to the edit-post backend point.
 require_once 'inc/add-frontend-url-in-admin.php';
 
+// Authentication secret.
+require_once 'inc/jwt.php';
+
 // Adds thumbnails.
 add_action(
     'after_setup_theme',

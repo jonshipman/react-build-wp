@@ -20,6 +20,7 @@ add_action(
                 header( 'Access-Control-Allow-Origin: ' . get_frontend_origin() );
                 header( 'Access-Control-Allow-Methods: GET' );
                 header( 'Access-Control-Allow-Credentials: true' );
+                header( 'Access-Control-Expose-Headers: Content-Type, X-Jwt-Refresh' );
                 return $value;
             }
         );
