@@ -97,7 +97,9 @@ class CyclingCards extends Component {
 
       if (result.data.posts.edges) {
         this.nextState = { advantages: result.data.posts.edges, pageInfo: result.data.posts.pageInfo };
-        this.setState({ triggerAnimation: !this.state.triggerAnimation });
+        if (this.props.isMounted()) {
+          this.setState({ triggerAnimation: !this.state.triggerAnimation });
+        }
       }
     }
   };
@@ -135,13 +137,19 @@ class CyclingCards extends Component {
             timeout={501}
             classNames="advantages"
             onExited={() => {
-              this.setState({ triggerAnimation: !this.state.triggerAnimation });
+              if (this.props.isMounted()) {
+                this.setState({ triggerAnimation: !this.state.triggerAnimation });
+              }
             }}
             onEnter={() => {
-              this.setState(this.nextState);
+              if (this.props.isMounted()) {
+                this.setState(this.nextState);
+              }
             }}
             onEntered={() => {
-              this.callTimeout(this.executeQuery);
+              if (this.props.isMounted()) {
+                this.callTimeout(this.executeQuery);
+              }
             }}
           >
             {this.Inner}

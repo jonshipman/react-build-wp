@@ -62,7 +62,9 @@ class Recaptcha extends Component {
         });
 
         if (result.data) {
-          this.setState({ googleSiteKey: result.data.headlessSettings.googleSiteKey });
+          if (this.props.isMounted()) {
+            this.setState({ googleSiteKey: result.data.headlessSettings.googleSiteKey });
+          }
 
           if (result.data.headlessSettings.googleSiteKey && !this.scriptLoaded()) {
             this.loadScript();
@@ -134,7 +136,9 @@ class Recaptcha extends Component {
   }
 
   processToken(token) {
-    this.setState({ token });
+    if (this.props.isMounted()) {
+      this.setState({ token });
+    }
   }
 
   render() {

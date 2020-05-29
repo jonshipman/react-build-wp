@@ -107,7 +107,9 @@ class ProgramsAndTherapies extends Component {
 
       if (result.data.posts.edges) {
         this.nextState = { therapies: result.data.posts.edges, pageInfo: result.data.posts.pageInfo };
-        this.setState({ triggerAnimation: !this.state.triggerAnimation });
+        if (this.props.isMounted()) {
+          this.setState({ triggerAnimation: !this.state.triggerAnimation });
+        }
       }
     }
   };
@@ -121,14 +123,17 @@ class ProgramsAndTherapies extends Component {
         timeout={1001}
         classNames="therapies"
         onEnter={() => {
-          this.setState(this.nextState);
-          console.log('enter');
+          if (this.props.isMounted()) {
+            this.setState(this.nextState);
+          }
         }}
         onEntered={() => {
           this.callTimeout(this.executeQuery);
         }}
         onExited={() => {
-          this.setState({ triggerAnimation: !this.state.triggerAnimation });
+          if (this.props.isMounted()) {
+            this.setState({ triggerAnimation: !this.state.triggerAnimation });
+          }
         }}
       >
         <BlocksThree

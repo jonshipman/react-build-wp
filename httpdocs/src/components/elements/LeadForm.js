@@ -78,7 +78,9 @@ class LeadForm extends Component {
         this.nonce = defaultNonce;
       }
 
-      this.setState({ formValues });
+      if (this.props.isMounted()) {
+        this.setState({ formValues });
+      }
     }
   };
 

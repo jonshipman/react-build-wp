@@ -37,7 +37,7 @@ class Search extends Component {
   };
 
   handleKeyDown = e => {
-    if (e.keyCode === 13) {
+    if (e.key === 'Enter') {
       this.executeSearch();
     }
     return true;
@@ -52,7 +52,9 @@ class Search extends Component {
       let posts = [];
 
       if (filter.length === 0) {
-        this.setState({ posts });
+        if (this.props.isMounted()) {
+          this.setState({ posts });
+        }
       } else {
         const result = await this.props.client.query({
           query: POST_SEARCH_QUERY,
@@ -60,7 +62,9 @@ class Search extends Component {
         });
 
         if (result.data.posts.edges) {
-          this.setState({ posts: result.data.posts.edges });
+          if (this.props.isMounted()) {
+            this.setState({ posts: result.data.posts.edges });
+          }
         }
       }
     }

@@ -13,11 +13,15 @@ export default WrappedComponent => {
       this._mounted = false;
     }
 
+    isMounted() {
+      return this._mounted;
+    }
+
     render() {
       return (
         <ApolloConsumer>
           {client => {
-            return this._mounted ? <WrappedComponent client={client} { ...this.props } /> : null;
+            return <WrappedComponent isMounted={this.isMounted.bind(this)} client={client} { ...this.props } />
           }}
         </ApolloConsumer>
       );
