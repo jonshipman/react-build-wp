@@ -25,7 +25,7 @@ const Header = ({ sticky }) => (
             <div className="mobile-toggle pr3 pv3 db dn-l" onClick={openMenu}>
               <div/><div/><div/>
             </div>
-            <Link to="/" className="dib grow-large border-box" onClick={() => {document.getElementById('menu-header-menu').classList.add('dn')}}>
+            <Link to="/" className="dib grow-large border-box mv3" onClick={() => {document.getElementById('menu-header-menu').classList.add('dn')}}>
               <Logo className="w4 nb1"/>
             </Link>
           </div>
