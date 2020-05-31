@@ -162,7 +162,7 @@ const sanitizeData = data => {
   let sPageInfo = {};
   let sCategory = {};
 
-  if (data.categories.edges) {
+  if (data.categories) {
     const { name, seo, slug } = data.categories.edges[0].node;
 
     sCategory = {
