@@ -4,7 +4,7 @@ import { Mutation } from '@apollo/react-components';
 
 import PageWidth from './layout/PageWidth';
 
-import { AUTH_TOKEN, USERNAME } from '../constants';
+import Config, { USERNAME } from '../config';
 
 /**
  * GraphQL mutation used for logging in
@@ -44,7 +44,7 @@ class Login extends Component {
   componentDidMount() {
     const { history } = this.props;
     const redirect = localStorage.getItem('redirect');
-    const authToken = localStorage.getItem(AUTH_TOKEN);
+    const authToken = Config.getAuthToken();
 
     if (authToken) {
       if (redirect) {
@@ -61,7 +61,7 @@ class Login extends Component {
     const { authToken, user } = data.login;
     const redirect = localStorage.getItem('redirect');
 
-    localStorage.setItem(AUTH_TOKEN, authToken);
+    Config.setAuthToken(authToken);
     localStorage.setItem(USERNAME, user.nickname);
 
     if (redirect) {

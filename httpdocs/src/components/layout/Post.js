@@ -6,7 +6,7 @@ import PostContent from '../elements/PostContent';
 import PageWidth from '../layout/PageWidth';
 import Title from '../layout/Title';
 
-import { FRONTEND_URL } from '../../constants';
+import { FRONTEND_URL } from '../../config';
 
 export default props => (
   <>

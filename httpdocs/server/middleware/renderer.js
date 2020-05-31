@@ -7,7 +7,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink } from '@apollo/c
 import { renderToStringWithData } from "@apollo/react-ssr";
 
 import Config from '../../src/config';
-import { FRONTEND_URL } from '../../src/constants';
+import { FRONTEND_URL } from '../../src/config';
 import App from '../../src/components/App';
 
 global.ReactComponent = <React.Component />;

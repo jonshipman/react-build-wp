@@ -4,7 +4,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink, useQuery, gql } 
 import { renderToStringWithData } from "@apollo/react-ssr";
 
 import Config from '../../src/config';
-import { FRONTEND_URL } from '../../src/constants';
+import { FRONTEND_URL } from '../../src/config';
 
 const SITEMAP_BASE_QUERY = gql`
   query SiteMapIndex {

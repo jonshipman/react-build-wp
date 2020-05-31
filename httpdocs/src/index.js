@@ -7,7 +7,6 @@ import App from './components/App';
 import ScrollToTop from './components/utils/ScrollToTop';
 
 import Config from './config';
-import { AUTH_TOKEN } from './constants';
 
 import './styles/style.scss';
 
@@ -24,7 +23,7 @@ const link = new HttpLink({
  * If there is an auth_token localStorage, pass it as an auth bearer for jwt.
  */
 const authMiddleware = new ApolloLink((operation, forward) => {
-  const token = localStorage.getItem(AUTH_TOKEN);
+  const token = Config.getAuthToken();
   const authHeader = token ? `Bearer ${token}` : null;
 
   operation.setContext({
@@ -46,8 +45,8 @@ const authAfterware = new ApolloLink((operation, forward) => {
 
     // If we get an error, remove the invalid token.
     if (response.errors && response.errors.length) {
-        if (localStorage.getItem(AUTH_TOKEN)) {
-          localStorage.removeItem(AUTH_TOKEN);
+        if (Config.getAuthToken()) {
+          Config.removeAuthToken();
         }
     }
 
@@ -55,7 +54,7 @@ const authAfterware = new ApolloLink((operation, forward) => {
     if (headers) {
       const refreshToken = headers.get('x-jwt-refresh');
       if (refreshToken) {
-        localStorage.setItem(AUTH_TOKEN, refreshToken);
+        Config.setAuthToken(refreshToken);
       }
     }
 

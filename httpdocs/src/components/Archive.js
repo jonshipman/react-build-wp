@@ -11,7 +11,7 @@ import Button from './elements/Button';
 import Loading from './elements/Loading';
 import LoadingError from './elements/LoadingError';
 
-import { FRONTEND_URL } from '../constants';
+import { FRONTEND_URL } from '../config';
 
 /**
  * GraphQL category query that takes a category slug as a filter

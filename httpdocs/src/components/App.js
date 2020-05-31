@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 // Misc internal
-import { BACKEND_URL } from '../constants';
+import { BACKEND_URL } from '../config';
 import { isWebpSupported } from './utils/Browser';
 
 import Header from './elements/Header';

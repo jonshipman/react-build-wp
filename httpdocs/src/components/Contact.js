@@ -5,7 +5,7 @@ import Title from './layout/Title';
 
 import LeadForm from './elements/LeadForm';
 
-import { FRONTEND_URL } from '../constants';
+import { FRONTEND_URL } from '../config';
 
 /**
  * Contact page.
