@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 
-import NotFound from '../elements/NotFound';
+import NotFound from '../layout/NotFound';
+
 import Loading from '../elements/Loading';
 import LoadingError from '../elements/LoadingError';
 
@@ -49,14 +50,16 @@ const PREVIEW_QUERY = gql`
 const PreviewQuery = ({ match, children }) => {
   const { params } = match;
 
-  const { loading, error, data } = useQuery(PREVIEW_QUERY, { variables: { postId: params.revisionId } });
+  console.log({ variables: { postId: params.revisionId } });
+
+	const { loading, error, data } = useQuery(PREVIEW_QUERY, { variables: { postId: params.revisionId } });
 
   if (loading) return <Loading />;
-  if (error) return <LoadingError error={error.message} />;
+	if (error) return <LoadingError error={error.message} />;
 
   const obj = Object.assign({}, data.page || data.post);
 
-  if (obj.isRestricted && !obj.content) {
+  if (obj.isRestricted) {
     obj.content = '<p>You are unauthorized to view this post.</p>';
   }
 

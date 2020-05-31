@@ -18,7 +18,7 @@ require_once 'inc/class-acf-commands.php';
 require_once 'inc/log.php';
 
 // CORS handling.
-require_once 'inc/cors.php';
+require_once 'inc/headers.php';
 
 // Admin modifications.
 require_once 'inc/admin.php';

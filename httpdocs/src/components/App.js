@@ -9,6 +9,8 @@ import { isWebpSupported } from './utils/Browser';
 import Header from './elements/Header';
 import Footer from './elements/Footer';
 
+import withPreview from './hoc/withPreview';
+
 // External Scripts
 // import GoogleTracking from './external-scripts/GoogleTracking';
 // import FacebookTracking from './external-scripts/FacebookTracking';
@@ -57,6 +59,7 @@ class App extends Component {
             <Route exact path="/wp-admin" render={this.Admin} />
             <Route exact path="/wp-login.php" render={this.Admin} />
 
+            <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce" component={withPreview(Single)} />
             <Route path="*" component={Single} />
           </Switch>
         </div>
