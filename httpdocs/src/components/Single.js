@@ -1,19 +1,27 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { gql, useQuery } from '@apollo/client';
 
 import NotFound from './layout/NotFound';
-import Page from './layout/Page';
-import Post from './layout/Post';
-import PageSkeleton from './layout/PageSkeleton';
-import LoadingError from './elements/LoadingError';
+import Title from './layout/Title';
 import PageWidth from './layout/PageWidth';
+
+import Loading from './elements/Loading';
+import LoadingError from './elements/LoadingError';
+import PostContent from './elements/PostContent';
+
+import { FRONTEND_URL } from '../config';
+
+import { ReactComponent as FolderIcon } from '../static/images/folder.svg';
+import { ReactComponent as ClockIcon } from '../static/images/clock.svg';
 
 /**
  * GraphQL page query that takes a page slug as a uri
  * Returns the title and content of the page
  */
-const POST_QUERY = gql`
-  query PageQuery($uri: String!) {
+const SINGLE_QUERY = gql`
+  query SingleQuery($uri: String!) {
     pageBy(uri: $uri) {
       databaseId
       slug
@@ -38,7 +46,7 @@ const POST_QUERY = gql`
       categories(first: 5) {
         edges {
           node {
-            categoryId
+            databaseId
             slug
             name
           }
@@ -48,58 +56,78 @@ const POST_QUERY = gql`
   }
 `;
 
-/**
- * Performs data transforms.
- */
-const sanitizeData = data => {
-  let page = {};
-  let post = {};
+const DefaultQuery = props => {
+  const { loading, error, data } = useQuery(SINGLE_QUERY, { variables: { uri: props.match.url } });
 
-  if (data.pageBy) {
-    page = data.pageBy;
+  if (loading) return <Loading />;
+  if (error) return <LoadingError error={error.message} />;
+
+  if (data.pageBy || data.postBy) {
+    return props.children(data.pageBy || data.postBy);
   }
 
-  if (data.postBy) {
-    post = {};
-    Object.entries(data.postBy).map(([key, value]) => {
-      post[key] = value;
-
-      return null;
-    });
-
-    if (post.categories.edges) {
-      post.mainTitle = post.categories.edges[0].node.name;
-    }
-  }
-
-  return {
-    page,
-    post
-  }
+  return <NotFound/>
 }
+
+const Single = ({ obj }) => (
+  <>
+    {obj.seo && (
+      <Helmet>
+        <title>{obj.seo.title}</title>
+        <meta name="description" content={obj.seo.metaDesc}/>
+        <link rel="canonical" href={`${FRONTEND_URL}/${obj.slug}`} />
+      </Helmet>
+    )}
+
+    <article className={`content post-${obj.databaseId}`}>
+      {
+      !obj.dateFormatted && obj.title
+      ? <Title>{obj.title}</Title>
+      : <Title notHeading={true}>{obj.categories && obj.categories.edges ? obj.categories.edges[0].node.name : 'Blog'}</Title>
+      }
+
+      <PageWidth className="content--body">
+        {obj.dateFormatted && (
+          <>
+            <h1 className="f2 fw4 mb4">{obj.title}</h1>
+
+            <div className="post-meta mv4">
+              <div className="posted dib mr4"><ClockIcon className="mr2 v-mid" width={20} height={20}/><span>{obj.dateFormatted}</span></div>
+
+              <div className="post-categories dib">
+                {obj.categories.edges && (
+                  <>
+                    <FolderIcon className="mr2 v-mid" width={20} height={20}/>
+                    <ul className="list pl0 dib">
+                      {obj.categories.edges.map(category => (
+                        <li key={`cat-${category.node.databaseId}-post-cats`} className="dib mr2 pr2 br b--near-white drop-last-br">
+                          <Link to={`/blog/${category.node.slug}`}>
+                            {category.node.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        <PostContent content={obj.content}/>
+      </PageWidth>
+    </article>
+  </>
+);
 
 export default props => {
   const { match } = props;
-  let uri = match.url;
 
-  const { loading, error, data } = useQuery(POST_QUERY, { variables: { uri } });
-
-  if (loading) return <PageSkeleton />
-  if (error) return <LoadingError error={error.message} />;
-
-  const { page, post } = sanitizeData(data);
-
-  if (page.databaseId) {
-    return <Page page={page} />
-  }
-
-  if (post.databaseId) {
-    return <Post post={post} />
-  }
+  const Query = props.query || DefaultQuery;
 
   return (
-    <PageWidth>
-      <NotFound />
-    </PageWidth>
+    <Query match={match}>
+      {obj => <Single obj={obj} />}
+    </Query>
   );
 }
