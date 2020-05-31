@@ -61,6 +61,9 @@ const PreviewQuery = ({ match, children }) => {
 
   if (obj.isRestricted) {
     obj.content = '<p>You are unauthorized to view this post.</p>';
+
+    // TODO: This needs to be configured via querying a refresh token.
+    Config.removeAuthToken();
   }
 
   if (obj) {
