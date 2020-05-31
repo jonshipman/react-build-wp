@@ -37,7 +37,8 @@ const OnQueryFinished = ({ testimonials }) => (
 
       <div className="absolute absolute--fill o-10 overflow-hidden">
         <Image
-          src="https://www.fillmurray.com/1200/800"
+          width={1200}
+          height={800}
           className="h-100 mw-none grow"
         />
       </div>

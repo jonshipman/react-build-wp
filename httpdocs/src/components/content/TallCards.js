@@ -9,6 +9,7 @@ import { BlocksThree } from '../layout/Blocks';
 import withApolloClient from '../hoc/withApolloClient';
 
 import PostContent from '../elements/PostContent';
+import Image from '../elements/Image';
 
 const THERAPIES_QUERY = gql`
   query TherapyQuery(
@@ -148,7 +149,7 @@ class ProgramsAndTherapies extends Component {
           {therapy => (
             <div className="therapy bg-near-white h-100 ba b--light-gray relative z-1">
               <div className="therapy--image">
-                <img className="center db" alt={therapy.node.title} width={300} height={180} src="https://www.fillmurray.com/300/180" />
+                <Image className="center db" alt={therapy.node.title} width={300} height={180} />
               </div>
               <div className="therapy--text pa4">
                 <div className="therapy--title ttu f7 fw7">{therapy.node.title}</div>

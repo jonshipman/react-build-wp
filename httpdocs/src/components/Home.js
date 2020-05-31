@@ -70,8 +70,9 @@ const Skeleton = ({ children }) => (
       right={(
         <div className="relative overflow-hidden w-100 h-100">
           <Image
-            src="https://www.fillmurray.com/720/480"
-            className="absolute-l absolute--fill-l h-100-l mw-none-l grow center db"
+            width={720}
+            height={480}
+            className="absolute-l absolute--fill-l mw-none-l grow center db"
           />
         </div>
       )}
@@ -113,8 +114,9 @@ const OnQueryFinished = ({ hero, frontPage }) => (
           right={(
             <div className="relative overflow-hidden w-100 h-100">
               <Image
-                src="https://www.fillmurray.com/720/480"
-                className="absolute-l absolute--fill-l h-100-l mw-none-l grow center db"
+                width={720}
+                height={480}
+                className="absolute-l absolute--fill-l mw-none-l grow center db"
               />
             </div>
           )}

@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazy-load';
 
+import { PlacholderUrl } from '../elements/Image';
 import Loading from '../elements/Loading';
 import LoadingError from '../elements/LoadingError';
 
@@ -45,7 +46,7 @@ const Row = ({ items, count }) => {
             variant = count % 2 === 0 ? variant2 : variant1;
             variant = index > 0 ? count % 2 === 0 ? variant1 : variant2 : variant;
 
-            background = item.node.featuredImage ? item.node.featuredImage.sourceUrl : 'https://www.fillmurray.com/800/500';
+            background = item.node.featuredImage ? item.node.featuredImage.sourceUrl : PlacholderUrl({ width: 800, height: 500 });
 
             return (
               <div className={variant} key={item.node.id}>
