@@ -46,9 +46,9 @@ const authAfterware = new ApolloLink((operation, forward) => {
 
     // If we get an error, remove the invalid token.
     if (response.errors && response.errors.length) {
-      if (localStorage.getItem(AUTH_TOKEN)) {
-        localStorage.removeItem(AUTH_TOKEN);
-      }
+        if (localStorage.getItem(AUTH_TOKEN)) {
+          localStorage.removeItem(AUTH_TOKEN);
+        }
     }
 
     // Get the refresh token and update the localStorage.

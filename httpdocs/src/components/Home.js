@@ -81,10 +81,12 @@ const Skeleton = ({ children }) => (
 
 const OnQueryFinished = ({ hero, frontPage }) => (
   <>
-    <Helmet>
-      <title>{frontPage.seo.title}</title>
-      <meta name="description" content={frontPage.seo.metaDesc}/>
-    </Helmet>
+    {frontPage.seo && (
+      <Helmet>
+        <title>{frontPage.seo.title}</title>
+        <meta name="description" content={frontPage.seo.metaDesc}/>
+      </Helmet>
+    )}
 
     <div className="home--content mb0">
       <Hero
@@ -146,6 +148,12 @@ export default () => {
   if (error) return (
     <Skeleton>
       <LoadingError error={error.message} />
+    </Skeleton>
+  );
+
+  if (!data.frontPage) return (
+    <Skeleton>
+      <LoadingError error="Unable to get data." />
     </Skeleton>
   );
 

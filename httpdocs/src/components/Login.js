@@ -88,7 +88,6 @@ class Login extends Component {
       <PageWidth className="content">
         <div>
           <h1>Log in</h1>
-          <p>Starter Kit allows you to log in via the JavaScript frontend, meaning you can interact with the backend without gaining admin access.</p>
           <p><strong>Log in to view hidden posts only available to authenticated users.</strong></p>
           <p className="message mb3"><strong>{message}</strong></p>
           <input
