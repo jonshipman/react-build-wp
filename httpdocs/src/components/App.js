@@ -6,16 +6,15 @@ import { Switch, Route } from 'react-router-dom';
 import { BACKEND_URL } from '../config';
 import { isWebpSupported } from './utils/Browser';
 
-import Header from './elements/Header';
-import Footer from './elements/Footer';
-
 import withPreview from './hoc/withPreview';
 
 // External Scripts
 // import GoogleTracking from './external-scripts/GoogleTracking';
 // import FacebookTracking from './external-scripts/FacebookTracking';
 
-// Pages
+// Pages and Header/Footer
+import Header from './Header';
+import Footer from './Footer';
 import Home from './Home';
 import Login from './Login';
 import Search from './Search';

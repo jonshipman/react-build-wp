@@ -2,10 +2,10 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import PageWidth from '../layout/PageWidth';
-import NestedMenu from './NestedMenu';
+import PageWidth from './layout/PageWidth';
+import NestedMenu from './elements/NestedMenu';
 
-import { ReactComponent as Logo } from '../../static/images/logo.svg';
+import { ReactComponent as Logo } from '../static/images/logo.svg';
 
 const openMenu = () => {
   let menu = document.getElementById('menu-header-menu').classList;
