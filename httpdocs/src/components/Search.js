@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { gql } from '@apollo/client';
 
-import PostExcerpt from './layout/PostExcerpt';
-import PageWidth from './layout/PageWidth';
-
+import PostExcerpt from './elements/PostExcerpt';
+import PageWidth from './elements/PageWidth';
 import { PrimaryClasses } from './elements/Button';
 
 import withApolloClient from './hoc/withApolloClient';

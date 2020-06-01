@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 
-import NotFound from '../layout/NotFound';
+import NotFound from '../elements/NotFound';
 
 import Loading from '../elements/Loading';
 import LoadingError from '../elements/LoadingError';

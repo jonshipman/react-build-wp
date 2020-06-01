@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import PageWidth from './layout/PageWidth';
+import PageWidth from './elements/PageWidth';
 import NestedMenu from './elements/NestedMenu';
 
 import { ReactComponent as Logo } from '../static/images/logo.svg';

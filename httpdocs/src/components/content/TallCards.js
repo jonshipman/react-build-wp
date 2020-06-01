@@ -4,12 +4,11 @@ import { gql } from '@apollo/client';
 
 import { isMobile } from '../utils/Browser';
 
-import { BlocksThree } from '../layout/Blocks';
-
-import withApolloClient from '../hoc/withApolloClient';
-
+import { BlocksThree } from '../elements/Blocks';
 import PostContent from '../elements/PostContent';
 import Image from '../elements/Image';
+
+import withApolloClient from '../hoc/withApolloClient';
 
 const THERAPIES_QUERY = gql`
   query TherapyQuery(

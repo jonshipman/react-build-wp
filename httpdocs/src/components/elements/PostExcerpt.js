@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Button from '../elements/Button';
-import PostContent from '../elements/PostContent';
+import Button from './Button';
+import PostContent from './PostContent';
 
 export default ({ post }) => (
   <article key={post.node.id} className={`content blog-entry post-${post.node.databaseId}`}>

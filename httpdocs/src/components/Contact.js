@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import Title from './layout/Title';
-
+import Title from './elements/Title';
 import LeadForm from './elements/LeadForm';
 
 import { FRONTEND_URL } from '../config';

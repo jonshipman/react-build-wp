@@ -2,8 +2,7 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
-import { BlocksThree } from './layout/Blocks';
-
+import { BlocksThree } from './elements/Blocks';
 import NestedMenu from './elements/NestedMenu';
 import Loading from './elements/Loading';
 import LoadingError from './elements/LoadingError';

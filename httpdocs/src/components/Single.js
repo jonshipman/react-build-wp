@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { gql, useQuery } from '@apollo/client';
 
-import NotFound from './layout/NotFound';
-import Title from './layout/Title';
-import PageWidth from './layout/PageWidth';
-
+import NotFound from './elements/NotFound';
+import Title from './elements/Title';
+import PageWidth from './elements/PageWidth';
 import Loading from './elements/Loading';
 import LoadingError from './elements/LoadingError';
 import PostContent from './elements/PostContent';

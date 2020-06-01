@@ -4,6 +4,7 @@ import { Mutation } from '@apollo/react-components';
 import { Formik, Form } from 'formik';
 
 import Loading from './Loading';
+
 import Recaptcha, { resetToken } from '../external-scripts/Recaptcha';
 
 import DefaultForm from '../forms/DefaultForm';

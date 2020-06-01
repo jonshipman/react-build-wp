@@ -1,7 +1,7 @@
 import React from 'react';
 
-import PageWidth from '../layout/PageWidth';
-import Title from '../layout/Title';
+import PageWidth from './PageWidth';
+import Title from './Title';
 
 const Random = () => {
   let items = [40, 50, 60, 70, 80];

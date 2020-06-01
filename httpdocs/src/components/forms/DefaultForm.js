@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import { Field, ErrorMessage } from 'formik';
 import { isPhone, isEmail } from '../utils/String';
 
-import FormError from '../layout/FormError';
+import FormError from '../elements/FormError';
 import Base from './Base';
 
 class Form extends Base {

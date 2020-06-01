@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { gql } from '@apollo/client';
 import { Mutation } from '@apollo/react-components';
 
-import PageWidth from './layout/PageWidth';
+import PageWidth from './elements/PageWidth';
 import { PrimaryClasses } from './elements/Button';
 
 import Config, { USERNAME } from '../config';

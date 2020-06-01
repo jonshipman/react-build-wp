@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
 import { gql, useQuery } from '@apollo/client';
 
-import Title from './layout/Title';
-import NotFound from './layout/NotFound';
-import PageWidth from './layout/PageWidth';
-import PostExcerpt from './layout/PostExcerpt';
-
+import Title from './elements/Title';
+import NotFound from './elements/NotFound';
+import PageWidth from './elements/PageWidth';
+import PostExcerpt from './elements/PostExcerpt';
 import Button from './elements/Button';
 import Loading from './elements/Loading';
 import LoadingError from './elements/LoadingError';

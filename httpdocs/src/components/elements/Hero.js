@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Button from '../elements/Button';
-import { PlacholderUrl } from '../elements/Image';
+import Button from './Button';
+import { PlacholderUrl } from './Image';
 
 export const HeroSkeleton = ({ className, ...props }) => (
   <div className={`hero bg-light-gray bg-left bg-center-l relative z-1 overflow-hidden ${className || ''}`} { ...props } >

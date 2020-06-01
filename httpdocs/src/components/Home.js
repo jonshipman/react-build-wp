@@ -3,14 +3,13 @@ import { Helmet } from "react-helmet";
 import LazyLoad from 'react-lazy-load';
 import { gql, useQuery } from '@apollo/client';
 
-import Hero, { HeroSkeleton } from './layout/Hero';
-import { BlocksTwo, BlocksTwoFull } from './layout/Blocks';
-
+import Hero, { HeroSkeleton } from './elements/Hero';
+import { BlocksTwo, BlocksTwoFull } from './elements/Blocks';
 import Image from './elements/Image';
 import LeadForm from './elements/LeadForm';
 import PostContent from './elements/PostContent';
 import Button from './elements/Button';
-import PageWidth from './layout/PageWidth';
+import PageWidth from './elements/PageWidth';
 import LoadingError from './elements/LoadingError';
 
 import CyclingCards from './content/CyclingCards';
