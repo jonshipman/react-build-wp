@@ -12,10 +12,10 @@ import Button from './elements/Button';
 import PageWidth from './elements/PageWidth';
 import LoadingError from './elements/LoadingError';
 
-import CyclingCards from './content/CyclingCards';
-import TallCards from './content/TallCards';
-import SingleCard from './content/SingleCard';
-import LargeRow from './content/LargeRow';
+import CyclingCards from './posts/CyclingCards';
+import TallCards from './posts/TallCards';
+import SingleCard from './posts/SingleCard';
+import LargeRow from './posts/LargeRow';
 
 const HOME_QUERY = gql`
   query HomeQuery {

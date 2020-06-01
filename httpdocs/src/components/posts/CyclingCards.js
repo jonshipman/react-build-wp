@@ -8,8 +8,8 @@ import Image from '../elements/Image';
 
 import { isMobile } from '../utils/Browser';
 
-const ADVANTAGES_QUERY = gql`
-  query AdvantageQuery(
+const QUERY = gql`
+  query CardSmallQuery(
     $first: Int,
     $last: Int,
     $after: String,
@@ -44,7 +44,7 @@ const ADVANTAGES_QUERY = gql`
  */
 class CyclingCards extends Component {
   state = {
-    advantages: [],
+    cards: [],
     pageInfo: {},
     triggerAnimation: false
   }
@@ -93,12 +93,12 @@ class CyclingCards extends Component {
       }
 
       const result = await this.props.client.query({
-        query: ADVANTAGES_QUERY,
+        query: QUERY,
         variables
       });
 
       if (result.data.posts.edges) {
-        this.nextState = { advantages: result.data.posts.edges, pageInfo: result.data.posts.pageInfo };
+        this.nextState = { cards: result.data.posts.edges, pageInfo: result.data.posts.pageInfo };
         if (this.props.isMounted()) {
           this.setState({ triggerAnimation: !this.state.triggerAnimation });
         }
@@ -107,14 +107,14 @@ class CyclingCards extends Component {
   };
 
   Inner = () => {
-    const { advantages } = this.state;
+    const { cards } = this.state;
 
     return (
-      <ul className="advantages list pl0 flex-l flex-wrap-l mw7 center">
-        {advantages && advantages.map(advantage => (
-          <li className="w-100 w-50-l advantage pa3" key={advantage.node.id}>
+      <ul className="cards-cycling list pl0 flex-l flex-wrap-l mw7 center">
+        {cards && cards.map(card => (
+          <li className="w-100 w-50-l card pa3" key={card.node.id}>
             <div className="w-100 bg-white aspect-ratio-l aspect-ratio--16x9-l">
-              <div className="advantage--inner w-100 absolute-l z-1 pa2 pa0-l">
+              <div className="card--inner w-100 absolute-l z-1 pa2 pa0-l">
                 <div className="w-100 grow">
                   <Image
                     width={64}
@@ -122,7 +122,7 @@ class CyclingCards extends Component {
                     alt="Replace with featured or custom meta (paste svg into acf textarea)"
                   />
                 </div>
-                <div className="mt2 f7 fw7 w-90 center">{advantage.node.title}</div>
+                <div className="mt2 f7 fw7 w-90 center">{card.node.title}</div>
               </div>
             </div>
           </li>
@@ -137,11 +137,11 @@ class CyclingCards extends Component {
     return (
       <div className="w-100 h-100 bg-dark-gray pa4 tc flex-l items-center-l">
         <div className="w-100-l">
-          <h3><span className="fw4 f2 white">Our Company <span className="fw7">Advantage</span></span></h3>
+          <h3><span className="fw4 f2 white">Our Company <span className="fw7">card</span></span></h3>
           <CSSTransition
             in={triggerAnimation}
             timeout={501}
-            classNames="advantages"
+            classNames="cards-cycling"
             onExited={() => {
               if (this.props.isMounted()) {
                 this.setState({ triggerAnimation: !this.state.triggerAnimation });

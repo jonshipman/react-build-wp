@@ -10,8 +10,8 @@ import Image from '../elements/Image';
 
 import withApolloClient from '../hoc/withApolloClient';
 
-const THERAPIES_QUERY = gql`
-  query TherapyQuery(
+const QUERY = gql`
+  query CardTallQuery(
     $first: Int,
     $last: Int,
     $after: String,
@@ -44,11 +44,11 @@ const THERAPIES_QUERY = gql`
 `;
 
 /**
- * Runs/gets a programs and therapies cursor
+ * Runs/gets a programs and cards cursor
  */
-class ProgramsAndTherapies extends Component {
+class ProgramsAndcards extends Component {
   state = {
-    therapies: [],
+    cards: [],
     pageInfo: {},
     triggerAnimation: false
   }
@@ -101,12 +101,12 @@ class ProgramsAndTherapies extends Component {
       }
 
       const result = await this.props.client.query({
-        query: THERAPIES_QUERY,
+        query: QUERY,
         variables
       });
 
       if (result.data.posts.edges) {
-        this.nextState = { therapies: result.data.posts.edges, pageInfo: result.data.posts.pageInfo };
+        this.nextState = { cards: result.data.posts.edges, pageInfo: result.data.posts.pageInfo };
         if (this.props.isMounted()) {
           this.setState({ triggerAnimation: !this.state.triggerAnimation });
         }
@@ -115,13 +115,13 @@ class ProgramsAndTherapies extends Component {
   };
 
   render() {
-    const { therapies, triggerAnimation } = this.state;
+    const { cards, triggerAnimation } = this.state;
 
     return (
       <CSSTransition
         in={triggerAnimation}
         timeout={1001}
-        classNames="therapies"
+        classNames="cards-tall"
         onEnter={() => {
           if (this.props.isMounted()) {
             this.setState(this.nextState);
@@ -137,7 +137,7 @@ class ProgramsAndTherapies extends Component {
         }}
       >
         <BlocksThree
-          items={therapies}
+          items={cards}
           onMouseOver={() => {
             this.killTimeout();
           }}
@@ -145,17 +145,17 @@ class ProgramsAndTherapies extends Component {
             this.callTimeout(this.executeQuery);
           }}
         >
-          {therapy => (
-            <div className="therapy bg-near-white h-100 ba b--light-gray relative z-1">
-              <div className="therapy--image">
-                <Image className="center db" alt={therapy.node.title} width={300} height={180} />
+          {card => (
+            <div className="card bg-near-white h-100 ba b--light-gray relative z-1">
+              <div className="card--image">
+                <Image className="center db" alt={card.node.title} width={300} height={180} />
               </div>
-              <div className="therapy--text pa4">
-                <div className="therapy--title ttu f7 fw7">{therapy.node.title}</div>
-                <PostContent className="therapy--content pb2 f7" content={therapy.node.excerpt} />
-                {therapy.node.uri && (
+              <div className="card--text pa4">
+                <div className="card--title ttu f7 fw7">{card.node.title}</div>
+                <PostContent className="card--content pb2 f7" content={card.node.excerpt} />
+                {card.node.uri && (
                   <div className="ba b--light-gray absolute bottom-0 right-0 left-0">
-                    <a className="dark-gray fw7 ttu f7 db ph4 pv2 hover-white hover-bg-green" href={therapy.node.uri} title="Replace this with ACF external link">
+                    <a className="dark-gray fw7 ttu f7 db ph4 pv2 hover-white hover-bg-green" href={card.node.uri} title="Replace this with ACF external link">
                       Learn More
                     </a>
                   </div>
@@ -169,4 +169,4 @@ class ProgramsAndTherapies extends Component {
   }
 }
 
-export default withApolloClient(ProgramsAndTherapies);
+export default withApolloClient(ProgramsAndcards);

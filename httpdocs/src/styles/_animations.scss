@@ -16,11 +16,11 @@
   }
 }
 
-.advantages {
+.cards-cycling {
   @include fade-out(500ms);
 }
 
-.therapies {
+.cards-tall {
   @include fade-out(100ms, '.flex-l > div:nth-child(1)');
   @include fade-out(500ms, '.flex-l > div:nth-child(2)');
   @include fade-out(1000ms, '.flex-l > div:nth-child(3)');

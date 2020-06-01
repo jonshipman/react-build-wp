@@ -7,8 +7,8 @@ import { PlacholderUrl } from '../elements/Image';
 import Loading from '../elements/Loading';
 import LoadingError from '../elements/LoadingError';
 
-const POSTS_QUERY = gql`
-  query HomepagePosts {
+const QUERY = gql`
+  query RowQuery {
     posts(first: 8, where: {status: PUBLISH}) {
       edges {
         node {
@@ -85,7 +85,7 @@ const OnQueryFinished = ({ posts }) => {
 }
 
 export default () => {
-  const { loading, error, data } = useQuery(POSTS_QUERY);
+  const { loading, error, data } = useQuery(QUERY);
 
   if (loading) return <Loading />;
   if (error) return <LoadingError error={error.message} />;

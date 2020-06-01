@@ -72,8 +72,8 @@ svg {
   }
 }
 
-.testimonials {
-  .testimonial {
+.cards-single {
+  .card {
     @extend .bb, .b--white-30;
 
     &:last-child {
@@ -82,8 +82,8 @@ svg {
   }
 }
 
-.advantages {
-  .advantage {
+.cards-cycling {
+  .card {
     &--inner {
       @media #{$breakpoint-large} {
         top: 50%;
