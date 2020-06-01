@@ -6,9 +6,9 @@ import { gql, useQuery } from '@apollo/client';
 import NotFound from './elements/NotFound';
 import Title from './elements/Title';
 import PageWidth from './elements/PageWidth';
-import Loading from './elements/Loading';
 import LoadingError from './elements/LoadingError';
 import PostContent from './elements/PostContent';
+import PageSkeleton from './elements/PageSkeleton';
 
 import { FRONTEND_URL } from '../config';
 
@@ -58,7 +58,7 @@ const SINGLE_QUERY = gql`
 const DefaultQuery = props => {
   const { loading, error, data } = useQuery(SINGLE_QUERY, { variables: { uri: props.match.url } });
 
-  if (loading) return <Loading />;
+  if (loading) return <PageSkeleton />;
   if (error) return <LoadingError error={error.message} />;
 
   if (data.pageBy || data.postBy) {
