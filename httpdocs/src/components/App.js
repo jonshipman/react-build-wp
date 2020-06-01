@@ -9,8 +9,7 @@ import { isWebpSupported } from './utils/Browser';
 import withPreview from './hoc/withPreview';
 
 // External Scripts
-// import GoogleTracking from './external-scripts/GoogleTracking';
-// import FacebookTracking from './external-scripts/FacebookTracking';
+// import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
 
 // Pages and Header/Footer
 import Header from './Header';
