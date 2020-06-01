@@ -76,10 +76,10 @@ const client = new ApolloClient({
 
 let renderMethod;
 
-if ('client' === process.env.REACT_APP_RENDER) {
-  renderMethod = ReactDOM.render;
-} else {
+if (window.__REACT_HYDRATE__) {
   renderMethod = ReactDOM.hydrate;
+} else {
+  renderMethod = ReactDOM.render;
 }
 
 renderMethod(
