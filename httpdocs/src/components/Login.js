@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 import { Mutation } from '@apollo/react-components';
 
 import PageWidth from './layout/PageWidth';
+import { PrimaryClasses } from './elements/Button';
 
 import Config, { USERNAME } from '../config';
 
@@ -111,7 +112,7 @@ class Login extends Component {
             onError={() => this.handleError()}
           >
             {mutation => (
-              <button className="round-btn invert ba bw1 pv2 ph3" type="button" onClick={mutation}>
+              <button className={`bn ${PrimaryClasses}`} type="button" onClick={mutation}>
                 {'Log in'}
               </button>
             )}

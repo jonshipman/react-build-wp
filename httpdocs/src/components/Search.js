@@ -4,6 +4,8 @@ import { gql } from '@apollo/client';
 import PostExcerpt from './layout/PostExcerpt';
 import PageWidth from './layout/PageWidth';
 
+import { PrimaryClasses } from './elements/Button';
+
 import withApolloClient from './hoc/withApolloClient';
 
 /**
@@ -84,7 +86,7 @@ class Search extends Component {
             onKeyDown={this.handleKeyDown}
           />
           <button
-            className="round-btn invert ba bw1 pv2 ph3"
+            className={`bn ${PrimaryClasses}`}
             type="button"
             onClick={() => this.executeSearch()}
           >
