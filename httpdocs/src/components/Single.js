@@ -82,7 +82,7 @@ const Single = ({ obj }) => (
       {
       !obj.dateFormatted && obj.title
       ? <Title>{obj.title}</Title>
-      : <Title notHeading={true}>{obj.categories && obj.categories.edges &&  obj.categories.edges.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
+      : <Title notHeading={true}>{obj.categories && obj.categories.edges && obj.categories.edges.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
       }
 
       <PageWidth className="content--body">
