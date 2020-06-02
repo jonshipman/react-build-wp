@@ -82,7 +82,7 @@ const Single = ({ obj }) => (
       {
       !obj.dateFormatted && obj.title
       ? <Title>{obj.title}</Title>
-      : <Title notHeading={true}>{obj.categories && obj.categories.edges && obj.categories.edges.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
+      : <Title notHeading={true}>{obj?.categories?.edges?.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
       }
 
       <PageWidth className="content--body">
@@ -94,7 +94,7 @@ const Single = ({ obj }) => (
               <div className="posted dib mr4"><ClockIcon className="mr2 v-mid" width={20} height={20}/><span>{obj.dateFormatted}</span></div>
 
               <div className="post-categories dib">
-                {obj.categories.edges && obj.categories.edges.length && (
+                {obj?.categories?.edges?.length && (
                   <>
                     <FolderIcon className="mr2 v-mid" width={20} height={20}/>
                     <ul className="list pl0 dib">
