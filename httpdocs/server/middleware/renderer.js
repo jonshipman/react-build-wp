@@ -6,8 +6,7 @@ import { Helmet } from 'react-helmet';
 import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 import { renderToStringWithData } from "@apollo/react-ssr";
 
-import Config from '../../src/config';
-import { FRONTEND_URL } from '../../src/config';
+import Config, { FRONTEND_URL } from '../../src/config';
 import App from '../../src/components/App';
 
 global.ReactComponent = <React.Component />;
