@@ -94,7 +94,7 @@ const Single = ({ obj }) => (
               <div className="posted dib mr4"><ClockIcon className="mr2 v-mid" width={20} height={20}/><span>{obj.dateFormatted}</span></div>
 
               <div className="post-categories dib">
-                {obj?.categories?.edges?.length && (
+                {obj?.categories?.edges?.length > 1 && (
                   <>
                     <FolderIcon className="mr2 v-mid" width={20} height={20}/>
                     <ul className="list pl0 dib">
