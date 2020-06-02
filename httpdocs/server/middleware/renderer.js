@@ -17,6 +17,20 @@ const path = require('path');
 const fs = require('fs');
 const context = {};
 
+const errorPage = error => {
+  return new Promise((res, rej) => {
+    const filePath = path.resolve(__dirname, '..', '..', 'build', `error-${error}.html`);
+
+    fs.readFile(filePath, 'utf8', (err, htmlData) => {
+      if (err) {
+        rej(`${error} status error`);
+      }
+
+      res(htmlData);
+    });
+  });
+};
+
 export default (req, res) => {
   const client = new ApolloClient({
     ssrMode: true,
@@ -72,11 +86,13 @@ export default (req, res) => {
       }
 
       res.send(htmlData).end();
-    }).catch(error => {
+    }).catch(async error => {
       console.log('500 renderer error', error);
 
+      const page = await errorPage(500);
+
       res.status(500)
-        .send('oops')
+        .send(page)
         .end();
     });
   });
