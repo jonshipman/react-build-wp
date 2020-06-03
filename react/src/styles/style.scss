@@ -53,6 +53,16 @@ svg {
   flex-grow: 1;
 }
 
+.nested-menu {
+  > li {
+    &:last-child {
+      > a {
+        padding-right: 0;
+      }
+    }
+  }
+}
+
 #header {
   .menu-item.level-1, .menu-item.level-2 {
     &:hover {
