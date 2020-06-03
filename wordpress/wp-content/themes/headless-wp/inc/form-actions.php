@@ -2,7 +2,7 @@
 /**
  * Form success filters.
  *
- * @package  Postlight_Headless_WP
+ * @package  Headless_WP
  */
 
 /**
@@ -27,19 +27,19 @@ add_filter(
         $fields['default'] = array(
             'yourName'     => array(
                 'type'        => 'String',
-                'description' => __( 'Form submitter\'s name', 'postlight-headless-wp' ),
+                'description' => __( 'Form submitter\'s name', 'headless-wp' ),
             ),
             'email'         => array(
                 'type'        => 'String',
-                'description' => __( 'Form submitter\'s email', 'postlight-headless-wp' ),
+                'description' => __( 'Form submitter\'s email', 'headless-wp' ),
             ),
             'phone'         => array(
                 'type'        => 'String',
-                'description' => __( 'Form submitter\'s phone', 'postlight-headless-wp' ),
+                'description' => __( 'Form submitter\'s phone', 'headless-wp' ),
             ),
             'message'         => array(
                 'type'        => 'String',
-                'description' => __( 'Form submitter\'s message', 'postlight-headless-wp' ),
+                'description' => __( 'Form submitter\'s message', 'headless-wp' ),
             ),
         );
 

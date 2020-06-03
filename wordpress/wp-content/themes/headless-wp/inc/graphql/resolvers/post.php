@@ -2,7 +2,7 @@
 /**
  * Adds extra meta to the post.
  *
- * @package Postlight_Headless_WP
+ * @package Headless_WP
  */
 
 add_action(
@@ -11,7 +11,7 @@ add_action(
         $name   = 'dateFormatted';
         $config = array(
             'type'        => 'String',
-            'description' => __( 'Returns the date as formatted in WordPress', 'postlight-headless-wp' ),
+            'description' => __( 'Returns the date as formatted in WordPress', 'headless-wp' ),
             'resolve'     => function ( $post ) {
                 return get_the_date( get_option( 'date_format' ), $post->ID );
             },

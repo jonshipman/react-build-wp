@@ -2,7 +2,7 @@
 /**
  * Adds a settings screen.
  *
- * @package  Postlight_Headless_WP
+ * @package  Headless_WP
  */
 
 class HeadlessWpSettings {
@@ -18,21 +18,21 @@ class HeadlessWpSettings {
 
         $this->settings = array(
             'google_recaptcha' => array(
-                'label' => __( 'Google Recaptcha', 'postlight-headless-wp' ),
+                'label' => __( 'Google Recaptcha', 'headless-wp' ),
                 'fields' => array(
                     'google_site_key' => array(
-                        'label' => __( 'Site Key', 'postlight-headless-wp' ),
+                        'label' => __( 'Site Key', 'headless-wp' ),
                     ),
                     'google_secret_key' => array(
-                        'label' => __( 'Secret Key', 'postlight-headless-wp' )
+                        'label' => __( 'Secret Key', 'headless-wp' )
                     ),
                 ),
             ),
             'company_info' => array(
-                'label' => __( 'Company Info', 'postlight-headless-wp' ),
+                'label' => __( 'Company Info', 'headless-wp' ),
                 'fields' => array(
                     'phone_number' => array(
-                        'label' => __( 'Phone Number', 'postlight-headless-wp' ),
+                        'label' => __( 'Phone Number', 'headless-wp' ),
                         'args' => array(
                             'type' => 'string',
                             'sanitize_callback' => 'sanitize_text_field',
@@ -40,7 +40,7 @@ class HeadlessWpSettings {
                         ),
                     ),
                     'contact_email' => array(
-                        'label' => __( 'Contact Email', 'postlight-headless-wp' ),
+                        'label' => __( 'Contact Email', 'headless-wp' ),
                         'args' => array(
                             'type' => 'string',
                             'sanitize_callback' => 'sanitize_text_field',
@@ -48,7 +48,7 @@ class HeadlessWpSettings {
                         ),
                     ),
                     'redirect_page_to_frontend_origin' => array(
-                        'label' => __( 'Redirect frontend to React instead of REST API', 'postlight-headless-wp' ),
+                        'label' => __( 'Redirect frontend to React instead of REST API', 'headless-wp' ),
                         'args' => array(
                             'type' => 'boolean',
                             'sanitize_callback' => function( $var ) {
@@ -64,8 +64,8 @@ class HeadlessWpSettings {
     // Create the admin menu.
     public function admin_menu() {
         add_options_page(
-            __( 'Headless Theme Settings', 'postlight-headless-wp' ),
-            __( 'Headless Theme', 'postlight-headless-wp' ),
+            __( 'Headless Theme Settings', 'headless-wp' ),
+            __( 'Headless Theme', 'headless-wp' ),
             'manage_options',
             self::HEADLESS_WP_KEY,
             array( $this, 'display_options_page' )

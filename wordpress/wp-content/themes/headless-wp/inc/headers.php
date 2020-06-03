@@ -2,7 +2,7 @@
 /**
  * WP-GRAPHQL HEADERS filter.
  *
- * @package  Postlight_Headless_WP
+ * @package  Headless_WP
  */
 
 /**

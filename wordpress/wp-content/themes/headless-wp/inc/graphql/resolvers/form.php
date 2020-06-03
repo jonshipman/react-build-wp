@@ -2,7 +2,7 @@
 /**
  * Form GraphQL resolver.
  *
- * @package Postlight_Headless_WP
+ * @package Headless_WP
  */
 
  use \WPGraphQL\Registry\TypeRegistry;
@@ -17,7 +17,7 @@ add_action(
             'formData',
             array(
                 'type'        => 'FormType',
-                'description' => __( 'Handles form pre-population data', 'postlight-headless-wp' ),
+                'description' => __( 'Handles form pre-population data', 'headless-wp' ),
                 'resolve'     => function ( $source ) {
                     $res = array(
                         'wpNonce'         => array(),

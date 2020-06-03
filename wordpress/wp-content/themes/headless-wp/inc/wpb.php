@@ -2,7 +2,7 @@
 /**
  * Register main menu.
  *
- * @package  Postlight_Headless_WP
+ * @package  Headless_WP
  */
 
 /**

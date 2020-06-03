@@ -2,7 +2,7 @@
 /**
  * Front Page GraphQL resolver.
  *
- * @package Postlight_Headless_WP
+ * @package Headless_WP
  */
 
 use \WPGraphQL\Data\DataSource;
@@ -17,7 +17,7 @@ add_action(
             'frontPage',
             array(
                 'type'        => 'Post',
-                'description' => __( 'Returns homepage', 'postlight-headless-wp' ),
+                'description' => __( 'Returns homepage', 'headless-wp' ),
                 'resolve'     => function ( $root, $args, $context, $info ) {
                     $page_on_front_id = (int) get_option( 'page_on_front' );
 

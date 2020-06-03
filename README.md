@@ -1,20 +1,16 @@
+# And another headless WordPress|React|Apollo frontend.
 
-# My take on the [WordPress + React Starter Kit by Postlight](https://github.com/postlight/headless-wp-starter).
+I wanted something a little leaner to deploy and more catered to my working environment. The frontend has all that a growing site boilerplate needs. You got some post content (under src/components/posts), a lead form (that mutates to a WordPress action for further processing), a homepage, an archive/blog component, a single component with a preview hoc and more.
 
-<div style="text-align: right; width:100%;"><em>now with ssr!</em></div>
----
+Originally forked from [WordPress + React Starter Kit by Postlight](https://github.com/postlight/headless-wp-starter)
 
-I wanted something a little leaner to deploy and more catered to my working environment. This fork will be evolving but here are a few key points that differ from the Postlight kit:
+Some notes:
+1.  **No yarn.lock**. Since all the apollo imports and wp-graphql libraries are in beta, whenever I fire up a new project, it should pull in the latest. Let's me keep the boilerplate up-to-date and contribute to those repos as needed.
+2.  **Express server**. The boilerplate has an optional express server that can be started with *yarn start:server* or *yarn deploy*. As a feature, it generates a sitemap at sitemap_index.xml pulling data from the WordPress backend. The structure should be compatible with Yoast (though I'm not pulling Yoast settings). Just indexes categories, posts, and pages. Uses React's Router so the CSR and SSR should not need any special tweaking.
+3.  **Functional and Class Components**. I see this thrown around, that you should use one or the other. This project has both. From my POV, if you have something you don't want rendered on the server, a class component with componentDidMount suits me just fine.
+4.  **JWT Login and Post Previews**. Something that didn't work with Postlight's boilerplate was graphql previews. As long as your WordPress install is sending the Auth headers, you can view previews after logging in. For now, still uses their preview link structure.
+5. **LeadForm**. By default, the form will email the admin_email in the WordPress install. This is configured in headless-wp/inc/form-actions.php by way of custom filters processed in the mutations file. Eventually, I want the headless theme to be filled with actions and filters so it can live as a parent theme and not only a boilerplate.
+6. **ReCaptcha**. Supports ReCaptcha OOTB. Has a Settings/Headless Settings area where you enter your v3 key and secret. Next, you add a field that you want to trigger loading the javascript - so the actual external library doesn't actually load until a user focuses on that field.
+7. **WPBakery**. Many of my existing clients are in WPBakery themes. Being that it is, I have included hooks that render bakery shortcodes in graph-ql and have included (but not imported) sass styles I translated to tachyons. Just import the _wpb.scss in the main styles.scss.
 
-1. **Removed the REST API.** It's still in WordPress, however, I've jumped with both feet into GraphQL. As such, I didn't need the react source for interacting with the WordPress json api.
-2. **Latest WP-GraphQL.** There is an ACF plugin for WP-GraphQL, but it supports 0.8 and above. As my projects tend to lock into plugins at setup, I've made the install.sh use the latest from their github as opposed to locking it down. * Note: this does change how types get registered.
-3. **No Docker.** I might setup something, but if you need a docker script, the [Postlight repo](https://github.com/postlight/headless-wp-starter) has all you need.
-4. **Added a couple graphql resolvers.** I removed the header menu and replaced it with a nested menu (and matching react component). The difference being you can pull in menus by location and create nested (dropdown) menus. There's also a frontPage resolver that pulls in the page set to page_on_front as well as a acf location filter for added fields.
-5. **Tachyon CSS is imported into the project's SASS.** The benefit is that you can extend classes from tachyon in your project scss files.
-6. **Reusable ReCaptcha code and Facebook/Google tracking.** Trackers can just be added via JSX and passing props.
-7. **Forms.** Has a form component that passes values to WordPress via a component. The component uses a wp_nonce and you can initialize the Recaptcha by adding a trigger property and saving the site and secret keys in the Headless Theme settings. When you specify a prop, the recaptcha loads when the value is first affected. Saves load times. In the forms-actions.php include on the WordPress side is where you write out your actions.
-8. **Added an express server for the GraphQL code .** The Postlight GraphQL code lacked a server. So I built one. One caveat is that you can't load images statically (they'd be rendered on the server which would take space) so I moved the binary bits to the public folder. SVGs can still be served inline. The process I used is a simple babel/register bootloader with the ApolloProvider working in the middleware renderer. Uses the same code from the frontend AND uses ReactRouter instead of an express (or next.js) router. Useful as pages are dynamically being served from WordPress. Of note: class components became functional components. This is a limitation of React+Apollo - or rather - that components don't mount on the server. Simple rule of thumb, if you want it rendered on the server use a functional component. *The code will work with the server OR you can still serve it statically by pointing your webroot to the build folder.*
-
-Basically, I wanted something I can wget on the server and run a .sh file to build. We setup WordPress through Plesk so the intial WordPress building is not included, but if you replace the Postlight frontend-graphql folder with my httpdocs folder and replace the wordpress theme, it should work in Postlight's environment.
-
-Ignoring yarn.lock because each project is started with the newest packages.
+Removed much of the Postlight references as the fork has gotten pretty deviated from the original project. Once I have some time, I plan on backporting some changes into pull requests in Postlight's repo.

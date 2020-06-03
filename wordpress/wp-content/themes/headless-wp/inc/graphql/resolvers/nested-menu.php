@@ -2,7 +2,7 @@
 /**
  * Menu GraphQL resolver.
  *
- * @package Postlight_Headless_WP
+ * @package Headless_WP
  */
 
 require_once __DIR__ . '/../types/nested-menu.php';
@@ -10,7 +10,7 @@ require_once __DIR__ . '/../types/nested-menu.php';
 /**
  * Get menu items
  */
-function postlight_headless_wp_get_menu( $name ) {
+function Headless_WP_get_menu( $name ) {
     if ( null === $name ) {
         $name = 'header-menu';
     }
@@ -48,7 +48,7 @@ function postlight_headless_wp_get_menu( $name ) {
 
             if ( ! empty( $menu_items ) ) {
                 foreach ( $menu_items as $item ) {
-                    $converted_item = postlight_headless_wp_nav_menu_item( $item );
+                    $converted_item = Headless_WP_nav_menu_item( $item );
 
                     if ( isset( $children_array[ $item->ID ]['children'] ) ) {
                         $converted_item['children']    = $children_array[ $item->ID ]['children'];
@@ -71,7 +71,7 @@ function postlight_headless_wp_get_menu( $name ) {
 /**
  * Convert an array of WP Nav Menu Items into a resolve array
  */
-function postlight_headless_wp_nav_menu_item( $item ) {
+function Headless_WP_nav_menu_item( $item ) {
     $resolve = array(
         'label' => html_entity_decode( $item->title ),
     );
@@ -137,9 +137,9 @@ add_action(
                         'type' => 'String',
                     ),
                 ),
-                'description' => __( 'Returns menu items', 'postlight-headless-wp' ),
+                'description' => __( 'Returns menu items', 'headless-wp' ),
                 'resolve'     => function ( $source, $args = null ) {
-                    return postlight_headless_wp_get_menu( ! empty( $args['name'] ) ? $args['name'] : null );
+                    return Headless_WP_get_menu( ! empty( $args['name'] ) ? $args['name'] : null );
                 },
             )
         );

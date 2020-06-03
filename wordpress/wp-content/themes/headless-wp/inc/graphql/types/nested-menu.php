@@ -2,7 +2,7 @@
 /**
  * Menu Type used for GraphQL.
  *
- * @package Postlight_Headless_WP
+ * @package Headless_WP
  */
 
 add_action(
@@ -11,35 +11,35 @@ add_action(
         register_graphql_object_type(
             'NestedMenuType',
             array(
-                'description' => __( 'WordPress Menu', 'postlight-headless-wp' ),
+                'description' => __( 'WordPress Menu', 'headless-wp' ),
                 'fields'      => array(
                     'label'       => array(
                         'type'        => 'String',
-                        'description' => __( 'The URL label', 'postlight-headless-wp' ),
+                        'description' => __( 'The URL label', 'headless-wp' ),
                     ),
                     'url'         => array(
                         'type'        => 'String',
-                        'description' => __( 'The URL', 'postlight-headless-wp' ),
+                        'description' => __( 'The URL', 'headless-wp' ),
                     ),
                     'type'        => array(
                         'type'        => 'String',
-                        'description' => __( 'object type', 'postlight-headless-wp' ),
+                        'description' => __( 'object type', 'headless-wp' ),
                     ),
                     'hasChildren' => array(
                         'type'        => 'Boolean',
-                        'description' => __( 'whether or not the item has children', 'postlight-headless-wp' ),
+                        'description' => __( 'whether or not the item has children', 'headless-wp' ),
                     ),
                     'itemID'      => array(
                         'type'        => 'Integer',
-                        'description' => __( 'WordPress internal ID for the menu item', 'postlight-headless-wp' ),
+                        'description' => __( 'WordPress internal ID for the menu item', 'headless-wp' ),
                     ),
                     'children'    => array(
                         'type'        => array( 'list_of' => 'Integer' ),
-                        'description' => __( 'children id array', 'postlight-headless-wp' ),
+                        'description' => __( 'children id array', 'headless-wp' ),
                     ),
                     'parent'      => array(
                         'type'        => 'Integer',
-                        'description' => __( 'item\'s parent', 'postlight-headless-wp' ),
+                        'description' => __( 'item\'s parent', 'headless-wp' ),
                     ),
                 ),
             )

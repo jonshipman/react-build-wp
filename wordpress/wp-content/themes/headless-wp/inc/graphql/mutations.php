@@ -2,7 +2,7 @@
 /**
  * Add GraphQL mutations.
  *
- * @package  Postlight_Headless_WP
+ * @package  Headless_WP
  */
 
 // check if WPGraphQL plugin is active.

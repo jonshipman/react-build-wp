@@ -2,7 +2,7 @@
 /**
  * Form GraphQL mutation.
  *
- * @package Postlight_Headless_WP
+ * @package Headless_WP
  */
 
 use \WPGraphQL\Registry\TypeRegistry;
@@ -48,11 +48,11 @@ add_action(
             $defaultArgs = array(
                 'wpNonce' => array(
                     'type'        => 'String',
-                    'description' => __( 'Wp nonce to pass back through for validation', 'postlight-headless-wp' ),
+                    'description' => __( 'Wp nonce to pass back through for validation', 'headless-wp' ),
                 ),
                 'gToken'  => array(
                     'type'        => 'String',
-                    'description' => __( 'Recaptcha Token', 'postlight-headless-wp' ),
+                    'description' => __( 'Recaptcha Token', 'headless-wp' ),
                 ),
             );
 
@@ -65,7 +65,7 @@ add_action(
                     'outputFields'        => array(
                         'success'      => array(
                             'type'        => 'Boolean',
-                            'description' => __( 'Description of the output field', 'postlight-headless-wp' ),
+                            'description' => __( 'Description of the output field', 'headless-wp' ),
                             'resolve'     => function ( $payload, $args, $context, $info ) {
                                 return isset( $payload['success'] ) ? $payload['success'] : false;
                             },
@@ -89,7 +89,7 @@ add_action(
                         // Verify Nonce.
                         if ( ! wp_verify_nonce( $nonce, $actions[ $mutation_name ] ) ) {
                             $success = false;
-                            $error = __( 'Internal Error 100', 'postlight-headless-wp' );
+                            $error = __( 'Internal Error 100', 'headless-wp' );
                         }
 
                         unset( $input['wpNonce'] );
@@ -97,7 +97,7 @@ add_action(
                         // Check Google Recaptcha.
                         if ( $success && ! empty( $site_key ) && ! check_recaptcha_token( $gToken ) ) {
                             $success = false;
-                            $error = __( 'Internal Error 200', 'postlight-headless-wp' );
+                            $error = __( 'Internal Error 200', 'headless-wp' );
                         }
 
                         if ( isset( $input['gToken'] ) ) {
