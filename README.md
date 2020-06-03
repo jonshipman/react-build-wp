@@ -5,7 +5,7 @@ I wanted something a little leaner to deploy and more catered to my working envi
 Originally forked from [WordPress + React Starter Kit by Postlight](https://github.com/postlight/headless-wp-starter)
 
 Some notes:
-1.  **No yarn.lock**. Since all the apollo imports and wp-graphql libraries are in beta, whenever I fire up a new project, it should pull in the latest. Let's me keep the boilerplate up-to-date and contribute to those repos as needed.
+1.  **No yarn.lock**. Since all the apollo imports and wp-graphql libraries are in beta, whenever I fire up a new project, it should pull in the latest. Lets me keep the boilerplate up-to-date and contribute to those repos as needed.
 2.  **Express server**. The boilerplate has an optional express server that can be started with *yarn start:server* or *yarn deploy*. As a feature, it generates a sitemap at sitemap_index.xml pulling data from the WordPress backend. The structure should be compatible with Yoast (though I'm not pulling Yoast settings). Just indexes categories, posts, and pages. Uses React's Router so the CSR and SSR should not need any special tweaking.
 3.  **Functional and Class Components**. I see this thrown around, that you should use one or the other. This project has both. From my POV, if you have something you don't want rendered on the server, a class component with componentDidMount suits me just fine.
 4.  **JWT Login and Post Previews**. Something that didn't work with Postlight's boilerplate was graphql previews. As long as your WordPress install is sending the Auth headers, you can view previews after logging in. For now, still uses their preview link structure.
