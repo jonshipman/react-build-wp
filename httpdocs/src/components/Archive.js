@@ -24,7 +24,7 @@ const CATEGORY_QUERY = gql`
     $after: String,
     $before: String
   ) {
-    posts(first: $first, last: $last, after: $after, before: $before, where: { categoryName: $filter, status: PUBLISH }) {
+    posts(first: $first, last: $last, after: $after, before: $before, where: { categoryName: $filter, status: PUBLISH, hasPassword: false }) {
       pageInfo {
         hasNextPage
         hasPreviousPage
@@ -73,7 +73,7 @@ const ARCHIVE_QUERY = gql`
     $after: String,
     $before: String
   ) {
-    posts(first: $first, last: $last, after: $after, before: $before, where: { status: PUBLISH }) {
+    posts(first: $first, last: $last, after: $after, before: $before, where: { status: PUBLISH, hasPassword: false }) {
       pageInfo {
         hasNextPage
         hasPreviousPage

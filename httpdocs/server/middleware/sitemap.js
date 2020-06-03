@@ -8,7 +8,7 @@ import { FRONTEND_URL } from '../../src/config';
 
 const SITEMAP_BASE_QUERY = gql`
   query SiteMapIndex {
-    pages(first: 1, where: { status: PUBLISH }) {
+    pages(first: 1, where: { status: PUBLISH, hasPassword: false }) {
       edges {
         node {
           id
@@ -16,7 +16,7 @@ const SITEMAP_BASE_QUERY = gql`
         }
       }
     }
-    posts(first: 1, where: { status: PUBLISH }) {
+    posts(first: 1, where: { status: PUBLISH, hasPassword: false }) {
       edges {
         node {
           id
@@ -28,7 +28,7 @@ const SITEMAP_BASE_QUERY = gql`
       edges {
         node {
           id
-          posts(first: 1, where: { status: PUBLISH }) {
+          posts(first: 1, where: { status: PUBLISH, hasPassword: false }) {
             edges {
               node {
                 id
@@ -44,7 +44,7 @@ const SITEMAP_BASE_QUERY = gql`
 
 const SITEMAP_PAGE_QUERY = gql`
   query SiteMapPages {
-    pages(first: 9999, where: { status: PUBLISH }) {
+    pages(first: 9999, where: { status: PUBLISH, hasPassword: false }) {
       edges {
         node {
           id
@@ -60,7 +60,7 @@ const SITEMAP_PAGE_QUERY = gql`
 
 const SITEMAP_POST_QUERY = gql`
   query SiteMapPosts {
-    posts(first: 9999, where: { status: PUBLISH }) {
+    posts(first: 9999, where: { status: PUBLISH, hasPassword: false }) {
       edges {
         node {
           id
@@ -80,7 +80,7 @@ const SITEMAP_CAT_QUERY = gql`
         node {
           id
           uri
-          posts(first: 1, where: { status: PUBLISH }) {
+          posts(first: 1, where: { status: PUBLISH, hasPassword: false }) {
             edges {
               node {
                 id

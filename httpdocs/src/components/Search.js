@@ -13,7 +13,7 @@ import withApolloClient from './hoc/withApolloClient';
  */
 const POST_SEARCH_QUERY = gql`
   query PostSearchQuery($filter: String!) {
-    posts(where: { search: $filter }) {
+    posts(where: { search: $filter, hasPassword: false }) {
       edges {
         node {
           id

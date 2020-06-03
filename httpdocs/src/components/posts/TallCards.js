@@ -22,7 +22,7 @@ const QUERY = gql`
       last: $last,
       after: $after,
       before: $before,
-      where: {status: PUBLISH}
+      where: {status: PUBLISH, hasPassword: false}
     ) {
       pageInfo {
         hasNextPage

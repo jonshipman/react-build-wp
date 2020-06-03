@@ -9,7 +9,7 @@ import LoadingError from '../elements/LoadingError';
 
 const QUERY = gql`
   query RowQuery {
-    posts(first: 8, where: {status: PUBLISH}) {
+    posts(first: 8, where: {status: PUBLISH, hasPassword: false}) {
       edges {
         node {
           id
