@@ -12,7 +12,7 @@ const columns = {
 const Loop = ({ className, items, children }) => (
   items.map(item => (
     <div key={JSON.stringify(item)} className={`${className || ''} ${cellClassNames}`}>
-      {children(item)}
+      {'function' === typeof children ? children(item) : children}
     </div>
   ))
 );
