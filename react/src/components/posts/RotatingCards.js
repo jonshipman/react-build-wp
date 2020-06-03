@@ -71,10 +71,10 @@ export default withApolloClient(class extends Component {
   executeQuery = async () => {
     if (this.props.client) {
       const { pageInfo } = this.state;
-      let postsPerPage = 4;
+      let postsPerPage = this.props.count || 4;
 
       if (isMobile()) {
-        postsPerPage = 2;
+        postsPerPage = 1;
       }
 
       let variables = {

@@ -54,6 +54,7 @@ export default () => (
     wrapper={Wrapper}
     timeout={1001}
     classNames="cards-tall"
+    count={3}
   >
     {card => (
       <div className="card bg-near-white h-100 ba b--light-gray relative z-1">
