@@ -8,7 +8,7 @@ import LoadingError from '../elements/LoadingError';
 
 const QUERY = gql`
   query CardSingleQuery {
-    posts(last: 1) {
+    posts(last: 1, where: {hasPassword: false}) {
       edges {
         node {
           id
