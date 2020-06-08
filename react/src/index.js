@@ -8,6 +8,7 @@ import ScrollToTop from './components/utils/ScrollToTop';
 
 import Config from './config';
 
+import 'animate.css';
 import './styles/style.scss';
 
 /**
