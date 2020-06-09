@@ -8,12 +8,20 @@
 /**
  * Placeholder function for determining the frontend origin.
  *
- * @TODO Determine the headless client's URL based on the current environment.
- *
- * @return str Frontend origin URL, i.e., http://localhost:3000.
+ * @return str Frontend origin URL, e.g. the React URL.
  */
 function get_frontend_origin( $original_url = '' ) {
     $origin = 'http://localhost:3000';
+
+    // If we're debugging, allow localhost.
+    if (
+        WP_DEBUG &&
+        isset( $_SERVER['HTTP_REFERER'] ) &&
+        false !== strpos( $_SERVER['HTTP_REFERER'], 'localhost:3000' )
+    ) {
+        $origin = 'http://localhost:3000';
+    }
+
     if ( ! empty( $original_url ) ) {
         return str_replace( get_site_url(), $origin, $original_url );
     }
