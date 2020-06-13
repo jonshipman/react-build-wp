@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.44",
-    "@apollo/react-components": "^4.0.0-beta.1",
     "@apollo/react-ssr": "^4.0.0-beta.1",
     "@types/react": "^16.8.0",
     "animate.css": "^4.1.0",

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { gql } from '@apollo/client';
-import { Mutation } from '@apollo/react-components';
+import { gql, useMutation } from '@apollo/client';
 
 import PageWidth from './elements/PageWidth';
 import { PrimaryClasses } from './elements/Button';
@@ -31,6 +30,21 @@ const LOGIN_MUTATION = gql`
     }
   }
 `;
+
+const Mutation = props => {
+  const [
+    submitForm
+  ] = useMutation(
+    props.mutation,
+    { onCompleted: props.onCompleted, onError: props.onError }
+  );
+
+  const onSubmit = () => {
+    submitForm({ variables: props.variables });
+  }
+
+  return props.children(onSubmit);
+}
 
 /**
  * Login component that uses a graphql mutation

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { gql } from '@apollo/client';
-import { Mutation } from '@apollo/react-components';
+import { gql, useMutation } from '@apollo/client';
 import { Formik, Form } from 'formik';
 
 import Loading from './Loading';
@@ -28,6 +27,22 @@ const FORM_DATA = gql`
     }
   }
 `;
+
+const Mutation = props => {
+  const [
+    submitForm,
+    results,
+  ] = useMutation(
+    props.mutation,
+    { onCompleted: props.onCompleted, onError: props.onError }
+  );
+
+  const onSubmit = opts => {
+    submitForm(opts);
+  }
+
+  return props.children(onSubmit, results);
+}
 
 class LeadForm extends Component {
   constructor(props) {
