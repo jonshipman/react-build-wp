@@ -24,6 +24,7 @@ const HOME_QUERY = gql`
       generalSettingsDescription
     }
     frontPage {
+      id
       title
       excerpt
       seo {

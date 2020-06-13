@@ -33,15 +33,17 @@ const CATEGORY_QUERY = gql`
       }
       edges {
         node {
+          id
+          databaseId
           title
           uri
           excerpt
-          postId
           dateFormatted
           categories(first: 5) {
             edges {
               node {
-                categoryId
+                id
+                databaseId
                 slug
                 name
               }
@@ -53,8 +55,9 @@ const CATEGORY_QUERY = gql`
     categories(where: { slug: [$filter] }) {
       edges {
         node {
+          id
+          databaseId
           name
-          categoryId
           slug
           seo {
             metaDesc
@@ -82,15 +85,17 @@ const ARCHIVE_QUERY = gql`
       }
       edges {
         node {
+          id
+          databaseId
           title
           uri
           excerpt
-          postId
           dateFormatted
           categories(first: 5) {
             edges {
               node {
-                categoryId
+                id
+                databaseId
                 slug
                 name
               }
@@ -128,7 +133,7 @@ const OnQueryFinished = ({ pageInfo, category, setDirection, setPageInfo }) => (
         <PageWidth className="content--body cf mb3">
           <div className="blog-entries mb3">
             {category.posts.map(post => (
-              <PostExcerpt key={`archive-${post.node.postId}`} post={post} />
+              <PostExcerpt key={`archive-${post.node.databaseId}`} post={post} />
             ))}
           </div>
 

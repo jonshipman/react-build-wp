@@ -22,6 +22,7 @@ import { ReactComponent as ClockIcon } from '../static/images/clock.svg';
 const SINGLE_QUERY = gql`
   query SingleQuery($uri: String!) {
     pageBy(uri: $uri) {
+      id
       databaseId
       slug
       title
@@ -33,6 +34,7 @@ const SINGLE_QUERY = gql`
       }
     }
     postBy(uri: $uri) {
+      id
       databaseId
       slug
       title
@@ -45,6 +47,7 @@ const SINGLE_QUERY = gql`
       categories(first: 5) {
         edges {
           node {
+            id
             databaseId
             slug
             name
