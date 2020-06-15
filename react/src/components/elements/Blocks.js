@@ -2,8 +2,8 @@ import React from 'react';
 import PageWidth from './PageWidth';
 
 const cellClassNames = 'w-100 relative';
-const padding = 'pa4';
-const negativeMargins = 'nl4 nr4';
+const padding = 'pa4-l pa2';
+const negativeMargins = 'nl4-l nr4-l';
 const columns = {
 	three: 'w-third-l',
 	two: 'w-50-l'
