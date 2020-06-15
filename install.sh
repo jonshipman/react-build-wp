@@ -10,9 +10,6 @@ cd ./wordpress
 
 # wp core download --force
 
-# Required to build the .htaccess file
-wp rewrite structure '/%postname%/'
-
 wp theme activate headless-wp
 wp theme delete twentysixteen twentyseventeen twentynineteen twentytwenty
 
@@ -34,6 +31,10 @@ wp post delete 1
 
 wp option update page_on_front 2
 
-cd ../httpdocs
+# Required to build the .htaccess file
+wp rewrite structure '/%postname%/'
+wp rewrite flush
+
+cd ../react
 
 yarn && yarn start
