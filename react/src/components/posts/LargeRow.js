@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazy-load';
 
 import { PlacholderUrl } from '../elements/Image';
-import Loading from '../elements/Loading';
-import LoadingError from '../elements/LoadingError';
 
 const QUERY = gql`
   query RowQuery {
@@ -15,6 +13,7 @@ const QUERY = gql`
           id
           slug
           title
+          uri
           categories(first: 1) {
             nodes {
               slug
@@ -22,7 +21,9 @@ const QUERY = gql`
             }
           }
           featuredImage {
-            sourceUrl(size: LARGE)
+            node {
+              sourceUrl(size: LARGE)
+            }
           }
         }
       }
@@ -52,7 +53,7 @@ const Row = ({ items, count }) => {
               <div className={variant} key={item.node.id}>
                 <div className="cell--inner w-100 cover bg-center h-100 relative z-1" style={{backgroundImage: `url(${background})`}}>
                   <div className="post-title white f4 absolute z-1 bottom-0 left-0 w-100 text-shadow pa2 pl3">{item.node.title}</div>
-                  <Link to={item.node.link} className="large-link db absolute absolute--fill z-2"/>
+                  <Link to={item.node.uri} className="large-link db absolute absolute--fill z-2"/>
                 </div>
               </div>
             );
@@ -67,8 +68,8 @@ const OnQueryFinished = ({ posts }) => {
   let items = [];
   let count = 1;
 
-  if (posts) {
-    posts.map((post, index) => {
+  if (posts?.edges?.length > 0) {
+    posts.edges.map((post, index) => {
       if (index % 2 === 0) {
         items.push([post]);
       } else {
@@ -85,30 +86,7 @@ const OnQueryFinished = ({ posts }) => {
 }
 
 export default () => {
-  const { loading, error, data } = useQuery(QUERY);
+  const { data } = useQuery(QUERY, { errorPolicy: 'all' });
 
-  if (loading) return <Loading />;
-  if (error) return <LoadingError error={error.message} />;
-
-  let posts = [];
-
-  if (data) {
-    if (data.posts.edges) {
-      data.posts.edges.map(post => {
-        const finalLink = `/${post.node.slug}`;
-        let modifiedPost = {node:{}};
-        Object.entries(post.node).map(([key, value]) => {
-          modifiedPost.node[key] = value;
-
-          return null;
-        });
-        modifiedPost.node.link = finalLink;
-        posts.push(modifiedPost);
-
-        return null;
-      });
-    }
-  }
-
-  return <OnQueryFinished posts={posts} />
+  return <OnQueryFinished posts={data?.posts} />
 }
