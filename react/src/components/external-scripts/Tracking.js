@@ -2,15 +2,7 @@ import { Component } from 'react';
 import { isMobile } from '../utils/Browser';
 
 export class GoogleTracking extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      conversion: null
-    }
-  }
-
-  componentDidMount = () => {
+  componentDidMount() {
     if (isMobile()) {
       setTimeout(this.init, 2000);
     } else {
@@ -40,7 +32,7 @@ export class GoogleTracking extends Component {
   }
 
   siteTag = async (tag) => {
-    const { conversion } = this.state;
+    window.gTag = tag;
 
     const scriptGtag = document.createElement('script');
     scriptGtag.async = true;
@@ -49,10 +41,6 @@ export class GoogleTracking extends Component {
     document.body.appendChild(scriptGtag);
 
     window.dataLayer = window.dataLayer || []; function gtag(){window.dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', tag);
-
-    if (conversion) {
-      gtag('event', 'conversion', {'send_to': `${tag}/${conversion}`});
-    }
   }
 
   tagManager = async (tag) => {
@@ -67,7 +55,14 @@ export class GoogleTracking extends Component {
   }
 
   processConversion = id => {
-    this.setState({ conversion: id });
+    if (window.gTag) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+
+      gtag('event', 'conversion', {'send_to': `${window.gTag}/${id}`});
+    } else {
+      setTimeout(() => this.processConversion(id), 1000);
+    }
   }
 
   init = () => {
@@ -96,7 +91,7 @@ export class GoogleTracking extends Component {
 }
 
 export class FacebookTracking extends Component {
-  componentDidMount = () => {
+  componentDidMount() {
     if (isMobile()) {
       setTimeout(this.init, 2500);
     } else {
