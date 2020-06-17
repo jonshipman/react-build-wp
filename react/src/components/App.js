@@ -41,7 +41,7 @@ class App extends Component {
             <Route exact path="/search" component={Search} />
 
             <Route exact path="/blog" render={props => <Archive { ...props } allPosts={true} />} />
-            <Route exact path="/blog/:category" component={Archive} />
+            <Route exact path="/category/:category" component={Archive} />
 
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/contact-us" component={Contact} />
