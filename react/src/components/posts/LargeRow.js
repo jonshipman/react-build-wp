@@ -14,12 +14,6 @@ const QUERY = gql`
           slug
           title
           uri
-          categories(first: 1) {
-            nodes {
-              slug
-              name
-            }
-          }
           featuredImage {
             node {
               sourceUrl(size: LARGE)
@@ -32,7 +26,7 @@ const QUERY = gql`
 `;
 
 const Row = ({ className, items, count }) => {
-  const base = "fl-l w-100 pa3 relative z-1 h-100";
+  const base = "fl-l w-100 pa3 relative z-1 h5 h-100-l";
   const variant1 = `${base} w-40-l`;
   const variant2 = `${base} w-60-l`;
 
@@ -42,16 +36,16 @@ const Row = ({ className, items, count }) => {
   return (
     <LazyLoad>
       <div className={`alternating-rows ${className || ''}`}>
-        <div className="alternating-rows--inner cf tracked ttu h-100">
+        <div className="cf tracked ttu h-100-l">
           {items.map((item, index) => {
             variant = count % 2 === 0 ? variant2 : variant1;
             variant = index > 0 ? count % 2 === 0 ? variant1 : variant2 : variant;
 
-            background = item.node.featuredImage ? item.node.featuredImage.sourceUrl : PlacholderUrl({ width: 800, height: 500 });
+            background = item?.node?.featuredImage?.node?.sourceUrl || PlacholderUrl({ width: 800, height: 500 });
 
             return (
               <div className={variant} key={item.node.id}>
-                <div className="cell--inner w-100 cover bg-center h-100 relative z-1" style={{backgroundImage: `url(${background})`}}>
+                <div className="w-100 h-100-l over bg-center relative z-1" style={{backgroundImage: `url(${background})`}}>
                   <div className="post-title white f4 absolute z-1 bottom-0 left-0 w-100 text-shadow pa2 pl3">{item.node.title}</div>
                   <Link to={item.node.uri} className="large-link db absolute absolute--fill z-2"/>
                 </div>
@@ -79,7 +73,7 @@ const OnQueryFinished = ({ posts, ...props }) => {
       return null;
     });
 
-    return items.map(item => <Row count={count++} items={item} key={`hr-${JSON.stringify(item)}`} { ...props } />);
+    return items?.length > 0 && items.map(item => <Row count={count++} items={item} key={`hr-${item[0].node.id}`} { ...props } />);
   }
 
   return null;
