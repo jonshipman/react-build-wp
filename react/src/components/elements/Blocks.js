@@ -45,7 +45,7 @@ export const BlocksThreeFull = ({
   items,
   ...rest
 }) => (
-  <div className={`blocks-three-full mv4 ${(className || '')}`}>
+  <div className={`blocks-three-full ${(className || '')}`}>
     <div className={`flex-l ${flexClassName || ''}`} { ...rest }>
       {left || middle || right
         ? Static({ className: columns.three, left, middle, right })
@@ -65,7 +65,7 @@ export const BlocksThree = ({
   items,
   ...rest
 }) => (
-  <PageWidth className={`blocks-three mv4 ${(className || '')}`}>
+  <PageWidth className={`blocks-three ${(className || '')}`}>
     <div className={`flex-l ${negativeMargins} ${flexClassName || ''}`} { ...rest }>
       {left || middle || right
         ? Static({ className: `${padding} ${columns.three}`, left, middle, right })
@@ -84,7 +84,7 @@ export const BlocksTwoFull = ({
   items,
   ...rest
 }) => (
-  <div className={`blocks-two-full mv4 ${(className || '')}`}>
+  <div className={`blocks-two-full ${(className || '')}`}>
     <div className={`flex-l ${flexClassName || ''}`} { ...rest }>
       {left || right
         ? Static({ className: columns.two, left, right })
@@ -103,7 +103,7 @@ export const BlocksTwo = ({
   items,
   ...rest
 }) => (
-  <PageWidth className={`blocks-two mv4 ${(className || '')}`}>
+  <PageWidth className={`blocks-two ${(className || '')}`}>
     <div className={`flex-l ${negativeMargins} ${flexClassName || ''}`} { ...rest }>
       {left || right
         ? Static({ className: `${padding} ${columns.two}`, left, right })

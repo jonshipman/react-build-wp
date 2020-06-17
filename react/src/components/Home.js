@@ -41,7 +41,7 @@ const Random = () => {
 }
 
 const Skeleton = ({ children }) => (
-  <div className="home--content mb0">
+  <div className="home">
     <HeroSkeleton />
 
     <PageWidth className="mv4">
@@ -81,7 +81,7 @@ const Skeleton = ({ children }) => (
 );
 
 const OnQueryFinished = ({ hero, frontPage }) => (
-  <>
+  <div className="home">
     {frontPage.seo && (
       <Helmet>
         <title>{frontPage.seo.title}</title>
@@ -89,58 +89,58 @@ const OnQueryFinished = ({ hero, frontPage }) => (
       </Helmet>
     )}
 
-    <div className="home--content mb0">
-      <Hero
-        heading={hero.title}
-        subheading={hero.desc}
-        cta={{text: 'Contact Today', link:'/contact-us'}}
+    <Hero
+      heading={hero.title}
+      subheading={hero.desc}
+      cta={{text: 'Contact Today', link:'/contact-us'}}
+    />
+
+    <LazyLoad>
+      <BlocksTwo
+        className="mv4"
+        left={(
+          <>
+            <PostContent className="mb4" content={frontPage.excerpt} />
+
+            <Button className="mr3" to="/contact-us">
+              Make an Appointment
+            </Button>
+
+            <Button type={3} to="/about-us">
+              Learn More
+            </Button>
+          </>
+        )}
+        right={(
+          <div className="relative overflow-hidden w-100 h-100">
+            <Image
+              width={720}
+              height={480}
+              className="absolute-l absolute--fill-l mw-none-l grow center db"
+            />
+          </div>
+        )}
       />
+    </LazyLoad>
 
-      <LazyLoad>
-        <BlocksTwo
-          left={(
-            <>
-              <PostContent className="mv4" content={frontPage.excerpt} />
+    <LazyLoad>
+      <BlocksTwoFull
+        className="mv4"
+        left={<SingleCard />}
+        right={<CyclingCards />}
+      />
+    </LazyLoad>
 
-              <Button className="mr3" to="/contact-us">
-                Make an Appointment
-              </Button>
+    <LazyLoad>
+      <TallCards />
+    </LazyLoad>
 
-              <Button type={3} to="/about-us">
-                Learn More
-              </Button>
-            </>
-          )}
-          right={(
-            <div className="relative overflow-hidden w-100 h-100">
-              <Image
-                width={720}
-                height={480}
-                className="absolute-l absolute--fill-l mw-none-l grow center db"
-              />
-            </div>
-          )}
-        />
-      </LazyLoad>
+    <LargeRow className="mv4 vh-50 w-100 mw9 center" />
 
-      <LazyLoad>
-        <BlocksTwoFull
-          left={<SingleCard />}
-          right={<CyclingCards />}
-        />
-      </LazyLoad>
-
-      <LazyLoad>
-        <TallCards/>
-      </LazyLoad>
-
-      <LargeRow />
-
-      <div className="bg-silver pv5">
-        <LeadForm className="mw6 bg-white pa4 center" />
-      </div>
+    <div className="bg-silver pv5">
+      <LeadForm className="mw6 bg-white pa4 center" />
     </div>
-  </>
+  </div>
 );
 
 export default () => {

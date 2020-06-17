@@ -31,7 +31,7 @@ const QUERY = gql`
   }
 `;
 
-const Row = ({ items, count }) => {
+const Row = ({ className, items, count }) => {
   const base = "fl-l w-100 pa3 relative z-1 h-100";
   const variant1 = `${base} w-40-l`;
   const variant2 = `${base} w-60-l`;
@@ -41,7 +41,7 @@ const Row = ({ items, count }) => {
 
   return (
     <LazyLoad>
-      <div className="alternating-rows vh-50 w-100 mw9 center">
+      <div className={`alternating-rows ${className || ''}`}>
         <div className="alternating-rows--inner cf tracked ttu h-100">
           {items.map((item, index) => {
             variant = count % 2 === 0 ? variant2 : variant1;
@@ -64,7 +64,7 @@ const Row = ({ items, count }) => {
   );
 }
 
-const OnQueryFinished = ({ posts }) => {
+const OnQueryFinished = ({ posts, ...props }) => {
   let items = [];
   let count = 1;
 
@@ -79,14 +79,14 @@ const OnQueryFinished = ({ posts }) => {
       return null;
     });
 
-    return items.map(item => <Row count={count++} items={item} key={`hr-${JSON.stringify(item)}`}  />);
+    return items.map(item => <Row count={count++} items={item} key={`hr-${JSON.stringify(item)}`} { ...props } />);
   }
 
   return null;
 }
 
-export default () => {
+export default props => {
   const { data } = useQuery(QUERY, { errorPolicy: 'all' });
 
-  return <OnQueryFinished posts={data?.posts} />
+  return <OnQueryFinished posts={data?.posts} { ...props } />
 }
