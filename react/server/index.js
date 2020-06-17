@@ -3,6 +3,7 @@ import path from 'path';
 import serverRenderer from './middleware/renderer';
 import robots from './middleware/robots';
 import sitemap from './middleware/sitemap';
+import { BACKEND_URL } from '../src/config';
 
 const PORT = 3000;
 
@@ -11,10 +12,18 @@ const app = express();
 const router = express.Router();
 const build_path = path.resolve(__dirname, '..', 'build');
 
+const wordpress = (_, res) => {
+  res.redirect(`${BACKEND_URL}/wp-admin`);
+};
+
 // root (/) should always serve our server rendered page
 router.use('^/$', serverRenderer);
 router.use('^/index.html$', serverRenderer);
 router.use('^/robots.txt$', robots);
+
+// WordPress redirects
+router.use('^/wp-admin$', wordpress);
+router.use('^/wp-login.php$', wordpress);
 
 // Sitemaps
 router.use('^/sitemap_index.xml$', sitemap);

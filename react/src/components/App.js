@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 // Misc internal
-import { BACKEND_URL } from '../config';
 import { isWebpSupported } from './utils/Browser';
-
 import withPreview from './hoc/withPreview';
 
 // External Scripts
@@ -32,12 +30,6 @@ class App extends Component {
     document.getElementById('root').classList.add('loaded');
   }
 
-  Admin = () => {
-    global.window && (global.window.location.href = BACKEND_URL + '/wp-admin');
-
-    return null;
-  }
-
   render() {
     return (
       <>
@@ -53,9 +45,6 @@ class App extends Component {
 
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/contact-us" component={Contact} />
-
-            <Route exact path="/wp-admin" render={this.Admin} />
-            <Route exact path="/wp-login.php" render={this.Admin} />
 
             <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce" component={withPreview(Single)} />
             <Route path="*" component={Single} />
