@@ -35,7 +35,7 @@ const Row = ({ className, items, count }) => {
 
   return (
     <LazyLoad>
-      <div className={`alternating-rows ${className || ''}`}>
+      <div className={`alternating-rows ${className || 'h5-l'}`}>
         <div className="cf tracked ttu h-100-l">
           {items.map((item, index) => {
             variant = count % 2 === 0 ? variant2 : variant1;

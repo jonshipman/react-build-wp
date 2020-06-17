@@ -104,12 +104,6 @@ svg {
   }
 }
 
-@media #{$breakpoint-large} {
-  .alternating-rows {
-    height: 25rem;
-  }
-}
-
 #footer {
   .nested-menu {
     a:before {

@@ -135,7 +135,9 @@ const OnQueryFinished = ({ hero, frontPage }) => (
       <TallCards />
     </LazyLoad>
 
-    <LargeRow className="mv4 vh-50 w-100 mw9 center" />
+    <div className="mv4">
+      <LargeRow className="vh-50-l w-100 mw9 center" />
+    </div>
 
     <div className="bg-silver pv5">
       <LeadForm className="mw6 bg-white pa4 center" />
