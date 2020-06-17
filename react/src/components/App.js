@@ -19,7 +19,7 @@ import Single from './Single';
 import Archive from './Archive';
 import Contact from './Contact';
 
-class App extends Component {
+export default class extends Component {
   componentDidMount() {
     if (isWebpSupported()) {
       document.getElementById('root').classList.add('webp');
@@ -57,5 +57,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;
