@@ -29,7 +29,7 @@ const Header = ({ sticky }) => {
   return (
     <header id="header">
       <div ref={headerRef} className={`w-100 z-2 ${sticky ? 'absolute fixed-l top-0' : 'relative'}`}>
-        <div className="bg-white bg-white-80-l">
+        <div className="bg-white">
           <nav>
             <PageWidth className="dt-l">
               <div className="brand flex items-center tc dtc-l v-mid-l tl-l">
