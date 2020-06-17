@@ -8,17 +8,19 @@ import LoadingError from './LoadingError';
  * Loading functional component that loads the skeleton, error,
  * or finished component based on results.
  */
-const NestedMenu = props => {
+const NestedMenu = ({ classNames, ...props }) => {
+  let _classNames = { ...defaultClasses, ...classNames };
+
   const { loading, error, data } = useQuery(MENU_QUERY, {
     variables: { location: props.location }
   });
 
-  if (loading) return <Skeleton { ...props } />
+  if (loading) return <Skeleton { ...props } classNames={_classNames} />
   if (error) return <LoadingError error={error.message} />
 
   const menus = data.nestedMenu;
 
-  return <OnQueryFinished { ...props } menus={menus} />
+  return <OnQueryFinished { ...props } classNames={_classNames} menus={menus} />
 }
 
 /**
@@ -68,13 +70,8 @@ const MENU_QUERY = gql`
  * Child item that loops to created the nested menu.
  */
 const ChildItem = ({ menu, level, ...props }) => {
-  const { menus } = props;
-
-  let classNames = defaultClasses;
-  Object.assign( classNames, props.classNames );
-
+  const { menus, classNames } = props;
   let localLevel = level ? level + 1 : 1;
-
   let new_children = [];
 
   if ( menu.hasChildren ) {
@@ -147,29 +144,24 @@ const ChildItem = ({ menu, level, ...props }) => {
 /**
  * The placeholder skeleton that shows before query loads.
  */
-const Skeleton = props => {
-  let classNames = defaultClasses;
-  Object.assign( classNames, props.classNames );
-
-  return (
-    <ul
-      id={`menu-${props.location}`}
-      className={`nested-menu ${props.className}`}
-      style={{touchAction: 'pan-y'}}
-    >
-      {Array.from(new Array(5)).map(() => (
-        <li
-          key={Math.random()}
-          className={!props.ignoreClasses && classNames ? `menu-item level-1 ${classNames.li[0]}` : ''}
-        >
-          <div className={!props.ignoreClasses && classNames ? classNames.a[0] : ''} >
-            <span className="h1 w3 ml2 loading-block db" />
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
-}
+const Skeleton = ({ classNames, ...props }) => (
+  <ul
+    id={`menu-${props.location}`}
+    className={`nested-menu ${props.className}`}
+    style={{touchAction: 'pan-y'}}
+  >
+    {Array.from(new Array(5)).map(() => (
+      <li
+        key={Math.random()}
+        className={!props.ignoreClasses && classNames ? `menu-item level-1 ${classNames.li[0]}` : ''}
+      >
+        <div className={!props.ignoreClasses && classNames ? classNames.a[0] : ''} >
+          <span className="h1 w3 ml2 loading-block db" />
+        </div>
+      </li>
+    ))}
+  </ul>
+);
 
 /**
  * Component that loads the UL and loops the child item from the menu query.
