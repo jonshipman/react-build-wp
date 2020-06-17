@@ -24,25 +24,27 @@ const NestedMenu = props => {
 /**
  * Default properties.
  */
+const defaultClasses = {
+  li: [
+    'db dib-l relative z-1 hover-z-2 pv3',
+    'pa2 relative z-1 hover-z-2',
+    'pa2 nowrap'
+  ],
+  a: [
+    'f6 fw4 hover-blue no-underline dark-gray dib pv2 ph3',
+    'hover-blue dark-gray db'
+  ],
+  submenu: [
+    'tl-l list pl0 absolute-l pv3 top-100-l left-0-l bg-white ba b--light-gray w5',
+    'list ph3 absolute-l top-0-l left-100-l bg-white ba b--light-gray'
+  ],
+};
+
 NestedMenu.defaultProps = {
   location: 'header-menu',
   ignoreClasses: false,
-  classNames: {
-    li: [
-      'db dib-l relative z-1 hover-z-2 pv3',
-      'pa2 relative z-1 hover-z-2',
-      'pa2 nowrap'
-    ],
-    a: [
-      'f6 fw4 hover-blue no-underline dark-gray dib pv2 ph3',
-      'hover-blue dark-gray db'
-    ],
-    submenu: [
-      'tl-l list pl0 absolute-l pv3 top-100-l left-0-l bg-white ba b--light-gray w5',
-      'list ph3 absolute-l top-0-l left-100-l bg-white ba b--light-gray'
-    ],
-    anchorOnclick: () => {}
-  }
+  classNames: defaultClasses,
+  anchorOnclick: () => {}
 };
 
 /**
@@ -66,7 +68,11 @@ const MENU_QUERY = gql`
  * Child item that loops to created the nested menu.
  */
 const ChildItem = ({ menu, level, ...props }) => {
-  const { menus, classNames } = props;
+  const { menus } = props;
+
+  let classNames = defaultClasses;
+  Object.assign( classNames, props.classNames );
+
   let localLevel = level ? level + 1 : 1;
 
   let new_children = [];
@@ -141,24 +147,29 @@ const ChildItem = ({ menu, level, ...props }) => {
 /**
  * The placeholder skeleton that shows before query loads.
  */
-const Skeleton = props => (
-  <ul
-    id={`menu-${props.location}`}
-    className={`nested-menu ${props.className}`}
-    style={{touchAction: 'pan-y'}}
-  >
-    {Array.from(new Array(5)).map(() => (
-      <li
-        key={Math.random()}
-        className={!props.ignoreClasses && props.classNames ? `menu-item level-1 ${props.classNames.li[0]}` : ''}
-      >
-        <div className={!props.ignoreClasses && props.classNames ? props.classNames.a[0] : ''} >
-          <span className="h1 w3 ml2 loading-block db" />
-        </div>
-      </li>
-    ))}
-  </ul>
-);
+const Skeleton = props => {
+  let classNames = defaultClasses;
+  Object.assign( classNames, props.classNames );
+
+  return (
+    <ul
+      id={`menu-${props.location}`}
+      className={`nested-menu ${props.className}`}
+      style={{touchAction: 'pan-y'}}
+    >
+      {Array.from(new Array(5)).map(() => (
+        <li
+          key={Math.random()}
+          className={!props.ignoreClasses && classNames ? `menu-item level-1 ${classNames.li[0]}` : ''}
+        >
+          <div className={!props.ignoreClasses && classNames ? classNames.a[0] : ''} >
+            <span className="h1 w3 ml2 loading-block db" />
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 /**
  * Component that loads the UL and loops the child item from the menu query.
