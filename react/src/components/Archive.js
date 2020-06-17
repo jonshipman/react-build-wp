@@ -166,7 +166,7 @@ const sanitizeData = data => {
   let sPageInfo = {};
   let sCategory = {};
 
-  if (data.categories) {
+  if (data?.categories?.edges?.length > 0) {
     const { name, seo, slug } = data.categories.edges[0].node;
 
     sCategory = {
@@ -177,7 +177,7 @@ const sanitizeData = data => {
     };
   }
 
-  if (data.posts.edges) {
+  if (data?.posts?.edges?.length > 0) {
     sPageInfo = data.posts.pageInfo;
     sCategory.posts = data.posts.edges;
   }
@@ -228,7 +228,7 @@ export default props => {
 
   const { sPageInfo, sCategory } = sanitizeData(data);
 
-  if (sCategory.posts.length > 0) {
+  if (sCategory?.posts?.length > 0) {
     return (
       <OnQueryFinished
         category={sCategory}
