@@ -1,6 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import LoadingError from './LoadingError';
 
@@ -113,9 +113,9 @@ const ChildItem = ({ menu, level, ...props }) => {
             <span className="link-inner">{menu.label}</span>
           </a>
         :
-          <Link to={menu.url} className={aClassName} onClick={props.anchorOnclick}>
+          <NavLink exact to={menu.url} className={aClassName} onClick={props.anchorOnclick} activeClassName="current-item">
             <span className="link-inner">{menu.label}</span>
-          </Link>
+          </NavLink>
       }
       {menu.hasChildren ? (
         <ul className={`sub-menu dn ${submenuClassName}`}>
