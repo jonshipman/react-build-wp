@@ -84,7 +84,7 @@ function Headless_WP_nav_menu_item( $item ) {
 
     switch ( $item->object ) {
         case 'post':
-            $resolve['url'] = '/blog/' . $slug;
+            $resolve['url'] = '/' . $slug;
             break;
         case 'category':
             $resolve['url'] = '/category/' . $slug;
