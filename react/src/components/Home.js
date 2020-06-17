@@ -26,7 +26,7 @@ const HOME_QUERY = gql`
     frontPage {
       id
       title
-      excerpt
+      content
       seo {
         title
         metaDesc
@@ -80,15 +80,8 @@ const Skeleton = ({ children }) => (
   </div>
 );
 
-const OnQueryFinished = ({ hero, frontPage }) => (
+const OnQueryFinished = ({ hero, content }) => (
   <div className="home">
-    {frontPage.seo && (
-      <Helmet>
-        <title>{frontPage.seo.title}</title>
-        <meta name="description" content={frontPage.seo.metaDesc}/>
-      </Helmet>
-    )}
-
     <Hero
       heading={hero.title}
       subheading={hero.desc}
@@ -100,7 +93,7 @@ const OnQueryFinished = ({ hero, frontPage }) => (
         className="mv4"
         left={(
           <>
-            <PostContent className="mb4" content={frontPage.excerpt} />
+            <PostContent className="mb4" content={content} />
 
             <Button className="mr3" to="/contact-us">
               Make an Appointment
@@ -149,22 +142,37 @@ export default () => {
   const { loading, error, data } = useQuery(HOME_QUERY);
 
   if (loading) return <Skeleton />
-  if (error) return (
-    <Skeleton>
-      <LoadingError error={error.message} />
-    </Skeleton>
-  );
-
-  if (!data.frontPage) return (
-    <Skeleton>
-      <LoadingError error="Unable to get data." />
-    </Skeleton>
-  );
-
-  const hero = {
-    title: data.allSettings.generalSettingsTitle,
-    desc: data.allSettings.generalSettingsDescription
+  if (error) {
+    return (
+      <Skeleton>
+        <LoadingError error={error.message} />
+      </Skeleton>
+    );
   }
 
-  return <OnQueryFinished  hero={hero} frontPage={data.frontPage} />
+  if (!data?.frontPage) {
+    return (
+      <Skeleton>
+        <LoadingError error="Unable to get data." />
+      </Skeleton>
+    );
+  }
+
+  const hero = {
+    title: data?.allSettings?.generalSettingsTitle,
+    desc: data?.allSettings?.generalSettingsDescription
+  }
+
+  return (
+    <>
+      {data?.frontPage?.seo && (
+        <Helmet>
+          <title>{data.frontPage.seo.title}</title>
+          <meta name="description" content={data.frontPage.seo.metaDesc}/>
+        </Helmet>
+      )}
+
+      <OnQueryFinished hero={hero} content={data?.frontPage?.content} />
+    </>
+  );
 }
