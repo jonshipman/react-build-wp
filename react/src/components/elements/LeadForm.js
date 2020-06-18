@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { Formik, Form } from 'formik';
 
-import Loading from './Loading';
-
-import Recaptcha, { resetToken } from '../external-scripts/Recaptcha';
-
 import DefaultForm from '../forms/DefaultForm';
-
+import Loading from './Loading';
+import Recaptcha, { resetToken } from '../external-scripts/Recaptcha';
 import withApolloClient from '../hoc/withApolloClient';
 
 /**

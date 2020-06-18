@@ -21,12 +21,12 @@ const QUERY = gql`
   }
 `;
 
-const OnQueryFinished = ({ cards }) => (
+const OnQueryFinished = ({ cards, heading, subheading }) => (
   <div className="cards-single w-100 h-100 bg-green pa4 white tc flex-l items-center-l">
     <div className="w-100-l">
       <div className="cards--inner relative z-1">
-        <h3><span className="fw4 f2 white">Coverage That Meets <span className="fw7">Your</span> Needs</span></h3>
-        <h4><span className="fw3 f5 white">We Provide The Best Service Hands Down.</span></h4>
+        <h3><span className="fw4 f2 white">{heading}</span></h3>
+        <h4><span className="fw3 f5 white">{subheading}</span></h4>
         {cards && cards.map(card => (
           <div className="card mw6 center white-70 ma4 i" key={card.node.id}>
             <PostContent className="card--text" content={card.node.excerpt} />
@@ -46,11 +46,11 @@ const OnQueryFinished = ({ cards }) => (
   </div>
 );
 
-export default () => {
+export default props => {
   const { loading, error, data } = useQuery(QUERY);
 
   if (loading) return <Loading />;
   if (error) return <LoadingError error={error.message} />;
 
-  return <OnQueryFinished cards={data.posts.edges} />
+  return <OnQueryFinished cards={data?.posts?.edges} { ...props } />
 }

@@ -3,26 +3,21 @@ import { Helmet } from "react-helmet";
 import LazyLoad from 'react-lazy-load';
 import { gql, useQuery } from '@apollo/client';
 
-import Hero, { HeroSkeleton } from './elements/Hero';
 import { BlocksTwo, BlocksTwoFull } from './elements/Blocks';
-import Image from './elements/Image';
-import LeadForm from './elements/LeadForm';
-import PostContent from './elements/PostContent';
 import Button from './elements/Button';
-import PageWidth from './elements/PageWidth';
-import LoadingError from './elements/LoadingError';
-
 import CyclingCards from './posts/CyclingCards';
-import TallCards from './posts/TallCards';
-import SingleCard from './posts/SingleCard';
+import Hero from './elements/Hero';
+import Image from './elements/Image';
 import LargeRow from './posts/LargeRow';
+import LeadForm from './elements/LeadForm';
+import LoadingError from './elements/LoadingError';
+import PageWidth from './elements/PageWidth';
+import PostContent from './elements/PostContent';
+import SingleCard from './posts/SingleCard';
+import TallCards from './posts/TallCards';
 
 const HOME_QUERY = gql`
   query HomeQuery {
-    allSettings {
-      generalSettingsTitle
-      generalSettingsDescription
-    }
     frontPage {
       id
       title
@@ -42,7 +37,7 @@ const Random = () => {
 
 const Skeleton = ({ children }) => (
   <div className="home">
-    <HeroSkeleton />
+    <Hero />
 
     <PageWidth className="mv4">
       {children}
@@ -80,47 +75,63 @@ const Skeleton = ({ children }) => (
   </div>
 );
 
-const OnQueryFinished = ({ hero, content }) => (
+const OnQueryFinished = ({ seo, content }) => (
   <div className="home">
+    {seo && (
+      <Helmet>
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.metaDesc}/>
+      </Helmet>
+    )}
+
     <Hero
-      heading={hero.title}
-      subheading={hero.desc}
       cta={{text: 'Contact Today', link:'/contact-us'}}
     />
 
-    <LazyLoad>
-      <BlocksTwo
-        className="mv4"
-        left={(
-          <>
-            <PostContent className="mb4" content={content} />
+    {content && (
+      <LazyLoad>
+        <BlocksTwo
+          className="mv4"
+          left={(
+            <>
+              <PostContent className="mb4" content={content} />
 
-            <Button className="mr3" to="/contact-us">
-              Make an Appointment
-            </Button>
+              <Button className="mr3" to="/contact-us">
+                Make an Appointment
+              </Button>
 
-            <Button type={3} to="/about-us">
-              Learn More
-            </Button>
-          </>
-        )}
-        right={(
-          <div className="relative overflow-hidden w-100 h-100">
-            <Image
-              width={720}
-              height={480}
-              className="absolute-l absolute--fill-l mw-none-l grow center db"
-            />
-          </div>
-        )}
-      />
-    </LazyLoad>
+              <Button type={3} to="/about-us">
+                Learn More
+              </Button>
+            </>
+          )}
+          right={(
+            <div className="relative overflow-hidden w-100 h-100">
+              <Image
+                width={720}
+                height={480}
+                className="absolute-l absolute--fill-l mw-none-l grow center db"
+              />
+            </div>
+          )}
+        />
+      </LazyLoad>
+    )}
 
     <LazyLoad>
       <BlocksTwoFull
         className="mv4"
-        left={<SingleCard />}
-        right={<CyclingCards />}
+        left={(
+          <SingleCard
+            heading="Coverage That Meets Your Needs"
+            subheading="We Provide The Best Service Hands Down"
+          />
+        )}
+        right={(
+          <CyclingCards
+            heading="Our Company Advantage"
+          />
+        )}
       />
     </LazyLoad>
 
@@ -164,15 +175,10 @@ export default () => {
   }
 
   return (
-    <>
-      {data?.frontPage?.seo && (
-        <Helmet>
-          <title>{data.frontPage.seo.title}</title>
-          <meta name="description" content={data.frontPage.seo.metaDesc}/>
-        </Helmet>
-      )}
-
-      <OnQueryFinished hero={hero} content={data?.frontPage?.content} />
-    </>
+    <OnQueryFinished
+      hero={hero}
+      seo={data?.frontPage?.seo}
+      content={data?.frontPage?.content}
+    />
   );
 }

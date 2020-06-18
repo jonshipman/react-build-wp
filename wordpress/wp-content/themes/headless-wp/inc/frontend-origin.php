@@ -25,5 +25,6 @@ function get_frontend_origin( $original_url = '' ) {
     if ( ! empty( $original_url ) ) {
         return str_replace( get_site_url(), $origin, $original_url );
     }
+
     return $origin;
 }

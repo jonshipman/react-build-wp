@@ -75,8 +75,13 @@ export default (req, res) => {
       );
 
       htmlData = htmlData.replace(
+        'window.__REACT_HYDRATE__=false',
+        'window.__REACT_HYDRATE__=true'
+      );
+
+      htmlData = htmlData.replace(
         '<div id="root"></div>',
-        `<div id="root">${content}</div><script>window.__REACT_HYDRATE__ = true;window.__APOLLO_STATE__ = ${JSON.stringify(initialState).replace(/</g, '\\u003c')};</script>`
+        `<div id="root">${content}</div><script>window.__APOLLO_STATE__=${JSON.stringify(initialState).replace(/</g, '\\u003c')};</script>`
       );
 
       if (/status-code-404/.test(htmlData)) {

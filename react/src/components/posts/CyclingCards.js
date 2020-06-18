@@ -47,10 +47,10 @@ const Wrapper = ({ cards, children, ...rest }) => {
 /**
  * Cycling cards
  */
-export default () => (
+export default ({ heading }) => (
   <div className="w-100 h-100 bg-dark-gray pa4 tc flex-l items-center-l">
     <div className="w-100-l">
-      <h3><span className="fw4 f2 white">Our Company <span className="fw7">Advantage</span></span></h3>
+      <h3><span className="fw4 f2 white">{heading}</span></h3>
       <RotatingCards query={QUERY} wrapper={Wrapper}>
         {card => (
           <li className="w-100 w-50-l card pa3" key={card.node.id}>

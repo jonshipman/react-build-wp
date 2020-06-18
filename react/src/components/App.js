@@ -10,14 +10,13 @@ import withPreview from './hoc/withPreview';
 // import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
 
 // Pages and Header/Footer
-import Header from './Header';
-import Footer from './Footer';
-import Home from './Home';
-import Login from './Login';
-import Search from './Search';
-import Single from './Single';
 import Archive from './Archive';
 import Contact from './Contact';
+import Footer from './Footer';
+import Header from './Header';
+import Home from './Home';
+import Login from './Login';
+import Single from './Single';
 
 export default class extends Component {
   componentDidMount() {
@@ -38,9 +37,9 @@ export default class extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/search" component={Search} />
 
-            <Route exact path="/blog" render={props => <Archive { ...props } allPosts={true} />} />
+            <Route exact path="/search" component={Archive} />
+            <Route exact path="/blog" component={Archive} />
             <Route exact path="/category/:category" component={Archive} />
 
             <Route exact path="/contact" component={Contact} />

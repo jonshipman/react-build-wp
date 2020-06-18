@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PageWidth from './PageWidth';
 
 const cellClassNames = 'w-100 relative';

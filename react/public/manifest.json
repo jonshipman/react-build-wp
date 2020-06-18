@@ -1,6 +1,6 @@
 {
-    "short_name": "React App",
-    "name": "WordPress + React Starter Kit",
+    "short_name": "React Website",
+    "name": "React Website with WordPress Backend",
     "icons": [
         {
             "src": "favicon.ico",

@@ -3,15 +3,14 @@ import { gql, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
 import { BlocksThree } from './elements/Blocks';
-import NestedMenu from './elements/NestedMenu';
+import { ReactComponent as FacebookIcon } from '../static/images/facebook.svg';
+import { ReactComponent as LinkedinIcon } from '../static/images/linkedin.svg';
+import { ReactComponent as Logo } from '../static/images/logo.svg';
+import { ReactComponent as TwitterIcon } from '../static/images/twitter.svg';
+import { ReactComponent as YoutubeIcon } from '../static/images/youtube.svg';
 import Loading from './elements/Loading';
 import LoadingError from './elements/LoadingError';
-
-import { ReactComponent as Logo } from '../static/images/logo.svg';
-import { ReactComponent as FacebookIcon } from '../static/images/facebook.svg';
-import { ReactComponent as YoutubeIcon } from '../static/images/youtube.svg';
-import { ReactComponent as LinkedinIcon } from '../static/images/linkedin.svg';
-import { ReactComponent as TwitterIcon } from '../static/images/twitter.svg';
+import Menu from './elements/Menu';
 
 const FOOTER_QUERY = gql`
   query SettingsQuery {
@@ -62,7 +61,7 @@ const Footer = ({ settings, desc, title, loading }) => (
         <div className="footer--links">
           <div className="b f4 black mb3">Useful Links</div>
           <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
-          <NestedMenu location="footer-menu" className="list pl0 nt3" classNames={{
+          <Menu location="FOOTER_MENU" className="list pl0 nt3" classNames={{
             li: ['db bl-0 br-0 bt-0 bb b--dashed drop-last-bb b--moon-gray f7'],
             a: ['db pv3 gray hover-green'],
             submenu: ['dn'],

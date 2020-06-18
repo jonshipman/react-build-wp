@@ -2,10 +2,9 @@ import React, { useRef, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import PageWidth from './elements/PageWidth';
-import NestedMenu from './elements/NestedMenu';
-
 import { ReactComponent as Logo } from '../static/images/logo.svg';
+import Menu from './elements/Menu';
+import PageWidth from './elements/PageWidth';
 
 const openMenu = () => {
   let menu = document.getElementById('menu-header-menu').classList;
@@ -41,7 +40,7 @@ const Header = ({ sticky }) => {
                 </Link>
               </div>
               <div className="db tc dtc-l v-mid-l tr-l">
-                <NestedMenu location="header-menu" className="dn ma0 pl0 list db-l" anchorOnclick={openMenu} />
+                <Menu location="HEADER_MENU" className="dn ma0 pl0 list db-l" anchorOnclick={openMenu} />
               </div>
             </PageWidth>
           </nav>

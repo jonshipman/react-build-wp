@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
-import PageWidth from './elements/PageWidth';
 import { PrimaryClasses } from './elements/Button';
-
 import Config, { USERNAME } from '../config';
+import PageWidth from './elements/PageWidth';
 
 /**
  * GraphQL mutation used for logging in

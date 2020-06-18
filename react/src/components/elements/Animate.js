@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react';
+
 import scrollHandler from '../../handlers/scroll';
 
 export default class extends Component {

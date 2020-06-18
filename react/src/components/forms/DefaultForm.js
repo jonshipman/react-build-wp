@@ -1,10 +1,10 @@
 import React from 'react';
 import { gql } from '@apollo/client';
 import { Field, ErrorMessage } from 'formik';
-import { isPhone, isEmail } from '../utils/String';
 
-import FormError from '../elements/FormError';
+import { isPhone, isEmail } from '../utils/String';
 import Base from './Base';
+import FormError from '../elements/FormError';
 
 class Form extends Base {
   name = 'default';

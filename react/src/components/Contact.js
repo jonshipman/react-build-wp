@@ -1,10 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import Title from './elements/Title';
-import LeadForm from './elements/LeadForm';
-
 import { FRONTEND_URL } from '../config';
+import LeadForm from './elements/LeadForm';
+import Title from './elements/Title';
 
 /**
  * Contact page.
@@ -19,7 +18,7 @@ export default () => (
     <article className={`content post-contact-us`}>
       <Title>Contact Us</Title>
 
-      <div className="content--body bg-silver pv5">
+      <div className="bg-silver pv5">
         <LeadForm className="mw6 bg-white pa4 center" />
       </div>
     </article>

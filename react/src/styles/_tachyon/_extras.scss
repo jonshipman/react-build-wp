@@ -1,0 +1,31 @@
+.text-shadow { text-shadow: 1px 0px $spacing-medium $black-50 };
+
+.drop-last {
+  &-br {
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  &-bb {
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &-pr {
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  &-child {
+    &-pr {
+      &:last-child {
+        > * {
+          padding-right: 0;
+        }
+      }
+    }
+  }
+}
