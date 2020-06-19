@@ -23,24 +23,36 @@ const SINGLE_QUERY = gql`
       id
       databaseId
       slug
-      title
-      content
-      pageTemplate
-      dateFormatted
-      postType
-      categories(first: 5) {
-        edges {
-          node {
-            id
-            databaseId
-            slug
-            name
+      __typename
+      ... on Post {
+        id
+        dateFormatted
+        title
+        content
+        seo {
+          title
+          metaDesc
+        }
+        categories(first: 5) {
+          edges {
+            node {
+              id
+              databaseId
+              slug
+              name
+            }
           }
         }
       }
-      seo {
+      ... on Page {
+        id
         title
-        metaDesc
+        content
+        seo {
+          title
+          metaDesc
+        }
+        pageTemplate
       }
     }
   }
@@ -71,13 +83,13 @@ const Single = ({ obj }) => (
     )}
 
     {
-    'page' !== obj.postType
+    'Page' !== obj.__typename
     ? <Title notHeading={true}>{obj?.categories?.edges?.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
     : <Title>{obj?.title}</Title>
     }
 
     <PageWidth className="mt4">
-      {'page' !== obj.postType && (
+      {'Page' !== obj.__typename && (
         <>
           <h1 className="f2 fw4 mb4">{obj.title}</h1>
 
