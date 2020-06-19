@@ -5,6 +5,8 @@ import { Switch, Route } from 'react-router-dom';
 // Misc internal
 import { isWebpSupported } from './utils/Browser';
 import withPreview from './hoc/withPreview';
+import withSearch from './hoc/withSearch';
+import withCategory from './hoc/withCategory';
 
 // External Scripts
 // import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
@@ -38,9 +40,9 @@ export default class extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
 
-            <Route exact path="/search" component={Archive} />
+            <Route exact path="/search" component={withSearch(Archive)} />
             <Route exact path="/blog" component={Archive} />
-            <Route exact path="/category/:category" component={Archive} />
+            <Route exact path="/category/:category" component={withCategory(Archive)} />
 
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/contact-us" component={Contact} />

@@ -1,102 +1,14 @@
-import React, { useState, useRef, forwardRef } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
 import { gql, useQuery } from '@apollo/client';
 
 import { FRONTEND_URL } from '../config';
-import Button, { PrimaryClasses } from './elements/Button';
+import Button from './elements/Button';
 import Loading from './elements/Loading';
 import LoadingError from './elements/LoadingError';
 import PageWidth from './elements/PageWidth';
 import PostExcerpt from './elements/PostExcerpt';
 import Title from './elements/Title';
-
-const SEARCH_QUERY = gql`
-  query SearchQuery(
-    $filter: String!,
-    $first: Int,
-    $last: Int,
-    $after: String,
-    $before: String
-  ) {
-    posts(
-      first: $first,
-      last: $last,
-      after: $after,
-      before: $before,
-      where: { search: $filter, status: PUBLISH, hasPassword: false }
-    ) {
-      edges {
-        node {
-          id
-          postId
-          title
-          uri
-          excerpt
-          dateFormatted
-        }
-      }
-    }
-  }
-`;
-
-const CATEGORY_QUERY = gql`
-  query CategoryQuery(
-    $filter: String!,
-    $first: Int,
-    $last: Int,
-    $after: String,
-    $before: String
-  ) {
-    posts(
-      first: $first,
-      last: $last,
-      after: $after,
-      before: $before,
-      where: { categoryName: $filter, status: PUBLISH, hasPassword: false }
-    ) {
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        node {
-          id
-          databaseId
-          title
-          uri
-          excerpt
-          dateFormatted
-          categories(first: 5) {
-            edges {
-              node {
-                id
-                databaseId
-                slug
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-    categories(where: { slug: [$filter] }) {
-      edges {
-        node {
-          id
-          databaseId
-          name
-          slug
-          seo {
-            metaDesc
-            title
-          }
-        }
-      }
-    }
-  }
-`;
 
 const ARCHIVE_QUERY = gql`
   query ArchiveQuery(
@@ -126,16 +38,6 @@ const ARCHIVE_QUERY = gql`
           uri
           excerpt
           dateFormatted
-          categories(first: 5) {
-            edges {
-              node {
-                id
-                databaseId
-                slug
-                name
-              }
-            }
-          }
         }
       }
     }
@@ -154,59 +56,21 @@ const initialState = {
   }
 };
 
-const SearchForm = forwardRef(({ setFilter, className }, ref) => {
-  const field = useRef();
-
-  const executeSearch = () => {
-    if (field.current) {
-      setFilter(field.current.value);
-
-      console.log(`Searched for ${field.current.value}`);
-    }
-  }
-
-  return (
-    <div className={`search ${className || ''}`} ref={ref}>
-      <input
-        ref={field}
-        className="db w-100 pa3 mv3 br6 ba b--black"
-        type="text"
-        placeholder="Search by name and content"
-        onChange={e => e.target.value?.length > 1 && executeSearch()}
-        onKeyDown={e => 'Enter' === e.key && executeSearch()}
-      />
-      <button
-        className={`bn ${PrimaryClasses}`}
-        type="button"
-        onClick={() => executeSearch()}
-      >
-        Submit
-      </button>
-    </div>
-  );
-});
-
 const OnQueryFinished = ({
-  categories,
   posts,
   setDirection,
   setPageInfo,
-  pageTitle,
 }) => {
-  const category = categories?.edges?.length > 0 ? categories.edges[0].node : null;
-
-  if (category && pageTitle.current) {
-    pageTitle.current.innerHTML = category.name;
+  if (posts?.edges?.length < 1) {
+    return (
+      <PageWidth>
+        Nothing found.
+      </PageWidth>
+    );
   }
 
   return (
-    <div className="archives">
-      <Helmet>
-        <title>{category?.seo?.title || 'Blog'}</title>
-        {category?.seo && <meta name="description" content={category.seo.metaDesc}/>}
-        {category?.slug ? <link rel="canonical" href={`${FRONTEND_URL}/blog/${category.slug}`} /> : <link rel="canonical" href={`${FRONTEND_URL}/blog`} />}
-      </Helmet>
-
+    <PageWidth className="archives">
       {posts?.edges?.length > 0 && (
         <div className="cf mb3">
           <div className="blog-entries mb3">
@@ -236,14 +100,22 @@ const OnQueryFinished = ({
           )}
         </div>
       )}
-    </div>
+    </PageWidth>
   );
 }
 
-const PostsAndQuery = ({ match, pageTitle, searchContainer, filter }) => {
+const DefaultQuery = ({ variables, children }) => {
+  const { loading, error, data } = useQuery(ARCHIVE_QUERY, { variables });
+
+  if (loading) return <Loading />
+  if (error) return <LoadingError error={error.message} />
+
+  return children(data);
+}
+
+const PostsAndQuery = ({ NewQuery, ...props }) => {
   const [ direction, setDirection ] = useState(0);
   const [ pageInfo, setPageInfo ] = useState(initialState.pageInfo);
-  let query;
 
   let variables = {
     first: postsPerPage
@@ -263,78 +135,46 @@ const PostsAndQuery = ({ match, pageTitle, searchContainer, filter }) => {
     variables.last = postsPerPage;
   }
 
-  if (match?.params?.category) {
-    variables.filter = match.params.category;
-    query = CATEGORY_QUERY;
-  } else {
-    if (match?.path?.includes('blog')) {
-      query = ARCHIVE_QUERY;
-
-      if (pageTitle.current) {
-        pageTitle.current.innerHTML = 'Blog';
-      }
-    }
-
-    if (match?.path?.includes('search')) {
-      query = SEARCH_QUERY;
-      variables.filter = filter || '';
-
-      if (pageTitle.current) {
-        pageTitle.current.innerHTML = 'Search';
-      }
-
-      if (searchContainer.current) {
-        searchContainer.current.style.display = 'block';
-      }
-    }
-  }
-
-  const { loading, error, data } = useQuery(query, { variables });
-
-  if (loading) return <Loading />
-  if (error) return <LoadingError error={error.message} />
-
-  if (SEARCH_QUERY === query && !filter) {
-    return null;
-  }
-
-  if (data?.posts?.edges?.length < 1) {
-    return (
-      <div>
-        Nothing found.
-      </div>
-    );
-  }
+  const ExecuteQuery = NewQuery || DefaultQuery;
 
   return (
-    <OnQueryFinished
-      { ...data }
-      setDirection={setDirection}
-      setPageInfo={setPageInfo}
-      pageTitle={pageTitle}
-    />
+    <ExecuteQuery variables={variables}>
+      {data => (
+        <OnQueryFinished
+          { ...data }
+          { ...props }
+          setDirection={setDirection}
+          setPageInfo={setPageInfo}
+        />
+      )}
+    </ExecuteQuery>
   );
 }
 
-export default props => {
-  const pageTitle = useRef();
-  const searchContainer = useRef();
-  const [filter, setFilter] = useState();
+const DefaultSeo = ({ title }) => (
+  <Helmet>
+    <title>{title || 'Blog'}</title>
+    <link rel="canonical" href={`${FRONTEND_URL}/blog`} />
+  </Helmet>
+);
 
+export default ({ className='blog', children, title='Blog', Seo=DefaultSeo, ...props }) => {
   return (
-    <div className="archives">
-      <Title ref={pageTitle} />
+    <div className={className}>
+      {Seo && <Seo />}
 
-      <PageWidth>
-        <SearchForm ref={searchContainer} className="dn" setFilter={setFilter} />
+      {title && <Title>{title}</Title>}
 
-        <PostsAndQuery
-          pageTitle={pageTitle}
-          searchContainer={searchContainer}
-          filter={filter}
-          { ...props }
-          />
-      </PageWidth>
+      {children && (
+        <PageWidth>
+          {children}
+        </PageWidth>
+      )}
+
+      <PostsAndQuery
+        title={title}
+        { ...props }
+        />
     </div>
   );
 }
