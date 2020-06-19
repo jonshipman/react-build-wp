@@ -59,7 +59,7 @@ const MENU_QUERY = gql`
     menus(where: {location: $location}) {
       nodes {
         id
-        menuItems {
+        menuItems(first: 100) {
           nodes {
             id
             databaseId
