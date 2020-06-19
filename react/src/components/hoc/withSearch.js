@@ -91,26 +91,20 @@ export default WrappedComponent => {
       return children(data);
     }
 
-    Seo() {
-      return (
-        <Helmet>
-          <title>Search</title>
-          <link rel="canonical" href={`${FRONTEND_URL}/search`} />
-        </Helmet>
-      );
-    }
-
     render() {
       return (
-        <div className="search">
+        <WrappedComponent className='search' NewQuery={this.Query.bind(this)} { ...this.props }>
           <Title>Search</Title>
+
+          <Helmet>
+            <title>Search</title>
+            <link rel="canonical" href={`${FRONTEND_URL}/search`} />
+          </Helmet>
 
           <PageWidth className="mb4">
             <SearchForm setFilter={filter => { this.setState({ filter }) }} />
           </PageWidth>
-
-          <WrappedComponent className='' Seo={this.Seo} title={null} NewQuery={this.Query.bind(this)} { ...this.props } />
-        </div>
+        </WrappedComponent>
       );
     }
   }

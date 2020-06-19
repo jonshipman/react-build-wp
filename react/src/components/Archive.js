@@ -70,9 +70,9 @@ const OnQueryFinished = ({
   }
 
   return (
-    <PageWidth className="archives">
+    <PageWidth className="entries">
       {posts?.edges?.length > 0 && (
-        <div className="cf mb3">
+        <div className="entry cf mb3">
           <div className="blog-entries mb3">
             {posts.edges.map(post => (
               <PostExcerpt key={`archive-${post.node.databaseId}`} post={post} />
@@ -110,7 +110,18 @@ const DefaultQuery = ({ variables, children }) => {
   if (loading) return <Loading />
   if (error) return <LoadingError error={error.message} />
 
-  return children(data);
+  return (
+    <>
+      <Title>Blog</Title>
+
+      <Helmet>
+        <title>Blog</title>
+        <link rel="canonical" href={`${FRONTEND_URL}/blog`} />
+      </Helmet>
+
+      {children(data)}
+    </>
+  );
 }
 
 const PostsAndQuery = ({ NewQuery, ...props }) => {
@@ -151,30 +162,12 @@ const PostsAndQuery = ({ NewQuery, ...props }) => {
   );
 }
 
-const DefaultSeo = ({ title }) => (
-  <Helmet>
-    <title>{title || 'Blog'}</title>
-    <link rel="canonical" href={`${FRONTEND_URL}/blog`} />
-  </Helmet>
-);
-
-export default ({ className='blog', children, title='Blog', Seo=DefaultSeo, ...props }) => {
+export default ({ className='archive', children, ...props }) => {
   return (
     <div className={className}>
-      {Seo && <Seo />}
+      {children && (children)}
 
-      {title && <Title>{title}</Title>}
-
-      {children && (
-        <PageWidth>
-          {children}
-        </PageWidth>
-      )}
-
-      <PostsAndQuery
-        title={title}
-        { ...props }
-        />
+      <PostsAndQuery { ...props } />
     </div>
   );
 }
