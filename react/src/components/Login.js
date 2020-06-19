@@ -99,7 +99,7 @@ class Login extends Component {
         .toString(36)
         .substring(2) + new Date().getTime().toString(36);
     return (
-      <PageWidth className="content">
+      <PageWidth className="login">
         <div>
           <h1>Log in</h1>
           <p><strong>Log in to view hidden posts only available to authenticated users.</strong></p>

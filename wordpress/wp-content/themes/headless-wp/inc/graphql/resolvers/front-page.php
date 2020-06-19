@@ -6,12 +6,10 @@
  */
 
 use \WPGraphQL\Data\DataSource;
-use \GraphQL\Error\UserError;
-use \WPGraphQL\Registry\TypeRegistry;
 
 add_action(
     'graphql_register_types',
-    function ( TypeRegistry $type_registry ) {
+    function () {
         register_graphql_field(
             'RootQuery',
             'frontPage',
@@ -20,12 +18,7 @@ add_action(
                 'description' => __( 'Returns homepage', 'headless-wp' ),
                 'resolve'     => function ( $root, $args, $context, $info ) {
                     $page_on_front_id = (int) get_option( 'page_on_front' );
-
-                    if ( ! empty( $page_on_front_id ) ) {
-                        return DataSource::resolve_post_object( $page_on_front_id, $context );
-                    } else {
-                        throw new UserError( 'No frontpage' );
-                    }
+                    return DataSource::resolve_post_object( $page_on_front_id, $context );
                 },
             )
         );

@@ -28,9 +28,9 @@ const FOOTER_QUERY = gql`
 const Footer = ({ settings, desc, title, loading }) => (
   <footer id="footer" className="footer bg-near-white">
     <BlocksThree
-      className="footer--inner f7"
+      className="f7 mv4"
       left={(
-        <div className="footer--left">
+        <div>
           <div className="brand mb3">
             <Link to="/" className="dib border-box">
               <Logo className="w5 nb1"/>
@@ -43,12 +43,12 @@ const Footer = ({ settings, desc, title, loading }) => (
           ? <Loading />
           : (
             <>
-              <div className="desc mv3">{desc}</div>
+              <div className="mv3">{desc}</div>
 
-              {settings.phoneNumber && <div className="phone mv4"><strong>Phone -</strong> {settings.phoneNumber}</div>}
+              {settings.phoneNumber && <div className="mt4"><strong>Phone -</strong> {settings.phoneNumber}</div>}
 
               {settings.contactEmail &&
-                <div className="email mt4">
+                <div className="mt4">
                   <strong>Email - </strong>
                   <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>
                 </div>
@@ -58,7 +58,7 @@ const Footer = ({ settings, desc, title, loading }) => (
         </div>
       )}
       middle={(
-        <div className="footer--links">
+        <div>
           <div className="b f4 black mb3">Useful Links</div>
           <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
           <Menu location="FOOTER_MENU" className="list pl0 nt3" classNames={{
@@ -69,7 +69,7 @@ const Footer = ({ settings, desc, title, loading }) => (
         </div>
       )}
       right={(
-        <div className="footer--time-schedule">
+        <div>
           <div className="b f4 black mb3">Get Social</div>
           <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
           <div className="mt2">
@@ -81,23 +81,23 @@ const Footer = ({ settings, desc, title, loading }) => (
         </div>
       )}
     />
-    <div className="copyright bg-near-black gray f7 tc pv4">
+    <div className="copyright bg-near-black gray f7 tc pv2">
       <p>Copyright &copy; {(new Date()).getFullYear()} &bull; {title}. All Rights Reserved</p>
     </div>
   </footer>
 );
 
 export default () => {
-  const { loading, error, data } = useQuery(FOOTER_QUERY);
+  const { loading, error, data } = useQuery(FOOTER_QUERY, { errorPolicy: 'all' });
 
   if (loading) return <Footer loading={true} title={<Loading />} />
   if (error) return <LoadingError error={error.message} />;
 
   return (
     <Footer
-      settings={data.headlessWpSettings}
-      desc={data.allSettings.generalSettingsDescription}
-      title={data.allSettings.generalSettingsTitle}
+      settings={data?.headlessWpSettings}
+      desc={data?.allSettings?.generalSettingsDescription}
+      title={data?.allSettings?.generalSettingsTitle}
     />
   );
 }

@@ -3,17 +3,15 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { gql, useQuery } from '@apollo/client';
 
-import NotFound from './elements/NotFound';
-import Title from './elements/Title';
-import PageWidth from './elements/PageWidth';
-import LoadingError from './elements/LoadingError';
-import PostContent from './elements/PostContent';
-import PageSkeleton from './elements/PageSkeleton';
-
 import { FRONTEND_URL } from '../config';
-
-import { ReactComponent as FolderIcon } from '../static/images/folder.svg';
 import { ReactComponent as ClockIcon } from '../static/images/clock.svg';
+import { ReactComponent as FolderIcon } from '../static/images/folder.svg';
+import LoadingError from './elements/LoadingError';
+import NotFound from './elements/NotFound';
+import PageSkeleton from './elements/PageSkeleton';
+import PageWidth from './elements/PageWidth';
+import PostContent from './elements/PostContent';
+import Title from './elements/Title';
 
 /**
  * GraphQL page query that takes a page slug as a uri
@@ -21,29 +19,15 @@ import { ReactComponent as ClockIcon } from '../static/images/clock.svg';
  */
 const SINGLE_QUERY = gql`
   query SingleQuery($uri: String!) {
-    pageBy(uri: $uri) {
+    getPostOrPageByUri(uri: $uri) {
       id
       databaseId
       slug
       title
       content
       pageTemplate
-      seo {
-        title
-        metaDesc
-      }
-    }
-    postBy(uri: $uri) {
-      id
-      databaseId
-      slug
-      title
-      content
       dateFormatted
-      seo {
-        title
-        metaDesc
-      }
+      postType
       categories(first: 5) {
         edges {
           node {
@@ -54,25 +38,30 @@ const SINGLE_QUERY = gql`
           }
         }
       }
+      seo {
+        title
+        metaDesc
+      }
     }
   }
 `;
 
 const DefaultQuery = props => {
-  const { loading, error, data } = useQuery(SINGLE_QUERY, { variables: { uri: props.match.url } });
+  const { url: uri } = props.match;
+  const { loading, error, data } = useQuery(SINGLE_QUERY, { variables: { uri } });
 
   if (loading) return <PageSkeleton />;
   if (error) return <LoadingError error={error.message} />;
 
-  if (data.pageBy || data.postBy) {
-    return props.children(data.pageBy || data.postBy);
+  if (data.getPostOrPageByUri) {
+    return props.children(data.getPostOrPageByUri);
   }
 
   return <NotFound/>
 }
 
 const Single = ({ obj }) => (
-  <>
+  <article className={`single post-${obj.databaseId}`}>
     {obj.seo && (
       <Helmet>
         <title>{obj.seo.title}</title>
@@ -81,45 +70,43 @@ const Single = ({ obj }) => (
       </Helmet>
     )}
 
-    <article className={`content post-${obj.databaseId}`}>
-      {
-      !obj.dateFormatted && obj.title
-      ? <Title>{obj.title}</Title>
-      : <Title notHeading={true}>{obj?.categories?.edges?.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
-      }
+    {
+    'page' !== obj.postType
+    ? <Title notHeading={true}>{obj?.categories?.edges?.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
+    : <Title>{obj?.title}</Title>
+    }
 
-      <PageWidth className="content--body">
-        {obj.dateFormatted && (
-          <>
-            <h1 className="f2 fw4 mb4">{obj.title}</h1>
+    <PageWidth className="mt4">
+      {'page' !== obj.postType && (
+        <>
+          <h1 className="f2 fw4 mb4">{obj.title}</h1>
 
-            <div className="post-meta mv4">
-              <div className="posted dib mr4"><ClockIcon className="mr2 v-mid" width={20} height={20}/><span>{obj.dateFormatted}</span></div>
+          <div className="post-meta mv4">
+            <div className="posted dib mr4"><ClockIcon className="mr2 v-mid" width={20} height={20}/><span>{obj.dateFormatted}</span></div>
 
-              <div className="post-categories dib">
-                {obj?.categories?.edges?.length > 1 && (
-                  <>
-                    <FolderIcon className="mr2 v-mid" width={20} height={20}/>
-                    <ul className="list pl0 dib">
-                      {obj.categories.edges.map(category => (
-                        <li key={`cat-${category.node.databaseId}-post-cats`} className="dib mr2 pr2 br b--near-white drop-last-br">
-                          <Link to={`/blog/${category.node.slug}`}>
-                            {category.node.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-              </div>
+            <div className="post-categories dib">
+              {obj?.categories?.edges?.length > 1 && (
+                <>
+                  <FolderIcon className="mr2 v-mid" width={20} height={20}/>
+                  <ul className="list pl0 dib">
+                    {obj.categories.edges.map(category => (
+                      <li key={`cat-${category.node.databaseId}-post-cats`} className="dib mr2 pr2 br b--near-white drop-last-br">
+                        <Link to={`/blog/${category.node.slug}`}>
+                          {category.node.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
-          </>
-        )}
+          </div>
+        </>
+      )}
 
-        <PostContent content={obj.content}/>
-      </PageWidth>
-    </article>
-  </>
+      <PostContent content={obj.content}/>
+    </PageWidth>
+  </article>
 );
 
 export default props => {
