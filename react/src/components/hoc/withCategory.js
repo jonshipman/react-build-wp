@@ -36,16 +36,6 @@ const CATEGORY_QUERY = gql`
           uri
           excerpt
           dateFormatted
-          categories(first: 5) {
-            edges {
-              node {
-                id
-                databaseId
-                slug
-                name
-              }
-            }
-          }
         }
       }
     }
