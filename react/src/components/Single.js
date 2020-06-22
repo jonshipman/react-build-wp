@@ -12,6 +12,7 @@ import PageSkeleton from './elements/PageSkeleton';
 import PageWidth from './elements/PageWidth';
 import PostContent from './elements/PostContent';
 import Title from './elements/Title';
+import withContact from './hoc/withContact';
 
 /**
  * GraphQL page query that takes a page slug as a uri
@@ -125,6 +126,17 @@ const Single = ({ obj, renderChildrenAfter=false, renderTitle=true, children }) 
   </article>
 );
 
+const SingleWithContact = withContact(Single);
+
+const Loader = (match, obj) => {
+  const { url } = match;
+  if (url?.includes('contact')) {
+    return <SingleWithContact obj={obj} />
+  }
+
+  return <Single obj={obj} />
+}
+
 export default props => {
   const { match } = props;
 
@@ -132,7 +144,7 @@ export default props => {
 
   return (
     <Query match={match}>
-      {obj => <Single obj={obj} />}
+      {obj => Loader(match, obj)}
     </Query>
   );
 }

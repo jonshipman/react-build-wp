@@ -13,7 +13,6 @@ import withCategory from './hoc/withCategory';
 
 // Pages and Header/Footer
 import Archive from './Archive';
-import Contact from './Contact';
 import Footer from './Footer';
 import Header from './Header';
 import Home from './Home';
@@ -43,9 +42,6 @@ export default class extends Component {
             <Route exact path="/search" component={withSearch(Archive)} />
             <Route exact path="/blog" component={Archive} />
             <Route exact path="/category/:category" component={withCategory(Archive)} />
-
-            <Route exact path="/contact" component={Contact} />
-            <Route exact path="/contact-us" component={Contact} />
 
             <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce" component={withPreview(Single)} />
             <Route path="*" component={Single} />
