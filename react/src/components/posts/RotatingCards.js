@@ -120,9 +120,9 @@ export default withApolloClient(class extends Component {
     }
   };
 
-  DefaultWrap({ cards, children, ...rest }) {
+  DefaultWrap({ cards, children, ...props }) {
     return (
-      <ul className="list pl0 flex-l flex-wrap-l" { ...rest }>
+      <ul className="list pl0 flex-l flex-wrap-l" { ...props }>
         {cards.map(card => children(card))}
       </ul>
     );

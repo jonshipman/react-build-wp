@@ -36,9 +36,9 @@ const QUERY = gql`
   }
 `;
 
-const Wrapper = ({ cards, children, ...rest }) => {
+const Wrapper = ({ cards, children, ...props }) => {
   return (
-    <ul className="cards-cycling list pl0 flex-l flex-wrap-l mw7 center" { ...rest }>
+    <ul className="cards-cycling list pl0 flex-l flex-wrap-l mw7 center" { ...props }>
       {cards.map(card => children(card))}
     </ul>
   );

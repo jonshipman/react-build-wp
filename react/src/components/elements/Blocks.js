@@ -44,10 +44,10 @@ export const BlocksThreeFull = ({
   right,
   children,
   items,
-  ...rest
+  ...props
 }) => (
   <div className={`blocks-three-full ${(className || '')}`}>
-    <div className={`flex-l ${flexClassName || ''}`} { ...rest }>
+    <div className={`flex-l ${flexClassName || ''}`} { ...props }>
       {left || middle || right
         ? Static({ className: columns.three, left, middle, right })
         : Loop({ className: columns.three, items, children })
@@ -64,10 +64,10 @@ export const BlocksThree = ({
   right,
   children,
   items,
-  ...rest
+  ...props
 }) => (
   <PageWidth className={`blocks-three ${(className || '')}`}>
-    <div className={`flex-l ${negativeMargins} ${flexClassName || ''}`} { ...rest }>
+    <div className={`flex-l ${negativeMargins} ${flexClassName || ''}`} { ...props }>
       {left || middle || right
         ? Static({ className: `${padding} ${columns.three}`, left, middle, right })
         : Loop({ className: `${padding} ${columns.three}`, items, children })
@@ -83,10 +83,10 @@ export const BlocksTwoFull = ({
   right,
   children,
   items,
-  ...rest
+  ...props
 }) => (
   <div className={`blocks-two-full ${(className || '')}`}>
-    <div className={`flex-l ${flexClassName || ''}`} { ...rest }>
+    <div className={`flex-l ${flexClassName || ''}`} { ...props }>
       {left || right
         ? Static({ className: columns.two, left, right })
         : Loop({ className: columns.two, items, children })
@@ -102,10 +102,10 @@ export const BlocksTwo = ({
   right,
   children,
   items,
-  ...rest
+  ...props
 }) => (
   <PageWidth className={`blocks-two ${(className || '')}`}>
-    <div className={`flex-l ${negativeMargins} ${flexClassName || ''}`} { ...rest }>
+    <div className={`flex-l ${negativeMargins} ${flexClassName || ''}`} { ...props }>
       {left || right
         ? Static({ className: `${padding} ${columns.two}`, left, right })
         : Loop({ className: `${padding} ${columns.two}`, items, children })

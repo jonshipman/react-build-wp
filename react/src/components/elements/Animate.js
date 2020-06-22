@@ -36,7 +36,7 @@ export default class extends Component {
   }
 
   render() {
-    const { children, className, animate, ...rest } = this.props;
+    const { children, className, animate, ...props } = this.props;
     const { inViewPort } = this.state;
 
     let c = className || '';
@@ -48,7 +48,7 @@ export default class extends Component {
     }
 
     return (
-      <div ref={this.ref} className={c} { ...rest }>
+      <div ref={this.ref} className={c} { ...props }>
         {children}
       </div>
     );

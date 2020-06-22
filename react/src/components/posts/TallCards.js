@@ -41,8 +41,8 @@ const QUERY = gql`
   }
 `;
 
-const Wrapper = ({ cards, ...rest }) => {
-  return BlocksThree({ ...rest, items: cards });
+const Wrapper = ({ cards, ...props }) => {
+  return BlocksThree({ ...props, items: cards });
 };
 
 /**
