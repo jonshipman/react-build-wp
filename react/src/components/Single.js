@@ -72,7 +72,7 @@ const DefaultQuery = props => {
   return <NotFound/>
 }
 
-const Single = ({ obj, renderTitle=true,children }) => (
+const Single = ({ obj, renderChildrenAfter=false, renderTitle=true, children }) => (
   <article className={`single post-${obj.databaseId}`}>
     {obj.seo && (
       <Helmet>
@@ -87,6 +87,8 @@ const Single = ({ obj, renderTitle=true,children }) => (
       ? <Title notHeading={true}>{obj?.categories?.edges?.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
       : <Title>{obj?.title}</Title>
     )}
+
+    {!renderChildrenAfter && (children)}
 
     <PageWidth className="mt4">
       {'Page' !== obj.__typename && (
@@ -116,10 +118,10 @@ const Single = ({ obj, renderTitle=true,children }) => (
         </>
       )}
 
-      {children}
-
       <PostContent content={obj.content}/>
     </PageWidth>
+
+    {renderChildrenAfter && (children)}
   </article>
 );
 
