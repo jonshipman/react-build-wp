@@ -5,7 +5,7 @@ export const PrimaryClasses = 'pointer f6 link bg-animate hover-bg-blue br2 ph4 
 export const SecondaryClasses = 'pointer f6 link dim br2 ph4 pv2 mb2 dib white ba b--white';
 export const TertiaryClasses = 'pointer f6 link dim br2 ph4 pv2 mb2 dib green ba b--green';
 
-export default ({ children, className, type, ...rest }) => {
+export default ({ children, className='', altClasses, type, form=false, to, href, ...props }) => {
   let classNames = PrimaryClasses;
 
   if (2 === type) {
@@ -16,24 +16,36 @@ export default ({ children, className, type, ...rest }) => {
     classNames = TertiaryClasses;
   }
 
-  if (rest.href) {
+  if (altClasses) {
+    classNames = altClasses;
+  }
+
+  if (href) {
     return (
-      <a className={`${classNames} ${className || ''}`} { ...rest }>
+      <a href={href} className={`${classNames} ${className}`} { ...props }>
         {children}
       </a>
     );
   }
 
-  if (rest.to) {
+  if (to) {
     return (
-      <Link className={`${classNames} ${className || ''}`} { ...rest }>
+      <Link to={to} className={`${classNames} ${className}`} { ...props }>
         {children}
       </Link>
     );
   }
 
+  if (form) {
+    return (
+      <button className={`${classNames} ${className}`} type="submit" { ...props }>
+        {children}
+      </button>
+    );
+  }
+
   return (
-    <div className={`${classNames} ${className || ''}`} { ...rest }>
+    <div className={`${classNames} ${className}`} { ...props }>
       {children}
     </div>
   );

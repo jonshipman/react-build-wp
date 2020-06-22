@@ -4,6 +4,7 @@ import { Formik, Form } from 'formik';
 
 import DefaultForm from '../forms/DefaultForm';
 import Loading from './Loading';
+import Button from './Button';
 import Recaptcha, { resetToken } from '../external-scripts/Recaptcha';
 import withApolloClient from '../hoc/withApolloClient';
 
@@ -179,9 +180,9 @@ class LeadForm extends Component {
                   {loading
                   ? <Loading />
                   : (
-                    <button className="pointer f6 link bg-animate hover-bg-blue br2 ph4 pv2 mb2 dib white bg-green bn" type="submit" disabled={loading}>
+                    <Button disabled={loading}>
                       {this.Form.getButton()}
-                    </button>
+                    </Button>
                   )}
                 </Form>
               </Formik>
