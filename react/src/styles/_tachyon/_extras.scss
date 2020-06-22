@@ -13,6 +13,12 @@
     }
   }
 
+  &-mb {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   &-pr {
     &:last-child {
       padding-right: 0;
