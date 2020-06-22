@@ -48,14 +48,14 @@ class FormBase {
   templates = {
     Text: ({ key, name, label, className='', type='text', ...props }) => (
       <div className={`form-group w-100 mb4 drop-last-mb ${className}`} { ...props }>
-        <label htmlFor={name} className="fw7 ttu db w-100 mb2 pl2">{$label}</label>
-        <Field type={type} id={name} name={name} placeholder={$label} className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2" />
+        <label htmlFor={name} className="fw7 ttu db w-100 mb2 pl2">{label}</label>
+        <Field type={type} id={name} name={name} placeholder={label} className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2" />
         <ErrorMessage name={name} component={FormError} />
       </div>
     ),
     Select: ({ key, name, label, className='', options, ...props }) => (
       <div className={`form-group w-100 mb4 drop-last-mb ${className}`} { ...props }>
-        <label htmlFor={name} className="fw7 ttu db w-100 mb2 pl2">{$label}</label>
+        <label htmlFor={name} className="fw7 ttu db w-100 mb2 pl2">{label}</label>
         <Field className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2" as="select" name={name}>
           <option value=""></option>
           {options.map(opt => <option key={name + opt.value} value={opt.value}>{opt.label}</option>)}
