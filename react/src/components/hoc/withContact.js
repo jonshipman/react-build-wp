@@ -6,7 +6,7 @@ export default WrappedComponent => {
   return class extends Component {
     render() {
       return (
-        <WrappedComponent childrenAfterContent={true} { ...this.props }>
+        <WrappedComponent renderChildrenAfter={true} { ...this.props }>
           <div className="bg-silver pv5">
             <LeadForm />
           </div>
