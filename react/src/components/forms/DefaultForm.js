@@ -46,14 +46,14 @@ class Form extends Base {
         errorMessage: 'Required.'
       },
       email: {
-        component: () => <this.templates.Text className="w-50-l fl-l" name="email" type="email" label="Your Email" />,
+        component: () => <this.templates.Text className="w-50-l fl-l pr2" name="email" type="email" label="Your Email" />,
         validity: v => {
           return isEmail(v);
         },
         errorMessage: 'Invalid email address.'
       },
       phone: {
-        component: () => <this.templates.Text className="w-50-l fl-l" name="phone" type="tel" label="Your Phone" />,
+        component: () => <this.templates.Text className="w-50-l fl-l pl2" name="phone" type="tel" label="Your Phone" />,
         validity: v => {
           return isPhone(v);
         },
