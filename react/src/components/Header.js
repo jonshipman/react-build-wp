@@ -33,7 +33,9 @@ const Header = ({ sticky }) => {
             <PageWidth className="dt-l">
               <div className="brand flex items-center tc dtc-l v-mid-l tl-l">
                 <div className="mobile-toggle pr3 pv3 db dn-l" onClick={openMenu}>
-                  <div/><div/><div/>
+                  {Array.from(new Array(3)).map(() => (
+                    <div className="w2 bg-white pb1 mt1 mb1" />
+                  ))}
                 </div>
                 <Link to="/" className="dib border-box mv3" onClick={() => document.getElementById('menu-header-menu').classList.add('dn')}>
                   <Logo className="w4 nb1"/>
