@@ -14,7 +14,7 @@ add_action(
             'RootQuery',
             'frontPage',
             array(
-                'type'        => 'Post',
+                'type'        => 'Page',
                 'description' => __( 'Returns homepage', 'headless-wp' ),
                 'resolve'     => function ( $root, $args, $context, $info ) {
                     $page_on_front_id = (int) get_option( 'page_on_front' );
