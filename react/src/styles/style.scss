@@ -12,15 +12,21 @@
  * Primary Layout
  */
 html, body, #root {
-  @extend .min-vh-100;
+  min-height: 100vh;
 }
 
 body {
-  @extend .ma0, .pa0, .f5, .sans-serif, .mid-gray;
+  margin: 0;
+  padding: 0;
+  font-size: $font-size-5;
+  font-family: $sans-serif;
+  color: $mid-gray;
 }
 
 #root {
-  @extend .flex, .items-stretch, .flex-column;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
 }
 
 .main {
@@ -31,7 +37,7 @@ body {
  * Global Styling
  */
 a {
-  @extend .green, .no-underline;
+  @extend .navy, .no-underline;
 }
 
 input, textarea {
@@ -41,10 +47,10 @@ input, textarea {
 }
 
 svg {
-  @extend .mw-100;
+  max-width: 100%;
 
   path {
-    fill:$green;
+    fill:$navy;
   }
 }
 
@@ -80,10 +86,12 @@ svg {
 
 .cards-single {
   .card {
-    @extend .bb, .b--white-30;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: $white-30;
 
     &:last-child {
-      @extend .bb-0;
+      border-bottom: 0;
     }
   }
 }
@@ -103,9 +111,11 @@ svg {
 #footer {
   .nested-menu {
     a:before {
-      @extend .f2, .green, .relative, .mr2;
-
-      top: 0.3rem;
+      font-size: $font-size-2;
+      color: $navy;
+      position: relative;
+      margin-right: $spacing-small;
+      top: 0.35rem;
       line-height:0;
       content: '-';
     }
