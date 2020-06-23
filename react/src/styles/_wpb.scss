@@ -15,8 +15,9 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
   width: 100%;
 
   &:not(.wpex-vc-row-stretched) {
-    @extend .constrain-width;
-
+    width: $wpb-content-width;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 0;
     padding-right: 0;
   }
