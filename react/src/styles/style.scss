@@ -71,8 +71,10 @@ svg {
   @import "./_wordpress.scss";
   // @import "./_wpb.scss";
 
-  > p, > h1, > h2, > h3, > h4, > h5, > h6, > ul, > ol, > dl, > table {
-    margin-top: 0;
+  p, h1, h2, h3, h4, h5, h6, ul, ol, dl, table {
+    &:first-child {
+      margin-top: 0;
+    }
   }
 }
 
