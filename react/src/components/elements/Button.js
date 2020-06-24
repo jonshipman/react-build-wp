@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const PrimaryClasses = 'pointer f6 link bg-animate hover-bg-blue br2 ph4 pv2 mb2 dib white bg-green';
-export const SecondaryClasses = 'pointer f6 link dim br2 ph4 pv2 mb2 dib white ba b--white';
-export const TertiaryClasses = 'pointer f6 link dim br2 ph4 pv2 mb2 dib green ba b--green';
+export const PrimaryClasses = 'pointer link bg-animate hover-bg-blue br2 ph4 pv2 white bg-green bn';
+export const SecondaryClasses = 'pointer link dim br2 ph4 pv2 white ba b--white';
+export const TertiaryClasses = 'pointer link dim br2 ph4 pv2 green ba b--green';
 
 export default ({ children, className='', altClasses, type, form=false, to, href, ...props }) => {
   let classNames = PrimaryClasses;
@@ -18,6 +18,10 @@ export default ({ children, className='', altClasses, type, form=false, to, href
 
   if (altClasses) {
     classNames = altClasses;
+  }
+
+  if (!className.contains('db') && !className.contains('dib')) {
+    classNames += ' dib';
   }
 
   if (href) {

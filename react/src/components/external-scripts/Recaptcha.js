@@ -9,7 +9,7 @@ import withApolloClient from '../hoc/withApolloClient';
  **/
 const CHECK_RECAPTCHA = gql`
   query {
-    headlessWpSettings {
+    formData {
       recatchaSiteKey
     }
   }
@@ -63,10 +63,10 @@ class Recaptcha extends Component {
 
         if (result.data) {
           if (this.props.isMounted()) {
-            this.setState({ recatchaSiteKey: result.data.headlessSettings.recatchaSiteKey });
+            this.setState({ recatchaSiteKey: result.data.formData.recatchaSiteKey });
           }
 
-          if (result.data.headlessSettings.recatchaSiteKey && !this.scriptLoaded()) {
+          if (result.data.formData.recatchaSiteKey && !this.scriptLoaded()) {
             this.loadScript();
           }
         }

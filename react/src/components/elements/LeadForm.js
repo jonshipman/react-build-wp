@@ -180,7 +180,7 @@ class LeadForm extends Component {
                   {loading
                   ? <Loading />
                   : (
-                    <Button disabled={loading}>
+                    <Button form={true} disabled={loading}>
                       {this.Form.getButton()}
                     </Button>
                   )}
