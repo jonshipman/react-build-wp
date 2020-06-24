@@ -9,7 +9,7 @@ import withApolloClient from '../hoc/withApolloClient';
  **/
 const CHECK_RECAPTCHA = gql`
   query {
-    headlessSettings {
+    headlessWpSettings {
       googleSiteKey
     }
   }
