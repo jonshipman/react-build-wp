@@ -129,10 +129,15 @@ class Recaptcha extends Component {
     const { recatchaSiteKey } = this.state;
 
     const _ready = () => {
-      grecaptcha.execute(recatchaSiteKey, {action: 'homepage'}).then(this.processToken.bind(this));
+      grecaptcha
+        .execute(recatchaSiteKey, {action: 'homepage'})
+        .then(this.processToken.bind(this))
+        .catch(e => {
+          console.error('Recaptcha error', e);
+        });
     }
 
-    grecaptcha.ready(_ready.bind(this));
+    grecaptcha.ready(_ready);
   }
 
   processToken(token) {
