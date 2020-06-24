@@ -10,7 +10,7 @@ import withApolloClient from '../hoc/withApolloClient';
 const CHECK_RECAPTCHA = gql`
   query {
     headlessWpSettings {
-      googleSiteKey
+      recatchaSiteKey
     }
   }
 `;
@@ -44,7 +44,7 @@ class Recaptcha extends Component {
     super(props);
 
     this.state = {
-      googleSiteKey: null,
+      recatchaSiteKey: null,
       token: null
     }
 
@@ -53,20 +53,20 @@ class Recaptcha extends Component {
   }
 
   componentDidMount = async () => {
-    const { googleSiteKey, token } = this.state;
+    const { recatchaSiteKey, token } = this.state;
 
     if (this.props.client) {
-      if (!googleSiteKey) {
+      if (!recatchaSiteKey) {
         const result = await this.props.client.query({
           query: CHECK_RECAPTCHA,
         });
 
         if (result.data) {
           if (this.props.isMounted()) {
-            this.setState({ googleSiteKey: result.data.headlessSettings.googleSiteKey });
+            this.setState({ recatchaSiteKey: result.data.headlessSettings.recatchaSiteKey });
           }
 
-          if (result.data.headlessSettings.googleSiteKey && !this.scriptLoaded()) {
+          if (result.data.headlessSettings.recatchaSiteKey && !this.scriptLoaded()) {
             this.loadScript();
           }
         }
@@ -113,12 +113,12 @@ class Recaptcha extends Component {
 
   loadScript() {
     window._recaptchaLoadingCB = this.ready.bind(this);
-    const { googleSiteKey } = this.state;
+    const { recatchaSiteKey } = this.state;
 
     const script = document.createElement("script");
     script.async = true;
     script.defer = true;
-    script.src = `${RECAPTCHA_SCRIPT_URL}?onload=_recaptchaLoadingCB&render=${googleSiteKey}`;
+    script.src = `${RECAPTCHA_SCRIPT_URL}?onload=_recaptchaLoadingCB&render=${recatchaSiteKey}`;
     document.body.appendChild(script);
 
     this.loaded = true;
@@ -126,10 +126,10 @@ class Recaptcha extends Component {
 
   ready() {
     const { grecaptcha } = window;
-    const { googleSiteKey } = this.state;
+    const { recatchaSiteKey } = this.state;
 
     const _ready = () => {
-      grecaptcha.execute(googleSiteKey, {action: 'homepage'}).then(this.processToken.bind(this));
+      grecaptcha.execute(recatchaSiteKey, {action: 'homepage'}).then(this.processToken.bind(this));
     }
 
     grecaptcha.ready(_ready.bind(this));
