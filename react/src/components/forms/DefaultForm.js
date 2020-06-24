@@ -8,6 +8,7 @@ class Form extends Base {
   name = 'default';
 
   form = {
+    recaptchaFieldTrigger: 'email',
     button: 'Contact',
     mutation:
       gql`

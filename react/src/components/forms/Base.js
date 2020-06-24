@@ -13,7 +13,12 @@ class FormBase {
   }
 
   triggerRecaptcha = values => {
-    return values[this.form.recaptchaFieldTrigger] && values[this.form.recaptchaFieldTrigger].length > 0 ? true : false;
+    let trigger = this.form.recaptchaFieldTrigger;
+    if (!trigger) {
+      return true;
+    }
+
+    return values[trigger] && values[trigger].length > 0 ? true : false;
   }
 
   isValid = (key, value) => {
