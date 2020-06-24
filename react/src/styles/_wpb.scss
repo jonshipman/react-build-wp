@@ -241,3 +241,30 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
     text-align: center;
   }
 }
+
+.vc_separator {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+
+  > * {
+    font-weight: 400;
+    display: block;
+    flex-grow: 1;
+  }
+
+  > :not(.vc_sep_holder) {
+    background-color: $white;
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding-left: $spacing-small;
+    padding-right: $spacing-small;
+  }
+
+  .vc_sep_holder {
+    border-bottom-color: $light-silver;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+}
