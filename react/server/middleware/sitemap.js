@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink, useQuery, gql } from '@apollo/client';
 import { renderToStringWithData } from "@apollo/react-ssr";
