@@ -64,7 +64,7 @@ add_filter(
 
         if ( $success ) {
             $success = wp_mail(
-                get_options( 'admin_email' ),
+                get_options( 'contact_email' ) ?: get_options( 'admin_email' ),
                 'Form Email',
                 implode( "\n", $input )
             );
