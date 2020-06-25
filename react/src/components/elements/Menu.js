@@ -1,29 +1,27 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { NavLink } from 'react-router-dom';
-
-import LoadingError from './LoadingError';
 
 /**
  * Loading functional component that loads the skeleton, error,
  * or finished component based on results.
  */
-const Menu = ({ classNames, ...props }) => {
+const Menu = forwardRef(({ classNames, ...props }, ref) => {
   let _classNames = { ...defaultClasses, ...classNames };
 
-  const { loading, error, data } = useQuery(MENU_QUERY, {
+  const { error, loading, data } = useQuery(MENU_QUERY, {
     variables: { location: props.location }
   });
 
-  if (loading) return <Skeleton { ...props } classNames={_classNames} />
-  if (error) return <LoadingError error={error.message} />
-
-  if (data?.menus?.nodes?.length > 0 && data.menus.nodes[0].menuItems?.nodes?.length > 0) {
-    return <OnQueryFinished { ...props } classNames={_classNames} menuItems={data.menus.nodes[0].menuItems.nodes} />
-  }
-
-  return null;
-}
+  return <OnQueryFinished
+    forwardedRef={ref}
+    loading={loading}
+    error={error}
+    { ...props }
+    classNames={_classNames}
+    menuItems={data?.menus?.nodes?.length > 0 && data.menus.nodes[0].menuItems?.nodes?.length > 0 ? data.menus.nodes[0].menuItems.nodes : []}
+  />
+});
 
 /**
  * Default properties.
@@ -35,7 +33,7 @@ const defaultClasses = {
     'pa2 nowrap'
   ],
   a: [
-    'fw4 hover-blue no-underline dark-gray dib pv2 ph3',
+    'fw4 hover-blue no-underline color-inherit dib pv2 ph3',
     'hover-blue dark-gray db'
   ],
   submenu: [
@@ -86,19 +84,23 @@ const MENU_QUERY = gql`
 /**
  * Component that loads the UL and loops the child item from the menu query.
  */
-const OnQueryFinished = props => (
+const OnQueryFinished = ({ forwardedRef, loading, ...props }) => (
   <ul
+    ref={forwardedRef}
     id={`menu-${props.location.toLowerCase().replace('_','-')}`}
     className={`nested-menu ${props.className}`}
     style={{touchAction: 'pan-y'}}
   >
-    {props.menuItems.map(menuItem => {
-      if (null === menuItem.parentId) {
-        return <ChildItem key={menuItem.id} menuItem={menuItem} { ...props } />
-      } else {
-        return null;
-      }
-    })}
+    {loading || props.error?.message
+    ? <Skeleton { ...props } />
+    : props.menuItems.map(menuItem => {
+        if (null === menuItem.parentId) {
+          return <ChildItem key={menuItem.id} menuItem={menuItem} { ...props } />
+        } else {
+          return null;
+        }
+      })
+    }
   </ul>
 );
 
@@ -181,23 +183,20 @@ const ChildItem = ({ menuItem, level, ...props }) => {
 /**
  * The placeholder skeleton that shows before query loads.
  */
-const Skeleton = ({ classNames, ...props }) => (
-  <ul
-    id={`menu-${props.location.toLowerCase().replace('_','-')}`}
-    className={`nested-menu ${props.className}`}
-    style={{touchAction: 'pan-y'}}
-  >
-    {Array.from(new Array(5)).map(() => (
-      <li
-        key={Math.random()}
-        className={!props.ignoreClasses && classNames ? `menu-item level-1 ${classNames.li[0]}` : ''}
-      >
-        <div className={!props.ignoreClasses && classNames ? classNames.a[0] : ''} >
-          <span className="h1 w3 ml2 loading-block db" />
-        </div>
-      </li>
-    ))}
-  </ul>
-);
+const Skeleton = ({ classNames, ignoreClasses, error }) => {
+  return Array.from(new Array(error?.message ? 1 : 5)).map(() => (
+    <li
+      key={Math.random()}
+      className={!ignoreClasses && classNames?.li?.length > 0 ? `menu-item level-1 ${classNames.li[0]}` : 'menu-item level-1'}
+    >
+      <span className={!ignoreClasses && classNames?.a?.length > 0 ? classNames.a[0] : ''} >
+        {error?.message
+        ? error.message
+        : <span className="h1 w3 ml2 loading-block dib" />
+        }
+      </span>
+    </li>
+  ));
+}
 
 export default Menu;
