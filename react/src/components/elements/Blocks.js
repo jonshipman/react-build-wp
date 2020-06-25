@@ -4,7 +4,6 @@ import PageWidth from './PageWidth';
 
 const cellClassNames = 'w-100 relative';
 const padding = 'pa4-l pa2';
-const negativeMargins = 'nl4-l nr4-l';
 const columns = {
 	three: 'w-third-l',
 	two: 'w-50-l'
@@ -67,7 +66,7 @@ export const BlocksThree = ({
   ...props
 }) => (
   <PageWidth className={`blocks-three ${(className || '')}`}>
-    <div className={`flex-l ${negativeMargins} ${flexClassName || ''}`} { ...props }>
+    <div className={`flex-l ${flexClassName || ''}`} { ...props }>
       {left || middle || right
         ? Static({ className: `${padding} ${columns.three}`, left, middle, right })
         : Loop({ className: `${padding} ${columns.three}`, items, children })
@@ -105,7 +104,7 @@ export const BlocksTwo = ({
   ...props
 }) => (
   <PageWidth className={`blocks-two ${(className || '')}`}>
-    <div className={`flex-l ${negativeMargins} ${flexClassName || ''}`} { ...props }>
+    <div className={`flex-l ${flexClassName || ''}`} { ...props }>
       {left || right
         ? Static({ className: `${padding} ${columns.two}`, left, right })
         : Loop({ className: `${padding} ${columns.two}`, items, children })
