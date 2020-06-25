@@ -20,7 +20,7 @@ export default ({ children, className='', altClasses, type, form=false, to, href
     classNames = altClasses;
   }
 
-  if (!className.contains('db') && !className.contains('dib')) {
+  if (!className.includes('db') && !className.includes('dib')) {
     classNames += ' dib';
   }
 
