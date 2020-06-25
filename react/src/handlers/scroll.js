@@ -1,21 +1,12 @@
 class _sharedScrollHandler {
-  functions = []
-  rebounce = []
-  attached = false
-  canFire = true
+  functions = [];
+  rebounce = [];
+  attached = false;
 
   constructor() {
     this.handleScroll = this._handleScroll.bind(this);
     this.add = this._add.bind(this);
     this.remove = this._remove.bind(this);
-  }
-
-  debounce() {
-    this.canFire = false;
-
-    this.timeout = setTimeout(() => {
-      this.canFire = true;
-    }, 600);
   }
 
   attach() {
@@ -34,32 +25,43 @@ class _sharedScrollHandler {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
-
-    this.canFire = true;
   }
 
   _handleScroll() {
+    const props = {
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight,
+      x: window.scrollX,
+      y: window.scrollY,
+    };
+
     if (this.rebounce?.length > 0) {
-      this.rebounce.forEach(fn => fn({ width: document.documentElement.clientWidth, height: document.documentElement.clientHeight }));
+      this.rebounce.forEach((fn) =>
+        fn(props)
+      );
     }
 
-    if (this.functions?.length > 0 && this.canFire) {
-      this.debounce();
+    if (this.functions?.length > 0) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
 
-      this.functions.forEach(fn => {
-        fn({ width: document.documentElement.clientWidth, height: document.documentElement.clientHeight });
-      });
+      this.timeout = setTimeout(() => {
+        this.functions.forEach((fn) => {
+          fn(props);
+        });
+      }, 500);
     }
   }
 
-  _add(fn, debounce=true) {
+  _add(fn, debounce = true) {
     if (debounce) {
-      const check = this.functions.filter(f => f === fn);
+      const check = this.functions.filter((f) => f === fn);
       if (check.length === 0) {
         this.functions.push(fn);
       }
     } else {
-      const check = this.rebounce.filter(f => f === fn);
+      const check = this.rebounce.filter((f) => f === fn);
       if (check.length === 0) {
         this.rebounce.push(fn);
       }
@@ -69,8 +71,8 @@ class _sharedScrollHandler {
   }
 
   _remove(fn) {
-    this.functions = this.functions.filter(f => f !== fn);
-    this.rebounce = this.rebounce.filter(f => f !== fn);
+    this.functions = this.functions.filter((f) => f !== fn);
+    this.rebounce = this.rebounce.filter((f) => f !== fn);
 
     this.detach();
   }
