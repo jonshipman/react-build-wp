@@ -30,7 +30,7 @@ add_action(
                     'operator' => '==',
                     'param'    => 'page_type',
                     'value'    => 'front_page',
-                    'field'    => 'Post',
+                    'field'    => 'Page',
                 );
 
                 return $locations;
