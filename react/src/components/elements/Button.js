@@ -20,13 +20,15 @@ export default ({ children, className='', altClasses, type, form=false, to, href
     classNames = altClasses;
   }
 
-  if (!className.includes('db') && !className.includes('dib') && !className.includes('flex')) {
+  classNames += ` ${className}`;
+
+  if (!classNames.includes('db') && !classNames.includes('dib') && !classNames.includes('flex')) {
     classNames += ' dib';
   }
 
   if (href) {
     return (
-      <a href={href} className={`${classNames} ${className}`} { ...props }>
+      <a href={href} className={classNames} { ...props }>
         {children}
       </a>
     );
@@ -34,7 +36,7 @@ export default ({ children, className='', altClasses, type, form=false, to, href
 
   if (to) {
     return (
-      <Link to={to} className={`${classNames} ${className}`} { ...props }>
+      <Link to={to} className={classNames} { ...props }>
         {children}
       </Link>
     );
@@ -42,14 +44,14 @@ export default ({ children, className='', altClasses, type, form=false, to, href
 
   if (form) {
     return (
-      <button className={`${classNames} ${className}`} type="submit" { ...props }>
+      <button className={classNames} type="submit" { ...props }>
         {children}
       </button>
     );
   }
 
   return (
-    <div className={`${classNames} ${className}`} { ...props }>
+    <div className={classNames} { ...props }>
       {children}
     </div>
   );
