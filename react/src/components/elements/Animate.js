@@ -17,7 +17,7 @@ export default class extends Component {
 
   componentDidMount() {
     this.handleScroll({ height: document.documentElement.clientHeight });
-    scrollHandler.add(this.handleScrollBound, false);
+    scrollHandler.add(this.handleScrollBound);
   }
 
   componentWillUnmount() {
@@ -45,6 +45,8 @@ export default class extends Component {
       let a = (animate || 'fadeIn').split(' ');
       a = a.map(_ => `animate__${_}`).join(' ');
       c += ` animate__animated ${a}`;
+    } else {
+      c += ' o-0';
     }
 
     return (
