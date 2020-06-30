@@ -1,6 +1,5 @@
 class _sharedScrollHandler {
   functions = [];
-  rebounce = [];
   attached = false;
 
   constructor() {
@@ -11,14 +10,14 @@ class _sharedScrollHandler {
 
   attach() {
     if (!this.attached) {
-      window.addEventListener('scroll', this.handleScroll, true);
+      window.addEventListener("scroll", this.handleScroll, true);
       this.attached = true;
     }
   }
 
   detach() {
-    if (this.functions.length < 1 && this.rebounce.length < 1) {
-      window.removeEventListener('scroll', this.handleScroll, true);
+    if (this.functions.length < 1) {
+      window.removeEventListener("scroll", this.handleScroll, true);
       this.attached = false;
     }
 
@@ -35,12 +34,6 @@ class _sharedScrollHandler {
       y: window.scrollY,
     };
 
-    if (this.rebounce?.length > 0) {
-      this.rebounce.forEach((fn) =>
-        fn(props)
-      );
-    }
-
     if (this.functions?.length > 0) {
       if (this.timeout) {
         clearTimeout(this.timeout);
@@ -54,17 +47,10 @@ class _sharedScrollHandler {
     }
   }
 
-  _add(fn, debounce = true) {
-    if (debounce) {
-      const check = this.functions.filter((f) => f === fn);
-      if (check.length === 0) {
-        this.functions.push(fn);
-      }
-    } else {
-      const check = this.rebounce.filter((f) => f === fn);
-      if (check.length === 0) {
-        this.rebounce.push(fn);
-      }
+  _add(fn) {
+    const check = this.functions.filter((f) => f === fn);
+    if (check.length === 0) {
+      this.functions.push(fn);
     }
 
     this.attach();
@@ -72,7 +58,6 @@ class _sharedScrollHandler {
 
   _remove(fn) {
     this.functions = this.functions.filter((f) => f !== fn);
-    this.rebounce = this.rebounce.filter((f) => f !== fn);
 
     this.detach();
   }
