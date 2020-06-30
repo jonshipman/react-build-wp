@@ -1,37 +1,53 @@
 .text-shadow { text-shadow: 1px 0px $spacing-medium $black-50 };
 
-.drop-last {
-  &-br {
-    &:last-child {
-      border-right: 0;
-    }
-  }
-
-  &-bb {
-    &:last-child {
-      border-bottom: 0;
-    }
-  }
-
-  &-mb {
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  &-pr {
-    &:last-child {
-      padding-right: 0;
-    }
-  }
-
-  &-child {
-    &-pr {
+@mixin drop-last( $suffix: '' ) {
+  .drop-last {
+    &-br#{$suffix} {
       &:last-child {
-        > * {
-          padding-right: 0;
+        border-right: 0;
+      }
+    }
+
+    &-bb#{$suffix} {
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    &-mb#{$suffix} {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &-pr#{$suffix} {
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+
+    &-child {
+      &-pr#{$suffix} {
+        &:last-child {
+          > * {
+            padding-right: 0;
+          }
         }
       }
     }
   }
+}
+
+@include drop-last();
+
+@media #{$breakpoint-not-small} {
+  @include drop-last('-ns');
+}
+
+@media #{$breakpoint-medium} {
+  @include drop-last('-m');
+}
+
+@media #{$breakpoint-large} {
+  @include drop-last('-l');
 }
