@@ -40,6 +40,11 @@ a {
   @extend .navy, .no-underline;
 }
 
+iframe {
+  border: 0;
+  max-width: 100%;
+}
+
 input, textarea {
   &:focus {
     outline: 0;
@@ -48,6 +53,7 @@ input, textarea {
 
 svg {
   max-width: 100%;
+  box-sizing: border-box;
 
   path {
     fill:$navy;
