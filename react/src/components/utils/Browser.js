@@ -1,25 +1,31 @@
 class BrowserClass {
-  constructor() {
-    this.vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  }
+  screen = {
+    notSmall: () => window.matchMedia("screen and (min-width: 30em)").matches,
+    medium: () =>
+      window.matchMedia("screen and (min-width: 30em) and (max-width: 60em)")
+        .matches,
+    large: () => window.matchMedia("screen and (min-width: 60em)").matches,
+    print: () => window.matchMedia("print").matches,
+  };
 
   isMobile = () => {
-    return this.vw <= 960;
-  }
+    return !this.screen.large();
+  };
 
   isWebpSupported = () => {
-    if (typeof this.support !== "undefined")
-        return this.support;
+    if (typeof this.support !== "undefined") return this.support;
 
-    const elem = typeof document === 'object' ? document.createElement('canvas') : {};
+    const elem =
+      typeof document === "object" ? document.createElement("canvas") : {};
 
-    this.support = elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    this.support =
+      elem.toDataURL("image/webp").indexOf("data:image/webp") === 0;
 
     return this.support;
-  }
+  };
 }
 
 const Browser = new BrowserClass();
-export const { isWebpSupported, isMobile } = Browser;
+export const { isWebpSupported, isMobile, screen } = Browser;
 
 export default Browser;
