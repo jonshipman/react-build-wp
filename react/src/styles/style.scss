@@ -7,6 +7,7 @@
 @import "_tachyon/_hover-z-index.scss";
 @import "_tachyon/_extras.scss";
 @import "./_animations.scss";
+@import "./_menu.scss";
 
 /**
  * Primary Layout
@@ -57,16 +58,6 @@ svg {
 
   path {
     fill:$navy;
-  }
-}
-
-#header {
-  .menu-item.level-1, .menu-item.level-2 {
-    &:hover {
-      > .sub-menu {
-        display: block;
-      }
-    }
   }
 }
 

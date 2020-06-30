@@ -1,0 +1,96 @@
+#header {
+  .nested-menu {
+    > li {
+      display: block;
+      position: relative;
+      z-index: 1;
+      padding-top: $spacing-medium;
+      padding-bottom: $spacing-medium;
+
+      &:hover {
+        z-index: 2;
+      }
+
+      > a {
+        text-transform: uppercase;
+        font-size: $font-size-6;
+        transition-property: color;
+        transition-duration: 400ms;
+        color: inherit;
+        text-decoration: none;
+        display: inline-block;
+        padding: $spacing-small $spacing-medium;
+
+        &:hover {
+          color: $silver;
+        }
+      }
+
+      > .sub-menu {
+        list-style: none;
+        padding-left: 0;
+        padding-top: $spacing-small;
+        padding-bottom: $spacing-small;
+        background-color: $white;
+        border: solid 1px $light-gray;
+        width: $width-5;
+
+        li {
+          padding: $spacing-small;
+
+          > a {
+            transition-property: color;
+            transition-duration: 400ms;
+            color: $dark-gray;
+            display: block;
+
+            &:hover {
+              color: $blue;
+            }
+          }
+        }
+
+        > li {
+          position: relative;
+          z-index: 1;
+
+          &:hover {
+            z-index: 2;
+          }
+
+          > .sub-menu {
+            li {
+              padding: $spacing-small;
+              white-space: nowrap;
+            }
+          }
+        }
+
+        @media #{$breakpoint-large} {
+          text-align: left;
+          position: absolute;
+          top: 100%;
+          left: 0;
+        }
+      }
+
+      @media #{$breakpoint-large} {
+        display: inline-block;
+
+        &:last-child {
+          > a {
+            padding-right: 0;
+          }
+        }
+      }
+    }
+
+    li.menu-item.level-1, li.menu-item.level-2 {
+      &:hover {
+        > .sub-menu {
+          display: block;
+        }
+      }
+    }
+  }
+}
