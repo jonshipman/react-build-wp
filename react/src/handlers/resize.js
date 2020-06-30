@@ -48,6 +48,8 @@ class _sharedResizeHandler {
     }
   }
 
+  // Second parameter is a check on when to exec.
+  // Example: Switching from mobile to desktop widths.
   _add(fn, condition=() => true) {
     const check = this.functions.filter((f) => f.fn === fn);
     if (check.length === 0) {
