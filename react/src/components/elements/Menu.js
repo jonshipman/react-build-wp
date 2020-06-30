@@ -68,7 +68,7 @@ const MENU_QUERY = gql`
 /**
  * Component that loads the UL and loops the child item from the menu query.
  */
-const OnQueryFinished = ({ forwardedRef, loading, ...props }) => (
+const OnQueryFinished = ({ forwardedRef, loading, children, ...props }) => (
   <ul
     ref={forwardedRef}
     id={`menu-${props.location.toLowerCase().replace("_", "-")}`}
@@ -86,6 +86,7 @@ const OnQueryFinished = ({ forwardedRef, loading, ...props }) => (
         }
       })
     )}
+    {children}
   </ul>
 );
 
