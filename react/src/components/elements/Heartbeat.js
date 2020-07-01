@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 
 const QUERY = gql`
@@ -17,9 +17,11 @@ const HeartBeatQuery = ({ beats, onError }) => {
     variables: { beats },
   });
 
-  if (error) {
-    onError(error);
-  }
+  useEffect(() => {
+    if (error) {
+      onError(error);
+    }
+  }, [ onError, error ]);
 
   return null;
 };
