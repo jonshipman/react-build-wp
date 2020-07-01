@@ -1,5 +1,18 @@
-import React from 'react';
+import React from "react";
 
-export default props => {
-  return <span { ...props }><span className="lds-ring"><span></span><span></span><span></span><span></span></span></span>
-}
+export default ({ color, ...props }) => {
+  const style = {};
+  if (color) {
+    style.borderTopColor = color;
+  }
+
+  return (
+    <span {...props}>
+      <span className="lds-ring">
+        {Array.from(new Array(3)).map(() => (
+          <span style={style} />
+        ))}
+      </span>
+    </span>
+  );
+};
