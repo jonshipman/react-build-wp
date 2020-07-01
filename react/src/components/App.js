@@ -7,6 +7,7 @@ import { isWebpSupported } from './utils/Browser';
 import withPreview from './hoc/withPreview';
 import withSearch from './hoc/withSearch';
 import withCategory from './hoc/withCategory';
+import Config from '../config';
 
 // External Scripts
 // import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
@@ -38,6 +39,11 @@ export default class extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/logout" render={() => {
+               Config.removeAuthToken();
+
+               return <Redirect to="/" />
+            }} />
 
             <Route exact path="/search" component={withSearch(Archive)} />
             <Route exact path="/blog" component={Archive} />
