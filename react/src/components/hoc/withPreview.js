@@ -79,38 +79,36 @@ const PreviewQuery = ({
 const QueryWithRouter = withRouter(PreviewQuery);
 
 export default (WrappedComponent) => {
-  return withRouter(
-    class extends Component {
-      checkForAuthentication() {
-        const {
-          history,
-          match: { url },
-        } = this.props;
+  return class extends Component {
+    checkForAuthentication() {
+      const {
+        history,
+        match: { url },
+      } = this.props;
 
-        if (!Config.getAuthToken()) {
-          localStorage.setItem("redirect", url);
-          history.push("/login");
-        }
-      }
-
-      componentDidMount() {
-        this.checkForAuthentication.bind(this)();
-      }
-
-      render() {
-        const { history } = this.props;
-
-        return (
-          <WrappedComponent query={QueryWithRouter} {...this.props}>
-            <Heartbeat
-              onError={() => {
-                Config.removeAuthToken();
-                history.push("/login");
-              }}
-            />
-          </WrappedComponent>
-        );
+      if (!Config.getAuthToken()) {
+        localStorage.setItem("redirect", url);
+        history.push("/login");
       }
     }
-  );
+
+    componentDidMount() {
+      this.checkForAuthentication.bind(this)();
+    }
+
+    render() {
+      const { history } = this.props;
+
+      return (
+        <WrappedComponent query={QueryWithRouter} {...this.props}>
+          <Heartbeat
+            onError={() => {
+              Config.removeAuthToken();
+              history.push("/login");
+            }}
+          />
+        </WrappedComponent>
+      );
+    }
+  }
 };
