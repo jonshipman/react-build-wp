@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { gql, useQuery } from "@apollo/client";
 
-import NotFound from '../elements/NotFound';
-
-import Loading from '../elements/Loading';
-import LoadingError from '../elements/LoadingError';
-
-import Config from '../../config';
+import Config from "../../config";
+import Loading from "../elements/Loading";
+import LoadingError from "../elements/LoadingError";
+import NotFound from "../elements/NotFound";
+import Heartbeat from "../elements/Heartbeat";
 
 const PREVIEW_QUERY = gql`
   query SingleQuery($postId: ID!) {
@@ -47,67 +46,71 @@ const PREVIEW_QUERY = gql`
   }
 `;
 
-const PreviewQuery = ({ match, children }) => {
-  const { params } = match;
-
-  console.log({ variables: { postId: params.revisionId } });
-
-	const { loading, error, data } = useQuery(PREVIEW_QUERY, { variables: { postId: params.revisionId } });
+const PreviewQuery = ({
+  match: {
+    params: { revisionId },
+    url,
+  },
+  children,
+  history,
+}) => {
+  const { loading, error, data } = useQuery(PREVIEW_QUERY, {
+    variables: { postId: revisionId },
+  });
 
   if (loading) return <Loading />;
-	if (error) return <LoadingError error={error.message} />;
+  if (error) return <LoadingError error={error.message} />;
 
   const obj = Object.assign({}, data.page || data.post);
 
   if (obj.isRestricted) {
-    obj.content = '<p>You are unauthorized to view this post.</p>';
-
-    // TODO: This needs to be configured via querying a refresh token.
     Config.removeAuthToken();
+    localStorage.setItem("redirect", url);
+    history.push("/login");
   }
 
   if (obj) {
     return children(obj);
   }
 
-  return <NotFound />
-}
+  return <NotFound />;
+};
 
-export default WrappedComponent => {
-  return class extends Component {
-    state = {
-      query: false,
-      redirect: null,
-    }
+const QueryWithRouter = withRouter(PreviewQuery);
 
-    checkForAuthentication() {
-      const { match } = this.props;
-      const { params } = match;
+export default (WrappedComponent) => {
+  return withRouter(
+    class extends Component {
+      checkForAuthentication() {
+        const {
+          history,
+          match: { url },
+        } = this.props;
 
-      if (params.revisionId) {
-        if (Config.getAuthToken()) {
-          this.setState({ query: true });
-        } else {
-          localStorage.setItem('redirect', match.url);
-          this.setState({ redirect: '/login', query: false });
+        if (!Config.getAuthToken()) {
+          localStorage.setItem("redirect", url);
+          history.push("/login");
         }
-      } else {
-        this.setState({ query: false });
+      }
+
+      componentDidMount() {
+        this.checkForAuthentication.bind(this)();
+      }
+
+      render() {
+        const { history } = this.props;
+
+        return (
+          <WrappedComponent query={QueryWithRouter} {...this.props}>
+            <Heartbeat
+              onError={() => {
+                Config.removeAuthToken();
+                history.push("/login");
+              }}
+            />
+          </WrappedComponent>
+        );
       }
     }
-
-    componentDidMount() {
-      this.checkForAuthentication();
-    }
-
-    render() {
-      const { query, redirect } = this.state;
-
-      if (redirect) return <Redirect to={redirect} />
-
-      if (query) return <WrappedComponent query={PreviewQuery} { ...this.props } />
-
-      return <WrappedComponent { ...this.props } />
-    }
-  };
-}
+  );
+};

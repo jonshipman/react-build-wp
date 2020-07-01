@@ -46,11 +46,9 @@ const authAfterware = new ApolloLink((operation, forward) => {
     const context = operation.getContext();
     const { response: { headers } } = context;
 
-    // If we get an error, remove the invalid token.
-    if (response.errors && response.errors.length) {
-        if (Config.getAuthToken()) {
-          Config.removeAuthToken();
-        }
+    // If we get an error, log the error.
+    if (response?.errors?.length > 0) {
+      console.error(response.errors);
     }
 
     // Get the refresh token and update the localStorage.
