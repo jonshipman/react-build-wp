@@ -10,7 +10,7 @@ export default ({ color, ...props }) => {
     <span {...props}>
       <span className="lds-ring">
         {Array.from(new Array(3)).map(() => (
-          <span style={style} />
+          <span key={Math.random()} style={style} />
         ))}
       </span>
     </span>
