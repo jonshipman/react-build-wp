@@ -6,6 +6,7 @@ const QUERY = gql`
     viewer {
       id
       jwtAuthExpiration
+      capabilities
     }
   }
 `;
