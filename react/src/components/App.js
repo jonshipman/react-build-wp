@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 // Misc internal
 import { isWebpSupported } from './utils/Browser';
 import withPreview from './hoc/withPreview';
+import withHeartbeat from './hoc/withHeartbeat';
 import withSearch from './hoc/withSearch';
 import withCategory from './hoc/withCategory';
 import Config from '../config';
@@ -31,6 +32,11 @@ export default class extends Component {
     document.getElementById('root').classList.add('loaded');
   }
 
+  HeartbeatError({ history }) {
+    Config.removeAuthToken();
+    history.push("/login");
+  }
+
   render() {
     return (
       <>
@@ -49,7 +55,7 @@ export default class extends Component {
             <Route exact path="/blog" component={Archive} />
             <Route exact path="/category/:category" component={withCategory(Archive)} />
 
-            <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce" component={withPreview(Single)} />
+            <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce" component={withHeartbeat(withPreview(Single), this.HeartbeatError.bind(this))} />
             <Route path="*" component={Single} />
           </Switch>
         </div>

@@ -10,7 +10,7 @@ const QUERY = gql`
   }
 `;
 
-const HeartBeatQuery = ({ beats, onError }) => {
+const HeartBeatQuery = ({ beats, onError, ...props }) => {
   const { error } = useQuery(QUERY, {
     errorPolicy: "all",
     fetchPolicy: "network-only",
@@ -19,21 +19,21 @@ const HeartBeatQuery = ({ beats, onError }) => {
 
   useEffect(() => {
     if (error) {
-      onError(error);
+      onError({ ...props, error });
     }
-  }, [ onError, error ]);
+  }, [onError, error, props]);
 
   return null;
 };
 
-export default class extends Component {
+class Heartbeat extends Component {
   interval = null;
   state = {
     beats: 0,
   };
 
   componentDidMount() {
-    const { ibi=30000 } = this.props;
+    const { ibi } = this.props;
     this.interval = setInterval(this.pulse.bind(this), ibi);
   }
 
@@ -51,8 +51,21 @@ export default class extends Component {
 
   render() {
     const { beats } = this.state;
-    const { onError=() => true } = this.props;
+    const { onError, ...props } = this.props;
 
-    return <HeartBeatQuery onError={onError} beats={beats} />;
+    return <HeartBeatQuery onError={onError} beats={beats} {...props} />;
   }
 }
+
+export default (WrappedComponent, onError = () => true, ibi = 30000) => {
+  return class extends Component {
+    render() {
+      return (
+        <>
+          <WrappedComponent {...this.props} />
+          <Heartbeat onError={onError} ibi={ibi} {...this.props} />
+        </>
+      );
+    }
+  };
+};

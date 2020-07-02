@@ -97,17 +97,8 @@ export default (WrappedComponent) => {
     }
 
     render() {
-      const { history } = this.props;
-
       return (
-        <WrappedComponent query={QueryWithRouter} {...this.props}>
-          <Heartbeat
-            onError={() => {
-              Config.removeAuthToken();
-              history.push("/login");
-            }}
-          />
-        </WrappedComponent>
+        <WrappedComponent query={QueryWithRouter} {...this.props} />
       );
     }
   }
