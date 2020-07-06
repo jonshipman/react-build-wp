@@ -1,18 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
-import { gql, useQuery } from '@apollo/client';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { gql, useQuery } from "@apollo/client";
 
-import { FRONTEND_URL } from '../config';
-import { ReactComponent as ClockIcon } from '../static/images/clock.svg';
-import { ReactComponent as FolderIcon } from '../static/images/folder.svg';
-import LoadingError from './elements/LoadingError';
-import NotFound from './elements/NotFound';
-import PageSkeleton from './elements/PageSkeleton';
-import PageWidth from './elements/PageWidth';
-import PostContent from './elements/PostContent';
-import Title from './elements/Title';
-import withContact from './hoc/withContact';
+import { FRONTEND_URL } from "../config";
+import { ReactComponent as ClockIcon } from "../static/images/clock.svg";
+import { ReactComponent as FolderIcon } from "../static/images/folder.svg";
+import LoadingError from "./elements/LoadingError";
+import NotFound from "./elements/NotFound";
+import PageSkeleton from "./elements/PageSkeleton";
+import PageWidth from "./elements/PageWidth";
+import PostContent from "./elements/PostContent";
+import Title from "./elements/Title";
+import withContact from "./hoc/withContact";
 
 /**
  * GraphQL page query that takes a page slug as a uri
@@ -61,7 +61,9 @@ const SINGLE_QUERY = gql`
 `;
 
 const DefaultQuery = ({ match: { url: uri }, children }) => {
-  const { loading, error, data } = useQuery(SINGLE_QUERY, { variables: { uri } });
+  const { loading, error, data } = useQuery(SINGLE_QUERY, {
+    variables: { uri },
+  });
 
   if (loading) return <PageSkeleton />;
   if (error) return <LoadingError error={error.message} />;
@@ -70,44 +72,58 @@ const DefaultQuery = ({ match: { url: uri }, children }) => {
     return children(data.getPostOrPageByUri);
   }
 
-  return <NotFound/>
-}
+  return <NotFound />;
+};
 
-const Single = ({ obj, renderChildrenAfter=false, renderTitle=true, children }) => (
+const Single = ({
+  obj,
+  renderChildrenAfter = false,
+  renderTitle = true,
+  children,
+}) => (
   <article className={`single post-${obj.databaseId}`}>
     {obj.seo && (
       <Helmet>
         <title>{obj.seo.title}</title>
-        <meta name="description" content={obj.seo.metaDesc}/>
+        <meta name="description" content={obj.seo.metaDesc} />
         <link rel="canonical" href={`${FRONTEND_URL}/${obj.slug}`} />
       </Helmet>
     )}
 
-    {renderTitle && (
-      'Page' !== obj.__typename
-      ? <Title notHeading={true}>{obj?.categories?.edges?.length > 0 ? obj.categories.edges[0].node.name : 'Blog'}</Title>
-      : <Title>{obj?.title}</Title>
-    )}
+    {renderTitle &&
+      ("Page" !== obj.__typename ? (
+        <Title notHeading={true}>
+          {obj?.categories?.edges?.length > 0
+            ? obj.categories.edges[0].node.name
+            : "Blog"}
+        </Title>
+      ) : (
+        <Title>{obj?.title}</Title>
+      ))}
 
-    {!renderChildrenAfter && (children)}
+    {!renderChildrenAfter && children}
 
     <PageWidth className="mt4">
-      {'Page' !== obj.__typename && (
+      {"Page" !== obj.__typename && (
         <>
           <h1 className="f2 fw4 mb4">{obj.title}</h1>
 
           <div className="post-meta mv4">
-            <div className="posted dib mr4"><ClockIcon className="mr2 v-mid" width={20} height={20}/><span>{obj.dateFormatted}</span></div>
+            <div className="posted dib mr4">
+              <ClockIcon className="mr2 v-mid" width={20} height={20} />
+              <span>{obj.dateFormatted}</span>
+            </div>
 
             {obj?.categories?.edges?.length > 0 && (
               <div className="post-categories dib">
-                <FolderIcon className="mr2 v-mid" width={20} height={20}/>
+                <FolderIcon className="mr2 v-mid" width={20} height={20} />
                 <ul className="list pl0 dib">
-                  {obj.categories.edges.map(category => (
-                    <li key={`cat-${category.node.databaseId}-post-cats`} className="dib mr2 pr2 br b--near-white drop-last-br">
-                      <Link to={category.node.uri}>
-                        {category.node.name}
-                      </Link>
+                  {obj.categories.edges.map((category) => (
+                    <li
+                      key={`cat-${category.node.databaseId}-post-cats`}
+                      className="dib mr2 pr2 br b--near-white drop-last-br"
+                    >
+                      <Link to={category.node.uri}>{category.node.name}</Link>
                     </li>
                   ))}
                 </ul>
@@ -117,10 +133,10 @@ const Single = ({ obj, renderChildrenAfter=false, renderTitle=true, children }) 
         </>
       )}
 
-      <PostContent content={obj.content}/>
+      <PostContent content={obj.content} />
     </PageWidth>
 
-    {renderChildrenAfter && (children)}
+    {renderChildrenAfter && children}
   </article>
 );
 
@@ -128,21 +144,17 @@ const SingleWithContact = withContact(Single);
 
 const Loader = (match, obj) => {
   const { url } = match;
-  if (url?.includes('contact')) {
-    return <SingleWithContact obj={obj} />
+  if (url?.includes("contact")) {
+    return <SingleWithContact obj={obj} />;
   }
 
-  return <Single obj={obj} />
-}
+  return <Single obj={obj} />;
+};
 
-export default props => {
+export default (props) => {
   const { match } = props;
 
   const Query = props.query || DefaultQuery;
 
-  return (
-    <Query match={match}>
-      {obj => Loader(match, obj)}
-    </Query>
-  );
-}
+  return <Query match={match}>{(obj) => Loader(match, obj)}</Query>;
+};
