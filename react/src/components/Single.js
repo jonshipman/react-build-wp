@@ -41,6 +41,7 @@ const SINGLE_QUERY = gql`
               databaseId
               slug
               name
+              uri
             }
           }
         }
@@ -59,15 +60,14 @@ const SINGLE_QUERY = gql`
   }
 `;
 
-const DefaultQuery = props => {
-  const { url: uri } = props.match;
+const DefaultQuery = ({ match: { url: uri }, children }) => {
   const { loading, error, data } = useQuery(SINGLE_QUERY, { variables: { uri } });
 
   if (loading) return <PageSkeleton />;
   if (error) return <LoadingError error={error.message} />;
 
   if (data.getPostOrPageByUri) {
-    return props.children(data.getPostOrPageByUri);
+    return children(data.getPostOrPageByUri);
   }
 
   return <NotFound/>
@@ -85,7 +85,7 @@ const Single = ({ obj, renderChildrenAfter=false, renderTitle=true, children }) 
 
     {renderTitle && (
       'Page' !== obj.__typename
-      ? <Title notHeading={true}>{obj?.categories?.edges?.length ? obj.categories.edges[0].node.name : 'Blog'}</Title>
+      ? <Title notHeading={true}>{obj?.categories?.edges?.length > 0 ? obj.categories.edges[0].node.name : 'Blog'}</Title>
       : <Title>{obj?.title}</Title>
     )}
 
@@ -99,22 +99,20 @@ const Single = ({ obj, renderChildrenAfter=false, renderTitle=true, children }) 
           <div className="post-meta mv4">
             <div className="posted dib mr4"><ClockIcon className="mr2 v-mid" width={20} height={20}/><span>{obj.dateFormatted}</span></div>
 
-            <div className="post-categories dib">
-              {obj?.categories?.edges?.length > 1 && (
-                <>
-                  <FolderIcon className="mr2 v-mid" width={20} height={20}/>
-                  <ul className="list pl0 dib">
-                    {obj.categories.edges.map(category => (
-                      <li key={`cat-${category.node.databaseId}-post-cats`} className="dib mr2 pr2 br b--near-white drop-last-br">
-                        <Link to={`/blog/${category.node.slug}`}>
-                          {category.node.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
+            {obj?.categories?.edges?.length > 0 && (
+              <div className="post-categories dib">
+                <FolderIcon className="mr2 v-mid" width={20} height={20}/>
+                <ul className="list pl0 dib">
+                  {obj.categories.edges.map(category => (
+                    <li key={`cat-${category.node.databaseId}-post-cats`} className="dib mr2 pr2 br b--near-white drop-last-br">
+                      <Link to={category.node.uri}>
+                        {category.node.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </>
       )}
