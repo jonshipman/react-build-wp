@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery } from "@apollo/client";
 
-import { FRONTEND_URL } from '../config';
-import Button from './elements/Button';
-import Loading from './elements/Loading';
-import LoadingError from './elements/LoadingError';
-import PageWidth from './elements/PageWidth';
-import PostExcerpt from './elements/PostExcerpt';
-import Title from './elements/Title';
+import { FRONTEND_URL } from "../config";
+import Button from "./elements/Button";
+import Loading from "./elements/Loading";
+import LoadingError from "./elements/LoadingError";
+import PageWidth from "./elements/PageWidth";
+import PostExcerpt from "./elements/PostExcerpt";
+import Title from "./elements/Title";
 
 const ARCHIVE_QUERY = gql`
-  query ArchiveQuery(
-    $first: Int,
-    $last: Int,
-    $after: String,
-    $before: String
-  ) {
+  query ArchiveQuery($first: Int, $last: Int, $after: String, $before: String) {
     posts(
-      first: $first,
-      last: $last,
-      after: $after,
-      before: $before,
+      first: $first
+      last: $last
+      after: $after
+      before: $before
       where: { status: PUBLISH, hasPassword: false }
     ) {
       pageInfo {
@@ -51,22 +46,14 @@ const initialState = {
   pageInfo: {
     hasNextPage: false,
     hasPreviousPage: false,
-    startCursor: '',
-    endCursor: ''
-  }
+    startCursor: "",
+    endCursor: "",
+  },
 };
 
-const OnQueryFinished = ({
-  posts,
-  setDirection,
-  setPageInfo,
-}) => {
+const OnQueryFinished = ({ posts, setDirection, setPageInfo }) => {
   if (posts?.edges?.length < 1) {
-    return (
-      <PageWidth>
-        Nothing found.
-      </PageWidth>
-    );
+    return <PageWidth>Nothing found.</PageWidth>;
   }
 
   return (
@@ -74,27 +61,36 @@ const OnQueryFinished = ({
       {posts?.edges?.length > 0 && (
         <div className="entry cf mb3">
           <div className="blog-entries mb3">
-            {posts.edges.map(post => (
-              <PostExcerpt key={`archive-${post.node.databaseId}`} post={post} />
+            {posts.edges.map((post) => (
+              <PostExcerpt
+                key={`archive-${post.node.databaseId}`}
+                post={post}
+              />
             ))}
           </div>
 
           {posts.pageInfo?.hasPreviousPage && (
-            <Button className="fl" onClick={() => {
-              setPageInfo(posts.pageInfo);
-              setDirection(PREV);
-              window.scrollTo(0, 0);
-            }}>
+            <Button
+              className="fl"
+              onClick={() => {
+                setPageInfo(posts.pageInfo);
+                setDirection(PREV);
+                window.scrollTo(0, 0);
+              }}
+            >
               Previous
             </Button>
           )}
 
           {posts.pageInfo?.hasNextPage && (
-            <Button className="fr" onClick={() => {
-              setPageInfo(posts.pageInfo);
-              setDirection(NEXT);
-              window.scrollTo(0, 0);
-            }}>
+            <Button
+              className="fr"
+              onClick={() => {
+                setPageInfo(posts.pageInfo);
+                setDirection(NEXT);
+                window.scrollTo(0, 0);
+              }}
+            >
               Next
             </Button>
           )}
@@ -102,13 +98,13 @@ const OnQueryFinished = ({
       )}
     </PageWidth>
   );
-}
+};
 
 const DefaultQuery = ({ variables, children }) => {
   const { loading, error, data } = useQuery(ARCHIVE_QUERY, { variables });
 
-  if (loading) return <Loading />
-  if (error) return <LoadingError error={error.message} />
+  if (loading) return <Loading />;
+  if (error) return <LoadingError error={error.message} />;
 
   return (
     <>
@@ -122,14 +118,14 @@ const DefaultQuery = ({ variables, children }) => {
       {children(data)}
     </>
   );
-}
+};
 
 const PostsAndQuery = ({ NewQuery, ...props }) => {
-  const [ direction, setDirection ] = useState(0);
-  const [ pageInfo, setPageInfo ] = useState(initialState.pageInfo);
+  const [direction, setDirection] = useState(0);
+  const [pageInfo, setPageInfo] = useState(initialState.pageInfo);
 
   let variables = {
-    first: postsPerPage
+    first: postsPerPage,
   };
 
   if (NEXT === direction) {
@@ -150,24 +146,24 @@ const PostsAndQuery = ({ NewQuery, ...props }) => {
 
   return (
     <ExecuteQuery variables={variables}>
-      {data => (
+      {(data) => (
         <OnQueryFinished
-          { ...data }
-          { ...props }
+          {...data}
+          {...props}
           setDirection={setDirection}
           setPageInfo={setPageInfo}
         />
       )}
     </ExecuteQuery>
   );
-}
+};
 
-export default ({ className='archive', children, ...props }) => {
+export default ({ className = "archive", children, ...props }) => {
   return (
     <div className={className}>
-      {children && (children)}
+      {children && children}
 
-      <PostsAndQuery { ...props } />
+      <PostsAndQuery {...props} />
     </div>
   );
-}
+};

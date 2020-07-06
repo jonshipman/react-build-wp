@@ -57,10 +57,7 @@ export default class extends Component {
 
             <Route exact path="/search" component={withSearch(Archive)} />
             <Route exact path="/blog" component={Archive} />
-            <Route
-              path="/category/"
-              component={withCategory(Archive)}
-            />
+            <Route path="/category/" component={withCategory(Archive)} />
 
             <Route
               path="/_preview/:parentId/:revisionId/:type/:status/:nonce"
