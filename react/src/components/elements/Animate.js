@@ -1,6 +1,6 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from "react";
 
-import scrollHandler from '../../handlers/scroll';
+import scrollHandler from "../../handlers/scroll";
 
 export default class extends Component {
   state = {
@@ -39,18 +39,18 @@ export default class extends Component {
     const { children, className, animate, ...props } = this.props;
     const { inViewPort } = this.state;
 
-    let c = className || '';
+    let c = className || "";
 
     if (inViewPort) {
-      let a = (animate || 'fadeIn').split(' ');
-      a = a.map(_ => `animate__${_}`).join(' ');
+      let a = (animate || "fadeIn").split(" ");
+      a = a.map((_) => `animate__${_}`).join(" ");
       c += ` animate__animated ${a}`;
     } else {
-      c += ' o-0';
+      c += " o-0";
     }
 
     return (
-      <div ref={this.ref} className={c} { ...props }>
+      <div ref={this.ref} className={c} {...props}>
         {children}
       </div>
     );

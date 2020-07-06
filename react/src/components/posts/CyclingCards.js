@@ -1,23 +1,23 @@
-import React from 'react';
-import { gql } from '@apollo/client';
+import React from "react";
+import { gql } from "@apollo/client";
 
-import Image from '../elements/Image';
+import Image from "../elements/Image";
 
-import RotatingCards from './RotatingCards';
+import RotatingCards from "./RotatingCards";
 
 const QUERY = gql`
   query CardSmallQuery(
-    $first: Int,
-    $last: Int,
-    $after: String,
+    $first: Int
+    $last: Int
+    $after: String
     $before: String
   ) {
     posts(
-      first: $first,
-      last: $last,
-      after: $after,
-      before: $before,
-      where: {status: PUBLISH, hasPassword: false}
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+      where: { status: PUBLISH, hasPassword: false }
     ) {
       pageInfo {
         hasNextPage
@@ -38,8 +38,11 @@ const QUERY = gql`
 
 const Wrapper = ({ cards, children, ...props }) => {
   return (
-    <ul className="cards-cycling list pl0 flex-l flex-wrap-l mw7 center" { ...props }>
-      {cards.map(card => children(card))}
+    <ul
+      className="cards-cycling list pl0 flex-l flex-wrap-l mw7 center"
+      {...props}
+    >
+      {cards.map((card) => children(card))}
     </ul>
   );
 };
@@ -50,9 +53,11 @@ const Wrapper = ({ cards, children, ...props }) => {
 export default ({ heading }) => (
   <div className="w-100 h-100 bg-dark-gray pa4 tc flex-l items-center-l">
     <div className="w-100-l">
-      <h3><span className="fw4 f2 white">{heading}</span></h3>
+      <h3>
+        <span className="fw4 f2 white">{heading}</span>
+      </h3>
       <RotatingCards query={QUERY} wrapper={Wrapper}>
-        {card => (
+        {(card) => (
           <li className="w-100 w-50-l card pa3" key={card.node.id}>
             <div className="w-100 bg-white aspect-ratio-l aspect-ratio--16x9-l">
               <div className="card--inner w-100 absolute-l z-1 pa2 pa0-l">

@@ -1,5 +1,4 @@
-
-@mixin fade-out($speed: 200ms, $selector: '') {
+@mixin fade-out($speed: 200ms, $selector: "") {
   &-enter #{$selector} {
     opacity: 0;
   }
@@ -21,9 +20,9 @@
 }
 
 .cards-tall {
-  @include fade-out(100ms, '.flex-l > div:nth-child(1)');
-  @include fade-out(500ms, '.flex-l > div:nth-child(2)');
-  @include fade-out(1000ms, '.flex-l > div:nth-child(3)');
+  @include fade-out(100ms, ".flex-l > div:nth-child(1)");
+  @include fade-out(500ms, ".flex-l > div:nth-child(2)");
+  @include fade-out(1000ms, ".flex-l > div:nth-child(3)");
 }
 
 .lds-ring {
@@ -63,25 +62,17 @@
 }
 
 .loading-block {
-  background-image:
-    linear-gradient(
+  background-image: linear-gradient(
       90deg,
       #{rgba($light-gray, 0)} 0,
-      #{rgba($light-gray, .8)} 50%,
+      #{rgba($light-gray, 0.8)} 50%,
       #{rgba($light-gray, 0)} 100%
     ),
-    linear-gradient(#{$light-silver} 100%, transparent 0)
-  ;
+    linear-gradient(#{$light-silver} 100%, transparent 0);
 
-  background-size:
-    200px 100%,
-    100% 100%
-  ;
+  background-size: 200px 100%, 100% 100%;
 
-  background-position:
-    -150% 0,
-    0 0
-  ;
+  background-position: -150% 0, 0 0;
 
   background-repeat: no-repeat;
   animation: loadingBlock 1.5s infinite;
@@ -89,9 +80,6 @@
 
 @keyframes loadingBlock {
   to {
-    background-position:
-      350% 0,
-      0 0
-    ;
+    background-position: 350% 0, 0 0;
   }
 }

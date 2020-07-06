@@ -1,6 +1,8 @@
-.text-shadow { text-shadow: 1px 0px $spacing-medium $black-50 };
+.text-shadow {
+  text-shadow: 1px 0px $spacing-medium $black-50;
+}
 
-@mixin drop-last( $suffix: '' ) {
+@mixin drop-last($suffix: "") {
   .drop-last {
     &-br#{$suffix} {
       &:last-child {
@@ -41,13 +43,13 @@
 @include drop-last();
 
 @media #{$breakpoint-not-small} {
-  @include drop-last('-ns');
+  @include drop-last("-ns");
 }
 
 @media #{$breakpoint-medium} {
-  @include drop-last('-m');
+  @include drop-last("-m");
 }
 
 @media #{$breakpoint-large} {
-  @include drop-last('-l');
+  @include drop-last("-l");
 }

@@ -8,7 +8,9 @@
 **/
 
 $wpb-content-width: 80%;
-$wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spacing-medium} / 2 ) );
+$wpdb-content-padding: calc(
+  ((100% - #{$wpb-content-width}) / 2) - (#{$spacing-medium} / 2)
+);
 
 .wpb_row {
   clear: both;
@@ -35,7 +37,8 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
     padding: 0;
   }
 
-  &:after, &:before {
+  &:after,
+  &:before {
     display: table;
     content: "";
     clear: both;
@@ -88,24 +91,53 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
   @media #{$breakpoint-large} {
     @include row-stretched();
 
-    .vc_col-sm-12 { width: 100%}
-    .vc_col-sm-11 { width: 91.66666667%}
-    .vc_col-sm-10 { width: 83.33333333%}
-    .vc_col-sm-9 { width: 75%}
-    .vc_col-sm-8 { width: 66.66666667%}
-    .vc_col-sm-7 { width: 58.33333333%}
-    .vc_col-sm-6 { width: 50%}
-    .vc_col-sm-5 { width: 41.66666667%}
-    .vc_col-sm-4 { width: 33.33333333%}
-    .vc_col-sm-3 { width: 25%}
-    .vc_col-sm-2 { width: 16.66666667%}
-    .vc_col-sm-1 { width: 8.33333333%}
+    .vc_col-sm-12 {
+      width: 100%;
+    }
+    .vc_col-sm-11 {
+      width: 91.66666667%;
+    }
+    .vc_col-sm-10 {
+      width: 83.33333333%;
+    }
+    .vc_col-sm-9 {
+      width: 75%;
+    }
+    .vc_col-sm-8 {
+      width: 66.66666667%;
+    }
+    .vc_col-sm-7 {
+      width: 58.33333333%;
+    }
+    .vc_col-sm-6 {
+      width: 50%;
+    }
+    .vc_col-sm-5 {
+      width: 41.66666667%;
+    }
+    .vc_col-sm-4 {
+      width: 33.33333333%;
+    }
+    .vc_col-sm-3 {
+      width: 25%;
+    }
+    .vc_col-sm-2 {
+      width: 16.66666667%;
+    }
+    .vc_col-sm-1 {
+      width: 8.33333333%;
+    }
 
-    .vc_col-sm-1\/5 {width: 20%;}
+    .vc_col-sm-1\/5 {
+      width: 20%;
+    }
   }
 }
 
-.one-half, .one-third, .one-fourth, .one-fifth {
+.one-half,
+.one-third,
+.one-fourth,
+.one-fifth {
   width: 100%;
 
   @media #{$breakpoint-not-small} {
@@ -126,10 +158,18 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
 
 #root {
   @media #{$breakpoint-large} {
-    .one-half { width: 50%; }
-    .one-third { width: 33.33333%; }
-    .one-fourth { width: 25%; }
-    .one-fifth { width: 20%; }
+    .one-half {
+      width: 50%;
+    }
+    .one-third {
+      width: 33.33333%;
+    }
+    .one-fourth {
+      width: 25%;
+    }
+    .one-fifth {
+      width: 20%;
+    }
   }
 }
 
@@ -140,7 +180,7 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
   z-index: 1;
 
   iframe {
-    @extend .aspect-ratio--object,
+    @extend .aspect-ratio--object;
   }
 }
 
@@ -148,12 +188,13 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
   clear: both;
 }
 
-.vc_custom_heading, .vcex-heading {
+.vc_custom_heading,
+.vcex-heading {
   font-size: $font-size-2;
   font-weight: 700;
 
   a {
-    color:inherit;
+    color: inherit;
   }
 }
 
@@ -162,7 +203,8 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
 }
 
 .typography-white {
-  &, & * {
+  &,
+  & * {
     color: $white !important;
   }
 }
@@ -208,7 +250,6 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
       padding-left: $spacing-medium;
     }
 
-
     .vcex-recent-news-entry-title-heading {
       margin-top: 0;
 
@@ -234,7 +275,18 @@ $wpdb-content-padding: calc( ( ( 100% - #{$wpb-content-width} ) / 2 ) - ( #{$spa
 }
 
 .vc_btn3 {
-  @extend .pointer, .f6, .link, .bg-animate, .hover-bg-blue, .br2, .ph4, .pv2, .mb2, .dib, .white, .bg-green;
+  @extend .pointer,
+    .f6,
+    .link,
+    .bg-animate,
+    .hover-bg-blue,
+    .br2,
+    .ph4,
+    .pv2,
+    .mb2,
+    .dib,
+    .white,
+    .bg-green;
 
   &.vc_btn3-block {
     display: block;

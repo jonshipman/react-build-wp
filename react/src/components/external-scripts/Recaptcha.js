@@ -1,8 +1,7 @@
+import { Component } from "react";
+import { gql } from "@apollo/client";
 
-import { Component } from 'react';
-import { gql } from '@apollo/client';
-
-import withApolloClient from '../hoc/withApolloClient';
+import withApolloClient from "../hoc/withApolloClient";
 
 /**
  * GraphQL query should return the Recaptcha site key as string
@@ -15,7 +14,7 @@ const CHECK_RECAPTCHA = gql`
   }
 `;
 
-const RECAPTCHA_SCRIPT_URL = 'https://recaptcha.net/recaptcha/api.js';
+const RECAPTCHA_SCRIPT_URL = "https://recaptcha.net/recaptcha/api.js";
 const RECAPTCHA_SCRIPT_REGEX = /(http|https):\/\/(www)?.+\/recaptcha/;
 const RECAPTCHA_RECHECK_MS = 300000; // 5 minutes
 
@@ -45,11 +44,11 @@ class Recaptcha extends Component {
 
     this.state = {
       recatchaSiteKey: null,
-      token: null
-    }
+      token: null,
+    };
 
     this.loaded = false;
-    this.built = (new Date().getTime());
+    this.built = new Date().getTime();
   }
 
   componentDidMount = async () => {
@@ -63,7 +62,9 @@ class Recaptcha extends Component {
 
         if (result.data) {
           if (this.props.isMounted()) {
-            this.setState({ recatchaSiteKey: result.data.formData.recatchaSiteKey });
+            this.setState({
+              recatchaSiteKey: result.data.formData.recatchaSiteKey,
+            });
           }
 
           if (result.data.formData.recatchaSiteKey && !this.scriptLoaded()) {
@@ -77,25 +78,28 @@ class Recaptcha extends Component {
      * This statement will allow the recaptcha to generate a new token after 5 minutes
      * To change the time, change the const RECAPTCHA_RECHECK_MS
      **/
-    if (resetToken.hasBeenReset() || (token && (this.built + RECAPTCHA_RECHECK_MS) < (new Date().getTime()))) {
-      this.build = (new Date().getTime());
+    if (
+      resetToken.hasBeenReset() ||
+      (token && this.built + RECAPTCHA_RECHECK_MS < new Date().getTime())
+    ) {
+      this.build = new Date().getTime();
       this.ready();
 
       if (resetToken.hasBeenReset()) {
         resetToken.rearm();
       }
     }
-  }
+  };
 
   fireCallback = () => {
     const { token } = this.state;
 
     const { callback } = this.props;
 
-    if ( token && callback ) {
+    if (token && callback) {
       callback(token);
     }
-  }
+  };
 
   scriptLoaded = () => {
     if (this.loaded) {
@@ -107,9 +111,9 @@ class Recaptcha extends Component {
         this.loaded = true;
       }
 
-      return (isPresent ? isPresent : RECAPTCHA_SCRIPT_REGEX.test(script.src))
-    },this.loaded);
-  }
+      return isPresent ? isPresent : RECAPTCHA_SCRIPT_REGEX.test(script.src);
+    }, this.loaded);
+  };
 
   loadScript() {
     window._recaptchaLoadingCB = this.ready.bind(this);
@@ -130,12 +134,12 @@ class Recaptcha extends Component {
 
     const _ready = () => {
       grecaptcha
-        .execute(recatchaSiteKey, {action: 'homepage'})
+        .execute(recatchaSiteKey, { action: "homepage" })
         .then(this.processToken.bind(this))
-        .catch(e => {
-          console.error('Recaptcha error', e);
+        .catch((e) => {
+          console.error("Recaptcha error", e);
         });
-    }
+    };
 
     grecaptcha.ready(_ready);
   }
@@ -151,6 +155,6 @@ class Recaptcha extends Component {
 
     return null;
   }
-};
+}
 
 export default withApolloClient(Recaptcha);

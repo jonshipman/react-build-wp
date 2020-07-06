@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { ApolloConsumer } from '@apollo/client';
+import React, { Component } from "react";
+import { ApolloConsumer } from "@apollo/client";
 
-export default WrappedComponent => {
+export default (WrappedComponent) => {
   return class extends Component {
     _mounted = false;
 
@@ -20,11 +20,17 @@ export default WrappedComponent => {
     render() {
       return (
         <ApolloConsumer>
-          {client => {
-            return <WrappedComponent isMounted={this.isMounted.bind(this)} client={client} { ...this.props } />
+          {(client) => {
+            return (
+              <WrappedComponent
+                isMounted={this.isMounted.bind(this)}
+                client={client}
+                {...this.props}
+              />
+            );
           }}
         </ApolloConsumer>
       );
     }
-  }
+  };
 };

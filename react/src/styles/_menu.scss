@@ -85,7 +85,8 @@
       }
     }
 
-    li.menu-item.level-1, li.menu-item.level-2 {
+    li.menu-item.level-1,
+    li.menu-item.level-2 {
       &:hover {
         > .sub-menu {
           display: block;

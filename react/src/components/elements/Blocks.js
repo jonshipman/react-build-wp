@@ -1,37 +1,33 @@
-import React from 'react';
+import React from "react";
 
-import PageWidth from './PageWidth';
+import PageWidth from "./PageWidth";
 
-const cellClassNames = 'w-100 relative';
-const padding = 'pa4-l pa2';
+const cellClassNames = "w-100 relative";
+const padding = "pa4-l pa2";
 const columns = {
-	three: 'w-third-l',
-	two: 'w-50-l'
+  three: "w-third-l",
+  two: "w-50-l",
 };
 
-const Loop = ({ className, items, children }) => (
-  items.map(item => (
-    <div key={JSON.stringify(item)} className={`${className || ''} ${cellClassNames}`}>
+const Loop = ({ className, items, children }) =>
+  items.map((item) => (
+    <div
+      key={JSON.stringify(item)}
+      className={`${className || ""} ${cellClassNames}`}
+    >
       {children(item)}
     </div>
-  ))
-);
+  ));
 
 const Static = ({ className, left, middle, right }) => (
   <>
-    <div className={`${className || ''} ${cellClassNames}`}>
-      {left}
-    </div>
+    <div className={`${className || ""} ${cellClassNames}`}>{left}</div>
 
-		{middle && (
-			<div className={`${className || ''} ${cellClassNames}`}>
-				{middle}
-			</div>
-		)}
+    {middle && (
+      <div className={`${className || ""} ${cellClassNames}`}>{middle}</div>
+    )}
 
-    <div className={`${className || ''} ${cellClassNames}`}>
-      {right}
-    </div>
+    <div className={`${className || ""} ${cellClassNames}`}>{right}</div>
   </>
 );
 
@@ -45,12 +41,11 @@ export const BlocksThreeFull = ({
   items,
   ...props
 }) => (
-  <div className={`blocks-three-full ${(className || '')}`}>
-    <div className={`flex-l ${flexClassName || ''}`} { ...props }>
+  <div className={`blocks-three-full ${className || ""}`}>
+    <div className={`flex-l ${flexClassName || ""}`} {...props}>
       {left || middle || right
         ? Static({ className: columns.three, left, middle, right })
-        : Loop({ className: columns.three, items, children })
-      }
+        : Loop({ className: columns.three, items, children })}
     </div>
   </div>
 );
@@ -65,12 +60,16 @@ export const BlocksThree = ({
   items,
   ...props
 }) => (
-  <PageWidth className={`blocks-three ${(className || '')}`}>
-    <div className={`flex-l ${flexClassName || ''}`} { ...props }>
+  <PageWidth className={`blocks-three ${className || ""}`}>
+    <div className={`flex-l ${flexClassName || ""}`} {...props}>
       {left || middle || right
-        ? Static({ className: `${padding} ${columns.three}`, left, middle, right })
-        : Loop({ className: `${padding} ${columns.three}`, items, children })
-      }
+        ? Static({
+            className: `${padding} ${columns.three}`,
+            left,
+            middle,
+            right,
+          })
+        : Loop({ className: `${padding} ${columns.three}`, items, children })}
     </div>
   </PageWidth>
 );
@@ -84,12 +83,11 @@ export const BlocksTwoFull = ({
   items,
   ...props
 }) => (
-  <div className={`blocks-two-full ${(className || '')}`}>
-    <div className={`flex-l ${flexClassName || ''}`} { ...props }>
+  <div className={`blocks-two-full ${className || ""}`}>
+    <div className={`flex-l ${flexClassName || ""}`} {...props}>
       {left || right
         ? Static({ className: columns.two, left, right })
-        : Loop({ className: columns.two, items, children })
-      }
+        : Loop({ className: columns.two, items, children })}
     </div>
   </div>
 );
@@ -103,12 +101,11 @@ export const BlocksTwo = ({
   items,
   ...props
 }) => (
-  <PageWidth className={`blocks-two ${(className || '')}`}>
-    <div className={`flex-l ${flexClassName || ''}`} { ...props }>
+  <PageWidth className={`blocks-two ${className || ""}`}>
+    <div className={`flex-l ${flexClassName || ""}`} {...props}>
       {left || right
         ? Static({ className: `${padding} ${columns.two}`, left, right })
-        : Loop({ className: `${padding} ${columns.two}`, items, children })
-      }
+        : Loop({ className: `${padding} ${columns.two}`, items, children })}
     </div>
   </PageWidth>
 );

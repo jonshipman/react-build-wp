@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { gql, useMutation } from '@apollo/client';
-import { Formik, Form } from 'formik';
+import React, { Component } from "react";
+import { gql, useMutation } from "@apollo/client";
+import { Formik, Form } from "formik";
 
-import DefaultForm from '../forms/DefaultForm';
-import Loading from './Loading';
-import Button from './Button';
-import Recaptcha, { resetToken } from '../external-scripts/Recaptcha';
-import withApolloClient from '../hoc/withApolloClient';
+import DefaultForm from "../forms/DefaultForm";
+import Loading from "./Loading";
+import Button from "./Button";
+import Recaptcha, { resetToken } from "../external-scripts/Recaptcha";
+import withApolloClient from "../hoc/withApolloClient";
 
 /**
  * To add a new form - copy ./forms/DefaultForm and pass it as the prop
@@ -26,21 +26,18 @@ const FORM_DATA = gql`
   }
 `;
 
-const Mutation = props => {
-  const [
-    submitForm,
-    results,
-  ] = useMutation(
-    props.mutation,
-    { onCompleted: props.onCompleted, onError: props.onError }
-  );
+const Mutation = (props) => {
+  const [submitForm, results] = useMutation(props.mutation, {
+    onCompleted: props.onCompleted,
+    onError: props.onError,
+  });
 
-  const onSubmit = opts => {
+  const onSubmit = (opts) => {
     submitForm(opts);
-  }
+  };
 
   return props.children(onSubmit, results);
-}
+};
 
 class LeadForm extends Component {
   constructor(props) {
@@ -48,11 +45,11 @@ class LeadForm extends Component {
 
     this.state = {
       formValues: {},
-      showRecaptcha: false
+      showRecaptcha: false,
     };
 
-    this.token = '';
-    this.nonce = '';
+    this.token = "";
+    this.nonce = "";
     this.Form = props.form;
 
     if (!this.Form) {
@@ -76,14 +73,14 @@ class LeadForm extends Component {
 
       let { wpNonce } = result.data.formData;
 
-      let defaultNonce = '';
+      let defaultNonce = "";
 
-      wpNonce.forEach(n => {
-        if ( this.Form.name === n.form ) {
+      wpNonce.forEach((n) => {
+        if (this.Form.name === n.form) {
           this.nonce = n.wpNonce;
         }
 
-        if ('default' === n.form) {
+        if ("default" === n.form) {
           defaultNonce = n.wpNonce;
         }
       });
@@ -114,22 +111,22 @@ class LeadForm extends Component {
     this.setState({ showRecaptcha: this.Form.triggerRecaptcha(values) });
 
     return errors;
-  }
+  };
 
-  processToken = token => {
+  processToken = (token) => {
     this.token = token;
-  }
+  };
 
   render() {
     const { formValues, showRecaptcha } = this.state;
     const { className } = this.props;
 
     let localMutation = this.Form.getMutation();
-    let localErrorMessage = '';
-    let localSuccessMessage = '';
+    let localErrorMessage = "";
+    let localSuccessMessage = "";
 
     return (
-      <div className={`lead-form relative ${className || ''}`}>
+      <div className={`lead-form relative ${className || ""}`}>
         <Mutation mutation={localMutation}>
           {(mutation, { loading, data }) => {
             if (data) {
@@ -137,7 +134,8 @@ class LeadForm extends Component {
 
               if (success) {
                 resetToken.reset();
-                localSuccessMessage = "Form submitted. Thank you for your submission.";
+                localSuccessMessage =
+                  "Form submitted. Thank you for your submission.";
               }
 
               if (errorMessage) {
@@ -147,9 +145,9 @@ class LeadForm extends Component {
 
             return (
               <Formik
-              initialValues={formValues}
+                initialValues={formValues}
                 validate={this.executeValidation}
-                onSubmit={values => {
+                onSubmit={(values) => {
                   values.gToken = this.token;
                   values.wpNonce = this.nonce;
                   values.clientMutationId = this.token + this.nonce;
@@ -159,27 +157,29 @@ class LeadForm extends Component {
               >
                 <Form>
                   {localErrorMessage && (
-                    <div className="error-message red fw7 f7 mb3">{localErrorMessage}</div>
+                    <div className="error-message red fw7 f7 mb3">
+                      {localErrorMessage}
+                    </div>
                   )}
 
                   {localSuccessMessage && (
                     <>
-                      <div className="success-message green fw7 f6 mb3">{localSuccessMessage}</div>
-                      <div className="absolute absolute--fill"/>
+                      <div className="success-message green fw7 f6 mb3">
+                        {localSuccessMessage}
+                      </div>
+                      <div className="absolute absolute--fill" />
                     </>
                   )}
 
-                  {showRecaptcha && (
-                    <Recaptcha callback={this.processToken}/>
-                  )}
+                  {showRecaptcha && <Recaptcha callback={this.processToken} />}
 
                   <div className="form-groups">
                     <this.Form.component />
                   </div>
 
-                  {loading
-                  ? <Loading />
-                  : (
+                  {loading ? (
+                    <Loading />
+                  ) : (
                     <Button form={true} disabled={loading}>
                       {this.Form.getButton()}
                     </Button>

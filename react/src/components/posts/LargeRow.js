@@ -1,13 +1,13 @@
-import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { Link } from 'react-router-dom';
-import LazyLoad from 'react-lazy-load';
+import React from "react";
+import { gql, useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
+import LazyLoad from "react-lazy-load";
 
-import { PlacholderUrl } from '../elements/Image';
+import { PlacholderUrl } from "../elements/Image";
 
 const QUERY = gql`
   query RowQuery {
-    posts(first: 8, where: {status: PUBLISH, hasPassword: false}) {
+    posts(first: 8, where: { status: PUBLISH, hasPassword: false }) {
       edges {
         node {
           id
@@ -35,19 +35,30 @@ const Row = ({ className, items, count }) => {
 
   return (
     <LazyLoad>
-      <div className={`alternating-rows ${className || 'h5-l'}`}>
+      <div className={`alternating-rows ${className || "h5-l"}`}>
         <div className="cf tracked ttu h-100-l">
           {items.map((item, index) => {
             variant = count % 2 === 0 ? variant2 : variant1;
-            variant = index > 0 ? count % 2 === 0 ? variant1 : variant2 : variant;
+            variant =
+              index > 0 ? (count % 2 === 0 ? variant1 : variant2) : variant;
 
-            background = item?.node?.featuredImage?.node?.sourceUrl || PlacholderUrl({ width: 800, height: 500 });
+            background =
+              item?.node?.featuredImage?.node?.sourceUrl ||
+              PlacholderUrl({ width: 800, height: 500 });
 
             return (
               <div className={variant} key={item.node.id}>
-                <div className="w-100 h-100-l over bg-center relative z-1" style={{backgroundImage: `url(${background})`}}>
-                  <div className="post-title white f4 absolute z-1 bottom-0 left-0 w-100 text-shadow pa2 pl3">{item.node.title}</div>
-                  <Link to={item.node.uri} className="large-link db absolute absolute--fill z-2"/>
+                <div
+                  className="w-100 h-100-l over bg-center relative z-1"
+                  style={{ backgroundImage: `url(${background})` }}
+                >
+                  <div className="post-title white f4 absolute z-1 bottom-0 left-0 w-100 text-shadow pa2 pl3">
+                    {item.node.title}
+                  </div>
+                  <Link
+                    to={item.node.uri}
+                    className="large-link db absolute absolute--fill z-2"
+                  />
                 </div>
               </div>
             );
@@ -56,7 +67,7 @@ const Row = ({ className, items, count }) => {
       </div>
     </LazyLoad>
   );
-}
+};
 
 const OnQueryFinished = ({ posts, ...props }) => {
   let items = [];
@@ -73,14 +84,24 @@ const OnQueryFinished = ({ posts, ...props }) => {
       return null;
     });
 
-    return items?.length > 0 && items.map(item => <Row count={count++} items={item} key={`hr-${item[0].node.id}`} { ...props } />);
+    return (
+      items?.length > 0 &&
+      items.map((item) => (
+        <Row
+          count={count++}
+          items={item}
+          key={`hr-${item[0].node.id}`}
+          {...props}
+        />
+      ))
+    );
   }
 
   return null;
-}
+};
 
-export default props => {
-  const { data } = useQuery(QUERY, { errorPolicy: 'all' });
+export default (props) => {
+  const { data } = useQuery(QUERY, { errorPolicy: "all" });
 
-  return <OnQueryFinished posts={data?.posts} { ...props } />
-}
+  return <OnQueryFinished posts={data?.posts} {...props} />;
+};

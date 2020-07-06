@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import PageWidth from './PageWidth';
-import Title from './Title';
+import PageWidth from "./PageWidth";
+import Title from "./Title";
 
 const Random = () => {
   let items = [40, 50, 60, 70, 80];
-  return items[Math.floor(Math.random() * items.length)]
-}
+  return items[Math.floor(Math.random() * items.length)];
+};
 
 export default ({ className, ...props }) => (
-  <article className={`content loading-skeleton ${className || ''}`} { ...props } >
+  <article className={`content loading-skeleton ${className || ""}`} {...props}>
     <Title notHeading={true}>
       <div className="loading-block h1 w5 o-50" />
     </Title>

@@ -97,9 +97,7 @@ export default (WrappedComponent) => {
     }
 
     render() {
-      return (
-        <WrappedComponent query={QueryWithRouter} {...this.props} />
-      );
+      return <WrappedComponent query={QueryWithRouter} {...this.props} />;
     }
-  }
+  };
 };

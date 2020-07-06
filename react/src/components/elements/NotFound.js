@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default () => (
   <div className="content post-not-found">
@@ -8,7 +8,10 @@ export default () => (
 
     <div className="content--body tc">
       <h2>Sorry, this page could not be found.</h2>
-      <p>The page you are looking for doesn't exist, no longer exists or has been moved.</p>
+      <p>
+        The page you are looking for doesn't exist, no longer exists or has been
+        moved.
+      </p>
     </div>
 
     <div
