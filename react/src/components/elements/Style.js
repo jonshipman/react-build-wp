@@ -1,9 +1,9 @@
 import React from "react";
 
-export default ({ style }) => (
+export default ({ children }) => (
   <style
     type="text/css"
     // eslint-disable-next-line react/no-danger
-    dangerouslySetInnerHTML={{ __html: style }}
+    dangerouslySetInnerHTML={{ __html: children }}
   />
 );
