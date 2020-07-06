@@ -10,6 +10,7 @@ import Title from '../elements/Title';
 const CATEGORY_QUERY = gql`
   query CategoryQuery(
     $filter: String!,
+    $id: ID!,
     $first: Int,
     $last: Int,
     $after: String,
@@ -39,18 +40,15 @@ const CATEGORY_QUERY = gql`
         }
       }
     }
-    categories(where: { slug: [$filter] }) {
-      edges {
-        node {
-          id
-          databaseId
-          name
-          slug
-          seo {
-            metaDesc
-            title
-          }
-        }
+    category(id: $id, idType: SLUG) {
+      id
+      databaseId
+      name
+      slug
+      uri
+      seo {
+        metaDesc
+        title
       }
     }
   }
@@ -59,10 +57,11 @@ const CATEGORY_QUERY = gql`
 export default WrappedComponent => {
   return class extends Component {
     Query({ variables, children }) {
-      const { match: { params: { category: filter } } } = this.props;
-      const { loading, error, data } = useQuery(CATEGORY_QUERY, { variables: { ...variables, filter } });
+      const { history: { location: { pathname } } } = this.props;
+      const p = [ ...pathname.split('/') ].pop();
+      const { loading, error, data } = useQuery(CATEGORY_QUERY, { variables: { ...variables, filter: p, id: p } });
 
-      const category = data?.categories?.edges?.length > 0 ? data.categories.edges[0].node : null;
+			const { category } = data || {};
 
       if (loading) return <Loading />
       if (error) return <LoadingError error={error.message} />
@@ -74,7 +73,7 @@ export default WrappedComponent => {
           <Helmet>
             <title>{category?.seo?.title}</title>
             {category?.seo?.metaDesc && <meta name="description" content={category?.seo?.metaDesc}/>}
-            {category?.slug && <link rel="canonical" href={`${FRONTEND_URL}/category/${category?.slug}`} />}
+            {category?.uri && <link rel="canonical" href={`${FRONTEND_URL}${category?.uri}`} />}
           </Helmet>
 
           {children(data)}
