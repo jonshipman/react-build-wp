@@ -1,27 +1,27 @@
-import React, { Component, useRef } from 'react';
+import React, { Component, useRef } from "react";
 import { Helmet } from "react-helmet";
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery } from "@apollo/client";
 
-import { FRONTEND_URL } from '../../config';
-import { PrimaryClasses } from '../elements/Button';
-import Loading from '../elements/Loading';
-import LoadingError from '../elements/LoadingError';
-import PageWidth from '../elements/PageWidth';
-import Title from '../elements/Title';
+import { FRONTEND_URL } from "../../config";
+import Loading from "../elements/Loading";
+import LoadingError from "../elements/LoadingError";
+import PageWidth from "../elements/PageWidth";
+import Title from "../elements/Title";
+import Button from "../elements/Button";
 
 const SEARCH_QUERY = gql`
   query SearchQuery(
-    $filter: String!,
-    $first: Int,
-    $last: Int,
-    $after: String,
+    $filter: String!
+    $first: Int
+    $last: Int
+    $after: String
     $before: String
   ) {
     posts(
-      first: $first,
-      last: $last,
-      after: $after,
-      before: $before,
+      first: $first
+      last: $last
+      after: $after
+      before: $before
       where: { search: $filter, status: PUBLISH, hasPassword: false }
     ) {
       edges {
@@ -47,33 +47,33 @@ const SearchForm = ({ setFilter }) => {
 
       console.log(`Searched for ${inputRef.current.value}`);
     }
-  }
+  };
 
   return (
-    <div className="search">
+    <div className="search flex-l items-center-l">
       <input
         ref={inputRef}
-        className="db w-100 pa3 mv3 br6 ba b--black"
-        type="text"
+        className="db w-100 pa3 mv3 br6 ba b--moon-gray"
+        type="search"
         placeholder="Search by name and content"
-        onChange={e => e.target.value?.length > 1 && executeSearch()}
-        onKeyDown={e => 'Enter' === e.key && executeSearch()}
+        onChange={(e) => e.target.value?.length > 1 && executeSearch()}
+        onKeyDown={(e) => "Enter" === e.key && executeSearch()}
       />
-      <button
-        className={`bn ${PrimaryClasses}`}
-        type="button"
+      <Button
+        form={true}
+        className="ml3 db pv3-l"
         onClick={() => executeSearch()}
       >
         Submit
-      </button>
+      </Button>
     </div>
   );
-}
+};
 
-export default WrappedComponent => {
+export default (WrappedComponent) => {
   return class extends Component {
     state = {
-      filter: '',
+      filter: "",
     };
 
     Query({ variables, children }) {
@@ -83,17 +83,33 @@ export default WrappedComponent => {
         return children({});
       }
 
-      const { loading, error, data } = useQuery(SEARCH_QUERY, { variables: { ...variables, filter } });
+      const { loading, error, data } = useQuery(SEARCH_QUERY, {
+        variables: { ...variables, filter },
+      });
 
-      if (loading) return <Loading />
-      if (error) return <LoadingError error={error.message} />
+      if (loading)
+        return (
+          <PageWidth>
+            <Loading />
+          </PageWidth>
+        );
+      if (error)
+        return (
+          <PageWidth>
+            <LoadingError error={error.message} />
+          </PageWidth>
+        );
 
       return children(data);
     }
 
     render() {
       return (
-        <WrappedComponent className='search' NewQuery={this.Query.bind(this)} { ...this.props }>
+        <WrappedComponent
+          className="search"
+          NewQuery={this.Query.bind(this)}
+          {...this.props}
+        >
           <Title>Search</Title>
 
           <Helmet>
@@ -102,10 +118,14 @@ export default WrappedComponent => {
           </Helmet>
 
           <PageWidth className="mb4">
-            <SearchForm setFilter={filter => { this.setState({ filter }) }} />
+            <SearchForm
+              setFilter={(filter) => {
+                this.setState({ filter });
+              }}
+            />
           </PageWidth>
         </WrappedComponent>
       );
     }
-  }
-}
+  };
+};
