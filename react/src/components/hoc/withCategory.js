@@ -62,7 +62,7 @@ export default (WrappedComponent) => {
           location: { pathname },
         },
       } = this.props;
-      const p = [...pathname.split("/")].pop();
+      const p = [...pathname.replace(/\/+$/, "").split("/")].pop();
       const { loading, error, data } = useQuery(CATEGORY_QUERY, {
         variables: { ...variables, filter: p, id: p },
       });
