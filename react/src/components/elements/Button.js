@@ -41,6 +41,10 @@ export default ({
     classNames += " dib";
   }
 
+  if (props.disabled) {
+    props.onClick = () => true;
+  }
+
   if (href) {
     return (
       <a href={href} className={classNames} {...props}>
