@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { gql, useQuery } from "@apollo/client";
 
 const QUERY = gql`
@@ -9,8 +10,7 @@ const QUERY = gql`
   }
 `;
 
-// Wrap components with this to check against capabilities.
-export default ({ cap, children }) => {
+export default ({ cap, children, fallback = null, ...props }) => {
   const { data } = useQuery(QUERY, { errorPolicy: "all" });
 
   if (data?.viewer?.capabilities?.length > 0) {
@@ -19,5 +19,9 @@ export default ({ cap, children }) => {
     }
   }
 
-  return null;
+  if (null === fallback) {
+    return null;
+  }
+
+  return createElement(fallback, props);
 };
