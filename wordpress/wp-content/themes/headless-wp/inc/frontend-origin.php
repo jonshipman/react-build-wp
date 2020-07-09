@@ -28,3 +28,12 @@ function get_frontend_origin( $original_url = '' ) {
 
     return $origin;
 }
+
+add_filter(
+    'allowed_http_origins',
+    function( $origins ) {
+        $origins = array_merge( array( get_frontend_origin() ), $origins );
+        return $origins;
+    },
+    99
+);
