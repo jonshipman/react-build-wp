@@ -37,3 +37,10 @@ add_filter(
     },
     99
 );
+
+add_filter(
+    'login_url',
+    function( $login_url ) {
+        return sprintf( '%s/login', get_frontend_origin() );
+    }
+);
