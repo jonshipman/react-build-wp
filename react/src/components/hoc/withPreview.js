@@ -6,7 +6,6 @@ import Config from "../../config";
 import Loading from "../elements/Loading";
 import LoadingError from "../elements/LoadingError";
 import NotFound from "../elements/NotFound";
-import Heartbeat from "../elements/Heartbeat";
 
 const PREVIEW_QUERY = gql`
   query SingleQuery($postId: ID!) {
