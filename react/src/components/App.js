@@ -8,7 +8,7 @@ import withPreview from "./hoc/withPreview";
 import withHeartbeat from "./hoc/withHeartbeat";
 import withSearch from "./hoc/withSearch";
 import withCategory from "./hoc/withCategory";
-import Config from "../config";
+import Cleanup from "./elements/Cleanup";
 
 // External Scripts
 // import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
@@ -32,12 +32,9 @@ export default class extends Component {
     document.getElementById("root").classList.add("loaded");
   }
 
-  HeartbeatError({ history }) {
-    Config.removeAuthToken();
-    history.push("/login");
-  }
-
   render() {
+    const protectedTypes = ["User"];
+
     return (
       <>
         <Header />
@@ -49,9 +46,7 @@ export default class extends Component {
               exact
               path="/logout"
               render={() => {
-                Config.removeAuthToken();
-
-                return <Redirect to="/" />;
+                return <Cleanup redirect="/" types={protectedTypes} />;
               }}
             />
 
@@ -63,7 +58,7 @@ export default class extends Component {
               path="/_preview/:parentId/:revisionId/:type/:status/:nonce"
               component={withHeartbeat(
                 withPreview(Single),
-                this.HeartbeatError.bind(this)
+                <Cleanup redirect="/login" types={protectedTypes} />
               )}
             />
             <Route path="*" component={Single} />
