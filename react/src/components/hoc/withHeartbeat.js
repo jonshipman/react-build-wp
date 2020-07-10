@@ -1,4 +1,9 @@
-import React, { Component, useEffect } from "react";
+import React, {
+  Component,
+  useEffect,
+  isValidElement,
+  createElement,
+} from "react";
 import { gql, useQuery } from "@apollo/client";
 
 const QUERY = gql`
@@ -19,10 +24,22 @@ const HeartBeatQuery = ({ beats, onError, ...props }) => {
   });
 
   useEffect(() => {
-    if (error) {
+    if (error && !isValidElement(onError)) {
       onError({ ...props, error });
     }
   }, [onError, error, props]);
+
+  if (error && isValidElement(onError)) {
+    if (
+      typeof onError.type === "string" ||
+      typeof onError.type === "function"
+    ) {
+      return createElement(onError, props);
+    } else {
+      const RenderOnError = onError;
+      return <RenderOnError {...props} />;
+    }
+  }
 
   return null;
 };
