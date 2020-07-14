@@ -13,6 +13,7 @@ const Config = {
   getAuthToken: () => localStorage.getItem(AUTH_TOKEN),
   setAuthToken: (token) => localStorage.setItem(AUTH_TOKEN, token),
   removeAuthToken: () => localStorage.removeItem(AUTH_TOKEN),
+  AJAXenabled: false,
 };
 
 export default Config;

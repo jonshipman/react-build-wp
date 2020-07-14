@@ -6,6 +6,8 @@ import React, {
 } from "react";
 import { gql, useQuery } from "@apollo/client";
 
+import Config, { BACKEND_URL } from "../../config";
+
 const QUERY = gql`
   query HeartbeatQuery {
     viewer {
@@ -41,7 +43,17 @@ const HeartBeatQuery = ({ beats, onError, ...props }) => {
     }
   }
 
-  return null;
+  if (Config.AJAXenabled) {
+    return (
+      <iframe
+        className="dn"
+        src={`${BACKEND_URL}/cors/${Config.getAuthToken()}`}
+        title="CORS Cookie Auth for AJAX and iFrames"
+      />
+    );
+  } else {
+    return null;
+  }
 };
 
 class Heartbeat extends Component {
