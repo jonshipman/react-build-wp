@@ -1,4 +1,3 @@
-import "jsdom-global/register";
 import React from "react";
 import { StaticRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -114,7 +113,10 @@ export default (req, res) => {
 
         const page = await errorPage(500);
 
-        res.status(500).send(page).end();
+        res
+          .status(500)
+          .send(page)
+          .end();
       });
   });
 };

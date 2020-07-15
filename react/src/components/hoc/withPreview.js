@@ -64,7 +64,7 @@ const PreviewQuery = ({
 
   if (obj.isRestricted) {
     Config.removeAuthToken();
-    localStorage.setItem("redirect", url);
+    Config.setRedirect(url);
     history.push("/login");
   }
 
@@ -86,7 +86,7 @@ export default (WrappedComponent) => {
       } = this.props;
 
       if (!Config.getAuthToken()) {
-        localStorage.setItem("redirect", url);
+        Config.setRedirect(url);
         history.push("/login");
       }
     }

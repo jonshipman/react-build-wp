@@ -1,11 +1,10 @@
 class BrowserClass {
   screen = {
-    notSmall: () => window.matchMedia("screen and (min-width: 30em)").matches,
+    notSmall: () => matchMedia("screen and (min-width: 30em)").matches,
     medium: () =>
-      window.matchMedia("screen and (min-width: 30em) and (max-width: 60em)")
-        .matches,
-    large: () => window.matchMedia("screen and (min-width: 60em)").matches,
-    print: () => window.matchMedia("print").matches,
+      matchMedia("screen and (min-width: 30em) and (max-width: 60em)").matches,
+    large: () => matchMedia("screen and (min-width: 60em)").matches,
+    print: () => matchMedia("print").matches,
   };
 
   isMobile = () => {

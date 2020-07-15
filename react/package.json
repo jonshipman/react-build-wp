@@ -11,10 +11,10 @@
     "babel-plugin-inline-import-data-uri": "^1.0.1",
     "babel-plugin-inline-react-svg": "^1.1.1",
     "canvas": "^2.6.1",
+    "dom-storage": "^2.1.0",
     "ignore-styles": "^5.0.1",
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "^16.2.2",
-    "jsdom-global": "^3.0.2",
     "node-sass": "^4.13.0",
     "prettier": "^1.18.2"
   },

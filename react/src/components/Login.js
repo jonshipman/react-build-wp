@@ -55,12 +55,12 @@ class Login extends Component {
 
   componentDidMount() {
     const { history } = this.props;
-    const redirect = localStorage.getItem("redirect");
+    const redirect = Config.getRedirect();
     const authToken = Config.getAuthToken();
 
     if (authToken) {
       if (redirect) {
-        localStorage.removeItem("redirect");
+        Config.removeRedirect();
         history.push(redirect);
       } else {
         history.push(`/`);
@@ -71,13 +71,12 @@ class Login extends Component {
   confirm = async (data) => {
     const { history } = this.props;
     const { authToken, user } = data.login;
-    const redirect = localStorage.getItem("redirect");
+    const redirect = Config.getRedirect();
 
     Config.setAuthToken(authToken);
-    localStorage.setItem(USERNAME, user.nickname);
 
     if (redirect) {
-      localStorage.removeItem("redirect");
+      Config.removeRedirect();
       history.push(redirect);
     } else {
       history.push(`/`);
@@ -93,8 +92,9 @@ class Login extends Component {
   render() {
     const { username, password, message } = this.state;
     const clientMutationId =
-      Math.random().toString(36).substring(2) +
-      new Date().getTime().toString(36);
+      Math.random()
+        .toString(36)
+        .substring(2) + new Date().getTime().toString(36);
     return (
       <PageWidth className="login">
         <div>
