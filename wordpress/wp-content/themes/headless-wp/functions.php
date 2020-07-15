@@ -61,6 +61,9 @@ require_once 'inc/jwt.php';
 // Menu action hooks.
 require_once 'inc/menu.php';
 
+// Upload handling.
+require_once 'inc/upload.php';
+
 // If WPBakery is installed, trigger the shortcode execution.
 require_once 'inc/wpb.php';
 
