@@ -121,3 +121,17 @@ add_action(
         );
     }
 );
+
+// Fixes missing single name on the menuItem.
+add_filter(
+	'register_post_type_args',
+	function( $args, $post_type ) {
+		if ( 'nav_menu_item' === $post_type ) {
+			$args['graphql_single_name'] = 'menuItem';
+		}
+
+		return $args;
+	},
+	10,
+	2
+);
