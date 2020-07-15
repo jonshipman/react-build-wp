@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { gql, useMutation } from "@apollo/client";
 
 import { PrimaryClasses } from "./elements/Button";
-import Config, { USERNAME } from "../config";
+import Config from "../config";
 import PageWidth from "./elements/PageWidth";
 
 /**
@@ -70,7 +70,7 @@ class Login extends Component {
 
   confirm = async (data) => {
     const { history } = this.props;
-    const { authToken, user } = data.login;
+    const { authToken } = data.login;
     const redirect = Config.getRedirect();
 
     Config.setAuthToken(authToken);
