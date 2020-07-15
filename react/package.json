@@ -19,7 +19,7 @@
     "prettier": "^1.18.2"
   },
   "dependencies": {
-    "@apollo/client": "^3.0.0-rc.1",
+    "@apollo/client": "^3.0.1",
     "@apollo/react-ssr": "^4.0.0-beta.1",
     "@types/react": "^16.8.0",
     "animate.css": "^4.1.0",
