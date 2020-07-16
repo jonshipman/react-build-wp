@@ -41,7 +41,16 @@ export default class extends Component {
         <div className="main lh-copy relative z-1">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
+            <Route
+              exact
+              path={[
+                "/login",
+                "/register",
+                "/forgot-password",
+                "/rp/:key/:login",
+              ]}
+              component={Login}
+            />
             <Route
               exact
               path="/logout"

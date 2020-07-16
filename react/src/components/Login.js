@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { Link, Switch, Route, useHistory, useParams } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 
-import { PrimaryClasses } from "./elements/Button";
+import Button from "./elements/Button";
 import Config from "../config";
+import Image from "./elements/Image";
+import Input from "./elements/Input";
 import PageWidth from "./elements/PageWidth";
 
-/**
- * GraphQL mutation used for logging in
- * Returns an authToken and nickname
- */
+// Login Mutation.
 const LOGIN_MUTATION = gql`
   mutation LoginMutation(
     $username: String!
@@ -30,31 +30,93 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-const Mutation = (props) => {
-  const [submitForm] = useMutation(props.mutation, {
-    onCompleted: props.onCompleted,
-    onError: props.onError,
-  });
+// Registration Mutation.
+const REGISTRATION = gql`
+  mutation RegisterMutation(
+    $clientMutationId: String!
+    $username: String!
+    $email: String!
+  ) {
+    registerUser(
+      input: {
+        clientMutationId: $clientMutationId
+        username: $username
+        email: $email
+      }
+    ) {
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
 
-  const onSubmit = () => {
-    submitForm({ variables: props.variables });
-  };
+// Forgot Password Mutation.
+const FORGOTPASS = gql`
+  mutation ForgotPasswordMutation(
+    $clientMutationId: String!
+    $username: String!
+  ) {
+    sendPasswordResetEmail(
+      input: { clientMutationId: $clientMutationId, username: $username }
+    ) {
+      user {
+        id
+      }
+    }
+  }
+`;
 
-  return props.children(onSubmit);
+// Reset Password Mutation.
+const RESETPASS = gql`
+  mutation ForgotPasswordMutation(
+    $clientMutationId: String!
+    $key: String!
+    $login: String!
+    $password: String!
+  ) {
+    resetUserPassword(
+      input: {
+        clientMutationId: $clientMutationId
+        key: $key
+        login: $login
+        password: $password
+      }
+    ) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
+const generatePassword = (props) => {
+  const { length = 12, specialChars = true, extraSpecialChars = false } =
+    props || {};
+  let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  if (specialChars) {
+    chars += "!@#$%^&*()";
+  }
+  if (extraSpecialChars) {
+    chars += "-_ []{}<>~`+=,.;:/?|";
+  }
+
+  const max = chars.length;
+  const min = 0;
+
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    password += chars.substr(Math.floor(Math.random() * (max - min) + min), 1);
+  }
+
+  return password;
 };
 
-/**
- * Login component that uses a graphql mutation
- */
-class Login extends Component {
-  state = {
-    username: "",
-    password: "",
-    message: "",
-  };
+const useLogin = ({ setMessage = () => true }) => {
+  const history = useHistory();
 
-  componentDidMount() {
-    const { history } = this.props;
+  useEffect(() => {
     const redirect = Config.getRedirect();
     const authToken = Config.getAuthToken();
 
@@ -63,84 +125,284 @@ class Login extends Component {
         Config.removeRedirect();
         history.push(redirect);
       } else {
-        history.push(`/`);
+        history.push("/dashboard");
       }
     }
-  }
+  }, [history]);
 
-  confirm = async (data) => {
-    const { history } = this.props;
-    const { authToken } = data.login;
-    const redirect = Config.getRedirect();
+  const confirm = useCallback(
+    (data) => {
+      const { authToken } = data?.login;
+      const redirect = Config.getRedirect();
 
-    Config.setAuthToken(authToken);
+      Config.setAuthToken(authToken);
 
-    if (redirect) {
-      Config.removeRedirect();
-      history.push(redirect);
-    } else {
-      history.push(`/`);
+      if (redirect) {
+        Config.removeRedirect();
+        history.push(redirect);
+      } else {
+        history.push("/dashboard");
+      }
+    },
+    [history]
+  );
+
+  const [mutation, { error }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: confirm,
+    errorPolicy: "all",
+  });
+
+  useEffect(() => {
+    if (error) {
+      setMessage(error);
     }
-  };
+  }, [error, setMessage]);
 
-  handleError = () => {
-    const message =
-      " - Sorry, that username and password combination is not valid.";
-    this.setState({ message });
-  };
+  const clientMutationId =
+    Math.random()
+      .toString(36)
+      .substring(2) + new Date().getTime().toString(36);
 
-  render() {
-    const { username, password, message } = this.state;
-    const clientMutationId =
+  return (username, password) =>
+    mutation({ variables: { username, password, clientMutationId } });
+};
+
+const Login = ({ setMessage }) => {
+  const [state, setState] = useState({
+    username: "",
+    password: "",
+  });
+
+  const login = useLogin({ setMessage });
+
+  const { username, password } = state;
+
+  return (
+    <div>
+      <Input
+        className="f4"
+        value={username}
+        onChange={(username) => setState((p) => ({ ...p, username }))}
+        onEnter={() => login(username, password)}
+        placeholder="Username or Email Address"
+      />
+
+      <Input
+        className="f4"
+        value={password}
+        onChange={(password) => setState((p) => ({ ...p, password }))}
+        onEnter={() => login(username, password)}
+        type="password"
+        placeholder="Password"
+      />
+
+      <Button className="db tc" onClick={() => login(username, password)}>
+        Log In
+      </Button>
+
+      <div className="mt3 tc tl-l flex-l justify-between-l">
+        <Link to="/forgot-password">Forgot Password</Link>
+        <Link to="/register" className="db mt3 mt0-l">
+          Sign up for an Account
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+const ForgotPassword = ({ setMessage }) => {
+  const [state, setState] = useState({
+    username: "",
+    clientMutationId:
       Math.random()
         .toString(36)
-        .substring(2) + new Date().getTime().toString(36);
-    return (
-      <PageWidth className="login">
-        <div>
-          <h1>Log in</h1>
-          <p>
-            <strong>
-              Log in to view hidden posts only available to authenticated users.
-            </strong>
-          </p>
-          <p className="message mb3">
-            <strong>{message}</strong>
-          </p>
-          <input
-            className="db w-100 pa3 mv3 br6 ba b--black"
-            value={username}
-            onChange={(e) => this.setState({ username: e.target.value })}
-            type="text"
-            placeholder="Username"
-          />
-          <input
-            className="db w-100 pa3 mv3 br6 ba b--black"
-            value={password}
-            onChange={(e) => this.setState({ password: e.target.value })}
-            type="password"
-            placeholder="Password"
-          />
-          <Mutation
-            mutation={LOGIN_MUTATION}
-            variables={{ username, password, clientMutationId }}
-            onCompleted={(data) => this.confirm(data)}
-            onError={() => this.handleError()}
-          >
-            {(mutation) => (
-              <button
-                className={`bn ${PrimaryClasses}`}
-                type="button"
-                onClick={mutation}
-              >
-                {"Log in"}
-              </button>
-            )}
-          </Mutation>
-        </div>
-      </PageWidth>
-    );
-  }
-}
+        .substring(2) + new Date().getTime().toString(36),
+  });
 
-export default Login;
+  const confirm = () => {
+    const message = "Check your email for a password recovery email.";
+    setMessage(message);
+  };
+
+  const [mutation, { error }] = useMutation(FORGOTPASS, {
+    onCompleted: confirm,
+    errorPolicy: "all",
+  });
+
+  useEffect(() => {
+    if (error) {
+      setMessage(error);
+    }
+  }, [error, setMessage]);
+
+  const { username } = state;
+
+  return (
+    <div>
+      <Input
+        className="f4"
+        value={username}
+        onChange={(username) => setState((p) => ({ ...p, username }))}
+        onEnter={() => mutation({ variables: state })}
+        placeholder="Username"
+      />
+
+      <Button className="db tc" onClick={() => mutation({ variables: state })}>
+        Request New Password
+      </Button>
+
+      <BackToLogin />
+    </div>
+  );
+};
+
+const Register = ({ setMessage }) => {
+  const [state, setState] = useState({
+    username: "",
+    email: "",
+    clientMutationId:
+      Math.random()
+        .toString(36)
+        .substring(2) + new Date().getTime().toString(36),
+  });
+
+  const confirm = () => {
+    const message = "Registered! Please check your email for confirmation.";
+    setMessage(message);
+  };
+
+  const [mutation, { error }] = useMutation(REGISTRATION, {
+    onCompleted: confirm,
+    errorPolicy: "all",
+  });
+
+  useEffect(() => {
+    if (error) {
+      setMessage(error);
+    }
+  }, [error, setMessage]);
+
+  const { username, email } = state;
+
+  return (
+    <div>
+      <Input
+        className="f4"
+        value={username}
+        onChange={(username) => setState((p) => ({ ...p, username }))}
+        onEnter={() => mutation({ variables: state })}
+        placeholder="Username"
+      />
+
+      <Input
+        className="f4"
+        value={email}
+        onChange={(email) => setState((p) => ({ ...p, email }))}
+        onEnter={() => mutation({ variables: state })}
+        type="email"
+        placeholder="Email"
+      />
+
+      <Button className="db tc" onClick={() => mutation({ variables: state })}>
+        Register
+      </Button>
+
+      <BackToLogin />
+    </div>
+  );
+};
+
+const ResetPassword = ({ setMessage }) => {
+  const { key, login } = useParams();
+
+  const [state, setState] = useState({
+    login,
+    key,
+    password: generatePassword(),
+    clientMutationId:
+      Math.random()
+        .toString(36)
+        .substring(2) + new Date().getTime().toString(36),
+  });
+
+  const loginMutation = useLogin({ setMessage });
+
+  const confirm = useCallback(() => {
+    loginMutation(state.login, state.password);
+  }, [loginMutation, state]);
+
+  const [mutation, { error }] = useMutation(RESETPASS, {
+    onCompleted: confirm,
+    errorPolicy: "all",
+  });
+
+  useEffect(() => {
+    if (error) {
+      setMessage(error);
+    }
+  }, [error, setMessage]);
+
+  const { password } = state;
+
+  return (
+    <div>
+      <div className="mb2">Enter Your New Password:</div>
+
+      <Input
+        className="f4"
+        value={password}
+        onChange={(password) => setState((p) => ({ ...p, password }))}
+        onEnter={() => mutation({ variables: state })}
+      />
+
+      <Button className="db tc" onClick={() => mutation({ variables: state })}>
+        Login
+      </Button>
+
+      <BackToLogin />
+    </div>
+  );
+};
+
+const BackToLogin = () => (
+  <Link to="/login" className="db tr mt3">
+    &lt; Back to Login
+  </Link>
+);
+
+export default () => {
+  const [message, setMessage] = useState("");
+
+  return (
+    <PageWidth className="login">
+      <div>
+        <h1>Log in</h1>
+
+        <div
+          className="message mb3"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: message }}
+        />
+
+        <Switch>
+          <Route
+            exact
+            path="/register"
+            render={() => <Register setMessage={setMessage} />}
+          />
+          <Route
+            exact
+            path="/forgot-password"
+            render={() => <ForgotPassword setMessage={setMessage} />}
+          />
+          <Route
+            exact
+            path="/rp/:key/:login"
+            render={() => <ResetPassword setMessage={setMessage} />}
+          />
+          <Route path="*" render={() => <Login setMessage={setMessage} />} />
+        </Switch>
+      </div>
+    </PageWidth>
+  );
+};

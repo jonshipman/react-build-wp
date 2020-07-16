@@ -29,6 +29,7 @@ function get_frontend_origin( $original_url = '' ) {
     return $origin;
 }
 
+// Adds origin to the http_origins list.
 add_filter(
     'allowed_http_origins',
     function( $origins ) {
@@ -38,9 +39,47 @@ add_filter(
     99
 );
 
+// Sets the login url.
 add_filter(
     'login_url',
-    function( $login_url ) {
+    function() {
         return sprintf( '%s/login', get_frontend_origin() );
     }
+);
+
+// Sets the forgotpassword url.
+add_filter(
+    'lostpassword_url',
+    function() {
+        return sprintf( '%s/forgot-password', get_frontend_origin() );
+    }
+);
+
+// Sets the registration url.
+add_filter(
+    'register_url',
+    function() {
+        return sprintf( '%s/register', get_frontend_origin() );
+    }
+);
+
+// Filters the password reset email to change the retrieve password url.
+add_filter(
+    'retrieve_password_message',
+    function( $message, $key, $user_login ) {
+        $site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+
+        $message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
+        /* translators: %s: Site name. */
+        $message .= sprintf( __( 'Site Name: %s' ), $site_name ) . "\r\n\r\n";
+        /* translators: %s: User login. */
+        $message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
+        $message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
+        $message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
+        $message .= sprintf( '%s/rp/%s/%s', get_frontend_origin(), $key, $user_login ) . "\r\n";
+
+        return $message;
+    },
+    99,
+    3
 );
