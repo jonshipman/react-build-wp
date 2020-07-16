@@ -13,7 +13,7 @@ export default {
   getAuthToken: () => localStorage.getItem(AUTH_TOKEN),
   setAuthToken: (token) => localStorage.setItem(AUTH_TOKEN, token),
   removeAuthToken: () => localStorage.removeItem(AUTH_TOKEN),
-  getRedirect: () => Config.getRedirect(),
-  setRedirect: (redirect) => Config.setRedirect(redirect),
-  removeRedirect: () => Config.removeRedirect(),
+  getRedirect: () => localStorage.getItem("redirect"),
+  setRedirect: (redirect) => localStorage.setItem("redirect", redirect),
+  removeRedirect: () => localStorage.removeItem("redirect"),
 };

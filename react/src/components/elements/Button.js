@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import Loading from "./Loading";
+
 export const PrimaryClasses =
   "pointer link bg-animate hover-bg-blue br2 ph4 pv2 white bg-green bn";
 export const SecondaryClasses =

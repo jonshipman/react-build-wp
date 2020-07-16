@@ -4,7 +4,6 @@ import { gql, useMutation } from "@apollo/client";
 
 import Button from "./elements/Button";
 import Config from "../config";
-import Image from "./elements/Image";
 import Input from "./elements/Input";
 import PageWidth from "./elements/PageWidth";
 
