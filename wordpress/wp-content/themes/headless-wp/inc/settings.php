@@ -118,17 +118,17 @@ class HeadlessWpSettings {
 
 								return;
 							}
+						}
 
-							if ( 'textarea' === $field_options['args']['type'] ) {
-								printf(
-									'<textarea class="large-text" rows="5" type="text" name="%s" id="%s">%s</textarea>',
-									esc_attr( $field ),
-									esc_attr( $field ),
-									esc_attr( $value )
-								);
+						if ( isset( $field_options['display_as'] ) && 'textarea' === $field_options['display_as'] ) {
+							printf(
+								'<textarea class="large-text" rows="5" type="text" name="%s" id="%s">%s</textarea>',
+								esc_attr( $field ),
+								esc_attr( $field ),
+								esc_attr( $value )
+							);
 
-								return;
-							}
+							return;
 						}
 
 						printf(
