@@ -40,7 +40,7 @@ body {
  * Global Styling
  */
 a {
-  @extend .navy, .no-underline;
+  @extend .green, .no-underline;
 }
 
 iframe {
@@ -60,7 +60,7 @@ svg {
   box-sizing: border-box;
 
   path {
-    fill: $navy;
+    fill: $green;
   }
 }
 
@@ -117,7 +117,7 @@ svg {
   .nested-menu {
     a:before {
       font-size: $font-size-2;
-      color: $navy;
+      color: $green;
       position: relative;
       margin-right: $spacing-small;
       top: 0.35rem;
