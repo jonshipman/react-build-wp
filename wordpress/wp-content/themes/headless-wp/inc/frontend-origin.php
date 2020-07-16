@@ -83,3 +83,23 @@ add_filter(
 	99,
 	3
 );
+
+// Filters the user registration email for the same.
+add_filter(
+	'wp_new_user_notification_email',
+	function( $wp_new_user_notification_email, $user ) {
+		$key = get_password_reset_key( $user );
+
+		$message  = sprintf( __( 'Username: %s' ), $user->user_login ) . "\r\n\r\n";
+		$message .= __( 'To set your password, visit the following address:' ) . "\r\n\r\n";
+		$message .= sprintf( '%s/rp/%s/%s', get_frontend_origin(), $key, $user->user_login ) . "\r\n";
+
+		$message .= wp_login_url() . "\r\n";
+
+		$wp_new_user_notification_email['message'] = $message;
+
+		return $wp_new_user_notification_email;
+	},
+	99,
+	2
+);
