@@ -147,7 +147,7 @@ const useLogin = ({ setMessage = () => true }) => {
     [history]
   );
 
-  const [mutation, { error }] = useMutation(LOGIN_MUTATION, {
+  const [mutation, { error, loading }] = useMutation(LOGIN_MUTATION, {
     onCompleted: confirm,
     errorPolicy: "all",
   });
@@ -163,8 +163,11 @@ const useLogin = ({ setMessage = () => true }) => {
       .toString(36)
       .substring(2) + new Date().getTime().toString(36);
 
-  return (username, password) =>
-    mutation({ variables: { username, password, clientMutationId } });
+  return {
+    login: (username, password) =>
+      mutation({ variables: { username, password, clientMutationId } }),
+    loading,
+  };
 };
 
 const Login = ({ setMessage }) => {
@@ -173,7 +176,7 @@ const Login = ({ setMessage }) => {
     password: "",
   });
 
-  const login = useLogin({ setMessage });
+  const { login, loading } = useLogin({ setMessage });
 
   const { username, password } = state;
 
@@ -196,7 +199,11 @@ const Login = ({ setMessage }) => {
         placeholder="Password"
       />
 
-      <Button className="db tc" onClick={() => login(username, password)}>
+      <Button
+        disabled={loading}
+        className="db tc"
+        onClick={() => login(username, password)}
+      >
         Log In
       </Button>
 
@@ -224,7 +231,7 @@ const ForgotPassword = ({ setMessage }) => {
     setMessage(message);
   };
 
-  const [mutation, { error }] = useMutation(FORGOTPASS, {
+  const [mutation, { error, loading }] = useMutation(FORGOTPASS, {
     onCompleted: confirm,
     errorPolicy: "all",
   });
@@ -247,7 +254,11 @@ const ForgotPassword = ({ setMessage }) => {
         placeholder="Username"
       />
 
-      <Button className="db tc" onClick={() => mutation({ variables: state })}>
+      <Button
+        disabled={loading}
+        className="db tc"
+        onClick={() => mutation({ variables: state })}
+      >
         Request New Password
       </Button>
 
@@ -271,7 +282,7 @@ const Register = ({ setMessage }) => {
     setMessage(message);
   };
 
-  const [mutation, { error }] = useMutation(REGISTRATION, {
+  const [mutation, { error, loading }] = useMutation(REGISTRATION, {
     onCompleted: confirm,
     errorPolicy: "all",
   });
@@ -303,7 +314,11 @@ const Register = ({ setMessage }) => {
         placeholder="Email"
       />
 
-      <Button className="db tc" onClick={() => mutation({ variables: state })}>
+      <Button
+        disabled={loading}
+        className="db tc"
+        onClick={() => mutation({ variables: state })}
+      >
         Register
       </Button>
 
@@ -325,13 +340,13 @@ const ResetPassword = ({ setMessage }) => {
         .substring(2) + new Date().getTime().toString(36),
   });
 
-  const loginMutation = useLogin({ setMessage });
+  const { login: loginMutation } = useLogin({ setMessage });
 
   const confirm = useCallback(() => {
     loginMutation(state.login, state.password);
   }, [loginMutation, state]);
 
-  const [mutation, { error }] = useMutation(RESETPASS, {
+  const [mutation, { error, loading }] = useMutation(RESETPASS, {
     onCompleted: confirm,
     errorPolicy: "all",
   });
@@ -355,7 +370,11 @@ const ResetPassword = ({ setMessage }) => {
         onEnter={() => mutation({ variables: state })}
       />
 
-      <Button className="db tc" onClick={() => mutation({ variables: state })}>
+      <Button
+        disabled={loading}
+        className="db tc"
+        onClick={() => mutation({ variables: state })}
+      >
         Login
       </Button>
 
