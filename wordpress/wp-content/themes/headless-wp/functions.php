@@ -69,23 +69,23 @@ require_once 'inc/wpb.php';
 
 // Adds thumbnails.
 add_action(
-    'after_setup_theme',
-    function () {
-        add_theme_support( 'post-thumbnails' );
-    }
+	'after_setup_theme',
+	function () {
+		add_theme_support( 'post-thumbnails' );
+	}
 );
 
 // Modifies links in the content to point to the origin.
 add_filter(
-    'the_content',
-    function ( $content ) {
-        $content =  str_replace( array( 'href="' . get_site_url() ), sprintf( 'href="%s', get_frontend_origin() ), $content );
-        $content =  str_replace( 'src="/wp-content', 'src="' . get_site_url() . '/wp-content', $content );
+	'the_content',
+	function ( $content ) {
+		$content = str_replace( array( 'href="' . get_site_url() ), sprintf( 'href="%s', get_frontend_origin() ), $content );
+		$content = str_replace( 'src="/wp-content', 'src="' . get_site_url() . '/wp-content', $content );
 
-        // Fix links to the images.
-        $content =  str_replace( sprintf( 'href="%s/wp-content/', get_frontend_origin() ), sprintf( 'href="%s/wp-content/', get_site_url() ), $content );
+		// Fix links to the images.
+		$content = str_replace( sprintf( 'href="%s/wp-content/', get_frontend_origin() ), sprintf( 'href="%s/wp-content/', get_site_url() ), $content );
 
-        return $content;
-    },
-    PHP_INT_MAX
+		return $content;
+	},
+	PHP_INT_MAX
 );

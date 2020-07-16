@@ -2,9 +2,12 @@
 
 // Recommended to set this to a unique key.
 // See https://api.wordpress.org/secret-key/1.1/salt/.
-add_filter( 'graphql_jwt_auth_secret_key', function() {
-    return SECURE_AUTH_KEY;
-});
+add_filter(
+	'graphql_jwt_auth_secret_key',
+	function() {
+		return SECURE_AUTH_KEY;
+	}
+);
 
 /**
  * Provides a way to access files behind a post by way of a jwt.

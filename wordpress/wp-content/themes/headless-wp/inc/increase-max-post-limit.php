@@ -5,14 +5,14 @@
  * Limited to specifically 9999 for these calls.
  */
 add_filter(
-    'graphql_connection_max_query_amount',
-    function( $amount, $source, $args, $context, $info  ) {
-        if ( isset( $args['first'] ) && $args['first'] === 9999 ) {
-            return 9999;
-        }
+	'graphql_connection_max_query_amount',
+	function( $amount, $source, $args, $context, $info ) {
+		if ( isset( $args['first'] ) && $args['first'] === 9999 ) {
+			return 9999;
+		}
 
-        return $amount;
-    },
-    10,
-    5
+		return $amount;
+	},
+	10,
+	5
 );

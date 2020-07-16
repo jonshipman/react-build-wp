@@ -10,17 +10,17 @@
  */
 
 add_filter(
-    'graphql_response_headers_to_send',
-    function( $headers ) {
-        if ( isset( $headers['X-hacker'] ) ) {
-            unset( $headers['X-hacker'] );
-        }
+	'graphql_response_headers_to_send',
+	function( $headers ) {
+		if ( isset( $headers['X-hacker'] ) ) {
+			unset( $headers['X-hacker'] );
+		}
 
-        $headers['Access-Control-Allow-Origin'] = get_frontend_origin();
-        $headers['Access-Control-Allow-Methods'] = 'GET, POST';
-        $headers['Access-Control-Allow-Credentials'] = 'true';
-        $headers['Access-Control-Expose-Headers'] = 'Content-Type, X-JWT-Auth, X-JWT-Refresh, HTTP_X_WP_NONCE';
+		$headers['Access-Control-Allow-Origin']      = get_frontend_origin();
+		$headers['Access-Control-Allow-Methods']     = 'GET, POST';
+		$headers['Access-Control-Allow-Credentials'] = 'true';
+		$headers['Access-Control-Expose-Headers']    = 'Content-Type, X-JWT-Auth, X-JWT-Refresh, HTTP_X_WP_NONCE';
 
-        return $headers;
-    }
+		return $headers;
+	}
 );

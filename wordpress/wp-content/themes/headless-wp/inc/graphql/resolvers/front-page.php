@@ -8,33 +8,33 @@
 use \WPGraphQL\Data\DataSource;
 
 add_action(
-    'graphql_register_types',
-    function () {
-        register_graphql_field(
-            'RootQuery',
-            'frontPage',
-            array(
-                'type'        => 'Page',
-                'description' => __( 'Returns homepage', 'headless-wp' ),
-                'resolve'     => function ( $root, $args, $context, $info ) {
-                    $page_on_front_id = (int) get_option( 'page_on_front' );
-                    return DataSource::resolve_post_object( $page_on_front_id, $context );
-                },
-            )
-        );
+	'graphql_register_types',
+	function () {
+		register_graphql_field(
+			'RootQuery',
+			'frontPage',
+			array(
+				'type'        => 'Page',
+				'description' => __( 'Returns homepage', 'headless-wp' ),
+				'resolve'     => function ( $root, $args, $context, $info ) {
+					$page_on_front_id = (int) get_option( 'page_on_front' );
+					return DataSource::resolve_post_object( $page_on_front_id, $context );
+				},
+			)
+		);
 
-        add_filter(
-            'acf_wpgraphql_locations',
-            function ( $locations ) {
-                $locations[] = array(
-                    'operator' => '==',
-                    'param'    => 'page_type',
-                    'value'    => 'front_page',
-                    'field'    => 'Page',
-                );
+		add_filter(
+			'acf_wpgraphql_locations',
+			function ( $locations ) {
+				$locations[] = array(
+					'operator' => '==',
+					'param'    => 'page_type',
+					'value'    => 'front_page',
+					'field'    => 'Page',
+				);
 
-                return $locations;
-            }
-        );
-    }
+				return $locations;
+			}
+		);
+	}
 );
