@@ -200,7 +200,7 @@ const Login = ({ setMessage }) => {
       />
 
       <Button
-        disabled={loading}
+        loading={loading}
         className="db tc"
         onClick={() => login(username, password)}
       >
@@ -255,7 +255,7 @@ const ForgotPassword = ({ setMessage }) => {
       />
 
       <Button
-        disabled={loading}
+        loading={loading}
         className="db tc"
         onClick={() => mutation({ variables: state })}
       >
@@ -315,7 +315,7 @@ const Register = ({ setMessage }) => {
       />
 
       <Button
-        disabled={loading}
+        loading={loading}
         className="db tc"
         onClick={() => mutation({ variables: state })}
       >
@@ -371,7 +371,7 @@ const ResetPassword = ({ setMessage }) => {
       />
 
       <Button
-        disabled={loading}
+        loading={loading}
         className="db tc"
         onClick={() => mutation({ variables: state })}
       >

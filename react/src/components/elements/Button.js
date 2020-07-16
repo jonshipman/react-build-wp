@@ -7,7 +7,7 @@ export const SecondaryClasses =
   "pointer link dim br2 ph4 pv2 white ba b--white";
 export const TertiaryClasses = "pointer link dim br2 ph4 pv2 green ba b--green";
 
-export default ({
+const Button = ({
   children,
   className = "",
   altClasses,
@@ -74,4 +74,17 @@ export default ({
       {children}
     </div>
   );
+};
+
+export default ({ loading, disabled, style = {}, ...props }) => {
+  if (loading) {
+    return (
+      <div className="flex justify-between items-center">
+        <Button disabled={true} style={{ ...style, flexGrow: 1 }} {...props} />
+        <Loading className="ml3" />
+      </div>
+    );
+  }
+
+  return <Button disabled={disabled} style={style} {...props} />;
 };
