@@ -118,6 +118,17 @@ class HeadlessWpSettings {
 
 								return;
 							}
+
+							if ( 'textarea' === $field_options['args']['type'] ) {
+								printf(
+									'<textarea class="large-text" rows="5" type="text" name="%s" id="%s">%s</textarea>',
+									esc_attr( $field ),
+									esc_attr( $field ),
+									esc_attr( $value )
+								);
+
+								return;
+							}
 						}
 
 						printf(
