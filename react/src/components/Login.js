@@ -131,16 +131,18 @@ const useLogin = ({ setMessage = () => true }) => {
 
   const confirm = useCallback(
     (data) => {
-      const { authToken } = data?.login;
-      const redirect = Config.getRedirect();
+      const { authToken } = data?.login || {};
+      if (authToken) {
+        const redirect = Config.getRedirect();
 
-      Config.setAuthToken(authToken);
+        Config.setAuthToken(authToken);
 
-      if (redirect) {
-        Config.removeRedirect();
-        history.push(redirect);
-      } else {
-        history.push("/dashboard");
+        if (redirect) {
+          Config.removeRedirect();
+          history.push(redirect);
+        } else {
+          history.push("/dashboard");
+        }
       }
     },
     [history]
