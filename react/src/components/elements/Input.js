@@ -90,12 +90,11 @@ export const Textarea = ({
       onKeyDown={(e) => "Enter" === e.key && onEnter()}
       onChange={(e) => onChange(e.currentTarget.value)}
       id={id}
+      defaultValue={value}
       className={fieldClassName}
       style={{ flexGrow: 1 }}
       {...props}
-    >
-      {value}
-    </textarea>
+    />
     {children}
   </div>
 );
