@@ -12,7 +12,7 @@ export const Input = ({
   children,
   ...props
 }) => (
-  <div className={`form-group w-100 mb4 drop-last-mb ${className}`}>
+  <div className={className}>
     {label && (
       <label htmlFor={id} className="fw7 ttu db w-100 mb2 pl2">
         {label}:{" "}
@@ -44,7 +44,7 @@ export const Select = ({
   placeholder,
   ...props
 }) => (
-  <div className={`form-group w-100 mb4 drop-last-mb ${className}`}>
+  <div className={className}>
     {label && (
       <label htmlFor={id} className="fw7 ttu db w-100 mb2 pl2">
         {label}:{" "}
@@ -80,7 +80,7 @@ export const Textarea = ({
   children,
   ...props
 }) => (
-  <div className={`form-group w-100 mb4 drop-last-mb ${className}`}>
+  <div className={className}>
     {label && (
       <label htmlFor={id} className="fw7 ttu db w-100 mb2 pl2">
         {label}:{" "}
@@ -100,16 +100,37 @@ export const Textarea = ({
   </div>
 );
 
-export default ({ type = "text", ...props }) => {
-  const className = "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
+export default ({ type = "text", className = "", ...props }) => {
+  const fieldClassName =
+    "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
+  const groupClassName = `form-group w-100 mb4 drop-last-mb ${className}`;
 
   if ("textarea" === type) {
-    return <Textarea fieldClassName={className} {...props} />;
+    return (
+      <Textarea
+        className={groupClassName}
+        fieldClassName={fieldClassName}
+        {...props}
+      />
+    );
   }
 
   if ("select" === type) {
-    return <Select fieldClassName={className} {...props} />;
+    return (
+      <Select
+        className={groupClassName}
+        fieldClassName={fieldClassName}
+        {...props}
+      />
+    );
   }
 
-  return <Input type={type} fieldClassName={className} {...props} />;
+  return (
+    <Input
+      type={type}
+      className={groupClassName}
+      fieldClassName={fieldClassName}
+      {...props}
+    />
+  );
 };
