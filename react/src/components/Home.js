@@ -16,7 +16,7 @@ import TallCards from "./posts/TallCards";
 
 const HOME_QUERY = gql`
   query HomeQuery {
-    frontPage {
+    page(id: "/", idType: URI) {
       id
       title
       content
@@ -99,8 +99,8 @@ export default () => {
 
   return (
     <OnQueryFinished
-      seo={data?.frontPage?.seo}
-      content={data?.frontPage?.content}
+      seo={data?.page.seo}
+      content={data?.page.content}
       error={error?.message}
     />
   );

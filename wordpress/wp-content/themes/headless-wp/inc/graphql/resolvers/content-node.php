@@ -1,17 +1,31 @@
 <?php
 /**
- * Adds extra meta to the post.
+ * Adds extra meta to content nodes.
  *
  * @package Headless_WP
  */
 
 use \WPGraphQL\Data\DataSource;
 
-require_once __DIR__ . '/../types/post.php';
+require_once __DIR__ . '/../types/content-node.php';
 
 add_action(
 	'graphql_register_types',
 	function () {
+		add_filter(
+			'acf_wpgraphql_locations',
+			function ( $locations ) {
+				$locations[] = array(
+					'operator' => '==',
+					'param'    => 'page_type',
+					'value'    => 'front_page',
+					'field'    => 'Page',
+				);
+
+				return $locations;
+			}
+		);
+
 		$name   = 'dateFormatted';
 		$config = array(
 			'type'        => 'String',

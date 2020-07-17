@@ -1,6 +1,6 @@
 <?php
 /**
- * Types for post.
+ * Types for content nodes.
  *
  * @package Headless_WP
  */
