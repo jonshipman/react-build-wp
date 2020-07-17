@@ -4,6 +4,7 @@ export const Input = ({
   id,
   label,
   type = "text",
+  fieldClassName,
   onChange = () => true,
   onEnter = () => true,
   value = "",
@@ -23,7 +24,7 @@ export const Input = ({
       id={id}
       type={type}
       value={value}
-      className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2"
+      className={fieldClassName}
       style={{ flexGrow: 1 }}
       {...props}
     />
@@ -34,6 +35,7 @@ export const Input = ({
 export const Select = ({
   id,
   label,
+  fieldClassName,
   onChange = () => true,
   options = {},
   value = "",
@@ -52,7 +54,7 @@ export const Select = ({
       onChange={(e) => onChange(e.currentTarget.value)}
       id={id}
       defaultValue={value}
-      className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2"
+      className={fieldClassName}
       style={{ flexGrow: 1 }}
       {...props}
     >
@@ -70,6 +72,7 @@ export const Select = ({
 export const Textarea = ({
   id,
   label,
+  fieldClassName,
   onChange = () => true,
   onEnter = () => true,
   value = "",
@@ -87,7 +90,7 @@ export const Textarea = ({
       onKeyDown={(e) => "Enter" === e.key && onEnter()}
       onChange={(e) => onChange(e.currentTarget.value)}
       id={id}
-      className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2"
+      className={fieldClassName}
       style={{ flexGrow: 1 }}
       {...props}
     >
@@ -98,13 +101,15 @@ export const Textarea = ({
 );
 
 export default ({ type = "text", ...props }) => {
+  const className = "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
+
   if ("textarea" === type) {
-    return <Textarea {...props} />;
+    return <Textarea fieldClassName={className} {...props} />;
   }
 
   if ("select" === type) {
-    return <Select {...props} />;
+    return <Select fieldClassName={className} {...props} />;
   }
 
-  return <Input type={type} {...props} />;
+  return <Input type={type} fieldClassName={className} {...props} />;
 };
