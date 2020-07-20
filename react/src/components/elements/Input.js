@@ -1,5 +1,32 @@
 import React from "react";
 
+export const Checkbox = ({
+  id,
+  label = "Checkbox",
+  type = "checkbox",
+  onChange = () => true,
+  value = "",
+  className = "",
+  children,
+  ...props
+}) => (
+  <div className={className}>
+    <label htmlFor={id} className="fw7 ttu dib w-100 pointer">
+      {label}:{" "}
+      <input
+        onChange={(e) => onChange(e.currentTarget.value)}
+        id={id}
+        type={type}
+        defaultValue={value}
+        className="dib ml2"
+        {...props}
+      />
+    </label>
+
+    {children}
+  </div>
+);
+
 export const Input = ({
   id,
   label,
@@ -125,6 +152,14 @@ export default ({ type = "text", className = "", ...props }) => {
       >
         {children}
       </Select>
+    );
+  }
+
+  if ("checkbox" === type || "radio" === type) {
+    return (
+      <Checkbox type={type} className={groupClassName} {...props}>
+        {children}
+      </Checkbox>
     );
   }
 
