@@ -80,7 +80,7 @@ export const Select = ({
     <select
       onChange={(e) => onChange(e.currentTarget.value)}
       id={id}
-      defaultValue={value}
+      value={value}
       className={fieldClassName}
       style={{ flexGrow: 1 }}
       {...props}
