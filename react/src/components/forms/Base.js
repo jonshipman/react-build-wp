@@ -1,7 +1,7 @@
 import React from "react";
-import { Field, ErrorMessage } from "formik";
 
 import FormError from "../elements/FormError";
+import Input from "../elements/Input";
 
 class FormBase {
   getButton = () => {
@@ -12,13 +12,13 @@ class FormBase {
     return this.form.mutation;
   };
 
-  triggerRecaptcha = (values) => {
-    let trigger = this.form.recaptchaFieldTrigger;
+  triggerRecaptcha = (key, value) => {
+    const trigger = this.form.recaptchaFieldTrigger;
     if (!trigger) {
       return true;
     }
 
-    return values[trigger] && values[trigger].length > 0 ? true : false;
+    return trigger === key && this.isValid(key, value);
   };
 
   isValid = (key, value) => {
@@ -32,8 +32,25 @@ class FormBase {
     return this.form[key] ? this.form[key] : null;
   };
 
-  getError = (key) => {
-    return this.form.fields[key].errorMessage;
+  setError = (key) => {
+    return (this.form.fields[key].error = true);
+  };
+
+  removeError = (key) => {
+    return (this.form.fields[key].error = null);
+  };
+
+  noErrors = () => {
+    let error = false;
+    Object.entries(this.form.fields).map(([key]) => {
+      if (true === this.form.fields[key]?.error) {
+        error = true;
+      }
+
+      return null;
+    });
+
+    return !error;
   };
 
   buildState = () => {
@@ -50,73 +67,41 @@ class FormBase {
   };
 
   templates = {
-    Text: ({ key, name, label, className = "", type = "text", ...props }) => (
-      <div
-        className={`form-group w-100 mb4 drop-last-mb ${className}`}
-        {...props}
-      >
-        <label htmlFor={name} className="fw7 ttu db w-100 mb2 pl2">
-          {label}
-        </label>
-        <Field
-          type={type}
-          id={name}
-          name={name}
-          placeholder={label}
-          className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2"
-        />
-        <ErrorMessage name={name} component={FormError} />
-      </div>
+    Text: ({ key, name, ...props }) => (
+      <Input id={name} {...props}>
+        {this.form.fields[name]?.error && (
+          <FormError>{this.form.fields[name]?.errorMessage}</FormError>
+        )}
+      </Input>
     ),
-    Select: ({ key, name, label, className = "", options, ...props }) => (
-      <div
-        className={`form-group w-100 mb4 drop-last-mb ${className}`}
-        {...props}
-      >
-        <label htmlFor={name} className="fw7 ttu db w-100 mb2 pl2">
-          {label}
-        </label>
-        <Field
-          className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2"
-          as="select"
-          name={name}
-        >
-          <option value=""></option>
-          {options.map((opt) => (
-            <option key={name + opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </Field>
-        <ErrorMessage name={name} component={FormError} />
-      </div>
+    Select: ({ key, name, ...props }) => (
+      <Input type="select" id={name} {...props}>
+        {this.form.fields[name]?.error && (
+          <FormError>{this.form.fields[name]?.errorMessage}</FormError>
+        )}
+      </Input>
     ),
-    Textarea: ({ key, name, label, className = "", ...props }) => (
-      <div
-        className={`form-group w-100 mb4 drop-last-mb ${className}`}
-        {...props}
-      >
-        <label htmlFor={name} className="fw7 ttu db w-100 mb2 pl2">
-          {label}
-        </label>
-        <Field
-          component="textarea"
-          id={name}
-          name={name}
-          placeholder={label}
-          className="w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2 h3"
-        />
-        <ErrorMessage name={name} component={FormError} />
-      </div>
+    Textarea: ({ key, name, ...props }) => (
+      <Input type="textarea" id={name} {...props}>
+        {this.form.fields[name]?.error && (
+          <FormError>{this.form.fields[name]?.errorMessage}</FormError>
+        )}
+      </Input>
     ),
   };
 
-  component = () => {
+  component = ({ updateState, values }) => {
     const { fields } = this.form;
     return (
       <>
         {Object.entries(fields).map(([key, value]) => {
-          return <value.component key={key} />;
+          return (
+            <value.component
+              value={values[key]}
+              onChange={(v) => updateState(key, v)}
+              key={`${this.name}-${key}`}
+            />
+          );
         })}
       </>
     );

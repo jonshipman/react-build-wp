@@ -39,8 +39,8 @@ class Form extends Base {
     `,
     fields: {
       yourName: {
-        component: () => (
-          <this.templates.Text name="yourName" label="Your Name" />
+        component: (props) => (
+          <this.templates.Text name="yourName" label="Your Name" {...props} />
         ),
         validity: (v) => {
           return v && v.length > 0;
@@ -48,12 +48,13 @@ class Form extends Base {
         errorMessage: "Required.",
       },
       email: {
-        component: () => (
+        component: (props) => (
           <this.templates.Text
             className="w-50-l fl-l pr2"
             name="email"
             type="email"
             label="Your Email"
+            {...props}
           />
         ),
         validity: (v) => {
@@ -62,12 +63,13 @@ class Form extends Base {
         errorMessage: "Invalid email address.",
       },
       phone: {
-        component: () => (
+        component: (props) => (
           <this.templates.Text
             className="w-50-l fl-l pl2"
             name="phone"
             type="tel"
             label="Your Phone"
+            {...props}
           />
         ),
         validity: (v) => {
@@ -76,8 +78,12 @@ class Form extends Base {
         errorMessage: "Invalid phone number.",
       },
       message: {
-        component: () => (
-          <this.templates.Textarea name="message" label="Your Message" />
+        component: (props) => (
+          <this.templates.Textarea
+            name="message"
+            label="Your Message"
+            {...props}
+          />
         ),
         validity: () => {
           return true;

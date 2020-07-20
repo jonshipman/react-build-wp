@@ -1,12 +1,10 @@
-import React, { Component } from "react";
-import { gql, useMutation } from "@apollo/client";
-import { Formik, Form } from "formik";
+import React, { useState, useEffect, useCallback } from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 import DefaultForm from "../forms/DefaultForm";
-import Loading from "./Loading";
+import LoadingError from "./LoadingError";
 import Button from "./Button";
 import Recaptcha, { resetToken } from "../external-scripts/Recaptcha";
-import withApolloClient from "../hoc/withApolloClient";
 
 /**
  * To add a new form - copy ./forms/DefaultForm and pass it as the prop
@@ -26,172 +24,132 @@ const FORM_DATA = gql`
   }
 `;
 
-const Mutation = (props) => {
-  const [submitForm, results] = useMutation(props.mutation, {
-    onCompleted: props.onCompleted,
-    onError: props.onError,
+export default ({ form = DefaultForm, className = "" }) => {
+  const [state, setState] = useState({
+    formValues: form.buildState(),
+    showRecaptcha: false,
+    nonce: "",
+    token: "",
   });
 
-  const onSubmit = (opts) => {
-    submitForm(opts);
-  };
+  const [mutation, { loading, data: mutationData }] = useMutation(
+    form.getMutation()
+  );
+  const { data, error } = useQuery(FORM_DATA, { errorPolicy: "all" });
+  const { formValues, showRecaptcha, nonce, token } = state;
+  const { formData } = data || {};
 
-  return props.children(onSubmit, results);
-};
+  useEffect(() => {
+    let { wpNonce } = formData || {};
 
-class LeadForm extends Component {
-  constructor(props) {
-    super(props);
+    let nonce = "";
 
-    this.state = {
-      formValues: {},
-      showRecaptcha: false,
-    };
-
-    this.token = "";
-    this.nonce = "";
-    this.Form = props.form;
-
-    if (!this.Form) {
-      this.Form = DefaultForm;
-    }
-
-    this.state.formValues = this.Form.buildState();
-  }
-
-  componentDidMount() {
-    this.executeLocationQuery();
-  }
-
-  executeLocationQuery = async () => {
-    if (this.props.client) {
-      const result = await this.props.client.query({
-        query: FORM_DATA,
-      });
-
-      const { formValues } = this.state;
-
-      let { wpNonce } = result.data.formData;
-
-      let defaultNonce = "";
-
-      wpNonce.forEach((n) => {
-        if (this.Form.name === n.form) {
-          this.nonce = n.wpNonce;
-        }
-
+    wpNonce &&
+      wpNonce.some((n) => {
         if ("default" === n.form) {
-          defaultNonce = n.wpNonce;
+          nonce = n.wpNonce;
         }
+
+        if (form.name === n.form) {
+          nonce = n.wpNonce;
+          return true;
+        }
+
+        return false;
       });
 
-      if (!this.nonce) {
-        this.nonce = defaultNonce;
-      }
+    setState((p) => ({ ...p, nonce }));
+  }, [setState, formData, form.name]);
 
-      if (this.props.isMounted()) {
-        this.setState({ formValues });
-      }
-    }
-  };
-
-  executeValidation = (values) => {
-    const errors = {};
-
-    Object.entries(values).map(([key, value]) => {
-      let valid = this.Form.isValid(key, value);
+  const validate = useCallback(
+    (key, value) => {
+      const valid = form.isValid(key, value);
 
       if (!valid) {
-        errors[key] = this.Form.getError(key);
+        form.setError(key);
+      } else {
+        form.removeError(key);
       }
 
-      return null;
-    });
+      // Trigger the recaptcha loading.
+      setState((p) => ({
+        ...p,
+        showRecaptcha: form.triggerRecaptcha(key, value),
+      }));
+    },
+    [form, setState]
+  );
 
-    this.setState({ showRecaptcha: this.Form.triggerRecaptcha(values) });
+  let successMessage = "";
+  let errorMessage = error?.message || "";
 
-    return errors;
-  };
+  if (mutationData) {
+    const { success, errorMessage: eMsg } = form.getMutationData(mutationData);
 
-  processToken = (token) => {
-    this.token = token;
-  };
+    if (success) {
+      resetToken.reset();
+      successMessage = "Form submitted. Thank you for your submission.";
+    }
 
-  render() {
-    const { formValues, showRecaptcha } = this.state;
-    const { className } = this.props;
-
-    let localMutation = this.Form.getMutation();
-    let localErrorMessage = "";
-    let localSuccessMessage = "";
-
-    return (
-      <div className={`lead-form relative ${className || ""}`}>
-        <Mutation mutation={localMutation}>
-          {(mutation, { loading, data }) => {
-            if (data) {
-              const { success, errorMessage } = this.Form.getMutationData(data);
-
-              if (success) {
-                resetToken.reset();
-                localSuccessMessage =
-                  "Form submitted. Thank you for your submission.";
-              }
-
-              if (errorMessage) {
-                localErrorMessage = errorMessage;
-              }
-            }
-
-            return (
-              <Formik
-                initialValues={formValues}
-                validate={this.executeValidation}
-                onSubmit={(values) => {
-                  values.gToken = this.token;
-                  values.wpNonce = this.nonce;
-                  values.clientMutationId = this.token + this.nonce;
-
-                  mutation({ variables: values });
-                }}
-              >
-                <Form>
-                  {localErrorMessage && (
-                    <div className="error-message red fw7 f7 mb3">
-                      {localErrorMessage}
-                    </div>
-                  )}
-
-                  {localSuccessMessage && (
-                    <>
-                      <div className="success-message green fw7 f6 mb3">
-                        {localSuccessMessage}
-                      </div>
-                      <div className="absolute absolute--fill" />
-                    </>
-                  )}
-
-                  {showRecaptcha && <Recaptcha callback={this.processToken} />}
-
-                  <div className="form-groups">
-                    <this.Form.component />
-                  </div>
-
-                  {loading ? (
-                    <Loading />
-                  ) : (
-                    <Button form={true} disabled={loading}>
-                      {this.Form.getButton()}
-                    </Button>
-                  )}
-                </Form>
-              </Formik>
-            );
-          }}
-        </Mutation>
-      </div>
-    );
+    if (eMsg) {
+      errorMessage = eMsg;
+    }
   }
-}
 
-export default withApolloClient(LeadForm);
+  return (
+    <div className={`lead-form relative ${className}`}>
+      {errorMessage && <LoadingError error={errorMessage} />}
+
+      {successMessage && (
+        <>
+          <div className="success-message gold fw7 f6 mb3">
+            {successMessage}
+          </div>
+          <div className="absolute absolute--fill" />
+        </>
+      )}
+
+      {showRecaptcha && (
+        <Recaptcha callback={(token) => setState((p) => ({ ...p, token }))} />
+      )}
+
+      <div className="form-groups">
+        <form.component
+          values={formValues}
+          updateState={(field, value) => {
+            setState((prev) => {
+              validate(field, value);
+
+              prev.formValues[field] = value;
+              return prev;
+            });
+          }}
+        />
+      </div>
+
+      <Button
+        form={true}
+        loading={loading}
+        onClick={() => {
+          if (form.noErrors()) {
+            const clientMutationId =
+              Math.random()
+                .toString(36)
+                .substring(2) + new Date().getTime().toString(36);
+
+            mutation({
+              variables: {
+                ...formValues,
+                clientMutationId,
+                wpNonce: nonce,
+                gToken: token,
+              },
+            });
+          }
+        }}
+      >
+        {form.getButton()}
+      </Button>
+    </div>
+  );
+};
