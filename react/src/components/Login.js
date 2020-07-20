@@ -154,7 +154,7 @@ const useLogin = ({ setMessage = () => true }) => {
   });
 
   useEffect(() => {
-    if (error) {
+    if (error && "Internal server error" !== error.message) {
       setMessage(error);
     }
   }, [error, setMessage]);
@@ -238,7 +238,7 @@ const ForgotPassword = ({ setMessage }) => {
   });
 
   useEffect(() => {
-    if (error) {
+    if (error && "Internal server error" !== error.message) {
       setMessage(error);
     }
   }, [error, setMessage]);
@@ -289,7 +289,7 @@ const Register = ({ setMessage }) => {
   });
 
   useEffect(() => {
-    if (error) {
+    if (error && "Internal server error" !== error.message) {
       setMessage(error);
     }
   }, [error, setMessage]);
@@ -353,7 +353,7 @@ const ResetPassword = ({ setMessage }) => {
   });
 
   useEffect(() => {
-    if (error) {
+    if (error && "Internal server error" !== error.message) {
       setMessage(error);
     }
   }, [error, setMessage]);
