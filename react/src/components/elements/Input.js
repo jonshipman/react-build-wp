@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export const Checkbox = ({
   id,
@@ -8,24 +8,41 @@ export const Checkbox = ({
   value = "",
   className = "",
   children,
+  checked = false,
   ...props
-}) => (
-  <div className={className}>
-    <label htmlFor={id} className="fw7 ttu dib w-100 pointer">
-      {label}:{" "}
-      <input
-        onChange={(e) => onChange(e.currentTarget.value)}
-        id={id}
-        type={type}
-        defaultValue={value}
-        className="dib ml2"
-        {...props}
-      />
-    </label>
+}) => {
+  const [isChecked, setIsChecked] = useState(checked);
 
-    {children}
-  </div>
-);
+  useEffect(() => {
+    setIsChecked(checked);
+  }, [setIsChecked, checked]);
+
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="fw7 ttu dib w-100 pointer">
+        {label}:{" "}
+        <input
+          onChange={() => {
+            setIsChecked((prev) => {
+              setTimeout(() => {
+                onChange(!prev, value, id);
+              });
+              return !prev;
+            });
+          }}
+          id={id}
+          type={type}
+          value={value}
+          checked={isChecked}
+          className="dib ml2"
+          {...props}
+        />
+      </label>
+
+      {children}
+    </div>
+  );
+};
 
 export const Input = ({
   id,
