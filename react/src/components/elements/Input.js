@@ -110,7 +110,9 @@ export default ({ type = "text", className = "", ...props }) => {
         className={groupClassName}
         fieldClassName={fieldClassName}
         {...props}
-      />
+      >
+        {children}
+      </Textarea>
     );
   }
 
@@ -120,7 +122,9 @@ export default ({ type = "text", className = "", ...props }) => {
         className={groupClassName}
         fieldClassName={fieldClassName}
         {...props}
-      />
+      >
+        {children}
+      </Select>
     );
   }
 
@@ -130,6 +134,8 @@ export default ({ type = "text", className = "", ...props }) => {
       className={groupClassName}
       fieldClassName={fieldClassName}
       {...props}
-    />
+    >
+      {children}
+    </Input>
   );
 };
