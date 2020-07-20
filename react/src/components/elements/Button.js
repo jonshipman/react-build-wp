@@ -81,7 +81,11 @@ const Button = ({
 export default ({ loading, disabled, style = {}, ...props }) => {
   if (loading) {
     return (
-      <div className="flex justify-between items-center">
+      <div
+        className={`${
+          props?.className?.includes("db") ? "flex" : "inline-flex"
+        } justify-between items-center`}
+      >
         <Button disabled={true} style={{ ...style, flexGrow: 1 }} {...props} />
         <Loading className="ml3" />
       </div>
