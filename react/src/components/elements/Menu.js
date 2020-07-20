@@ -113,7 +113,8 @@ const ChildItem = ({ menuItem, level, ...props }) => {
         hasChildren ? " has-children" : ""
       } level-${localLevel} ${menuItem.cssClasses || ""}`}
     >
-      {"MenuItem" === menuItem.connectedObject.__typename ? (
+      {undefined === menuItem?.connectedObject?.__typename ||
+      "MenuItem" === menuItem?.connectedObject?.__typename ? (
         <a href={menuItem.url} rel="nofollow noopen">
           <span className="link-inner">{menuItem.label}</span>
         </a>
