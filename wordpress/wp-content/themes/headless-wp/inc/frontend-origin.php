@@ -76,7 +76,7 @@ add_filter(
 		$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 		$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
 		$message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
-		$message .= sprintf( '%s/rp/%s/%s', get_frontend_origin(), $key, $user_login ) . "\r\n";
+		$message .= sprintf( '%s/rp/%s/%s', get_frontend_origin(), $key, rawurlencode( $user_login ) ) . "\r\n";
 
 		return $message;
 	},
@@ -92,7 +92,7 @@ add_filter(
 
 		$message  = sprintf( __( 'Username: %s' ), $user->user_login ) . "\r\n\r\n";
 		$message .= __( 'To set your password, visit the following address:' ) . "\r\n\r\n";
-		$message .= sprintf( '%s/rp/%s/%s', get_frontend_origin(), $key, $user->user_login ) . "\r\n";
+		$message .= sprintf( '%s/rp/%s/%s', get_frontend_origin(), $key, rawurlencode( $user->user_login ) ) . "\r\n";
 
 		$message .= wp_login_url() . "\r\n";
 
