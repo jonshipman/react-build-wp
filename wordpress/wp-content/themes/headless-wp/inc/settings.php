@@ -99,7 +99,7 @@ class HeadlessWpSettings {
 
 			foreach ( $options['fields'] as $field => $field_options ) {
 				if ( isset( $field_options['callback'] ) && is_callable( $field_options['callback'] ) && ! is_string( $field_options['callback'] ) ) {
-					$callback = function() use ( $field ) {
+					$callback = function() use ( $field, $field_options ) {
 						$field_options['callback']( $field );
 					};
 				} else {
