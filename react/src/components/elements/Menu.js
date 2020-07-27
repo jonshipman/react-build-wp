@@ -105,50 +105,80 @@ const ChildItem = ({ menuItem, level, ...props }) => {
     });
   }
 
+  const menuItemProps = {};
+  if (
+    undefined === menuItem?.connectedObject?.__typename ||
+    "MenuItem" === menuItem?.connectedObject?.__typename
+  ) {
+    menuItemProps.href = menuItem.url;
+  } else {
+    menuItemProps.to = menuItem.url;
+  }
+
+  if (hasChildren) {
+    menuItemProps.submenu = (
+      <SubMenu>
+        {new_children.map((m) => {
+          if (m.parentId === menuItem.id) {
+            return (
+              <ChildItem
+                key={m.id}
+                menuItem={m}
+                level={localLevel}
+                {...props}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
+      </SubMenu>
+    );
+  }
+
   return (
-    <li
-      id={"menu-item-" + menuItem.databaseId}
+    <MenuItem
+      onClick={props.anchorOnclick}
       key={menuItem.id}
-      className={`menu-item ${
-        hasChildren ? " has-children" : ""
-      } level-${localLevel} ${menuItem.cssClasses || ""}`}
+      level={localLevel}
+      className={`${menuItem.cssClasses} ${hasChildren ? "has-children" : ""}`}
+      id={`menu-item ${menuItem.databaseId}`}
+      {...menuItemProps}
     >
-      {undefined === menuItem?.connectedObject?.__typename ||
-      "MenuItem" === menuItem?.connectedObject?.__typename ? (
-        <a href={menuItem.url} rel="nofollow noopen">
-          <span className="link-inner">{menuItem.label}</span>
-        </a>
-      ) : (
-        <NavLink
-          exact
-          to={menuItem.url}
-          onClick={props.anchorOnclick}
-          activeClassName="current-item"
-        >
-          <span className="link-inner">{menuItem.label}</span>
-        </NavLink>
-      )}
-      {hasChildren ? (
-        <ul className="sub-menu dn">
-          {new_children.map((m) => {
-            if (m.parentId === menuItem.id) {
-              return (
-                <ChildItem
-                  key={m.id}
-                  menuItem={m}
-                  level={localLevel}
-                  {...props}
-                />
-              );
-            } else {
-              return null;
-            }
-          })}
-        </ul>
-      ) : null}
-    </li>
+      {menuItem.label}
+    </MenuItem>
   );
 };
+
+// Exportable menu item container.
+export const MenuItem = ({
+  id,
+  level = "1",
+  className = "",
+  href,
+  to,
+  children,
+  onClick,
+  submenu,
+}) => (
+  <li id={id} className={`menu-item level-${level} ${className}`}>
+    {href ? (
+      <a href={href} rel="nofollow noopen">
+        <span className="link-inner">{children}</span>
+      </a>
+    ) : (
+      <NavLink exact to={to} onClick={onClick} activeClassName="current-item">
+        <span className="link-inner">{children}</span>
+      </NavLink>
+    )}
+    {submenu}
+  </li>
+);
+
+// Exportable submenu container.
+export const SubMenu = ({ className = "", children }) => (
+  <ul className={`sub-menu dn ${className}`}>{children}</ul>
+);
 
 /**
  * The placeholder skeleton that shows before query loads.
