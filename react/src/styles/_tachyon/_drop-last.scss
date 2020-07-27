@@ -1,0 +1,37 @@
+@mixin drop-last($suffix: "") {
+  $targets: ("bt": border-top, "br": border-right, "bb": border-bottom, "bl": border-left, "pt":padding-top, "pr": padding-right, "pb": padding-bottom, "pl": padding-left, "mt": margin-top, "mr": margin-right, "mb": margin-bottom, "ml": margin-left);
+
+  @each $c, $prop in $targets {
+    .drop-last {
+      &-#{$c}#{$suffix} {
+        &:last-child {
+          #{$prop}: 0;
+        }
+      }
+
+      &-child {
+        &-#{$c}#{$suffix} {
+          &:last-child {
+            > * {
+              #{$prop}: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include drop-last();
+
+@media #{$breakpoint-not-small} {
+  @include drop-last("-ns");
+}
+
+@media #{$breakpoint-medium} {
+  @include drop-last("-m");
+}
+
+@media #{$breakpoint-large} {
+  @include drop-last("-l");
+}
