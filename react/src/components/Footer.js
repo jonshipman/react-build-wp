@@ -33,7 +33,7 @@ const Footer = ({ settings, desc, title, loading }) => (
         <div>
           <div className="brand mb3">
             <Link to="/" className="dib border-box">
-              <Logo className="w5 nb1" />
+              <Logo className="w5 fill-green" />
             </Link>
           </div>
 

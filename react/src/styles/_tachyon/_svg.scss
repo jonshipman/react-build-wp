@@ -1,0 +1,322 @@
+/*
+
+   SVG
+
+   Base:
+     fill = fill color
+     stroke = stroke color
+     sw = stroke-width
+
+   Modifiers:
+     0 = 0 width stroke
+     1 = 1st step in stroke-width scale
+     2 = 2nd step in stroke-width scale
+     3 = 3rd step in stroke-width scale
+     4 = 4th step in stroke-width scale
+     5 = 5th step in stroke-width scale
+     6 = 6th step in stroke-width scale
+     7 = 7th step in stroke-width scale
+
+   Media Query Extensions:
+     -ns = not-small
+     -m  = medium
+     -l  = large
+*/
+
+$spacing-extra-extra-small: .125rem !default;
+
+/* Stroke colors */
+
+.stroke-black-90 { stroke: $black-90; }
+.stroke-black-80 { stroke: $black-80; }
+.stroke-black-70 { stroke: $black-70; }
+.stroke-black-60 { stroke: $black-60; }
+.stroke-black-50 { stroke: $black-50; }
+.stroke-black-40 { stroke: $black-40; }
+.stroke-black-30 { stroke: $black-30; }
+.stroke-black-20 { stroke: $black-20; }
+.stroke-black-10 { stroke: $black-10; }
+.stroke-black-05 { stroke: $black-05; }
+
+.stroke-white-90 { stroke: $white-90; }
+.stroke-white-80 { stroke: $white-80; }
+.stroke-white-70 { stroke: $white-70; }
+.stroke-white-60 { stroke: $white-60; }
+.stroke-white-50 { stroke: $white-50; }
+.stroke-white-40 { stroke: $white-40; }
+.stroke-white-30 { stroke: $white-30; }
+.stroke-white-20 { stroke: $white-20; }
+.stroke-white-10 { stroke: $white-10; }
+
+.stroke-black { stroke: $black; }
+.stroke-near-black { stroke: $near-black; }
+.stroke-dark-gray { stroke: $dark-gray; }
+.stroke-mid-gray { stroke: $mid-gray; }
+.stroke-gray { stroke: $gray; }
+.stroke-silver { stroke: $silver; }
+.stroke-light-silver { stroke: $light-silver; }
+.stroke-moon-gray { stroke: $moon-gray; }
+.stroke-light-gray { stroke: $light-gray; }
+.stroke-near-white { stroke: $near-white; }
+.stroke-white { stroke: $white; }
+
+.stroke-dark-red { stroke: $dark-red; }
+.stroke-red { stroke: $red; }
+.stroke-light-red { stroke: $light-red; }
+.stroke-orange { stroke: $orange; }
+.stroke-gold { stroke: $gold; }
+.stroke-yellow { stroke: $yellow; }
+.stroke-light-yellow { stroke: $light-yellow; }
+.stroke-purple { stroke: $purple; }
+.stroke-light-purple { stroke: $light-purple; }
+.stroke-dark-pink { stroke: $dark-pink; }
+.stroke-hot-pink { stroke: $hot-pink; }
+.stroke-pink { stroke: $pink; }
+.stroke-light-pink { stroke: $light-pink; }
+.stroke-dark-green { stroke: $dark-green; }
+.stroke-green { stroke: $green; }
+.stroke-light-green { stroke: $light-green; }
+.stroke-navy { stroke: $navy; }
+.stroke-dark-blue { stroke: $dark-blue; }
+.stroke-blue { stroke: $blue; }
+.stroke-light-blue { stroke: $light-blue; }
+.stroke-lightest-blue { stroke: $lightest-blue; }
+.stroke-washed-blue { stroke: $washed-blue; }
+.stroke-washed-green { stroke: $washed-green; }
+.stroke-washed-yellow { stroke: $washed-yellow; }
+.stroke-washed-red { stroke: $washed-red; }
+
+.stroke-current-color { stroke: currentColor; }
+
+/* Stroke hover colors */
+
+.hover-stroke-black-90:hover { stroke: $black-90; }
+.hover-stroke-black-80:hover { stroke: $black-80; }
+.hover-stroke-black-70:hover { stroke: $black-70; }
+.hover-stroke-black-60:hover { stroke: $black-60; }
+.hover-stroke-black-50:hover { stroke: $black-50; }
+.hover-stroke-black-40:hover { stroke: $black-40; }
+.hover-stroke-black-30:hover { stroke: $black-30; }
+.hover-stroke-black-20:hover { stroke: $black-20; }
+.hover-stroke-black-10:hover { stroke: $black-10; }
+.hover-stroke-black-05:hover { stroke: $black-05; }
+
+.hover-stroke-white-90:hover { stroke: $white-90; }
+.hover-stroke-white-80:hover { stroke: $white-80; }
+.hover-stroke-white-70:hover { stroke: $white-70; }
+.hover-stroke-white-60:hover { stroke: $white-60; }
+.hover-stroke-white-50:hover { stroke: $white-50; }
+.hover-stroke-white-40:hover { stroke: $white-40; }
+.hover-stroke-white-30:hover { stroke: $white-30; }
+.hover-stroke-white-20:hover { stroke: $white-20; }
+.hover-stroke-white-10:hover { stroke: $white-10; }
+
+.hover-stroke-black:hover { stroke: $black; }
+.hover-stroke-near-black:hover { stroke: $near-black; }
+.hover-stroke-dark-gray:hover { stroke: $dark-gray; }
+.hover-stroke-mid-gray:hover { stroke: $mid-gray; }
+.hover-stroke-gray:hover { stroke: $gray; }
+.hover-stroke-silver:hover { stroke: $silver; }
+.hover-stroke-light-silver:hover { stroke: $light-silver; }
+.hover-stroke-moon-gray:hover { stroke: $moon-gray; }
+.hover-stroke-light-gray:hover { stroke: $light-gray; }
+.hover-stroke-near-white:hover { stroke: $near-white; }
+.hover-stroke-white:hover { stroke: $white; }
+
+.hover-stroke-dark-red:hover { stroke: $dark-red; }
+.hover-stroke-red:hover { stroke: $red; }
+.hover-stroke-light-red:hover { stroke: $light-red; }
+.hover-stroke-orange:hover { stroke: $orange; }
+.hover-stroke-gold:hover { stroke: $gold; }
+.hover-stroke-yellow:hover { stroke: $yellow; }
+.hover-stroke-light-yellow:hover { stroke: $light-yellow; }
+.hover-stroke-purple:hover { stroke: $purple; }
+.hover-stroke-light-purple:hover { stroke: $light-purple; }
+.hover-stroke-dark-pink:hover { stroke: $dark-pink; }
+.hover-stroke-hot-pink:hover { stroke: $hot-pink; }
+.hover-stroke-pink:hover { stroke: $pink; }
+.hover-stroke-light-pink:hover { stroke: $light-pink; }
+.hover-stroke-dark-green:hover { stroke: $dark-green; }
+.hover-stroke-green:hover { stroke: $green; }
+.hover-stroke-light-green:hover { stroke: $light-green; }
+.hover-stroke-navy:hover { stroke: $navy; }
+.hover-stroke-dark-blue:hover { stroke: $dark-blue; }
+.hover-stroke-blue:hover { stroke: $blue; }
+.hover-stroke-light-blue:hover { stroke: $light-blue; }
+.hover-stroke-lightest-blue:hover { stroke: $lightest-blue; }
+.hover-stroke-washed-blue:hover { stroke: $washed-blue; }
+.hover-stroke-washed-green:hover { stroke: $washed-green; }
+.hover-stroke-washed-yellow:hover { stroke: $washed-yellow; }
+.hover-stroke-washed-red:hover { stroke: $washed-red; }
+
+.hover-stroke-current-color:hover { stroke: currentColor; }
+
+/* Fill colors */
+
+.fill-black-90 { fill: $black-90; }
+.fill-black-80 { fill: $black-80; }
+.fill-black-70 { fill: $black-70; }
+.fill-black-60 { fill: $black-60; }
+.fill-black-50 { fill: $black-50; }
+.fill-black-40 { fill: $black-40; }
+.fill-black-30 { fill: $black-30; }
+.fill-black-20 { fill: $black-20; }
+.fill-black-10 { fill: $black-10; }
+.fill-black-05 { fill: $black-05; }
+.fill-white-90 { fill: $white-90; }
+.fill-white-80 { fill: $white-80; }
+.fill-white-70 { fill: $white-70; }
+.fill-white-60 { fill: $white-60; }
+.fill-white-50 { fill: $white-50; }
+.fill-white-40 { fill: $white-40; }
+.fill-white-30 { fill: $white-30; }
+.fill-white-20 { fill: $white-20; }
+.fill-white-10 { fill: $white-10; }
+
+.fill-black { fill: $black; }
+.fill-near-black { fill: $near-black; }
+.fill-dark-gray { fill: $dark-gray; }
+.fill-mid-gray { fill: $mid-gray; }
+.fill-gray { fill: $gray; }
+.fill-silver  { fill: $silver; }
+.fill-light-silver { fill: $light-silver; }
+.fill-moon-gray { fill: $moon-gray; }
+.fill-light-gray { fill: $light-gray; }
+.fill-near-white { fill: $near-white; }
+.fill-white { fill: $white; }
+.fill-transparent { fill: $transparent; }
+
+.fill-dark-red { fill: $dark-red; }
+.fill-red { fill: $red; }
+.fill-light-red { fill: $light-red; }
+.fill-orange { fill: $orange; }
+.fill-gold { fill: $gold; }
+.fill-yellow { fill: $yellow; }
+.fill-light-yellow { fill: $light-yellow; }
+.fill-purple { fill: $purple; }
+.fill-light-purple { fill: $light-purple; }
+.fill-dark-pink { fill: $dark-pink; }
+.fill-hot-pink { fill: $hot-pink; }
+.fill-pink { fill: $pink; }
+.fill-light-pink { fill: $light-pink; }
+.fill-dark-green { fill: $dark-green; }
+.fill-green { fill: $green; }
+.fill-light-green { fill: $light-green; }
+.fill-navy { fill: $navy; }
+.fill-dark-blue { fill: $dark-blue; }
+.fill-blue { fill: $blue; }
+.fill-light-blue { fill: $light-blue; }
+.fill-lightest-blue { fill: $lightest-blue; }
+.fill-washed-blue { fill: $washed-blue; }
+.fill-washed-green { fill: $washed-green; }
+.fill-washed-yellow { fill: $washed-yellow; }
+.fill-washed-red { fill: $washed-red; }
+
+.fill-current-color { fill: currentColor; }
+
+/* Fill hover colors */
+
+.hover-fill-black-90:hover { fill: $black-90; }
+.hover-fill-black-80:hover { fill: $black-80; }
+.hover-fill-black-70:hover { fill: $black-70; }
+.hover-fill-black-60:hover { fill: $black-60; }
+.hover-fill-black-50:hover { fill: $black-50; }
+.hover-fill-black-40:hover { fill: $black-40; }
+.hover-fill-black-30:hover { fill: $black-30; }
+.hover-fill-black-20:hover { fill: $black-20; }
+.hover-fill-black-10:hover { fill: $black-10; }
+.hover-fill-black-05:hover { fill: $black-05; }
+.hover-fill-white-90:hover { fill: $white-90; }
+.hover-fill-white-80:hover { fill: $white-80; }
+.hover-fill-white-70:hover { fill: $white-70; }
+.hover-fill-white-60:hover { fill: $white-60; }
+.hover-fill-white-50:hover { fill: $white-50; }
+.hover-fill-white-40:hover { fill: $white-40; }
+.hover-fill-white-30:hover { fill: $white-30; }
+.hover-fill-white-20:hover { fill: $white-20; }
+.hover-fill-white-10:hover { fill: $white-10; }
+
+.hover-fill-black:hover { fill: $black; }
+.hover-fill-near-black:hover { fill: $near-black; }
+.hover-fill-dark-gray:hover { fill: $dark-gray; }
+.hover-fill-mid-gray:hover { fill: $mid-gray; }
+.hover-fill-gray:hover { fill: $gray; }
+.hover-fill-silver :hover { fill: $silver; }
+.hover-fill-light-silver:hover { fill: $light-silver; }
+.hover-fill-moon-gray:hover { fill: $moon-gray; }
+.hover-fill-light-gray:hover { fill: $light-gray; }
+.hover-fill-near-white:hover { fill: $near-white; }
+.hover-fill-white:hover { fill: $white; }
+.hover-fill-transparent:hover { fill: $transparent; }
+
+.hover-fill-dark-red:hover { fill: $dark-red; }
+.hover-fill-red:hover { fill: $red; }
+.hover-fill-light-red:hover { fill: $light-red; }
+.hover-fill-orange:hover { fill: $orange; }
+.hover-fill-gold:hover { fill: $gold; }
+.hover-fill-yellow:hover { fill: $yellow; }
+.hover-fill-light-yellow:hover { fill: $light-yellow; }
+.hover-fill-purple:hover { fill: $purple; }
+.hover-fill-light-purple:hover { fill: $light-purple; }
+.hover-fill-dark-pink:hover { fill: $dark-pink; }
+.hover-fill-hot-pink:hover { fill: $hot-pink; }
+.hover-fill-pink:hover { fill: $pink; }
+.hover-fill-light-pink:hover { fill: $light-pink; }
+.hover-fill-dark-green:hover { fill: $dark-green; }
+.hover-fill-green:hover { fill: $green; }
+.hover-fill-light-green:hover { fill: $light-green; }
+.hover-fill-navy:hover { fill: $navy; }
+.hover-fill-dark-blue:hover { fill: $dark-blue; }
+.hover-fill-blue:hover { fill: $blue; }
+.hover-fill-light-blue:hover { fill: $light-blue; }
+.hover-fill-lightest-blue:hover { fill: $lightest-blue; }
+.hover-fill-washed-blue:hover { fill: $washed-blue; }
+.hover-fill-washed-green:hover { fill: $washed-green; }
+.hover-fill-washed-yellow:hover { fill: $washed-yellow; }
+.hover-fill-washed-red:hover { fill: $washed-red; }
+
+.hover-fill-current-color:hover { fill: currentColor; }
+
+/* Stroke widths */
+
+.sw0 { stroke-width: 0; }
+.sw1 { stroke-width: $spacing-extra-extra-small; }
+.sw2 { stroke-width: $spacing-extra-small; }
+.sw3 { stroke-width: $spacing-small; }
+.sw4 { stroke-width: $spacing-medium; }
+.sw5 { stroke-width: $spacing-large; }
+.sw6 { stroke-width: $spacing-extra-large; }
+.sw7 { stroke-width: $spacing-extra-extra-large; }
+
+@media #{$breakpoint-not-small} {
+  .sw0-ns { stroke-width: 0; }
+  .sw1-ns { stroke-width: $spacing-extra-extra-small; }
+  .sw2-ns { stroke-width: $spacing-extra-small; }
+  .sw3-ns { stroke-width: $spacing-small; }
+  .sw4-ns { stroke-width: $spacing-medium; }
+  .sw5-ns { stroke-width: $spacing-large; }
+  .sw6-ns { stroke-width: $spacing-extra-large; }
+  .sw7-ns { stroke-width: $spacing-extra-extra-large; }
+}
+
+@media #{$breakpoint-medium} {
+  .sw0-m { stroke-width: 0; }
+  .sw1-m { stroke-width: $spacing-extra-extra-small; }
+  .sw2-m { stroke-width: $spacing-extra-small; }
+  .sw3-m { stroke-width: $spacing-small; }
+  .sw4-m { stroke-width: $spacing-medium; }
+  .sw5-m { stroke-width: $spacing-large; }
+  .sw6-m { stroke-width: $spacing-extra-large; }
+  .sw7-m { stroke-width: $spacing-extra-extra-large; }
+}
+
+@media #{$breakpoint-large} {
+  .sw0-l { stroke-width: 0; }
+  .sw1-l { stroke-width: $spacing-extra-extra-small; }
+  .sw2-l { stroke-width: $spacing-extra-small; }
+  .sw3-l { stroke-width: $spacing-small; }
+  .sw4-l { stroke-width: $spacing-medium; }
+  .sw5-l { stroke-width: $spacing-large; }
+  .sw6-l { stroke-width: $spacing-extra-large; }
+  .sw7-l { stroke-width: $spacing-extra-extra-large; }
+}

@@ -5,6 +5,7 @@
 @import "tachyons-sass";
 @import "_tachyon/_percentage-coordinates.scss";
 @import "_tachyon/_hover-z-index.scss";
+@import "_tachyon/_svg.scss";
 @import "_tachyon/_extras.scss";
 @import "./_animations.scss";
 @import "./_menu.scss";
@@ -68,10 +69,6 @@ select:-webkit-autofill:focus {
 svg {
   max-width: 100%;
   box-sizing: border-box;
-
-  path {
-    fill: $green;
-  }
 }
 
 .post-content {
