@@ -185,15 +185,13 @@ export const SubMenu = ({ className = "", children }) => (
  */
 const Skeleton = ({ error }) => {
   return Array.from(new Array(error?.message ? 1 : 5)).map(() => (
-    <li key={Math.random()}>
-      <a href="/">
-        {error?.message ? (
-          error.message
-        ) : (
-          <span className="h1 w3 ml2 loading-block dib" />
-        )}
-      </a>
-    </li>
+    <MenuItem key={Math.random()} href="/">
+      {error?.message ? (
+        error.message
+      ) : (
+        <span className="h1 w3 ml2 loading-block dib" />
+      )}
+    </MenuItem>
   ));
 };
 
