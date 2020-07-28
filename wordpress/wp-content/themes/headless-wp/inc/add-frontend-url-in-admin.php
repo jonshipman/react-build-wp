@@ -72,3 +72,17 @@ function headless_wp_modify_rest( $res ) {
 }
 add_filter( 'rest_prepare_post', 'headless_wp_modify_rest' );
 add_filter( 'rest_prepare_page', 'headless_wp_modify_rest' );
+
+/**
+ * Modifies get_permalink.
+ */
+foreach ( array( 'post', 'page', 'post_type' ) as $type ) {
+	add_filter(
+		$type . '_link',
+		function ( $url, $post_id, $sample ) use ( $type ) {
+			return get_frontend_origin( $url );
+		},
+		9999,
+		3
+	);
+}
