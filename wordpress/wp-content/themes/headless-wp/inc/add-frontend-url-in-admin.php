@@ -80,7 +80,11 @@ foreach ( array( 'post', 'page', 'post_type' ) as $type ) {
 	add_filter(
 		$type . '_link',
 		function ( $url, $post_id, $sample ) use ( $type ) {
-			return get_frontend_origin( $url );
+			if ( is_admin() ) {
+				return get_frontend_origin( $url );
+			}
+
+			return $url;
 		},
 		9999,
 		3
