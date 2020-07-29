@@ -2,7 +2,7 @@
  * Use with the two plugins Redirection by John Godley and https://github.com/jonshipman/wp-graphql-redirection/archive/master.zip
  * Include in renderer:
  *
- * const { redirect, code, url } = Redirect(client);
+ * const { redirect, code, url } = Redirect(client, req);
  * if (redirect) {
  *   return res.redirect(code, url);
  * }
@@ -33,7 +33,7 @@ const REDIRECTION_QUERY = gql`
   }
 `;
 
-export default async (client) => {
+export default async (client, req) => {
   const output = {
     redirect: false,
     code: 200,
