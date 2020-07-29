@@ -24,6 +24,12 @@ const SEARCH_QUERY = gql`
       before: $before
       where: { search: $filter, status: PUBLISH, hasPassword: false }
     ) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
       edges {
         node {
           id
