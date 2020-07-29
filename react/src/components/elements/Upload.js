@@ -98,10 +98,12 @@ const HTTPRequest = ({ file, progress, post }) => {
 
     request.open("post", url, true);
     request.upload.addEventListener("progress", progress);
-    request.setRequestHeader(
-      "Authorization",
-      "Bearer " + Config.getAuthToken()
-    );
+    if (Config.getAuthToken()) {
+      request.setRequestHeader(
+        "Authorization",
+        "Bearer " + Config.getAuthToken()
+      );
+    }
     request.send(form);
   });
 };
