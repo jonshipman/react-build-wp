@@ -60,6 +60,23 @@ const authAfterware = new ApolloLink((operation, forward) => {
       console.error(response.errors);
     }
 
+    response.errors.forEach((error) => {
+      if (
+        "Internal server error" === error.message &&
+        Config.getAuthToken()
+      ) {
+        if (
+          window.confirm(
+            "We have detected an invalid login session. You will be logged out"
+          )
+        ) {
+          Config.removeAuthToken();
+          window.location.reload();
+        }
+      }
+    });
+  }
+
     // Get the refresh token and update the localStorage.
     if (headers) {
       const refreshToken = headers.get("x-jwt-refresh");
