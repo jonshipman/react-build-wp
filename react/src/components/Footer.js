@@ -15,10 +15,12 @@ import Menu from "./elements/Menu";
 const FOOTER_QUERY = gql`
   query SettingsQuery {
     allSettings {
+      id
       generalSettingsTitle
       generalSettingsDescription
     }
     headlessWpSettings {
+      id
       phoneNumber
       contactEmail
     }

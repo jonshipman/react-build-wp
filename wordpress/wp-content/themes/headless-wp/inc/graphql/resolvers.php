@@ -9,4 +9,5 @@
 if ( function_exists( 'register_graphql_field' ) ) {
 	require_once 'resolvers/content-node.php';
 	require_once 'resolvers/form.php';
+	require_once 'resolvers/settings.php';
 }
