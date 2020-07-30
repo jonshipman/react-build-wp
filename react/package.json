@@ -3,6 +3,7 @@
   "version": "0.3",
   "private": true,
   "devDependencies": {
+    "@babel/core": "*",
     "@babel/plugin-proposal-class-properties": "*",
     "@babel/plugin-transform-runtime": "*",
     "@babel/preset-env": "*",
@@ -16,7 +17,8 @@
     "isomorphic-fetch": "*",
     "jsdom": "*",
     "node-sass": "*",
-    "prettier": "*"
+    "prettier": "*",
+    "typescript": "*"
   },
   "dependencies": {
     "@apollo/client": "*",
@@ -34,7 +36,8 @@
     "react-router-dom": "*",
     "react-scripts": "*",
     "react-transition-group": "*",
-    "tachyons-sass": "*"
+    "tachyons-sass": "*",
+    "subscriptions-transport-ws": "*"
   },
   "scripts": {
     "start": "PORT=3000 CHOKIDAR_USEPOLLING=true react-scripts start",
