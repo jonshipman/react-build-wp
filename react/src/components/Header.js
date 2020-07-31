@@ -23,7 +23,7 @@ const Header = ({ sticky }) => {
     if (sticky && spacerRef.current) {
       spacerRef.current.style.height = `${headerRef?.current?.clientHeight}px`;
     }
-  }, [sticky]);
+  }, [sticky, headerRef, spacerRef]);
 
   return (
     <header id="header">
