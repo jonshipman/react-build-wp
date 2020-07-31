@@ -122,3 +122,94 @@ if ( class_exists( 'WPGraphQL\Registry\TypeRegistry' ) ) {
 		25
 	);
 }
+
+// Add globally unique ids to acf groups (posts) for cache merging.
+add_action(
+	'graphql_register_types',
+	function() {
+		if ( function_exists( 'acf_get_field_groups' ) && class_exists( '\WPGraphQL\ACF\Config' ) ) {
+			$graphql_post_types = get_post_types( array( 'show_in_graphql' => true ) );
+
+			if ( empty( $graphql_post_types ) || ! is_array( $graphql_post_types ) ) {
+				return;
+			}
+
+			foreach ( $graphql_post_types as $post_type ) {
+				$field_groups = acf_get_field_groups(
+					array(
+						'post_type' => $post_type,
+					)
+				);
+
+				if ( empty( $field_groups ) || ! is_array( $field_groups ) ) {
+					continue;
+				}
+
+				$post_type_object = get_post_type_object( $post_type );
+
+				foreach ( $field_groups as $field_group ) {
+					$field_name      = isset( $field_group['graphql_field_name'] ) ? $field_group['graphql_field_name'] : \WPGraphQL\ACF\Config::camel_case( $field_name );
+					$field_type_name = $post_type_object->graphql_single_name . '_' . ucfirst( $field_name );
+
+					$config = array(
+						'type'        => 'ID',
+						'description' => __( 'Unique id useful for cache merging', 'headless-wp' ),
+						'resolve'     => function ( $post ) use ( $field_type_name ) {
+							return \GraphQLRelay\Relay::toGlobalId( $field_type_name, $post->ID );
+						},
+					);
+
+					register_graphql_field( $field_type_name, 'id', $config );
+				}
+			}
+		}
+	}
+);
+
+// Add globally unique ids to acf groups (terms) for cache merging.
+add_action(
+	'graphql_register_types',
+	function() {
+		if ( function_exists( 'acf_get_field_groups' ) && class_exists( '\WPGraphQL\ACF\Config' ) ) {
+			$graphql_taxonomies = \WPGraphQL::get_allowed_taxonomies();
+
+			if ( empty( $graphql_taxonomies ) || ! is_array( $graphql_taxonomies ) ) {
+				return;
+			}
+
+			foreach ( $graphql_taxonomies as $taxonomy ) {
+				$field_groups = acf_get_field_groups(
+					array(
+						'taxonomy' => $taxonomy,
+					)
+				);
+
+				if ( empty( $field_groups ) || ! is_array( $field_groups ) ) {
+					continue;
+				}
+
+				$tax_object = get_taxonomy( $taxonomy );
+
+				if ( empty( $tax_object ) || ! isset( $tax_object->graphql_single_name ) ) {
+					return;
+				}
+
+				foreach ( $field_groups as $field_group ) {
+					$field_name      = isset( $field_group['graphql_field_name'] ) ? $field_group['graphql_field_name'] : \WPGraphQL\ACF\Config::camel_case( $field_name );
+					$field_type_name = $tax_object->graphql_single_name . '_' . ucfirst( $field_name );
+
+					$config = array(
+						'type'        => 'String',
+						'description' => __( 'Unique id useful for cache merging', 'headless-wp' ),
+						'resolve'     => function ( $term ) use ( $field_type_name ) {
+							if ( empty( $term->fields['term_id'] ) ) return null;
+							return \GraphQLRelay\Relay::toGlobalId( $field_type_name, $term->fields['term_id'] );
+						},
+					);
+
+					register_graphql_field( $field_type_name, 'id', $config );
+				}
+			}
+		}
+	}
+);
