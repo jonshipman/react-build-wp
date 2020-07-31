@@ -32,11 +32,10 @@
     "react-dom": "*",
     "react-dropzone": "*",
     "react-helmet": "*",
-    "react-lazy-load": "*",
     "react-router-dom": "*",
     "react-scripts": "*",
-    "tachyons-sass": "*",
-    "subscriptions-transport-ws": "*"
+    "subscriptions-transport-ws": "*",
+    "tachyons-sass": "*"
   },
   "scripts": {
     "start": "PORT=3000 CHOKIDAR_USEPOLLING=true react-scripts start",

@@ -1,6 +1,5 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import LazyLoad from "react-lazy-load";
 import { gql, useQuery } from "@apollo/client";
 
 import Button from "./elements/Button";
@@ -35,32 +34,30 @@ const OnQueryFinished = ({ seo, content, error }) => (
 
     <Hero cta={{ text: "Contact Today", link: "/contact-us" }} />
 
-    <LazyLoad>
-      <PageWidth>
-        <div className="mv4 flex-l nl4 nr4">
-          <div className="ma4 w-50-l">
-            <PostContent className="mb4" content={content || error || ""} />
+    <PageWidth>
+      <div className="mv4 flex-l nl4 nr4">
+        <div className="ma4 w-50-l">
+          <PostContent className="mb4" content={content || error || ""} />
 
-            <Button className="mr3" to="/contact-us">
-              Make an Appointment
-            </Button>
+          <Button className="mr3" to="/contact-us">
+            Make an Appointment
+          </Button>
 
-            <Button type={3} to="/about-us">
-              Learn More
-            </Button>
-          </div>
-          <div className="ma4 w-50-l">
-            <div className="relative overflow-hidden w-100 h-100">
-              <Image
-                width={720}
-                height={480}
-                className="absolute-l absolute--fill-l mw-none-l grow center db"
-              />
-            </div>
+          <Button type={3} to="/about-us">
+            Learn More
+          </Button>
+        </div>
+        <div className="ma4 w-50-l">
+          <div className="relative overflow-hidden w-100 h-100">
+            <Image
+              width={720}
+              height={480}
+              className="absolute-l absolute--fill-l mw-none-l grow center db"
+            />
           </div>
         </div>
-      </PageWidth>
-    </LazyLoad>
+      </div>
+    </PageWidth>
 
     <div className="bg-silver pv5">
       <LeadForm className="mw6 bg-white pa4 center" />
