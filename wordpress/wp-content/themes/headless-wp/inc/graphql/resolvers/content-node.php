@@ -99,43 +99,6 @@ add_action(
 	}
 );
 
-function headless_wp_arg_process( $args ) {
-	if ( isset( $args['uri'] ) ) {
-		$uri = $args['uri'];
-		return url_to_postid( trailingslashit( get_site_url() ) . ltrim( $uri, '/' ) );
-	}
-
-	return 0;
-}
-
-/**
- * Get the Post or Page object by URI (permalink safe).
- */
-add_action(
-	'graphql_register_types',
-	function () {
-		register_graphql_field(
-			'RootQuery',
-			'getPostOrPageByUri',
-			array(
-				'type'        => 'ContentNode',
-				'args'        => array(
-					'uri' => array(
-						'type'        => 'String',
-						'description' => __( 'The uri of the post or page to look for', 'headless-wp' ),
-					),
-				),
-				'description' => __( 'Gets the post or page from given uri', 'headless-wp' ),
-				'resolve'     => function ( $root, $args, $context, $info ) {
-					$post_id = headless_wp_arg_process( $args );
-
-					return DataSource::resolve_post_object( $post_id, $context );
-				},
-			)
-		);
-	}
-);
-
 // Fixes missing single name on the menuItem.
 add_filter(
 	'register_post_type_args',

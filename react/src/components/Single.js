@@ -19,8 +19,8 @@ import withContact from "./hoc/withContact";
  * Returns the title and content of the page
  */
 const SINGLE_QUERY = gql`
-  query SingleQuery($uri: String!) {
-    getPostOrPageByUri(uri: $uri) {
+  query SingleQuery($uri: ID!) {
+    contentNode(id: $uri, idType: URI) {
       id
       databaseId
       slug
@@ -68,8 +68,8 @@ const DefaultQuery = ({ match: { url: uri }, children }) => {
   if (loading) return <PageSkeleton />;
   if (error) return <LoadingError error={error.message} />;
 
-  if (data.getPostOrPageByUri) {
-    return children(data.getPostOrPageByUri);
+  if (data.contentNode) {
+    return children(data.contentNode);
   }
 
   return <NotFound />;
