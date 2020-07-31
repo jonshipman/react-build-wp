@@ -35,7 +35,6 @@
     "react-lazy-load": "*",
     "react-router-dom": "*",
     "react-scripts": "*",
-    "react-transition-group": "*",
     "tachyons-sass": "*",
     "subscriptions-transport-ws": "*"
   },
