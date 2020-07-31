@@ -4,7 +4,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import DefaultForm from "../forms/DefaultForm";
 import LoadingError from "./LoadingError";
 import Button from "./Button";
-import Recaptcha, { resetToken } from "../external-scripts/Recaptcha";
+import Recaptcha from "../external-scripts/Recaptcha";
 
 /**
  * To add a new form - copy ./forms/DefaultForm and pass it as the prop
@@ -84,12 +84,13 @@ export default ({ form = DefaultForm, className = "" }) => {
 
   let successMessage = "";
   let errorMessage = error?.message || "";
+  let resetRecaptcha = 1;
 
   if (mutationData) {
     const { success, errorMessage: eMsg } = form.getMutationData(mutationData);
 
     if (success) {
-      resetToken.reset();
+      resetRecaptcha++;
       successMessage = "Form submitted. Thank you for your submission.";
     }
 
@@ -112,7 +113,10 @@ export default ({ form = DefaultForm, className = "" }) => {
       )}
 
       {showRecaptcha && (
-        <Recaptcha callback={(token) => setState((p) => ({ ...p, token }))} />
+        <Recaptcha
+          reset={resetRecaptcha}
+          callback={(token) => setState((p) => ({ ...p, token }))}
+        />
       )}
 
       <div className="form-groups">

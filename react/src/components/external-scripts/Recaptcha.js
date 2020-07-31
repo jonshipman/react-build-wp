@@ -1,7 +1,5 @@
-import { Component } from "react";
-import { gql } from "@apollo/client";
-
-import withApolloClient from "../hoc/withApolloClient";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { gql, useQuery } from "@apollo/client";
 
 /**
  * GraphQL query should return the Recaptcha site key as string
@@ -9,6 +7,7 @@ import withApolloClient from "../hoc/withApolloClient";
 const CHECK_RECAPTCHA = gql`
   query {
     formData {
+      id
       recatchaSiteKey
     }
   }
@@ -17,10 +16,6 @@ const CHECK_RECAPTCHA = gql`
 const RECAPTCHA_SCRIPT_URL = "https://recaptcha.net/recaptcha/api.js";
 const RECAPTCHA_SCRIPT_REGEX = /(http|https):\/\/(www)?.+\/recaptcha/;
 const RECAPTCHA_RECHECK_MS = 300000; // 5 minutes
-
-/**
- * Note: this is not resetting the token
- */
 
 class _resetToken {
   reset() {
@@ -38,123 +33,107 @@ class _resetToken {
 
 export const resetToken = new _resetToken();
 
-class Recaptcha extends Component {
-  constructor(props) {
-    super(props);
+export default ({ callback = () => {}, reset = 1 }) => {
+  const [key, setKey] = useState();
+  const [token, setToken] = useState();
+  const [built, setBuilt] = useState(new Date().getTime());
+  const [loaded, setLoaded] = useState(false);
 
-    this.state = {
-      recatchaSiteKey: null,
-      token: null,
-    };
+  // Sets up the previous reset key.
+  const prevReset = useRef();
+  useEffect(() => {
+    prevReset.current = reset;
+  });
 
-    this.loaded = false;
-    this.built = new Date().getTime();
-  }
+  const { data } = useQuery(CHECK_RECAPTCHA);
 
-  componentDidMount = async () => {
-    const { recatchaSiteKey, token } = this.state;
-
-    if (this.props.client) {
-      if (!recatchaSiteKey) {
-        const result = await this.props.client.query({
-          query: CHECK_RECAPTCHA,
-        });
-
-        if (result.data) {
-          if (this.props.isMounted()) {
-            this.setState({
-              recatchaSiteKey: result.data.formData.recatchaSiteKey,
-            });
-          }
-
-          if (result.data.formData.recatchaSiteKey && !this.scriptLoaded()) {
-            this.loadScript();
-          }
-        }
-      }
-    }
-
-    /**
-     * This statement will allow the recaptcha to generate a new token after 5 minutes
-     * To change the time, change the const RECAPTCHA_RECHECK_MS
-     **/
-    if (
-      resetToken.hasBeenReset() ||
-      (token && this.built + RECAPTCHA_RECHECK_MS < new Date().getTime())
-    ) {
-      this.build = new Date().getTime();
-      this.ready();
-
-      if (resetToken.hasBeenReset()) {
-        resetToken.rearm();
-      }
-    }
-  };
-
-  fireCallback = () => {
-    const { token } = this.state;
-
-    const { callback } = this.props;
-
-    if (token && callback) {
-      callback(token);
-    }
-  };
-
-  scriptLoaded = () => {
-    if (this.loaded) {
-      return true;
-    }
-
-    return Array.from(document.scripts).reduce((isPresent, script) => {
-      if (isPresent) {
-        this.loaded = true;
-      }
-
-      return isPresent ? isPresent : RECAPTCHA_SCRIPT_REGEX.test(script.src);
-    }, this.loaded);
-  };
-
-  loadScript() {
-    window._recaptchaLoadingCB = this.ready.bind(this);
-    const { recatchaSiteKey } = this.state;
-
-    const script = document.createElement("script");
-    script.async = true;
-    script.defer = true;
-    script.src = `${RECAPTCHA_SCRIPT_URL}?onload=_recaptchaLoadingCB&render=${recatchaSiteKey}`;
-    document.body.appendChild(script);
-
-    this.loaded = true;
-  }
-
-  ready() {
+  // grecaptcha callback.
+  const onLoad = useCallback(() => {
     const { grecaptcha } = window;
-    const { recatchaSiteKey } = this.state;
 
     const _ready = () => {
       grecaptcha
-        .execute(recatchaSiteKey, { action: "homepage" })
-        .then(this.processToken.bind(this))
+        .execute(key, { action: "homepage" })
+        .then((token) => setToken(token))
         .catch((e) => {
           console.error("Recaptcha error", e);
         });
     };
 
     grecaptcha.ready(_ready);
-  }
+  }, [key, setToken]);
 
-  processToken(token) {
-    if (this.props.isMounted()) {
-      this.setState({ token });
+  // Loads the script in the browser.
+  const loadScript = useCallback(() => {
+    window._recaptchaLoadingCB = onLoad;
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.defer = true;
+    script.src = `${RECAPTCHA_SCRIPT_URL}?onload=_recaptchaLoadingCB&render=${key}`;
+    document.body.appendChild(script);
+
+    setLoaded(true);
+  }, [key, onLoad, setLoaded]);
+
+  // Checks to see if recaptcha has loaded.
+  const scriptLoaded = useCallback(() => {
+    if (loaded) {
+      return true;
     }
-  }
 
-  render() {
-    this.fireCallback();
+    return Array.from(document.scripts).reduce((isPresent, script) => {
+      if (isPresent) {
+        resetToken.setLoaded(true);
+      }
 
-    return null;
-  }
-}
+      return isPresent ? isPresent : RECAPTCHA_SCRIPT_REGEX.test(script.src);
+    }, loaded);
+  }, [loaded]);
 
-export default withApolloClient(Recaptcha);
+  // Load scripts.
+  useEffect(() => {
+    if (key) {
+      if (!scriptLoaded()) {
+        loadScript();
+      }
+    }
+  }, [key, scriptLoaded, loadScript]);
+
+  // Add the googe key to the state.
+  useEffect(() => {
+    if (data?.formData?.recatchaSiteKey) {
+      setKey(data.formData.recatchaSiteKey);
+    }
+  }, [setKey, data]);
+
+  // Fire any passed callbacks.
+  useEffect(() => {
+    callback(token);
+  }, [token, callback]);
+
+  // Rearming.
+  useEffect(() => {
+    const rearm = () => {
+      setBuilt(new Date().getTime());
+      setToken(null);
+      onLoad();
+    };
+
+    let interval = setInterval(() => {
+      if (token && built + RECAPTCHA_RECHECK_MS < new Date().getTime()) {
+        rearm();
+      }
+    }, RECAPTCHA_RECHECK_MS - 100);
+
+    if (prevReset.current !== reset && token) {
+      rearm();
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [token, built, setBuilt, onLoad, reset, setToken, prevReset]);
+
+  return null;
+};
