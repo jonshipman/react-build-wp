@@ -154,8 +154,19 @@ add_action(
 					$config = array(
 						'type'        => 'ID',
 						'description' => __( 'Unique id useful for cache merging', 'headless-wp' ),
-						'resolve'     => function ( $post ) use ( $field_type_name ) {
-							return \GraphQLRelay\Relay::toGlobalId( $field_type_name, $post->ID );
+						'resolve'     => function ( $root ) use ( $field_type_name ) {
+							$id = null;
+
+							if ( $root instanceof \WPGraphQL\Model\Post ) {
+								$id = absint( $root->ID );
+								$id = apply_filters( 'graphql_acf_get_root_id', $id, $root );
+							}
+
+							if ( empty( $id ) ) {
+								return null;
+							}
+
+							return \GraphQLRelay\Relay::toGlobalId( $field_type_name, $id );
 						},
 					);
 
@@ -201,9 +212,19 @@ add_action(
 					$config = array(
 						'type'        => 'String',
 						'description' => __( 'Unique id useful for cache merging', 'headless-wp' ),
-						'resolve'     => function ( $term ) use ( $field_type_name ) {
-							if ( empty( $term->fields['term_id'] ) ) return null;
-							return \GraphQLRelay\Relay::toGlobalId( $field_type_name, $term->fields['term_id'] );
+						'resolve'     => function ( $root ) use ( $field_type_name ) {
+							$id = null;
+
+							if ( $root instanceof \WPGraphQL\Model\Term ) {
+								$id = acf_get_term_post_id( $root->taxonomyName, $root->term_id );
+								$id = apply_filters( 'graphql_acf_get_root_id', $id, $root );
+							}
+
+							if ( empty( $id ) ) {
+								return null;
+							}
+
+							return \GraphQLRelay\Relay::toGlobalId( $field_type_name, $id );
 						},
 					);
 
