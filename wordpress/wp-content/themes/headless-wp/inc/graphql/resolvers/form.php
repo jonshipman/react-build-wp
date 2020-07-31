@@ -20,12 +20,14 @@ add_action(
 				'description' => __( 'Handles form pre-population data', 'headless-wp' ),
 				'resolve'     => function ( $source ) {
 					$res = array(
+						'id'              => \GraphQLRelay\Relay::toGlobalId( 'formdata', 1 ),
 						'wpNonce'         => array(),
 						'recatchaSiteKey' => get_option( 'google_site_key' ) ?: '',
 					);
 
 					foreach ( apply_filters( 'headless_wp_form_nonce_actions', array() ) as $form => $action ) {
 						$res['wpNonce'][] = array(
+							'id'      => \GraphQLRelay\Relay::toGlobalId( 'nonce', $action ),
 							'form'    => $form,
 							'wpNonce' => wp_create_nonce( $action ),
 						);

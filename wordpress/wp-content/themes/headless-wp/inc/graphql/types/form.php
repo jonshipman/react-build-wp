@@ -13,6 +13,10 @@ add_action(
 			array(
 				'description' => __( 'Nonces for the forms', 'headless-wp' ),
 				'fields'      => array(
+					'id'      => array(
+						'type'        => 'ID',
+						'description' => __( 'Unique id useful for cache merging', 'headless-wp' ),
+					),
 					'form'    => array(
 						'type'        => 'String',
 						'description' => __( 'Form attached to nonce', 'headless-wp' ),
@@ -30,6 +34,10 @@ add_action(
 			array(
 				'description' => __( 'Support for the form actions over GraphQL', 'headless-wp' ),
 				'fields'      => array(
+					'id'              => array(
+						'type'        => 'ID',
+						'description' => __( 'Unique id useful for cache merging', 'headless-wp' ),
+					),
 					'wpNonce'         => array(
 						'type'        => array( 'list_of' => 'WpNonce' ),
 						'description' => __( 'Current nonce for session', 'headless-wp' ),

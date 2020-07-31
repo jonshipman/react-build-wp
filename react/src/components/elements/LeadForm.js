@@ -15,7 +15,9 @@ import Recaptcha, { resetToken } from "../external-scripts/Recaptcha";
 const FORM_DATA = gql`
   query {
     formData {
+      id
       wpNonce {
+        id
         form
         wpNonce
       }
@@ -133,9 +135,8 @@ export default ({ form = DefaultForm, className = "" }) => {
         onClick={() => {
           if (form.noErrors()) {
             const clientMutationId =
-              Math.random()
-                .toString(36)
-                .substring(2) + new Date().getTime().toString(36);
+              Math.random().toString(36).substring(2) +
+              new Date().getTime().toString(36);
 
             mutation({
               variables: {
