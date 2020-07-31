@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import React from "react";
+import { useLocation, useParams, Redirect } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 
 import Config from "../../config";
@@ -45,14 +45,10 @@ const PREVIEW_QUERY = gql`
   }
 `;
 
-const PreviewQuery = ({
-  match: {
-    params: { revisionId },
-    url,
-  },
-  children,
-  history,
-}) => {
+const PreviewQuery = ({ children }) => {
+  const { revisionId } = useParams();
+  const { pathname } = useLocation();
+
   const { loading, error, data } = useQuery(PREVIEW_QUERY, {
     variables: { postId: revisionId },
   });
@@ -64,8 +60,8 @@ const PreviewQuery = ({
 
   if (obj.isRestricted) {
     Config.removeAuthToken();
-    Config.setRedirect(url);
-    history.push("/login");
+    Config.setRedirect(pathname);
+    return <Redirect to="/login" />;
   }
 
   if (obj) {
@@ -75,28 +71,6 @@ const PreviewQuery = ({
   return <NotFound />;
 };
 
-const QueryWithRouter = withRouter(PreviewQuery);
-
 export default (WrappedComponent) => {
-  return class extends Component {
-    checkForAuthentication() {
-      const {
-        history,
-        match: { url },
-      } = this.props;
-
-      if (!Config.getAuthToken()) {
-        Config.setRedirect(url);
-        history.push("/login");
-      }
-    }
-
-    componentDidMount() {
-      this.checkForAuthentication.bind(this)();
-    }
-
-    render() {
-      return <WrappedComponent query={QueryWithRouter} {...this.props} />;
-    }
-  };
+  return () => <WrappedComponent Query={PreviewQuery} {...this.props} />;
 };

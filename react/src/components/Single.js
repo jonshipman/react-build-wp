@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
@@ -60,7 +60,9 @@ const SINGLE_QUERY = gql`
   }
 `;
 
-const DefaultQuery = ({ match: { url: uri }, children }) => {
+const DefaultQuery = ({ children }) => {
+  const { pathname: uri } = useLocation();
+
   const { loading, error, data } = useQuery(SINGLE_QUERY, {
     variables: { uri },
   });
@@ -68,7 +70,7 @@ const DefaultQuery = ({ match: { url: uri }, children }) => {
   if (loading) return <PageSkeleton />;
   if (error) return <LoadingError error={error.message} />;
 
-  if (data.contentNode) {
+  if (data?.contentNode) {
     return children(data.contentNode);
   }
 
@@ -103,7 +105,7 @@ const Single = ({
 
     {!renderChildrenAfter && children}
 
-    <PageWidth className="mt4">
+    <PageWidth className="mv4">
       {"Page" !== obj.__typename && (
         <>
           <h1 className="f2 fw4 mb4">{obj.title}</h1>
@@ -140,21 +142,13 @@ const Single = ({
   </article>
 );
 
-const SingleWithContact = withContact(Single);
+export default ({ Query = DefaultQuery }) => {
+  let LoadedSingle = Single;
 
-const Loader = (match, obj) => {
-  const { url } = match;
-  if (url?.includes("contact")) {
-    return <SingleWithContact obj={obj} />;
+  const { pathname } = useLocation();
+  if (pathname?.includes("contact")) {
+    LoadedSingle = withContact(Single);
   }
 
-  return <Single obj={obj} />;
-};
-
-export default (props) => {
-  const { match } = props;
-
-  const Query = props.query || DefaultQuery;
-
-  return <Query match={match}>{(obj) => Loader(match, obj)}</Query>;
+  return <Query>{(obj) => <LoadedSingle obj={obj} />}</Query>;
 };

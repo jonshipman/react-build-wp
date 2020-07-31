@@ -160,9 +160,7 @@ const useLogin = ({ setMessage = () => true }) => {
   }, [error, setMessage]);
 
   const clientMutationId =
-    Math.random()
-      .toString(36)
-      .substring(2) + new Date().getTime().toString(36);
+    Math.random().toString(36).substring(2) + new Date().getTime().toString(36);
 
   return {
     login: (username, password) =>
@@ -222,9 +220,8 @@ const ForgotPassword = ({ setMessage }) => {
   const [state, setState] = useState({
     username: "",
     clientMutationId:
-      Math.random()
-        .toString(36)
-        .substring(2) + new Date().getTime().toString(36),
+      Math.random().toString(36).substring(2) +
+      new Date().getTime().toString(36),
   });
 
   const confirm = () => {
@@ -273,9 +270,8 @@ const Register = ({ setMessage }) => {
     username: "",
     email: "",
     clientMutationId:
-      Math.random()
-        .toString(36)
-        .substring(2) + new Date().getTime().toString(36),
+      Math.random().toString(36).substring(2) +
+      new Date().getTime().toString(36),
   });
 
   const confirm = () => {
@@ -336,9 +332,8 @@ const ResetPassword = ({ setMessage }) => {
     key,
     password: generatePassword(),
     clientMutationId:
-      Math.random()
-        .toString(36)
-        .substring(2) + new Date().getTime().toString(36),
+      Math.random().toString(36).substring(2) +
+      new Date().getTime().toString(36),
   });
 
   const { login: loginMutation } = useLogin({ setMessage });
@@ -405,22 +400,18 @@ export default () => {
         />
 
         <Switch>
-          <Route
-            exact
-            path="/register"
-            render={() => <Register setMessage={setMessage} />}
-          />
-          <Route
-            exact
-            path="/forgot-password"
-            render={() => <ForgotPassword setMessage={setMessage} />}
-          />
-          <Route
-            exact
-            path="/rp/:key/:login"
-            render={() => <ResetPassword setMessage={setMessage} />}
-          />
-          <Route path="*" render={() => <Login setMessage={setMessage} />} />
+          <Route exact path="/register">
+            <Register setMessage={setMessage} />
+          </Route>
+          <Route exact path="/forgot-password">
+            <ForgotPassword setMessage={setMessage} />
+          </Route>
+          <Route exact path="/rp/:key/:login">
+            <ResetPassword setMessage={setMessage} />
+          </Route>
+          <Route path="*">
+            <Login setMessage={setMessage} />
+          </Route>
         </Switch>
       </div>
     </PageWidth>

@@ -22,13 +22,22 @@ import Single from "./Single";
 
 export default () => {
   const protectedTypes = ["User"];
+  const Search = withSearch(Archive);
+  const Category = withCategory(Archive);
+  const Preview = withHeartbeat(
+    withPreview(Single),
+    <Cleanup redirect="/login" types={protectedTypes} />
+  );
 
   return (
     <>
       <Header />
       <div className="main lh-copy relative z-1">
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/">
+            <Home />
+          </Route>
+
           <Route
             exact
             path={[
@@ -37,28 +46,31 @@ export default () => {
               "/forgot-password",
               "/rp/:key/:login",
             ]}
-            component={Login}
-          />
-          <Route
-            exact
-            path="/logout"
-            render={() => {
-              return <Cleanup redirect="/" types={protectedTypes} />;
-            }}
-          />
+          >
+            <Login />
+          </Route>
 
-          <Route exact path="/search" component={withSearch(Archive)} />
-          <Route exact path="/blog" component={Archive} />
-          <Route path="/category/" component={withCategory(Archive)} />
+          <Route exact path="/logout">
+            <Cleanup redirect="/" types={protectedTypes} />
+          </Route>
 
-          <Route
-            path="/_preview/:parentId/:revisionId/:type/:status/:nonce"
-            component={withHeartbeat(
-              withPreview(Single),
-              <Cleanup redirect="/login" types={protectedTypes} />
-            )}
-          />
-          <Route path="*" component={Single} />
+          <Route exact path="/search">
+            <Search />
+          </Route>
+          <Route exact path="/blog">
+            <Archive />
+          </Route>
+          <Route path="/category/">
+            <Category />
+          </Route>
+
+          <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce">
+            <Preview />
+          </Route>
+
+          <Route path="*">
+            <Single />
+          </Route>
         </Switch>
       </div>
       <Footer />

@@ -1,4 +1,4 @@
-import React, { Component, useRef } from "react";
+import React, { useRef, useState, createContext, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
@@ -8,6 +8,8 @@ import LoadingError from "../elements/LoadingError";
 import PageWidth from "../elements/PageWidth";
 import Title from "../elements/Title";
 import Button from "../elements/Button";
+
+const SearchContext = createContext({});
 
 const SEARCH_QUERY = gql`
   query SearchQuery(
@@ -76,62 +78,53 @@ const SearchForm = ({ setFilter }) => {
   );
 };
 
-export default (WrappedComponent) => {
-  return class extends Component {
-    state = {
-      filter: "",
+const Query = ({ variables, children }) => {
+  const { filter } = useContext(SearchContext);
+  const ret = { title: () => <Title>Search</Title> };
+
+  const { loading, error, data } = useQuery(SEARCH_QUERY, {
+    variables: { ...variables, filter },
+  });
+
+  if (loading)
+    return {
+      ...ret,
+      content: () => (
+        <PageWidth>
+          <Loading />
+        </PageWidth>
+      ),
+    };
+  if (error)
+    return {
+      ...ret,
+      content: () => (
+        <PageWidth>
+          <LoadingError error={error.message} />
+        </PageWidth>
+      ),
     };
 
-    Query({ variables, children }) {
-      const { filter } = this.state;
+  return { ...ret, content: () => children(data) };
+};
 
-      if (!filter) {
-        return children({});
-      }
+export default (WrappedComponent) => {
+  return (props) => {
+    const [filter, setFilter] = useState("");
 
-      const { loading, error, data } = useQuery(SEARCH_QUERY, {
-        variables: { ...variables, filter },
-      });
-
-      if (loading)
-        return (
-          <PageWidth>
-            <Loading />
-          </PageWidth>
-        );
-      if (error)
-        return (
-          <PageWidth>
-            <LoadingError error={error.message} />
-          </PageWidth>
-        );
-
-      return children(data);
-    }
-
-    render() {
-      return (
-        <WrappedComponent
-          className="search"
-          NewQuery={this.Query.bind(this)}
-          {...this.props}
-        >
-          <Title>Search</Title>
-
+    return (
+      <SearchContext.Provider value={{ filter }}>
+        <WrappedComponent className="search" Query={Query} {...props}>
           <Helmet>
             <title>Search</title>
             <link rel="canonical" href={`${FRONTEND_URL}/search`} />
           </Helmet>
 
           <PageWidth className="mb4">
-            <SearchForm
-              setFilter={(filter) => {
-                this.setState({ filter });
-              }}
-            />
+            <SearchForm setFilter={setFilter} />
           </PageWidth>
         </WrappedComponent>
-      );
-    }
+      </SearchContext.Provider>
+    );
   };
 };

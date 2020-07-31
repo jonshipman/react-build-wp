@@ -134,7 +134,7 @@ const DefaultQuery = ({ variables, children }) => {
   );
 };
 
-const PostsAndQuery = ({ NewQuery, ...props }) => {
+const PostsAndQuery = ({ Query = DefaultQuery, ...props }) => {
   const [direction, setDirection] = useState(0);
   const [pageInfo, setPageInfo] = useState(initialState.pageInfo);
 
@@ -156,10 +156,8 @@ const PostsAndQuery = ({ NewQuery, ...props }) => {
     variables.last = postsPerPage;
   }
 
-  const ExecuteQuery = NewQuery || DefaultQuery;
-
   return (
-    <ExecuteQuery variables={variables}>
+    <Query variables={variables}>
       {(data) => (
         <OnQueryFinished
           {...data}
@@ -168,7 +166,7 @@ const PostsAndQuery = ({ NewQuery, ...props }) => {
           setPageInfo={setPageInfo}
         />
       )}
-    </ExecuteQuery>
+    </Query>
   );
 };
 

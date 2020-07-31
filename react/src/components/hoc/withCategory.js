@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
@@ -6,6 +6,7 @@ import { FRONTEND_URL } from "../../config";
 import Loading from "../elements/Loading";
 import LoadingError from "../elements/LoadingError";
 import Title from "../elements/Title";
+import { useLocation } from "react-router-dom";
 
 const CATEGORY_QUERY = gql`
   query CategoryQuery(
@@ -55,52 +56,47 @@ const CATEGORY_QUERY = gql`
 `;
 
 export default (WrappedComponent) => {
-  return class extends Component {
-    Query({ variables, children }) {
-      const {
-        history: {
-          location: { pathname },
-        },
-      } = this.props;
-      const p = [...pathname.replace(/\/+$/, "").split("/")].pop();
-      const { loading, error, data } = useQuery(CATEGORY_QUERY, {
-        variables: { ...variables, filter: p, id: p },
-      });
+  const Query = ({ variables, children }) => {
+    const { pathname } = useLocation();
+    const p = [...pathname.replace(/\/+$/, "").split("/")].pop();
 
-      const { category } = data || {};
+    const { loading, error, data } = useQuery(CATEGORY_QUERY, {
+      variables: { ...variables, filter: p, id: p },
+    });
 
-      if (loading) return <Loading />;
-      if (error) return <LoadingError error={error.message} />;
+    const { category } = data || {};
 
-      return (
-        <>
-          <Title>{category?.name}</Title>
+    if (loading) return <Loading />;
+    if (error) return <LoadingError error={error.message} />;
 
-          <Helmet>
-            <title>{category?.seo?.title}</title>
-            {category?.seo?.metaDesc && (
-              <meta name="description" content={category?.seo?.metaDesc} />
-            )}
-            {category?.uri && (
-              <link rel="canonical" href={`${FRONTEND_URL}${category?.uri}`} />
-            )}
-          </Helmet>
+    return (
+      <>
+        <Title>{category?.name}</Title>
 
-          {children(data)}
-        </>
-      );
-    }
+        <Helmet>
+          <title>{category?.seo?.title}</title>
+          {category?.seo?.metaDesc && (
+            <meta name="description" content={category?.seo?.metaDesc} />
+          )}
+          {category?.uri && (
+            <link rel="canonical" href={`${FRONTEND_URL}${category?.uri}`} />
+          )}
+        </Helmet>
 
-    render() {
-      return (
-        <WrappedComponent
-          className="categories"
-          title={null}
-          Seo={null}
-          NewQuery={this.Query.bind(this)}
-          {...this.props}
-        />
-      );
-    }
+        {children(data)}
+      </>
+    );
+  };
+
+  return (props) => {
+    return (
+      <WrappedComponent
+        className="categories"
+        title={null}
+        Seo={null}
+        Query={Query}
+        {...props}
+      />
+    );
   };
 };
