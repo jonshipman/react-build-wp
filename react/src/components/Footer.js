@@ -2,7 +2,6 @@ import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 
-import { BlocksThree } from "./elements/Blocks";
 import { ReactComponent as FacebookIcon } from "../static/images/facebook.svg";
 import { ReactComponent as LinkedinIcon } from "../static/images/linkedin.svg";
 import { ReactComponent as Logo } from "../static/images/logo.svg";
@@ -11,6 +10,7 @@ import { ReactComponent as YoutubeIcon } from "../static/images/youtube.svg";
 import Loading from "./elements/Loading";
 import LoadingError from "./elements/LoadingError";
 import Menu from "./elements/Menu";
+import PageWidth from "./elements/PageWidth";
 
 const FOOTER_QUERY = gql`
   query SettingsQuery {
@@ -29,10 +29,9 @@ const FOOTER_QUERY = gql`
 
 const Footer = ({ settings, desc, title, loading }) => (
   <footer id="footer" className="footer bg-near-white">
-    <BlocksThree
-      className="f7 mv4"
-      left={
-        <div>
+    <PageWidth>
+      <div className="flex-l f7 mv4 nl4 nr4">
+        <div className="w-third-l pa4">
           <div className="brand mb3">
             <Link to="/" className="dib border-box">
               <Logo className="w5 fill-green" />
@@ -64,9 +63,7 @@ const Footer = ({ settings, desc, title, loading }) => (
             </>
           )}
         </div>
-      }
-      middle={
-        <div>
+        <div className="w-third-l pa4">
           <div className="b f4 black mb3">Useful Links</div>
           <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
           <Menu
@@ -81,9 +78,7 @@ const Footer = ({ settings, desc, title, loading }) => (
             }}
           />
         </div>
-      }
-      right={
-        <div>
+        <div className="w-third-l pa4">
           <div className="b f4 black mb3">Get Social</div>
           <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
           <div className="mt2">
@@ -125,8 +120,8 @@ const Footer = ({ settings, desc, title, loading }) => (
             </a>
           </div>
         </div>
-      }
-    />
+      </div>
+    </PageWidth>
     <div className="copyright bg-near-black gray f7 tc pv2">
       <p>
         Copyright &copy; {new Date().getFullYear()} &bull; {title}. All Rights
