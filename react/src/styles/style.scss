@@ -9,7 +9,6 @@
 @import "_tachyon/_drop-last.scss";
 @import "_tachyon/_extras.scss";
 @import "./_animations.scss";
-@import "./_menu.scss";
 
 /**
  * Primary Layout
@@ -97,27 +96,9 @@ svg {
   }
 }
 
-.cards-single {
-  .card {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-color: $white-30;
-
-    &:last-child {
-      border-bottom: 0;
-    }
-  }
-}
-
-.cards-cycling {
-  .card {
-    &--inner {
-      @media #{$breakpoint-large} {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-    }
+.nested-menu {
+  .current-item {
+    color: $green;
   }
 }
 
@@ -128,7 +109,7 @@ svg {
       color: $green;
       position: relative;
       margin-right: $spacing-small;
-      top: 0.35rem;
+      top: 0.25rem;
       line-height: 0;
       content: "-";
     }

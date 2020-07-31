@@ -9,7 +9,7 @@ import { ReactComponent as TwitterIcon } from "../static/images/twitter.svg";
 import { ReactComponent as YoutubeIcon } from "../static/images/youtube.svg";
 import Loading from "./elements/Loading";
 import LoadingError from "./elements/LoadingError";
-import Menu from "./elements/Menu";
+import { FlatMenu } from "./elements/Menu";
 import PageWidth from "./elements/PageWidth";
 
 const FOOTER_QUERY = gql`
@@ -66,17 +66,7 @@ const Footer = ({ settings, desc, title, loading }) => (
         <div className="w-third-l pa4">
           <div className="b f4 black mb3">Useful Links</div>
           <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
-          <Menu
-            location="FOOTER_MENU"
-            className="list pl0 nt3"
-            classNames={{
-              li: [
-                "db bl-0 br-0 bt-0 bb b--dashed drop-last-bb b--moon-gray f7",
-              ],
-              a: ["db pv3 gray hover-green"],
-              submenu: ["dn"],
-            }}
-          />
+          <FlatMenu location="FOOTER_MENU" className="nt3 f5" />
         </div>
         <div className="w-third-l pa4">
           <div className="b f4 black mb3">Get Social</div>

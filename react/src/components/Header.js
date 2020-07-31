@@ -63,8 +63,8 @@ const Header = ({ sticky }) => {
               <div className="db tc dtc-l v-mid-l tr-l">
                 <Menu
                   location="HEADER_MENU"
-                  className="dn ma0 pl0 list db-l dark-gray"
-                  anchorOnclick={openMenu}
+                  className="dn ma0 db-l dark-gray f6"
+                  anchorOnClick={openMenu}
                 />
               </div>
             </PageWidth>
