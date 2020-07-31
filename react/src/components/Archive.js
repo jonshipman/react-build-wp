@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
@@ -7,7 +8,7 @@ import Button from "./elements/Button";
 import Loading from "./elements/Loading";
 import LoadingError from "./elements/LoadingError";
 import PageWidth from "./elements/PageWidth";
-import PostExcerpt from "./elements/PostExcerpt";
+import PostContent from "./elements/PostContent";
 import Title from "./elements/Title";
 
 const ARCHIVE_QUERY = gql`
@@ -62,10 +63,23 @@ const OnQueryFinished = ({ posts, setDirection, setPageInfo }) => {
         <div className="entry cf mb3">
           <div className="blog-entries mb3">
             {posts.edges.map((post) => (
-              <PostExcerpt
-                key={`archive-${post.node.databaseId}`}
-                post={post}
-              />
+              <article
+                key={post.node.id}
+                className={`content blog-entry post-${post.node.databaseId}`}
+              >
+                <h2>
+                  <Link to={post.node.uri}>{post.node.title}</Link>
+                </h2>
+                <PostContent
+                  className="mv4"
+                  content={post.node.excerpt || post.node.content}
+                />
+                <div>
+                  <Button to={post.node.uri} type={3}>
+                    Read more
+                  </Button>
+                </div>
+              </article>
             ))}
           </div>
 
