@@ -1,0 +1,44 @@
+@mixin hide-child-sizes($suffix: "") {
+	.hide-child#{$suffix} .child {
+    opacity: 0;
+    transition: opacity .15s ease-in;
+  }
+
+  .hide-child#{$suffix}:hover  .child,
+  .hide-child#{$suffix}:focus  .child,
+  .hide-child#{$suffix}:active .child {
+    opacity: 1;
+    transition: opacity .15s ease-in;
+  }
+
+
+  .hide-child#{$suffix} {
+    &:not(:hover) {
+      .child {
+        height: 0;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+.hide-child {
+	&:not(:hover) {
+		.child {
+			height: 0;
+			overflow: hidden;
+		}
+	}
+}
+
+@media #{$breakpoint-not-small} {
+  @include hide-child-sizes("-ns");
+}
+
+@media #{$breakpoint-medium} {
+  @include hide-child-sizes("-m");
+}
+
+@media #{$breakpoint-large} {
+  @include hide-child-sizes("-l");
+}

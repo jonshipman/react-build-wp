@@ -115,11 +115,11 @@ export const MenuItem = ({
 
   if (!flat) {
     anchorClass = "color-inherit no-underline db";
-    className += " hide-child";
+    className += " hide-child-l";
 
     if (1 === level) {
-      className += " dib-l pv3 hover-z-2 drop-last-child-pr";
-      anchorClass += " ttu pv2 ph3 hover-silver";
+      className += " dib-l pv3-l hover-z-2 drop-last-child-pr";
+      anchorClass += " ttu-l pv2 ph3-l hover-silver";
     } else {
       className += " nowrap";
       anchorClass += " pa2 gray hover-blue";
@@ -165,9 +165,9 @@ export const SubMenu = ({
   children,
 }) => {
   if (!flat) {
-    className += " child bg-white absolute z-1";
+    className += " child bg-white absolute-l z-1";
     if (1 === level) {
-      className += " ba b--light-gray w5 tl top-100 left-0";
+      className += " ba-l b--light-gray w5-l tl-l top-100-l left-0-l";
     } else {
       className += " left-100 top-0";
     }
