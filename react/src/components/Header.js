@@ -44,7 +44,7 @@ const Header = ({ sticky }) => {
                   {Array.from(new Array(3)).map(() => (
                     <div
                       key={Math.random()}
-                      className="w2 bg-white pb1 mt1 mb1"
+                      className="w2 bg-black-60 pb1 mt1 mb1"
                     />
                   ))}
                 </div>
