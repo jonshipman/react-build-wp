@@ -63,3 +63,46 @@ function set_preview_link_in_rest_response( $response, $post ) {
 
 add_filter( 'rest_prepare_post', 'set_preview_link_in_rest_response', 10, 2 );
 add_filter( 'rest_prepare_page', 'set_preview_link_in_rest_response', 10, 2 );
+
+// Remove default menu bar items.
+add_action(
+	'wp_before_admin_bar_render',
+	function() {
+		global $wp_admin_bar;
+		$wp_admin_bar->remove_menu( 'site-name' );
+		$wp_admin_bar->remove_menu( 'comments' );
+		$wp_admin_bar->remove_menu( 'wp-logo' );
+		$wp_admin_bar->remove_menu( 'wpseo-menu' );
+	}
+);
+
+// Remove Admin pages that the client doesn't need.
+add_action(
+	'admin_menu',
+	function() {
+		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+			$customizer_url = add_query_arg( 'return', urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), 'customize.php' );
+			remove_submenu_page( 'themes.php', $customizer_url );
+		}
+
+		remove_submenu_page( 'index.php', 'index.php' );
+		remove_submenu_page( 'index.php', 'update-core.php' );
+		remove_submenu_page( 'themes.php', 'themes.php' );
+		remove_submenu_page( 'tools.php', 'site-health.php' );
+		remove_submenu_page( 'tools.php', 'network.php' );
+		remove_submenu_page( 'tools.php', 'import.php' );
+		remove_submenu_page( 'tools.php', 'tools.php' );
+		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
+		remove_menu_page( 'plugins.php' );
+		remove_menu_page( 'edit-comments.php' );
+	}
+);
+
+// Disable the editor.
+if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
+	define( 'DISALLOW_FILE_EDIT', true );
+}
+
+// Disable comments and pingbacks.
+add_filter( 'comments_open', '__return_false' );
+add_filter( 'pings_open', '__return_false' );
