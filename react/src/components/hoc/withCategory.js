@@ -5,6 +5,7 @@ import { gql, useQuery } from "@apollo/client";
 import { FRONTEND_URL } from "../../config";
 import Loading from "../elements/Loading";
 import LoadingError from "../elements/LoadingError";
+import PageWidth from "../elements/PageWidth";
 import Title from "../elements/Title";
 import { useLocation } from "react-router-dom";
 
@@ -66,8 +67,18 @@ export default (WrappedComponent) => {
 
     const { category } = data || {};
 
-    if (loading) return <Loading />;
-    if (error) return <LoadingError error={error.message} />;
+    if (loading)
+      return (
+        <PageWidth className="mv4">
+          <Loading />
+        </PageWidth>
+      );
+    if (error)
+      return (
+        <PageWidth className="mv4">
+          <LoadingError error={error.message} />
+        </PageWidth>
+      );
 
     return (
       <>

@@ -117,8 +117,18 @@ const OnQueryFinished = ({ posts, setDirection, setPageInfo }) => {
 const DefaultQuery = ({ variables, children }) => {
   const { loading, error, data } = useQuery(ARCHIVE_QUERY, { variables });
 
-  if (loading) return <Loading />;
-  if (error) return <LoadingError error={error.message} />;
+  if (loading)
+    return (
+      <PageWidth className="mv4">
+        <Loading />
+      </PageWidth>
+    );
+  if (error)
+    return (
+      <PageWidth className="mv4">
+        <LoadingError error={error.message} />
+      </PageWidth>
+    );
 
   return (
     <>
