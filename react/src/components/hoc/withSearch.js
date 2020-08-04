@@ -80,32 +80,25 @@ const SearchForm = ({ setFilter }) => {
 
 const Query = ({ variables, children }) => {
   const { filter } = useContext(SearchContext);
-  const ret = { title: () => <Title>Search</Title> };
 
   const { loading, error, data } = useQuery(SEARCH_QUERY, {
     variables: { ...variables, filter },
   });
 
   if (loading)
-    return {
-      ...ret,
-      content: () => (
-        <PageWidth>
-          <Loading />
-        </PageWidth>
-      ),
-    };
+    return (
+      <PageWidth className="mv4">
+        <Loading />
+      </PageWidth>
+    );
   if (error)
-    return {
-      ...ret,
-      content: () => (
-        <PageWidth>
-          <LoadingError error={error.message} />
-        </PageWidth>
-      ),
-    };
+    return (
+      <PageWidth className="mv4">
+        <LoadingError error={error.message} />
+      </PageWidth>
+    );
 
-  return { ...ret, content: () => children(data) };
+  return children(data);
 };
 
 export default (WrappedComponent) => {
@@ -114,12 +107,14 @@ export default (WrappedComponent) => {
 
     return (
       <SearchContext.Provider value={{ filter }}>
-        <WrappedComponent className="search" Query={Query} {...props}>
-          <Helmet>
-            <title>Search</title>
-            <link rel="canonical" href={`${FRONTEND_URL}/search`} />
-          </Helmet>
+        <Title>Search</Title>
 
+        <Helmet>
+          <title>Search</title>
+          <link rel="canonical" href={`${FRONTEND_URL}/search`} />
+        </Helmet>
+
+        <WrappedComponent className="search" Query={Query} {...props}>
           <PageWidth className="mb4">
             <SearchForm setFilter={setFilter} />
           </PageWidth>
