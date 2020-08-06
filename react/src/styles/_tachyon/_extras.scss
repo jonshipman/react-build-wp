@@ -5,12 +5,3 @@
 .color-inherit {
   color: inherit;
 }
-
-.hide-child {
-  &:not(:hover) {
-    .child {
-      height: 0;
-      overflow: hidden;
-    }
-  }
-}
