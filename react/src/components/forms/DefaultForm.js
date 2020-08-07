@@ -39,52 +39,56 @@ class Form extends Base {
     `,
     fields: {
       yourName: {
-        component: (props) => (
-          <this.templates.Text name="yourName" label="Your Name" {...props} />
-        ),
+        component: (props) => {
+          const Text = this.templates.Text;
+          return <Text name="yourName" label="Your Name" {...props} />;
+        },
         validity: (v) => {
           return v && v.length > 0;
         },
         errorMessage: "Required.",
       },
       email: {
-        component: (props) => (
-          <this.templates.Text
-            className="w-50-l fl-l pr2"
-            name="email"
-            type="email"
-            label="Your Email"
-            {...props}
-          />
-        ),
+        component: (props) => {
+          const Text = this.templates.Text;
+          return (
+            <Text
+              className="w-50-l fl-l pr2"
+              name="email"
+              type="email"
+              label="Your Email"
+              {...props}
+            />
+          );
+        },
         validity: (v) => {
           return isEmail(v);
         },
         errorMessage: "Invalid email address.",
       },
       phone: {
-        component: (props) => (
-          <this.templates.Text
-            className="w-50-l fl-l pl2"
-            name="phone"
-            type="tel"
-            label="Your Phone"
-            {...props}
-          />
-        ),
+        component: (props) => {
+          const Text = this.templates.Text;
+          return (
+            <Text
+              className="w-50-l fl-l pl2"
+              name="phone"
+              type="tel"
+              label="Your Phone"
+              {...props}
+            />
+          );
+        },
         validity: (v) => {
           return isPhone(v);
         },
         errorMessage: "Invalid phone number.",
       },
       message: {
-        component: (props) => (
-          <this.templates.Textarea
-            name="message"
-            label="Your Message"
-            {...props}
-          />
-        ),
+        component: (props) => {
+          const Text = this.templates.Textarea;
+          return <Text name="message" label="Your Message" {...props} />;
+        },
         validity: () => {
           return true;
         },
