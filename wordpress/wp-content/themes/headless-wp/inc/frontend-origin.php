@@ -19,7 +19,7 @@ function get_frontend_origin( $original_url = '' ) {
 		isset( $_SERVER['HTTP_REFERER'] ) &&
 		false !== strpos( $_SERVER['HTTP_REFERER'], ':3000' )
 	) {
-		$origin = explode( ':3000', $_SERVER['HTTP_REFERER'] )[0];
+		$origin = explode( ':3000', $_SERVER['HTTP_REFERER'] )[0] . ':3000';
 	}
 
 	if ( ! empty( $original_url ) ) {
