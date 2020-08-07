@@ -17,9 +17,9 @@ function get_frontend_origin( $original_url = '' ) {
 	if (
 		WP_DEBUG &&
 		isset( $_SERVER['HTTP_REFERER'] ) &&
-		false !== strpos( $_SERVER['HTTP_REFERER'], 'localhost:3000' )
+		false !== strpos( $_SERVER['HTTP_REFERER'], ':3000' )
 	) {
-		$origin = 'http://localhost:3000';
+		$origin = explode( ':3000', $_SERVER['HTTP_REFERER'] )[0];
 	}
 
 	if ( ! empty( $original_url ) ) {
