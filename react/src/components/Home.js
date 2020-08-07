@@ -70,8 +70,8 @@ export default () => {
 
   return (
     <OnQueryFinished
-      seo={data?.page.seo}
-      content={data?.page.content}
+      seo={data?.page?.seo}
+      content={data?.page?.content}
       error={error?.message}
     />
   );
