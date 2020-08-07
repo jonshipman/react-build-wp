@@ -13,7 +13,7 @@ import Recaptcha from "../external-scripts/Recaptcha";
  */
 
 const FORM_DATA = gql`
-  query {
+  query LeadForm {
     formData {
       id
       wpNonce {

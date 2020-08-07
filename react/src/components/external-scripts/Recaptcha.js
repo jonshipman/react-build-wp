@@ -5,7 +5,7 @@ import { gql, useQuery } from "@apollo/client";
  * GraphQL query should return the Recaptcha site key as string
  **/
 const CHECK_RECAPTCHA = gql`
-  query {
+  query Recaptcha {
     formData {
       id
       recatchaSiteKey
