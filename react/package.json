@@ -38,7 +38,7 @@
     "tachyons-sass": "*"
   },
   "scripts": {
-    "start": "PORT=3000 CHOKIDAR_USEPOLLING=true react-scripts start",
+    "start": "BROWSER=none PORT=3000 CHOKIDAR_USEPOLLING=true react-scripts start",
     "start:server": "NODE_ENV=development node server/bootstrap.js",
     "deploy": "yarn build && NODE_ENV=production node server/bootstrap.js",
     "build": "react-scripts build",
