@@ -9,37 +9,41 @@ import NotFound from "../elements/NotFound";
 
 const PREVIEW_QUERY = gql`
   query SingleQuery($postId: ID!) {
-    post(id: $postId, idType: DATABASE_ID) {
+    contentNode(id: $postId, idType: DATABASE_ID) {
+      id
       databaseId
       slug
-      title
-      content
-      dateFormatted
-      isRestricted
-      seo {
+      __typename
+      ... on Post {
+        id
+        dateFormatted
         title
-        metaDesc
-      }
-      categories(first: 5) {
-        edges {
-          node {
-            categoryId
-            slug
-            name
+        content
+        seo {
+          title
+          metaDesc
+        }
+        categories(first: 5) {
+          edges {
+            node {
+              id
+              databaseId
+              slug
+              name
+              uri
+            }
           }
         }
       }
-    }
-    page(id: $postId, idType: DATABASE_ID) {
-      databaseId
-      slug
-      title
-      content
-      pageTemplate
-      isRestricted
-      seo {
+      ... on Page {
+        id
         title
-        metaDesc
+        content
+        seo {
+          title
+          metaDesc
+        }
+        pageTemplate
       }
     }
   }
@@ -56,7 +60,7 @@ const PreviewQuery = ({ children }) => {
   if (loading) return <Loading />;
   if (error) return <LoadingError error={error.message} />;
 
-  const obj = Object.assign({}, data.page || data.post);
+  const obj = Object.assign({}, data?.contentNode);
 
   if (obj.isRestricted) {
     Config.removeAuthToken();
@@ -72,5 +76,5 @@ const PreviewQuery = ({ children }) => {
 };
 
 export default (WrappedComponent) => {
-  return () => <WrappedComponent Query={PreviewQuery} {...this.props} />;
+  return (props) => <WrappedComponent Query={PreviewQuery} {...props} />;
 };
