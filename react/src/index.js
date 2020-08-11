@@ -11,7 +11,7 @@ import {
 } from "@apollo/client";
 
 import App from "./components/App";
-import ScrollToTop from "./components/utils/ScrollToTop";
+import ScrollToTop from "./components/elements/ScrollToTop";
 
 import Config from "./config";
 

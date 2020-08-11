@@ -1,7 +1,7 @@
 import React from "react";
 import { gql } from "@apollo/client";
 
-import { isPhone, isEmail } from "../utils/String";
+import { isPhone, isEmail } from "../../functions";
 import Base from "./Base";
 
 class Form extends Base {

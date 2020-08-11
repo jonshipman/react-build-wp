@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 
-import { isMobile } from "../utils/Browser";
+import { isMobile } from "../../functions";
 import Config, { BACKEND_URL } from "../../config";
 import Loading from "./Loading";
 import LoadingError from "./LoadingError";

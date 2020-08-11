@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { isMobile } from "../utils/Browser";
+import { isMobile } from "../../functions";
 
 export class GoogleTracking extends Component {
   componentDidMount() {
