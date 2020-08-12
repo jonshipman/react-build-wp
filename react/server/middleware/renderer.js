@@ -10,7 +10,8 @@ import {
 } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/react-ssr";
 
-import Config, { FRONTEND_URL } from "../../src/config";
+import Redirect from "./redirection";
+import Config, { FRONTEND_URL, useRedirectionSsr } from "../../src/config";
 import App from "../../src/components/App";
 
 global.ReactComponent = <React.Component />;
@@ -41,7 +42,7 @@ const errorPage = (error) => {
   });
 };
 
-export default (req, res) => {
+export default async (req, res) => {
   const client = new ApolloClient({
     ssrMode: true,
     link: new HttpLink({
@@ -55,6 +56,13 @@ export default (req, res) => {
     }),
     cache: new InMemoryCache(),
   });
+
+  if (useRedirectionSsr) {
+    const { redirect, code, url } = await Redirect(client, req);
+    if (redirect) {
+      return res.redirect(code, url);
+    }
+  }
 
   const filePath = path.resolve(__dirname, "..", "..", "build", "index.html");
 
