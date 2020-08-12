@@ -33,6 +33,10 @@ const SINGLE_QUERY = gql`
         seo {
           title
           metaDesc
+          breadcrumbs {
+            url
+            text
+          }
         }
         categories(first: 5) {
           edges {
@@ -53,6 +57,10 @@ const SINGLE_QUERY = gql`
         seo {
           title
           metaDesc
+          breadcrumbs {
+            url
+            text
+          }
         }
         pageTemplate
       }
@@ -77,6 +85,29 @@ const DefaultQuery = ({ children }) => {
   return <NotFound />;
 };
 
+const BreadcrumbList = (crumbs) => {
+  const schema = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [],
+  };
+
+  crumbs.forEach((item, index) => {
+    schema.itemListElement.push({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "WebPage",
+        "@id": item.url,
+        url: item.url,
+        name: item.text,
+      },
+    });
+  });
+
+  return schema;
+};
+
 const Single = ({
   obj,
   renderChildrenAfter = false,
@@ -89,6 +120,12 @@ const Single = ({
         <title>{obj.seo.title}</title>
         <meta name="description" content={obj.seo.metaDesc} />
         <link rel="canonical" href={`${FRONTEND_URL}/${obj.slug}`} />
+
+        {obj.seo.breadcrumbs?.length > 0 && (
+          <script type="application/ld+json">
+            {JSON.stringify(BreadcrumbList(obj.seo.breadcrumbs))}
+          </script>
+        )}
       </Helmet>
     )}
 

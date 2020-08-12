@@ -29,6 +29,18 @@ function get_frontend_origin( $original_url = '' ) {
 	return $origin;
 }
 
+// Fix breadcrumbs to use the frontend origin.
+add_filter(
+	'wpseo_breadcrumb_links',
+	function( $links ) {
+		foreach ( $links as &$link ) {
+			$link['url'] = get_frontend_origin( $link['url'] );
+		}
+
+		return $links;
+	}
+);
+
 // Adds origin to the http_origins list.
 add_filter(
 	'allowed_http_origins',
