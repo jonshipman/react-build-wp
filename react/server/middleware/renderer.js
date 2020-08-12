@@ -84,8 +84,15 @@ export default (req, res) => {
         const initialState = client.extract();
 
         htmlData = htmlData.replace(
-          /<title>.*<\/title>/,
-          `${helmet.title.toString()}${helmet.meta.toString()}`
+          /<title>.*?<\/title>/,
+          `
+          ${helmet.title.toString()}
+          ${helmet.link.toString()}
+          ${helmet.meta.toString()}
+          ${helmet.script.toString()}
+          ${helmet.noscript.toString()}
+          ${helmet.style.toString()}
+          `
         );
 
         htmlData = htmlData.replace(
