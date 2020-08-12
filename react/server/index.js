@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import serverRenderer from "./middleware/renderer";
 import robots from "./middleware/robots";
-import sitemap from "./middleware/sitemap";
+import sitemap, { posts, tax } from "./middleware/sitemap";
 import { BACKEND_URL } from "../src/config";
 
 const PORT = 3000;
@@ -27,9 +27,12 @@ router.use("^/wp-login.php$", wordpress);
 
 // Sitemaps
 router.use("^/sitemap_index.xml$", sitemap);
-router.use("^/post-sitemap.xml$", sitemap);
-router.use("^/page-sitemap.xml$", sitemap);
-router.use("^/category-sitemap.xml$", sitemap);
+posts.forEach((type) => {
+  router.use(`^/${type}-sitemap.xml$`, sitemap);
+});
+tax.forEach(({ type }) => {
+  router.use(`^/${type}-sitemap.xml$`, sitemap);
+});
 
 // other static resources should just be served as they are
 router.use(express.static(build_path, { maxAge: "30d" }));

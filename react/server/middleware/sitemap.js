@@ -13,92 +13,93 @@ import { renderToStringWithData } from "@apollo/react-ssr";
 import Config from "../../src/config";
 import { FRONTEND_URL } from "../../src/config";
 
-const SITEMAP_BASE_QUERY = gql`
-  query SiteMapIndex {
-    pages(first: 1, where: { status: PUBLISH, hasPassword: false }) {
-      edges {
-        node {
-          id
-          modified
+export const posts = ["posts", "pages"];
+export const tax = [{ type: "categories", post: "posts" }];
+
+const getBaseQuery = () => {
+  let post_query = "";
+  let tax_query = "";
+
+  posts.forEach((type) => {
+    post_query += `
+      ${type}(first: 1, where: { status: PUBLISH, hasPassword: false }) {
+        edges {
+          node {
+            id
+            modified
+          }
         }
       }
-    }
-    posts(first: 1, where: { status: PUBLISH, hasPassword: false }) {
-      edges {
-        node {
-          id
-          modified
-        }
-      }
-    }
-    categories(first: 1, where: { hideEmpty: true }) {
-      edges {
-        node {
-          id
-          posts(first: 1, where: { status: PUBLISH, hasPassword: false }) {
-            edges {
-              node {
-                id
-                modified
+    `;
+  });
+
+  tax.forEach(({ type, post }) => {
+    tax_query += `
+      ${type}(first: 1, where: { hideEmpty: true }) {
+        edges {
+          node {
+            id
+            ${post}(first: 1, where: { status: PUBLISH, hasPassword: false }) {
+              edges {
+                node {
+                  id
+                  modified
+                }
               }
             }
           }
         }
       }
-    }
-  }
-`;
+    `;
+  });
 
-const SITEMAP_PAGE_QUERY = gql`
-  query SiteMapPages {
-    pages(first: 9999, where: { status: PUBLISH, hasPassword: false }) {
-      edges {
-        node {
-          id
-          title
-          modified
-          uri
-        }
-      }
+  return gql`
+    query SiteMapIndex {
+      ${post_query}
+      ${tax_query}
     }
-  }
-`;
+  `;
+};
 
-const SITEMAP_POST_QUERY = gql`
-  query SiteMapPosts {
-    posts(first: 9999, where: { status: PUBLISH, hasPassword: false }) {
-      edges {
-        node {
-          id
-          title
-          modified
-          uri
-        }
-      }
-    }
-  }
-`;
-
-const SITEMAP_CAT_QUERY = gql`
-  query SiteMapCategories {
-    categories(first: 999, where: { hideEmpty: true }) {
-      edges {
-        node {
-          id
-          uri
-          posts(first: 1, where: { status: PUBLISH, hasPassword: false }) {
-            edges {
-              node {
-                id
-                modified
+const getObjectQuery = (type, post) => {
+  if (post) {
+    return gql`
+      query SiteMapObjectQuery_${type} {
+        ${type}(first: 999, where: { hideEmpty: true }) {
+          edges {
+            node {
+              id
+              uri
+              ${post}(first: 1, where: { status: PUBLISH, hasPassword: false }) {
+                edges {
+                  node {
+                    id
+                    modified
+                  }
+                }
               }
             }
           }
         }
       }
-    }
+    `;
   }
-`;
+
+  return gql`
+    query SiteMapObjectQuery_${type} {
+      ${type}(first: 9999, where: { status: PUBLISH, hasPassword: false }) {
+        edges {
+          node {
+            id
+            title
+            modified
+            uri
+          }
+        }
+      }
+    }
+  `;
+};
 
 const SitemapIndex = ({ children, ...props }) =>
   React.createElement("sitemapindex", props, children);
@@ -122,49 +123,40 @@ const Sitemap = ({ host, query, type }) => {
   if (error) return null;
 
   if (!type) {
-    const pages = data.pages.edges && data.pages.edges.length;
-    const posts = data.posts.edges && data.posts.edges.length;
-    const categories =
-      data.categories.edges &&
-      data.categories.edges.length &&
-      data.categories.edges[0].node.posts.edges &&
-      data.categories.edges[0].node.posts.edges.length;
-
     return (
       <SitemapIndex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-        {posts ? (
-          <SitemapTag>
-            <Loc>{`${host}/post-sitemap.xml`}</Loc>
-            <LastMod>{data.posts.edges[0].node.modified}</LastMod>
-          </SitemapTag>
-        ) : null}
-        {pages ? (
-          <SitemapTag>
-            <Loc>{`${host}/page-sitemap.xml`}</Loc>
-            <LastMod>{data.pages.edges[0].node.modified}</LastMod>
-          </SitemapTag>
-        ) : null}
-        {categories ? (
-          <SitemapTag>
-            <Loc>{`${host}/category-sitemap.xml`}</Loc>
-            <LastMod>
-              {data.categories.edges[0].node.posts.edges[0].node.modified}
-            </LastMod>
-          </SitemapTag>
-        ) : null}
+        {posts.map((type) =>
+          data[type]?.edges?.length > 0 ? (
+            <SitemapTag>
+              <Loc>{`${host}/${type}-sitemap.xml`}</Loc>
+              <LastMod>{data[type].edges[0].node?.modified}</LastMod>
+            </SitemapTag>
+          ) : null
+        )}
+
+        {tax.map(({ type, post }) =>
+          data[type]?.edges?.length > 0 &&
+          data[type].edges[0].node[post]?.edges?.length > 0 ? (
+            <SitemapTag>
+              <Loc>{`${host}/${type}-sitemap.xml`}</Loc>
+              <LastMod>
+                {data[type].edges[0].node[post].edges[0]?.node?.modified}
+              </LastMod>
+            </SitemapTag>
+          ) : null
+        )}
       </SitemapIndex>
     );
   } else {
     return (
       <UrlSet xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-        {data[type] &&
-          data[type].edges &&
-          data[type].edges.length &&
+        {data[type]?.edges?.length > 0 &&
           data[type].edges.map((obj) => (
             <Url key={obj.node.id}>
               <Loc>{`${host}${obj.node.uri.replace(/\/$/, "")}`}</Loc>
               <LastMod>
-                {obj.node.modified || obj.node.posts.edges[0].node.modified}
+                {obj?.node?.modified ||
+                  obj?.node?.posts?.edges[0]?.node?.modified}
               </LastMod>
               <Priority>0.8</Priority>
             </Url>
@@ -191,27 +183,23 @@ export default async (req, res) => {
 
   let host = `https://${req.get("host")}`;
   let url = req.baseUrl.replace(/^\//, "");
-  let sitemapJsx;
+  let sitemapJsx = <Sitemap host={host} query={getBaseQuery()} />;
 
-  switch (url) {
-    case "post-sitemap.xml":
+  posts.forEach((type) => {
+    if (`${type}-sitemap.xml` === url) {
       sitemapJsx = (
-        <Sitemap host={host} query={SITEMAP_POST_QUERY} type="posts" />
+        <Sitemap host={host} query={getObjectQuery(type)} type={type} />
       );
-      break;
-    case "page-sitemap.xml":
+    }
+  });
+
+  tax.forEach(({ type, post }) => {
+    if (`${type}-sitemap.xml` === url) {
       sitemapJsx = (
-        <Sitemap host={host} query={SITEMAP_PAGE_QUERY} type="pages" />
+        <Sitemap host={host} query={getObjectQuery(type, post)} type={type} />
       );
-      break;
-    case "category-sitemap.xml":
-      sitemapJsx = (
-        <Sitemap host={host} query={SITEMAP_CAT_QUERY} type="categories" />
-      );
-      break;
-    default:
-      sitemapJsx = <Sitemap host={host} query={SITEMAP_BASE_QUERY} />;
-  }
+    }
+  });
 
   const tree = <ApolloProvider client={client}>{sitemapJsx}</ApolloProvider>;
 
