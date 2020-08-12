@@ -89,8 +89,8 @@ export default (req, res) => {
         );
 
         htmlData = htmlData.replace(
-          "window.__REACT_HYDRATE__=false",
-          "window.__REACT_HYDRATE__=true"
+          /window\.__REACT_HYDRATE__=.*?<\/script/,
+          "window.__REACT_HYDRATE__=true</script"
         );
 
         htmlData = htmlData.replace(
@@ -113,10 +113,7 @@ export default (req, res) => {
 
         const page = await errorPage(500);
 
-        res
-          .status(500)
-          .send(page)
-          .end();
+        res.status(500).send(page).end();
       });
   });
 };
