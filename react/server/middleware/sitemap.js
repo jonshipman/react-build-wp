@@ -65,7 +65,7 @@ const getObjectQuery = (type, post) => {
   if (post) {
     return gql`
       query SiteMapObjectQuery_${type} {
-        ${type}(first: 999, where: { hideEmpty: true }) {
+        ${type}(first: 9999, where: { hideEmpty: true }) {
           edges {
             node {
               id
