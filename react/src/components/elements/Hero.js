@@ -3,7 +3,6 @@ import { gql, useQuery } from "@apollo/client";
 
 import { PlacholderUrl } from "./Image";
 import Button from "./Button";
-import LoadingError from "./LoadingError";
 
 const HERO_QUERY = gql`
   query HeroQuery {
@@ -14,51 +13,36 @@ const HERO_QUERY = gql`
   }
 `;
 
-const cssClasses = [
-  "hero cover bg-left bg-center-l relative z-1 overflow-hidden bg-light-gray",
-  "tc-l vh-75 flex items-center ph4",
-  "relative z-1 w-100",
-];
+const Hero = ({
+  heading,
+  subheading,
+  error,
+  className = "",
+  cta,
+  secondaryCta,
+  background,
+}) => {
+  if (error) heading = error.message;
 
-const Skeleton = ({ className, error, loading, ...props }) => (
-  <div className={`${cssClasses[0]} ${className || ""}`} {...props}>
-    <div className={cssClasses[1]}>
-      <div className={cssClasses[2]}>
-        <div className="f2 f1-l fw2 white-90 mb0 mt4 h2 w-20 center loading-block" />
-        <div className="fw1 f3 white-80 mt3 mb4 h1 w-40 center loading-block" />
+  const style = {};
 
-        <Button className="v-mid h2" />
-      </div>
-    </div>
-  </div>
-);
-
-const OnQueryFinished = (props) => {
-  const {
-    loading,
-    error,
-    className,
-    heading,
-    subheading,
-    cta,
-    secondaryCta,
-    background,
-  } = props;
-
-  if (loading) return <Skeleton {...props} />;
-  if (error) return <LoadingError error={error.message} />;
+  if (background) {
+    style.backgroundImage = `url(${background})`;
+  } else {
+    style.backgroundImage = `url(${PlacholderUrl({
+      width: 1920,
+      height: 600,
+      seed: "HERO",
+    })})`;
+  }
 
   return (
     <div
-      className={`${cssClasses[0]} ${className || ""}`}
-      style={{
-        backgroundImage: `url(${
-          background || PlacholderUrl({ width: 1920, height: 600 })
-        })`,
-      }}
+      className={`hero cover bg-left bg-center-l relative z-1 overflow-hidden bg-light-gray ${className}`}
+      style={style}
     >
-      <div className={cssClasses[1]}>
-        <div className={cssClasses[2]}>
+      <div className="tc-l vh-75 flex items-center ph4">
+        <div className="relative z-1 w-100">
           {heading && (
             <h1 className="f2 f1-l fw2 white-90 mb0 lh-title text-shadow">
               {heading}
@@ -104,12 +88,10 @@ const DefaultQuery = ({ children, ...props }) => {
   return children(passedProps);
 };
 
-export default ({ query, ...props }) => {
-  const LocalQuery = query || DefaultQuery;
-
+export default ({ query: LocalQuery = DefaultQuery, ...props }) => {
   return (
     <LocalQuery {...props}>
-      {(passedProps) => <OnQueryFinished {...passedProps} />}
+      {(passedProps) => <Hero {...passedProps} />}
     </LocalQuery>
   );
 };
