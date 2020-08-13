@@ -146,7 +146,7 @@ export const Textarea = ({
 export default ({ type = "text", className = "", children, ...props }) => {
   const fieldClassName =
     "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
-  const groupClassName = `form-group w-100 mb4 drop-last-mb ${className}`;
+  const groupClassName = `form-group overflow-hidden w-100 mb4 ${className}`;
 
   if ("textarea" === type) {
     return (
