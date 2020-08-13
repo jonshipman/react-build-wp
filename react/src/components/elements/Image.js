@@ -21,7 +21,17 @@ export const PlacholderUrl = ({ width, height }) => {
 };
 
 export default (props) => {
-  let { src, webp, width, height, alt, placeholder, ...attr } = props;
+  let {
+    src,
+    webp,
+    width,
+    height,
+    alt,
+    placeholder,
+    container: Container,
+    children,
+    ...attr
+  } = props;
 
   if (placeholder || !src) {
     src = PlacholderUrl({ width, height });
@@ -40,6 +50,11 @@ export default (props) => {
       height = `${height}px`;
     }
     attr = { ...attr, height };
+  }
+
+  if (Container) {
+    attr.style = { ...attr.style, backgroundImage: `url(${src})` };
+    return <Container {...attr}>{children}</Container>;
   }
 
   if (!alt) {
