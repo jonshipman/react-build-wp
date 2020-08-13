@@ -79,11 +79,23 @@ const SearchForm = ({ setFilter }) => {
 };
 
 const Query = ({ variables, children }) => {
-  const { filter } = useContext(SearchContext);
+  const { filter = "" } = useContext(SearchContext);
 
   const { loading, error, data } = useQuery(SEARCH_QUERY, {
     variables: { ...variables, filter },
   });
+
+  if (filter.length < 3) {
+    return (
+      <PageWidth className="gray tc">
+        <div className="f2 f1-l">Search Results</div>
+        <div className="f4 f3-l mv4">
+          This is where the search results will be. Use the form above to
+          search.
+        </div>
+      </PageWidth>
+    );
+  }
 
   if (loading)
     return (
