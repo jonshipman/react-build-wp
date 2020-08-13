@@ -185,6 +185,10 @@ export default ({ className = "archive", children, ...props }) => {
     <div className={className}>
       {children && children}
 
+      <Helmet>
+        <meta name="robots" content="noindex" />
+      </Helmet>
+
       <PostsAndQuery {...props} />
     </div>
   );
