@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import DefaultForm from "../forms/DefaultForm";
-import LoadingError from "./LoadingError";
+import FormError from "./FormError";
 import Button from "./Button";
 import Recaptcha from "../external-scripts/Recaptcha";
 
@@ -101,7 +101,7 @@ export default ({ form = DefaultForm, className = "" }) => {
 
   return (
     <div className={`lead-form relative ${className}`}>
-      {errorMessage && <LoadingError error={errorMessage} />}
+      {errorMessage && <FormError>{errorMessage}</FormError>}
 
       {successMessage && (
         <>
