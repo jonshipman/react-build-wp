@@ -33,6 +33,7 @@ const ARCHIVE_QUERY = gql`
           title
           uri
           excerpt
+          content
           dateFormatted
         }
       }
@@ -72,7 +73,12 @@ const OnQueryFinished = ({ posts, setDirection, setPageInfo }) => {
                 </h2>
                 <PostContent
                   className="mv4"
-                  content={post.node.excerpt || post.node.content}
+                  content={
+                    post.node.excerpt ||
+                    post?.node?.content
+                      ?.replace(/(<([^>]+)>)/gi, "")
+                      .substring(0, 250) + "&hellip;"
+                  }
                 />
                 <div>
                   <Button to={post.node.uri} type={3}>
