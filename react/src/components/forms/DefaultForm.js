@@ -2,7 +2,7 @@ import React from "react";
 import { gql } from "@apollo/client";
 
 import { isPhone, isEmail } from "../../functions";
-import Base from "./Base";
+import Base, { TemplateText, TemplateTextarea } from "./Base";
 
 class Form extends Base {
   name = "default";
@@ -40,8 +40,7 @@ class Form extends Base {
     fields: {
       yourName: {
         component: (props) => {
-          const Text = this.templates.Text;
-          return <Text name="yourName" label="Your Name" {...props} />;
+          return <TemplateText name="yourName" label="Your Name" {...props} />;
         },
         validity: (v) => {
           return v && v.length > 0;
@@ -50,9 +49,8 @@ class Form extends Base {
       },
       email: {
         component: (props) => {
-          const Text = this.templates.Text;
           return (
-            <Text
+            <TemplateText
               className="w-50-l fl-l pr2"
               name="email"
               type="email"
@@ -68,9 +66,8 @@ class Form extends Base {
       },
       phone: {
         component: (props) => {
-          const Text = this.templates.Text;
           return (
-            <Text
+            <TemplateText
               className="w-50-l fl-l pl2"
               name="phone"
               type="tel"
@@ -86,8 +83,9 @@ class Form extends Base {
       },
       message: {
         component: (props) => {
-          const Text = this.templates.Textarea;
-          return <Text name="message" label="Your Message" {...props} />;
+          return (
+            <TemplateTextarea name="message" label="Your Message" {...props} />
+          );
         },
         validity: () => {
           return true;

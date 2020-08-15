@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import DefaultForm from "../forms/DefaultForm";
@@ -27,19 +27,21 @@ const FORM_DATA = gql`
 `;
 
 export default ({ form = DefaultForm, className = "" }) => {
-  const [state, setState] = useState({
-    formValues: form.buildState(),
-    showRecaptcha: false,
-    nonce: "",
-    token: "",
-  });
+  const initialState = useMemo(() => {
+    return form.buildState();
+  }, [form]);
+
+  const [state, setState] = useState({ nonce: "", token: "" });
+  const [formErrors, setFormErrors] = useState({});
+  const [formValues, setFormValues] = useState(initialState);
+  const [showRecaptcha, setShowRecaptcha] = useState(false);
 
   const [mutation, { loading, data: mutationData }] = useMutation(
     form.getMutation()
   );
   const { data, error } = useQuery(FORM_DATA, { errorPolicy: "all" });
-  const { formValues, showRecaptcha, nonce, token } = state;
   const { formData } = data || {};
+  const { name: formName } = form;
 
   useEffect(() => {
     let { wpNonce } = formData || {};
@@ -52,7 +54,7 @@ export default ({ form = DefaultForm, className = "" }) => {
           nonce = n.wpNonce;
         }
 
-        if (form.name === n.form) {
+        if (formName === n.form) {
           nonce = n.wpNonce;
           return true;
         }
@@ -61,36 +63,42 @@ export default ({ form = DefaultForm, className = "" }) => {
       });
 
     setState((p) => ({ ...p, nonce }));
-  }, [setState, formData, form.name]);
+  }, [setState, formData, formName]);
 
-  const validate = useCallback(
-    (key, value) => {
-      const valid = form.isValid(key, value);
-
-      if (!valid) {
-        form.setError(key);
-      } else {
-        form.removeError(key);
-      }
-
-      // Trigger the recaptcha loading.
-      setState((p) => ({
-        ...p,
-        showRecaptcha: form.triggerRecaptcha(key, value),
+  const onFormValueChange = useCallback(
+    (field, value) => {
+      setFormValues((prev) => ({ ...prev, [field]: value }));
+      setFormErrors((prev) => ({
+        ...prev,
+        [field]: !form.isValid(field, value),
       }));
+
+      setShowRecaptcha((prev) => {
+        // Trigger the recaptcha loading.
+        if (
+          form.form.recaptchaFieldTrigger === field &&
+          form.isValid(field, value)
+        ) {
+          return true;
+        } else if (!form.form.recaptchaFieldTrigger) {
+          return true;
+        }
+
+        return prev;
+      });
     },
-    [form, setState]
+    [form, setFormValues, setFormErrors, setShowRecaptcha]
   );
+
+  const { nonce, token } = state;
 
   let successMessage = "";
   let errorMessage = error?.message || "";
-  let resetRecaptcha = 1;
 
   if (mutationData) {
     const { success, errorMessage: eMsg } = form.getMutationData(mutationData);
 
     if (success) {
-      resetRecaptcha++;
       successMessage = "Form submitted. Thank you for your submission.";
     }
 
@@ -112,24 +120,15 @@ export default ({ form = DefaultForm, className = "" }) => {
         </>
       )}
 
-      {showRecaptcha && (
-        <Recaptcha
-          reset={resetRecaptcha}
-          callback={(token) => setState((p) => ({ ...p, token }))}
-        />
+      {data?.formData?.recatchaSiteKey && showRecaptcha && (
+        <Recaptcha callback={(token) => setState((p) => ({ ...p, token }))} />
       )}
 
       <div className="form-groups">
         <form.component
+          errors={formErrors}
           values={formValues}
-          updateState={(field, value) => {
-            setState((prev) => {
-              validate(field, value);
-
-              prev.formValues[field] = value;
-              return prev;
-            });
-          }}
+          updateState={onFormValueChange}
         />
       </div>
 
@@ -137,7 +136,7 @@ export default ({ form = DefaultForm, className = "" }) => {
         form={true}
         loading={loading}
         onClick={() => {
-          if (form.noErrors()) {
+          if (!Object.values(formErrors).includes(true)) {
             const clientMutationId =
               Math.random().toString(36).substring(2) +
               new Date().getTime().toString(36);

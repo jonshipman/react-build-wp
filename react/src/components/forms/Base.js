@@ -1,24 +1,57 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import FormError from "../elements/FormError";
 import Input from "../elements/Input";
 
-class FormBase {
+export const TemplateText = ({
+  errorMessage,
+  hasError,
+  key,
+  name,
+  ...props
+}) => {
+  return (
+    <Input id={name} {...props}>
+      {hasError && <FormError>{errorMessage}</FormError>}
+    </Input>
+  );
+};
+
+export const TemplateSelect = ({
+  errorMessage,
+  hasError,
+  key,
+  name,
+  ...props
+}) => {
+  return (
+    <Input type="select" id={name} {...props}>
+      {hasError && <FormError>{errorMessage}</FormError>}
+    </Input>
+  );
+};
+
+export const TemplateTextarea = ({
+  errorMessage,
+  hasError,
+  key,
+  name,
+  ...props
+}) => {
+  return (
+    <Input type="textarea" id={name} {...props}>
+      {hasError && <FormError>{errorMessage}</FormError>}
+    </Input>
+  );
+};
+
+export default class {
   getButton = () => {
     return this.form.button || "Submit";
   };
 
   getMutation = () => {
     return this.form.mutation;
-  };
-
-  triggerRecaptcha = (key, value) => {
-    const trigger = this.form.recaptchaFieldTrigger;
-    if (!trigger) {
-      return true;
-    }
-
-    return trigger === key && this.isValid(key, value);
   };
 
   isValid = (key, value) => {
@@ -30,27 +63,6 @@ class FormBase {
 
   getField = (key) => {
     return this.form[key] ? this.form[key] : null;
-  };
-
-  setError = (key) => {
-    return (this.form.fields[key].error = true);
-  };
-
-  removeError = (key) => {
-    return (this.form.fields[key].error = null);
-  };
-
-  noErrors = () => {
-    let error = false;
-    Object.entries(this.form.fields).map(([key]) => {
-      if (true === this.form.fields[key]?.error) {
-        error = true;
-      }
-
-      return null;
-    });
-
-    return !error;
   };
 
   buildState = () => {
@@ -66,40 +78,20 @@ class FormBase {
     return emptyFormValues;
   };
 
-  templates = {
-    Text: ({ key, name, ...props }) => (
-      <Input id={name} {...props}>
-        {this.form.fields[name]?.error && (
-          <FormError>{this.form.fields[name]?.errorMessage}</FormError>
-        )}
-      </Input>
-    ),
-    Select: ({ key, name, ...props }) => (
-      <Input type="select" id={name} {...props}>
-        {this.form.fields[name]?.error && (
-          <FormError>{this.form.fields[name]?.errorMessage}</FormError>
-        )}
-      </Input>
-    ),
-    Textarea: ({ key, name, ...props }) => (
-      <Input type="textarea" id={name} {...props}>
-        {this.form.fields[name]?.error && (
-          <FormError>{this.form.fields[name]?.errorMessage}</FormError>
-        )}
-      </Input>
-    ),
-  };
-
-  component = ({ updateState, values }) => {
+  component = ({ updateState, values, errors = {} }) => {
     const { fields } = this.form;
     return (
       <>
         {Object.entries(fields).map(([key, value]) => {
+          const updater = useCallback((v) => updateState(key, v), [key]);
+
           return (
             <value.component
               value={values[key]}
-              onChange={(v) => updateState(key, v)}
+              onChange={updater}
               key={`${this.name}-${key}`}
+              errorMessage={this.form.fields[key]?.errorMessage}
+              hasError={errors[key]}
             />
           );
         })}
@@ -107,5 +99,3 @@ class FormBase {
     );
   };
 }
-
-export default FormBase;

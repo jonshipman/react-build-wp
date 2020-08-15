@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback } from "react";
 import { gql, useQuery } from "@apollo/client";
 
 /**
@@ -15,37 +15,11 @@ const CHECK_RECAPTCHA = gql`
 
 const RECAPTCHA_SCRIPT_URL = "https://recaptcha.net/recaptcha/api.js";
 const RECAPTCHA_SCRIPT_REGEX = /(http|https):\/\/(www)?.+\/recaptcha/;
-const RECAPTCHA_RECHECK_MS = 300000; // 5 minutes
 
-class _resetToken {
-  reset() {
-    this._reset = true;
-  }
-
-  hasBeenReset() {
-    return this._reset;
-  }
-
-  rearm() {
-    this._reset = false;
-  }
-}
-
-export const resetToken = new _resetToken();
-
-export default ({ callback = () => {}, reset = 1 }) => {
-  const [key, setKey] = useState();
-  const [token, setToken] = useState();
-  const [built, setBuilt] = useState(new Date().getTime());
-  const [loaded, setLoaded] = useState(false);
-
-  // Sets up the previous reset key.
-  const prevReset = useRef();
-  useEffect(() => {
-    prevReset.current = reset;
-  });
-
+export default ({ callback = () => {} }) => {
   const { data } = useQuery(CHECK_RECAPTCHA);
+
+  const key = data?.formData?.recatchaSiteKey;
 
   // grecaptcha callback.
   const onLoad = useCallback(() => {
@@ -54,14 +28,14 @@ export default ({ callback = () => {}, reset = 1 }) => {
     const _ready = () => {
       grecaptcha
         .execute(key, { action: "homepage" })
-        .then((token) => setToken(token))
+        .then((token) => callback(token))
         .catch((e) => {
           console.error("Recaptcha error", e);
         });
     };
 
     grecaptcha.ready(_ready);
-  }, [key, setToken]);
+  }, [key, callback]);
 
   // Loads the script in the browser.
   const loadScript = useCallback(() => {
@@ -72,24 +46,14 @@ export default ({ callback = () => {}, reset = 1 }) => {
     script.defer = true;
     script.src = `${RECAPTCHA_SCRIPT_URL}?onload=_recaptchaLoadingCB&render=${key}`;
     document.body.appendChild(script);
-
-    setLoaded(true);
-  }, [key, onLoad, setLoaded]);
+  }, [key, onLoad]);
 
   // Checks to see if recaptcha has loaded.
   const scriptLoaded = useCallback(() => {
-    if (loaded) {
-      return true;
-    }
-
-    return Array.from(document.scripts).reduce((isPresent, script) => {
-      if (isPresent) {
-        resetToken.setLoaded(true);
-      }
-
-      return isPresent ? isPresent : RECAPTCHA_SCRIPT_REGEX.test(script.src);
-    }, loaded);
-  }, [loaded]);
+    return Array.from(document.scripts).reduce((_, script) => {
+      return RECAPTCHA_SCRIPT_REGEX.test(script.src);
+    }, false);
+  }, []);
 
   // Load scripts.
   useEffect(() => {
@@ -99,41 +63,6 @@ export default ({ callback = () => {}, reset = 1 }) => {
       }
     }
   }, [key, scriptLoaded, loadScript]);
-
-  // Add the googe key to the state.
-  useEffect(() => {
-    if (data?.formData?.recatchaSiteKey) {
-      setKey(data.formData.recatchaSiteKey);
-    }
-  }, [setKey, data]);
-
-  // Fire any passed callbacks.
-  useEffect(() => {
-    callback(token);
-  }, [token, callback]);
-
-  // Rearming.
-  useEffect(() => {
-    const rearm = () => {
-      setBuilt(new Date().getTime());
-      setToken(null);
-      onLoad();
-    };
-
-    let interval = setInterval(() => {
-      if (token && built + RECAPTCHA_RECHECK_MS < new Date().getTime()) {
-        rearm();
-      }
-    }, RECAPTCHA_RECHECK_MS - 100);
-
-    if (prevReset.current !== reset && token) {
-      rearm();
-    }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [token, built, setBuilt, onLoad, reset, setToken, prevReset]);
 
   return null;
 };
