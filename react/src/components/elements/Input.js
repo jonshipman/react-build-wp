@@ -1,5 +1,10 @@
 import React, { useState, useEffect, forwardRef } from "react";
 
+const groupClassName = "form-group overflow-hidden w-100 mb4";
+const fieldClassName =
+  "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
+const labelClassName = "fw7 ttu db w-100 mb2 pl2";
+
 export const Checkbox = forwardRef(
   (
     {
@@ -58,7 +63,6 @@ export const Input = forwardRef(
       id,
       label,
       type = "text",
-      fieldClassName,
       onChange = () => true,
       onEnter = () => true,
       value = "",
@@ -71,7 +75,7 @@ export const Input = forwardRef(
   ) => (
     <div className={className}>
       {label && (
-        <label htmlFor={id} className="fw7 ttu db w-100 mb2 pl2">
+        <label htmlFor={id} className={labelClassName}>
           {label}:{" "}
         </label>
       )}
@@ -97,7 +101,6 @@ export const Select = forwardRef(
     {
       id,
       label,
-      fieldClassName,
       onChange = () => true,
       options = {},
       value = "",
@@ -111,7 +114,7 @@ export const Select = forwardRef(
   ) => (
     <div className={className}>
       {label && (
-        <label htmlFor={id} className="fw7 ttu db w-100 mb2 pl2">
+        <label htmlFor={id} className={labelClassName}>
           {label}:{" "}
         </label>
       )}
@@ -142,7 +145,6 @@ export const Textarea = forwardRef(
     {
       id,
       label,
-      fieldClassName,
       onChange = () => true,
       onEnter = () => true,
       value = "",
@@ -155,7 +157,7 @@ export const Textarea = forwardRef(
   ) => (
     <div className={className}>
       {label && (
-        <label htmlFor={id} className="fw7 ttu db w-100 mb2 pl2">
+        <label htmlFor={id} className={labelClassName}>
           {label}:{" "}
         </label>
       )}
@@ -177,18 +179,11 @@ export const Textarea = forwardRef(
 
 export default forwardRef(
   ({ type = "text", className = "", children, ...props }, ref) => {
-    const fieldClassName =
-      "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
-    const groupClassName = `form-group overflow-hidden w-100 mb4 ${className}`;
+    const mergedClassName = `${groupClassName} ${className}`;
 
     if ("textarea" === type) {
       return (
-        <Textarea
-          ref={ref}
-          className={groupClassName}
-          fieldClassName={fieldClassName}
-          {...props}
-        >
+        <Textarea ref={ref} className={mergedClassName} {...props}>
           {children}
         </Textarea>
       );
@@ -196,12 +191,7 @@ export default forwardRef(
 
     if ("select" === type) {
       return (
-        <Select
-          ref={ref}
-          className={groupClassName}
-          fieldClassName={fieldClassName}
-          {...props}
-        >
+        <Select ref={ref} className={mergedClassName} {...props}>
           {children}
         </Select>
       );
@@ -209,20 +199,14 @@ export default forwardRef(
 
     if ("checkbox" === type || "radio" === type) {
       return (
-        <Checkbox ref={ref} type={type} className={groupClassName} {...props}>
+        <Checkbox ref={ref} type={type} className={mergedClassName} {...props}>
           {children}
         </Checkbox>
       );
     }
 
     return (
-      <Input
-        ref={ref}
-        type={type}
-        className={groupClassName}
-        fieldClassName={fieldClassName}
-        {...props}
-      >
+      <Input ref={ref} type={type} className={mergedClassName} {...props}>
         {children}
       </Input>
     );
