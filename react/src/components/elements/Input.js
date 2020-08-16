@@ -11,6 +11,7 @@ export const Checkbox = forwardRef(
       className = "",
       children,
       checked = false,
+      loading,
       ...props
     },
     ref
@@ -40,6 +41,7 @@ export const Checkbox = forwardRef(
             value={value}
             checked={isChecked}
             className="dib ml2"
+            key={loading ? "loading" : "loaded"}
             {...props}
           />
         </label>
@@ -62,6 +64,7 @@ export const Input = forwardRef(
       value = "",
       className = "",
       children,
+      loading,
       ...props
     },
     ref
@@ -81,6 +84,7 @@ export const Input = forwardRef(
         defaultValue={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
+        key={loading ? "loading" : "loaded"}
         {...props}
       />
       {children}
@@ -100,6 +104,7 @@ export const Select = forwardRef(
       className = "",
       children,
       placeholder,
+      loading,
       ...props
     },
     ref
@@ -117,6 +122,7 @@ export const Select = forwardRef(
         defaultValue={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
+        key={loading ? "loading" : "loaded"}
         {...props}
       >
         {placeholder && <option value="">{placeholder}</option>}
@@ -142,6 +148,7 @@ export const Textarea = forwardRef(
       value = "",
       className = "",
       children,
+      loading,
       ...props
     },
     ref
@@ -160,6 +167,7 @@ export const Textarea = forwardRef(
         defaultValue={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
+        key={loading ? "loading" : "loaded"}
         {...props}
       />
       {children}
