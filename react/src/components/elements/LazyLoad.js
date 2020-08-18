@@ -18,6 +18,8 @@ export default function LazyLoad({ children }) {
     }
 
     scrollHandler.add(scrollDetection);
+    scrollDetection({ height: document.documentElement.clientHeight });
+
     return () => {
       scrollHandler.remove(scrollDetection);
     };
