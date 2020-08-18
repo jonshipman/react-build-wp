@@ -5,12 +5,8 @@ const fieldClassName =
   "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
 const labelClassName = "fw7 ttu db w-100 mb2 pl2";
 
-// defaultValue will only populate once unless the key changes.
-// This func will spit out a unique key each render.
 const keyGeneration = ({ loading = false, value = "" }) => {
-  return loading
-    ? `loading-${value}-${new Date().getTime()}`
-    : `loaded-${value}-${new Date().getTime()}`;
+  return loading ? `loading-${value}}` : `loaded-${value}}`;
 };
 
 export const Checkbox = forwardRef(function Checkbox(
@@ -91,7 +87,7 @@ export const Input = forwardRef(function Input(
         onChange={(e) => onChange(e.currentTarget.value)}
         id={id}
         type={type}
-        defaultValue={value}
+        value={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
         key={keyGeneration({ loading, value })}
@@ -128,7 +124,7 @@ export const Select = forwardRef(function Select(
         ref={ref}
         onChange={(e) => onChange(e.currentTarget.value)}
         id={id}
-        defaultValue={value}
+        value={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
         key={keyGeneration({ loading, value })}
@@ -172,7 +168,7 @@ export const Textarea = forwardRef(function Textarea(
         onKeyDown={(e) => "Enter" === e.key && onEnter()}
         onChange={(e) => onChange(e.currentTarget.value)}
         id={id}
-        defaultValue={value}
+        value={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
         key={keyGeneration({ loading, value })}
