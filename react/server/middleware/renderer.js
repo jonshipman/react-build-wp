@@ -55,6 +55,7 @@ export default async (req, res) => {
       },
     }),
     cache: new InMemoryCache(),
+    shouldBatch: true,
   });
 
   if (useRedirectionSsr) {
