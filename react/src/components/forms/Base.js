@@ -45,6 +45,41 @@ export const TemplateTextarea = ({
   );
 };
 
+function FieldComponentWrapper({
+  field,
+  render: FieldComponent,
+  updateState,
+  ...props
+}) {
+  props.onChange = useCallback(
+    (v) => {
+      updateState(field, v);
+    },
+    [updateState, field]
+  );
+  return <FieldComponent {...props} />;
+}
+
+function BaseFormComponent({ name, fields, updateState, errors = {}, values }) {
+  return (
+    <>
+      {Object.entries(fields).map(([field, { component }]) => {
+        return (
+          <FieldComponentWrapper
+            render={component}
+            field={field}
+            value={values[field]}
+            updateState={updateState}
+            key={`${name}-${field}`}
+            errorMessage={fields[field]?.errorMessage}
+            hasError={errors[field]}
+          />
+        );
+      })}
+    </>
+  );
+}
+
 export default class {
   getButton = () => {
     return this.form.button || "Submit";
@@ -78,24 +113,5 @@ export default class {
     return emptyFormValues;
   };
 
-  component = ({ updateState, values, errors = {} }) => {
-    const { fields } = this.form;
-    return (
-      <>
-        {Object.entries(fields).map(([key, value]) => {
-          const updater = useCallback((v) => updateState(key, v), [key]);
-
-          return (
-            <value.component
-              value={values[key]}
-              onChange={updater}
-              key={`${this.name}-${key}`}
-              errorMessage={this.form.fields[key]?.errorMessage}
-              hasError={errors[key]}
-            />
-          );
-        })}
-      </>
-    );
-  };
+  component = BaseFormComponent;
 }

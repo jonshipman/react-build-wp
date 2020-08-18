@@ -126,6 +126,8 @@ export default function LeadForm({ form = DefaultForm, className = "" }) {
 
       <div className="form-groups">
         <form.component
+          name={form.name}
+          fields={form.form.fields}
           errors={formErrors}
           values={formValues}
           updateState={onFormValueChange}
