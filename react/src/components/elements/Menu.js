@@ -196,7 +196,7 @@ const Skeleton = ({ error, ...props }) => {
 /**
  * Component that loads the UL and loops the child item from the menu query.
  */
-const OnQueryFinished = ({
+const MenuRender = ({
   forwardedRef,
   loading,
   children,
@@ -227,42 +227,46 @@ const OnQueryFinished = ({
 /**
  * Loads a flat menu without hover classes.
  */
-export const FlatMenu = forwardRef(
-  ({ location = "HEADER_MENU", ...props }, ref) => {
-    const { error, loading, data } = useQuery(MENU_QUERY, {
-      variables: { location },
-    });
-
-    return (
-      <OnQueryFinished
-        forwardedRef={ref}
-        loading={loading}
-        error={error}
-        flat={true}
-        location={location}
-        {...props}
-        menuItems={
-          data?.menus?.nodes?.length > 0 &&
-          data.menus.nodes[0].menuItems?.nodes?.length > 0
-            ? data.menus.nodes[0].menuItems.nodes
-            : []
-        }
-      />
-    );
-  }
-);
-
-/**
- * Loading functional component that loads the skeleton, error,
- * or finished component based on results.
- */
-export default forwardRef(({ location = "HEADER_MENU", ...props }, ref) => {
+export const FlatMenu = forwardRef(function FlatMenu(
+  { location = "HEADER_MENU", ...props },
+  ref
+) {
   const { error, loading, data } = useQuery(MENU_QUERY, {
     variables: { location },
   });
 
   return (
-    <OnQueryFinished
+    <MenuRender
+      forwardedRef={ref}
+      loading={loading}
+      error={error}
+      flat={true}
+      location={location}
+      {...props}
+      menuItems={
+        data?.menus?.nodes?.length > 0 &&
+        data.menus.nodes[0].menuItems?.nodes?.length > 0
+          ? data.menus.nodes[0].menuItems.nodes
+          : []
+      }
+    />
+  );
+});
+
+/**
+ * Loading functional component that loads the skeleton, error,
+ * or finished component based on results.
+ */
+export default forwardRef(function Menu(
+  { location = "HEADER_MENU", ...props },
+  ref
+) {
+  const { error, loading, data } = useQuery(MENU_QUERY, {
+    variables: { location },
+  });
+
+  return (
+    <MenuRender
       forwardedRef={ref}
       loading={loading}
       error={error}

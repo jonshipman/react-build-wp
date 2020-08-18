@@ -108,84 +108,86 @@ const BreadcrumbList = (crumbs) => {
   return schema;
 };
 
-const Single = ({
+function SingleRender({
   obj,
   renderChildrenAfter = false,
   renderTitle = true,
   children,
-}) => (
-  <article className={`single post-${obj.databaseId}`}>
-    {obj.seo && (
-      <Helmet>
-        <title>{obj.seo.title}</title>
-        <meta name="description" content={obj.seo.metaDesc} />
-        <link rel="canonical" href={`${FRONTEND_URL}/${obj.slug}`} />
+}) {
+  return (
+    <article className={`single post-${obj.databaseId}`}>
+      {obj.seo && (
+        <Helmet>
+          <title>{obj.seo.title}</title>
+          <meta name="description" content={obj.seo.metaDesc} />
+          <link rel="canonical" href={`${FRONTEND_URL}/${obj.slug}`} />
 
-        {obj.seo.breadcrumbs?.length > 0 && (
-          <script type="application/ld+json">
-            {JSON.stringify(BreadcrumbList(obj.seo.breadcrumbs))}
-          </script>
-        )}
-      </Helmet>
-    )}
-
-    {renderTitle &&
-      ("Page" !== obj.__typename ? (
-        <Title notHeading={true}>
-          {obj?.categories?.edges?.length > 0
-            ? obj.categories.edges[0].node.name
-            : "Blog"}
-        </Title>
-      ) : (
-        <Title>{obj?.title}</Title>
-      ))}
-
-    {!renderChildrenAfter && children}
-
-    <PageWidth className="mv4">
-      {"Page" !== obj.__typename && (
-        <>
-          <h1 className="f2 fw4 mb4">{obj.title}</h1>
-
-          <div className="post-meta mv4">
-            <div className="posted dib mr4">
-              <ClockIcon className="mr2 v-mid" width={20} height={20} />
-              <span>{obj.dateFormatted}</span>
-            </div>
-
-            {obj?.categories?.edges?.length > 0 && (
-              <div className="post-categories dib">
-                <FolderIcon className="mr2 v-mid" width={20} height={20} />
-                <ul className="list pl0 dib">
-                  {obj.categories.edges.map((category) => (
-                    <li
-                      key={`cat-${category.node.databaseId}-post-cats`}
-                      className="dib mr2 pr2 br b--near-white drop-last-br"
-                    >
-                      <Link to={category.node.uri}>{category.node.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </>
+          {obj.seo.breadcrumbs?.length > 0 && (
+            <script type="application/ld+json">
+              {JSON.stringify(BreadcrumbList(obj.seo.breadcrumbs))}
+            </script>
+          )}
+        </Helmet>
       )}
 
-      <PostContent content={obj.content} />
-    </PageWidth>
+      {renderTitle &&
+        ("Page" !== obj.__typename ? (
+          <Title notHeading={true}>
+            {obj?.categories?.edges?.length > 0
+              ? obj.categories.edges[0].node.name
+              : "Blog"}
+          </Title>
+        ) : (
+          <Title>{obj?.title}</Title>
+        ))}
 
-    {renderChildrenAfter && children}
-  </article>
-);
+      {!renderChildrenAfter && children}
 
-export default ({ Query = DefaultQuery }) => {
-  let LoadedSingle = Single;
+      <PageWidth className="mv4">
+        {"Page" !== obj.__typename && (
+          <>
+            <h1 className="f2 fw4 mb4">{obj.title}</h1>
+
+            <div className="post-meta mv4">
+              <div className="posted dib mr4">
+                <ClockIcon className="mr2 v-mid" width={20} height={20} />
+                <span>{obj.dateFormatted}</span>
+              </div>
+
+              {obj?.categories?.edges?.length > 0 && (
+                <div className="post-categories dib">
+                  <FolderIcon className="mr2 v-mid" width={20} height={20} />
+                  <ul className="list pl0 dib">
+                    {obj.categories.edges.map((category) => (
+                      <li
+                        key={`cat-${category.node.databaseId}-post-cats`}
+                        className="dib mr2 pr2 br b--near-white drop-last-br"
+                      >
+                        <Link to={category.node.uri}>{category.node.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        <PostContent content={obj.content} />
+      </PageWidth>
+
+      {renderChildrenAfter && children}
+    </article>
+  );
+}
+
+export default function Single({ Query = DefaultQuery }) {
+  let LoadedSingle = SingleRender;
 
   const { pathname } = useLocation();
   if (pathname?.includes("contact")) {
-    LoadedSingle = withContact(Single);
+    LoadedSingle = withContact(SingleRender);
   }
 
   return <Query>{(obj) => <LoadedSingle obj={obj} />}</Query>;
-};
+}

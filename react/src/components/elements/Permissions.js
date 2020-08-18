@@ -11,7 +11,13 @@ const QUERY = gql`
   }
 `;
 
-export default ({ cap, children, fallback = null, authorId, ...props }) => {
+export default function Permissions({
+  cap,
+  children,
+  fallback = null,
+  authorId,
+  ...props
+}) {
   const { data } = useQuery(QUERY, { errorPolicy: "all" });
 
   if (data?.viewer?.capabilities?.length > 0) {
@@ -35,4 +41,4 @@ export default ({ cap, children, fallback = null, authorId, ...props }) => {
   }
 
   return createElement(fallback, props);
-};
+}

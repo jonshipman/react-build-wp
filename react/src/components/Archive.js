@@ -53,7 +53,7 @@ const initialState = {
   },
 };
 
-const OnQueryFinished = ({ posts, setDirection, setPageInfo }) => {
+function OnQueryFinished({ posts, setDirection, setPageInfo }) {
   if (posts?.edges?.length < 1) {
     return <PageWidth>Nothing found.</PageWidth>;
   }
@@ -118,9 +118,9 @@ const OnQueryFinished = ({ posts, setDirection, setPageInfo }) => {
       )}
     </PageWidth>
   );
-};
+}
 
-const DefaultQuery = ({ variables, children }) => {
+function DefaultQuery({ variables, children }) {
   const { loading, error, data } = useQuery(ARCHIVE_QUERY, { variables });
 
   if (loading)
@@ -148,9 +148,9 @@ const DefaultQuery = ({ variables, children }) => {
       {children(data)}
     </>
   );
-};
+}
 
-const PostsAndQuery = ({ Query = DefaultQuery, ...props }) => {
+function PostsAndQuery({ Query = DefaultQuery, ...props }) {
   const [direction, setDirection] = useState(0);
   const [pageInfo, setPageInfo] = useState(initialState.pageInfo);
 
@@ -184,9 +184,9 @@ const PostsAndQuery = ({ Query = DefaultQuery, ...props }) => {
       )}
     </Query>
   );
-};
+}
 
-export default ({ className = "archive", children, ...props }) => {
+export default function Archive({ className = "archive", children, ...props }) {
   return (
     <div className={className}>
       {children && children}
@@ -198,4 +198,4 @@ export default ({ className = "archive", children, ...props }) => {
       <PostsAndQuery {...props} />
     </div>
   );
-};
+}

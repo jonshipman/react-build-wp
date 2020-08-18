@@ -1,5 +1,5 @@
 import React from "react";
 
-export default (props) => {
-  return <>{`Error: ${props.error || ""}`}</>;
-};
+export default function LoadingError({ error = "" }) {
+  return <>{`Error: ${error}`}</>;
+}

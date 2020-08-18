@@ -1,6 +1,6 @@
 import React from "react";
 
-export default ({ color, ...props }) => {
+export default function Loading({ color, ...props }) {
   const style = {};
   if (color) {
     style.borderTopColor = color;
@@ -15,4 +15,4 @@ export default ({ color, ...props }) => {
       </span>
     </span>
   );
-};
+}

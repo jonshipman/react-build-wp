@@ -169,7 +169,7 @@ const useLogin = ({ setMessage = () => true }) => {
   };
 };
 
-const Login = ({ setMessage }) => {
+const LoginRender = ({ setMessage }) => {
   const [state, setState] = useState({
     username: "",
     password: "",
@@ -216,7 +216,7 @@ const Login = ({ setMessage }) => {
   );
 };
 
-const ForgotPassword = ({ setMessage }) => {
+const ForgotPasswordRender = ({ setMessage }) => {
   const [state, setState] = useState({
     username: "",
     clientMutationId:
@@ -265,7 +265,7 @@ const ForgotPassword = ({ setMessage }) => {
   );
 };
 
-const Register = ({ setMessage }) => {
+const RegisterRender = ({ setMessage }) => {
   const [state, setState] = useState({
     username: "",
     email: "",
@@ -324,7 +324,7 @@ const Register = ({ setMessage }) => {
   );
 };
 
-const ResetPassword = ({ setMessage }) => {
+const ResetPasswordRender = ({ setMessage }) => {
   const { key, login } = useParams();
 
   const [state, setState] = useState({
@@ -385,7 +385,7 @@ const BackToLogin = () => (
   </Link>
 );
 
-export default () => {
+export default function Login() {
   const [message, setMessage] = useState("");
 
   return (
@@ -401,19 +401,19 @@ export default () => {
 
         <Switch>
           <Route exact path="/register">
-            <Register setMessage={setMessage} />
+            <RegisterRender setMessage={setMessage} />
           </Route>
           <Route exact path="/forgot-password">
-            <ForgotPassword setMessage={setMessage} />
+            <ForgotPasswordRender setMessage={setMessage} />
           </Route>
           <Route exact path="/rp/:key/:login">
-            <ResetPassword setMessage={setMessage} />
+            <ResetPasswordRender setMessage={setMessage} />
           </Route>
           <Route path="*">
-            <Login setMessage={setMessage} />
+            <LoginRender setMessage={setMessage} />
           </Route>
         </Switch>
       </div>
     </PageWidth>
   );
-};
+}

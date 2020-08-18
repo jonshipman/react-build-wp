@@ -16,7 +16,7 @@ const CHECK_RECAPTCHA = gql`
 const RECAPTCHA_SCRIPT_URL = "https://recaptcha.net/recaptcha/api.js";
 const RECAPTCHA_SCRIPT_REGEX = /(http|https):\/\/(www)?.+\/recaptcha/;
 
-export default ({ callback = () => {} }) => {
+export default function Recaptcha({ callback = () => {} }) {
   const { data } = useQuery(CHECK_RECAPTCHA);
 
   const key = data?.formData?.recatchaSiteKey;
@@ -65,4 +65,4 @@ export default ({ callback = () => {} }) => {
   }, [key, scriptLoaded, loadScript]);
 
   return null;
-};
+}

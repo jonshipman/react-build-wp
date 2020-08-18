@@ -113,8 +113,8 @@ const Query = ({ variables, children }) => {
   return children(data);
 };
 
-export default (WrappedComponent) => {
-  return (props) => {
+export default function withSearchHOC(WrappedComponent) {
+  return function withSearch(props) {
     const [filter, setFilter] = useState("");
 
     return (
@@ -134,4 +134,4 @@ export default (WrappedComponent) => {
       </SearchContext.Provider>
     );
   };
-};
+}

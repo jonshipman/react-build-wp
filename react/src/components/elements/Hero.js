@@ -13,7 +13,7 @@ const HERO_QUERY = gql`
   }
 `;
 
-const Hero = ({
+const HeroRender = ({
   heading,
   subheading,
   error,
@@ -88,10 +88,10 @@ const DefaultQuery = ({ children, ...props }) => {
   return children(passedProps);
 };
 
-export default ({ query: LocalQuery = DefaultQuery, ...props }) => {
+export default function Hero({ query: LocalQuery = DefaultQuery, ...props }) {
   return (
     <LocalQuery {...props}>
-      {(passedProps) => <Hero {...passedProps} />}
+      {(passedProps) => <HeroRender {...passedProps} />}
     </LocalQuery>
   );
-};
+}

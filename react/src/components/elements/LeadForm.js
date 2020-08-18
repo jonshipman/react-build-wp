@@ -26,7 +26,7 @@ const FORM_DATA = gql`
   }
 `;
 
-export default ({ form = DefaultForm, className = "" }) => {
+export default function LeadForm({ form = DefaultForm, className = "" }) {
   const initialState = useMemo(() => {
     return form.buildState();
   }, [form]);
@@ -156,4 +156,4 @@ export default ({ form = DefaultForm, className = "" }) => {
       </Button>
     </div>
   );
-};
+}

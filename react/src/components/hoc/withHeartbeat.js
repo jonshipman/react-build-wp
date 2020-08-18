@@ -62,11 +62,17 @@ class Heartbeat extends Component {
   }
 }
 
-export default (WrappedComponent, onError = () => true, ibi = 30000) => {
-  return (props) => (
-    <>
-      <WrappedComponent {...props} />
-      <Heartbeat onError={onError} ibi={ibi} {...props} />
-    </>
-  );
-};
+export default function withHeartbeatHOC(
+  WrappedComponent,
+  onError = () => true,
+  ibi = 30000
+) {
+  return function withHeartbeat(props) {
+    return (
+      <>
+        <WrappedComponent {...props} />
+        <Heartbeat onError={onError} ibi={ibi} {...props} />
+      </>
+    );
+  };
+}

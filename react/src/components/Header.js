@@ -15,7 +15,7 @@ const openMenu = () => {
   }
 };
 
-const Header = ({ sticky }) => {
+function HeaderRender({ sticky }) {
   const headerRef = useRef();
   const spacerRef = useRef();
 
@@ -75,15 +75,17 @@ const Header = ({ sticky }) => {
       {sticky && <div ref={spacerRef} />}
     </header>
   );
-};
+}
 
-export default () => (
-  <Switch>
-    <Route
-      path="/"
-      exact
-      render={(props) => <Header {...props} sticky={true} />}
-    />
-    <Route render={(props) => <Header {...props} sticky={false} />} />
-  </Switch>
-);
+export default function Header() {
+  return (
+    <Switch>
+      <Route
+        path="/"
+        exact
+        render={(props) => <Header {...props} sticky={true} />}
+      />
+      <Route render={(props) => <Header {...props} sticky={false} />} />
+    </Switch>
+  );
+}

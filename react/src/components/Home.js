@@ -23,56 +23,58 @@ const HOME_QUERY = gql`
   }
 `;
 
-const OnQueryFinished = ({ seo, content, error }) => (
-  <div className="home">
-    {seo && (
-      <Helmet>
-        <title>{seo.title}</title>
-        <meta name="description" content={seo.metaDesc} />
-      </Helmet>
-    )}
+function HomeRender({ seo, content, error }) {
+  return (
+    <div className="home">
+      {seo && (
+        <Helmet>
+          <title>{seo.title}</title>
+          <meta name="description" content={seo.metaDesc} />
+        </Helmet>
+      )}
 
-    <Hero cta={{ text: "Contact Today", link: "/contact-us" }} />
+      <Hero cta={{ text: "Contact Today", link: "/contact-us" }} />
 
-    <PageWidth>
-      <div className="mv4 flex-l nl4 nr4">
-        <div className="ma4 w-50-l">
-          <PostContent className="mb4" content={content || error || ""} />
+      <PageWidth>
+        <div className="mv4 flex-l nl4 nr4">
+          <div className="ma4 w-50-l">
+            <PostContent className="mb4" content={content || error || ""} />
 
-          <Button className="mr3" to="/contact-us">
-            Make an Appointment
-          </Button>
+            <Button className="mr3" to="/contact-us">
+              Make an Appointment
+            </Button>
 
-          <Button type={3} to="/about-us">
-            Learn More
-          </Button>
-        </div>
-        <div className="ma4 w-50-l">
-          <div className="relative overflow-hidden w-100 h-100">
-            <Image
-              width={720}
-              height={480}
-              className="absolute-l absolute--fill-l mw-none-l grow center db"
-            />
+            <Button type={3} to="/about-us">
+              Learn More
+            </Button>
+          </div>
+          <div className="ma4 w-50-l">
+            <div className="relative overflow-hidden w-100 h-100">
+              <Image
+                width={720}
+                height={480}
+                className="absolute-l absolute--fill-l mw-none-l grow center db"
+              />
+            </div>
           </div>
         </div>
+      </PageWidth>
+
+      <div className="bg-silver pv5">
+        <LeadForm className="mw6 bg-white pa4 center" />
       </div>
-    </PageWidth>
-
-    <div className="bg-silver pv5">
-      <LeadForm className="mw6 bg-white pa4 center" />
     </div>
-  </div>
-);
+  );
+}
 
-export default () => {
+export default function Home() {
   const { error, data } = useQuery(HOME_QUERY, { errorPolicy: "all" });
 
   return (
-    <OnQueryFinished
+    <HomeRender
       seo={data?.page?.seo}
       content={data?.page?.content}
       error={error?.message}
     />
   );
-};
+}

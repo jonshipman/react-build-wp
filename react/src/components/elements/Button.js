@@ -9,7 +9,7 @@ export const SecondaryClasses =
   "pointer link dim br2 ph4 pv2 white ba b--white";
 export const TertiaryClasses = "pointer link dim br2 ph4 pv2 green ba b--green";
 
-const Button = ({
+const ButtonRender = ({
   children,
   className = "",
   altClasses,
@@ -78,7 +78,7 @@ const Button = ({
   );
 };
 
-export default ({ loading, disabled, style = {}, ...props }) => {
+export default function Button({ loading, disabled, style = {}, ...props }) {
   if (loading) {
     return (
       <div
@@ -86,11 +86,15 @@ export default ({ loading, disabled, style = {}, ...props }) => {
           props?.className?.includes("db") ? "flex" : "inline-flex"
         } justify-between items-center`}
       >
-        <Button disabled={true} style={{ ...style, flexGrow: 1 }} {...props} />
+        <ButtonRender
+          disabled={true}
+          style={{ ...style, flexGrow: 1 }}
+          {...props}
+        />
         <Loading className="ml3" />
       </div>
     );
   }
 
-  return <Button disabled={disabled} style={style} {...props} />;
-};
+  return <ButtonRender disabled={disabled} style={style} {...props} />;
+}

@@ -5,74 +5,72 @@ const fieldClassName =
   "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
 const labelClassName = "fw7 ttu db w-100 mb2 pl2";
 
-export const Checkbox = forwardRef(
-  (
-    {
-      id,
-      label = "Checkbox",
-      type = "checkbox",
-      onChange = () => true,
-      value = "",
-      className = "",
-      children,
-      checked = false,
-      loading,
-      ...props
-    },
-    ref
-  ) => {
-    const [isChecked, setIsChecked] = useState(checked);
+export const Checkbox = forwardRef(function Checkbox(
+  {
+    id,
+    label = "Checkbox",
+    type = "checkbox",
+    onChange = () => true,
+    value = "",
+    className = "",
+    children,
+    checked = false,
+    loading,
+    ...props
+  },
+  ref
+) {
+  const [isChecked, setIsChecked] = useState(checked);
 
-    useEffect(() => {
-      setIsChecked(checked);
-    }, [setIsChecked, checked]);
+  useEffect(() => {
+    setIsChecked(checked);
+  }, [setIsChecked, checked]);
 
-    return (
-      <div className={className}>
-        <label htmlFor={id} className="fw7 ttu dib w-100 pointer">
-          {label}:{" "}
-          <input
-            ref={ref}
-            onChange={() => {
-              setIsChecked((prev) => {
-                setTimeout(() => {
-                  onChange(!prev, value, id);
-                });
-                return !prev;
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="fw7 ttu dib w-100 pointer">
+        {label}:{" "}
+        <input
+          ref={ref}
+          onChange={() => {
+            setIsChecked((prev) => {
+              setTimeout(() => {
+                onChange(!prev, value, id);
               });
-            }}
-            id={id}
-            type={type}
-            value={value}
-            checked={isChecked}
-            className="dib ml2"
-            key={loading ? "loading" : "loaded"}
-            {...props}
-          />
-        </label>
+              return !prev;
+            });
+          }}
+          id={id}
+          type={type}
+          value={value}
+          checked={isChecked}
+          className="dib ml2"
+          key={loading ? "loading" : "loaded"}
+          {...props}
+        />
+      </label>
 
-        {children}
-      </div>
-    );
-  }
-);
+      {children}
+    </div>
+  );
+});
 
-export const Input = forwardRef(
-  (
-    {
-      id,
-      label,
-      type = "text",
-      onChange = () => true,
-      onEnter = () => true,
-      value = "",
-      className = "",
-      children,
-      loading,
-      ...props
-    },
-    ref
-  ) => (
+export const Input = forwardRef(function Input(
+  {
+    id,
+    label,
+    type = "text",
+    onChange = () => true,
+    onEnter = () => true,
+    value = "",
+    className = "",
+    children,
+    loading,
+    ...props
+  },
+  ref
+) {
+  return (
     <div className={className}>
       {label && (
         <label htmlFor={id} className={labelClassName}>
@@ -93,25 +91,25 @@ export const Input = forwardRef(
       />
       {children}
     </div>
-  )
-);
+  );
+});
 
-export const Select = forwardRef(
-  (
-    {
-      id,
-      label,
-      onChange = () => true,
-      options = {},
-      value = "",
-      className = "",
-      children,
-      placeholder,
-      loading,
-      ...props
-    },
-    ref
-  ) => (
+export const Select = forwardRef(function Select(
+  {
+    id,
+    label,
+    onChange = () => true,
+    options = {},
+    value = "",
+    className = "",
+    children,
+    placeholder,
+    loading,
+    ...props
+  },
+  ref
+) {
+  return (
     <div className={className}>
       {label && (
         <label htmlFor={id} className={labelClassName}>
@@ -137,24 +135,24 @@ export const Select = forwardRef(
       </select>
       {children}
     </div>
-  )
-);
+  );
+});
 
-export const Textarea = forwardRef(
-  (
-    {
-      id,
-      label,
-      onChange = () => true,
-      onEnter = () => true,
-      value = "",
-      className = "",
-      children,
-      loading,
-      ...props
-    },
-    ref
-  ) => (
+export const Textarea = forwardRef(function Textarea(
+  {
+    id,
+    label,
+    onChange = () => true,
+    onEnter = () => true,
+    value = "",
+    className = "",
+    children,
+    loading,
+    ...props
+  },
+  ref
+) {
+  return (
     <div className={className}>
       {label && (
         <label htmlFor={id} className={labelClassName}>
@@ -174,41 +172,42 @@ export const Textarea = forwardRef(
       />
       {children}
     </div>
-  )
-);
+  );
+});
 
-export default forwardRef(
-  ({ type = "text", className = "", children, ...props }, ref) => {
-    const mergedClassName = `${groupClassName} ${className}`;
+export default forwardRef(function FormGroup(
+  { type = "text", className = "", children, ...props },
+  ref
+) {
+  const mergedClassName = `${groupClassName} ${className}`;
 
-    if ("textarea" === type) {
-      return (
-        <Textarea ref={ref} className={mergedClassName} {...props}>
-          {children}
-        </Textarea>
-      );
-    }
-
-    if ("select" === type) {
-      return (
-        <Select ref={ref} className={mergedClassName} {...props}>
-          {children}
-        </Select>
-      );
-    }
-
-    if ("checkbox" === type || "radio" === type) {
-      return (
-        <Checkbox ref={ref} type={type} className={mergedClassName} {...props}>
-          {children}
-        </Checkbox>
-      );
-    }
-
+  if ("textarea" === type) {
     return (
-      <Input ref={ref} type={type} className={mergedClassName} {...props}>
+      <Textarea ref={ref} className={mergedClassName} {...props}>
         {children}
-      </Input>
+      </Textarea>
     );
   }
-);
+
+  if ("select" === type) {
+    return (
+      <Select ref={ref} className={mergedClassName} {...props}>
+        {children}
+      </Select>
+    );
+  }
+
+  if ("checkbox" === type || "radio" === type) {
+    return (
+      <Checkbox ref={ref} type={type} className={mergedClassName} {...props}>
+        {children}
+      </Checkbox>
+    );
+  }
+
+  return (
+    <Input ref={ref} type={type} className={mergedClassName} {...props}>
+      {children}
+    </Input>
+  );
+});
