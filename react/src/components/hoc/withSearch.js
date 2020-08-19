@@ -1,13 +1,12 @@
 import React, { useRef, useState, createContext, useContext } from "react";
-import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
-import { FRONTEND_URL } from "../../config";
+import Button from "../elements/Button";
 import Loading from "../elements/Loading";
 import LoadingError from "../elements/LoadingError";
 import PageWidth from "../elements/PageWidth";
+import Seo from "../elements/Seo";
 import Title from "../elements/Title";
-import Button from "../elements/Button";
 
 const SearchContext = createContext({});
 
@@ -121,10 +120,7 @@ export default function withSearchHOC(WrappedComponent) {
       <SearchContext.Provider value={{ filter }}>
         <Title>Search</Title>
 
-        <Helmet>
-          <title>Search</title>
-          <link rel="canonical" href={`${FRONTEND_URL}/search`} />
-        </Helmet>
+        <Seo title="Search" canonical="/search" />
 
         <WrappedComponent className="search" Query={Query} {...props}>
           <PageWidth className="mb4">

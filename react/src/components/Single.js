@@ -85,29 +85,6 @@ const DefaultQuery = ({ children }) => {
   return <NotFound />;
 };
 
-const BreadcrumbList = (crumbs) => {
-  const schema = {
-    "@context": "http://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [],
-  };
-
-  crumbs.forEach((item, index) => {
-    schema.itemListElement.push({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "WebPage",
-        "@id": item.url,
-        url: item.url,
-        name: item.text,
-      },
-    });
-  });
-
-  return schema;
-};
-
 function SingleRender({
   obj,
   renderChildrenAfter = false,
@@ -116,19 +93,12 @@ function SingleRender({
 }) {
   return (
     <article className={`single post-${obj.databaseId}`}>
-      {obj.seo && (
-        <Helmet>
-          <title>{obj.seo.title}</title>
-          <meta name="description" content={obj.seo.metaDesc} />
-          <link rel="canonical" href={`${FRONTEND_URL}/${obj.slug}`} />
-
-          {obj.seo.breadcrumbs?.length > 0 && (
-            <script type="application/ld+json">
-              {JSON.stringify(BreadcrumbList(obj.seo.breadcrumbs))}
-            </script>
-          )}
-        </Helmet>
-      )}
+      <Seo
+        title={obj.seo?.title}
+        description={obj.seo?.title}
+        canonical={obj.uri}
+        breadcrumbs={obj.seo?.breadcrumbs}
+      />
 
       {renderTitle &&
         ("Page" !== obj.__typename ? (

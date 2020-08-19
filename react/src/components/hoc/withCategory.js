@@ -1,13 +1,12 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
-import { FRONTEND_URL } from "../../config";
+import { useLocation } from "react-router-dom";
 import Loading from "../elements/Loading";
 import LoadingError from "../elements/LoadingError";
 import PageWidth from "../elements/PageWidth";
+import Seo from "../elements/Seo";
 import Title from "../elements/Title";
-import { useLocation } from "react-router-dom";
 
 const CATEGORY_QUERY = gql`
   query CategoryQuery(
@@ -84,15 +83,11 @@ export default function withCategoryHOC(WrappedComponent) {
       <>
         <Title>{category?.name}</Title>
 
-        <Helmet>
-          <title>{category?.seo?.title}</title>
-          {category?.seo?.metaDesc && (
-            <meta name="description" content={category?.seo?.metaDesc} />
-          )}
-          {category?.uri && (
-            <link rel="canonical" href={`${FRONTEND_URL}${category?.uri}`} />
-          )}
-        </Helmet>
+        <Seo
+          title={category?.seo?.title}
+          description={category?.seo?.metaDesc}
+          canonical={category?.uri}
+        />
 
         {children(data)}
       </>

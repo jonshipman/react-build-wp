@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
-import { FRONTEND_URL } from "../config";
 import Button from "./elements/Button";
 import Loading from "./elements/Loading";
 import LoadingError from "./elements/LoadingError";
 import PageWidth from "./elements/PageWidth";
 import PostContent from "./elements/PostContent";
 import Title from "./elements/Title";
+import Seo from "./elements/Seo";
 
 const ARCHIVE_QUERY = gql`
   query ArchiveQuery($first: Int, $last: Int, $after: String, $before: String) {
@@ -140,10 +140,7 @@ function DefaultQuery({ variables, children }) {
     <>
       <Title>Blog</Title>
 
-      <Helmet>
-        <title>Blog</title>
-        <link rel="canonical" href={`${FRONTEND_URL}/blog`} />
-      </Helmet>
+      <Seo title="Blog" canonical="/blog" />
 
       {children(data)}
     </>

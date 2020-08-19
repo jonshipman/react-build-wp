@@ -1,13 +1,13 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
 import Button from "./elements/Button";
 import Hero from "./elements/Hero";
 import Image from "./elements/Image";
 import LeadForm from "./elements/LeadForm";
-import PostContent from "./elements/PostContent";
 import PageWidth from "./elements/PageWidth";
+import PostContent from "./elements/PostContent";
+import Seo from "./elements/Seo";
 
 const HOME_QUERY = gql`
   query HomeQuery {
@@ -23,15 +23,10 @@ const HOME_QUERY = gql`
   }
 `;
 
-function HomeRender({ seo, content, error }) {
+function HomeRender({ seo = {}, content, error }) {
   return (
     <div className="home">
-      {seo && (
-        <Helmet>
-          <title>{seo.title}</title>
-          <meta name="description" content={seo.metaDesc} />
-        </Helmet>
-      )}
+      <Seo title={seo.title} description={seo.metaDesc} canonical="/" />
 
       <Hero cta={{ text: "Contact Today", link: "/contact-us" }} />
 
