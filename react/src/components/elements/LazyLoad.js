@@ -26,7 +26,7 @@ export default function LazyLoad({ children }) {
   }, [container]);
 
   if (!visible) {
-    return <div ref={container} />;
+    return <div className="vh-100" ref={container} />;
   }
 
   return <div ref={container}>{children}</div>;
