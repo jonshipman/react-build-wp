@@ -55,7 +55,7 @@ const CATEGORY_QUERY = gql`
   }
 `;
 
-export default function withCategoryHOC(WrappedComponent) {
+export default (WrappedComponent) => {
   const Query = ({ variables, children }) => {
     const { pathname } = useLocation();
     const p = [...pathname.replace(/\/+$/, "").split("/")].pop();
@@ -94,15 +94,13 @@ export default function withCategoryHOC(WrappedComponent) {
     );
   };
 
-  return function withCategory(props) {
-    return (
-      <WrappedComponent
-        className="categories"
-        title={null}
-        Seo={null}
-        Query={Query}
-        {...props}
-      />
-    );
-  };
-}
+  return (props) => (
+    <WrappedComponent
+      className="categories"
+      title={null}
+      Seo={null}
+      Query={Query}
+      {...props}
+    />
+  );
+};

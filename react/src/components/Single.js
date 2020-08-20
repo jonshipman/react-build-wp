@@ -1,9 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import { gql, useQuery } from "@apollo/client";
 
-import { FRONTEND_URL } from "../config";
 import { ReactComponent as ClockIcon } from "../static/images/clock.svg";
 import { ReactComponent as FolderIcon } from "../static/images/folder.svg";
 import LoadingError from "./elements/LoadingError";
@@ -11,6 +9,7 @@ import NotFound from "./elements/NotFound";
 import PageSkeleton from "./elements/PageSkeleton";
 import PageWidth from "./elements/PageWidth";
 import PostContent from "./elements/PostContent";
+import Seo from "./elements/Seo";
 import Title from "./elements/Title";
 import withContact from "./hoc/withContact";
 

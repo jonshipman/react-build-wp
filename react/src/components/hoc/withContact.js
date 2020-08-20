@@ -2,8 +2,8 @@ import React from "react";
 
 import LeadForm from "../elements/LeadForm";
 
-export default function withContactHoc(WrappedComponent) {
-  return function withContact(props) {
+export default (WrappedComponent) => {
+  return (props) => {
     return (
       <WrappedComponent renderChildrenAfter={true} {...props}>
         <div className="bg-silver pv5">
@@ -12,4 +12,4 @@ export default function withContactHoc(WrappedComponent) {
       </WrappedComponent>
     );
   };
-}
+};

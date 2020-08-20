@@ -75,8 +75,8 @@ const PreviewQuery = ({ children }) => {
   return <NotFound />;
 };
 
-export default function withPreviewHOC(WrappedComponent) {
-  return function withPreview(props) {
+export default (WrappedComponent) => {
+  return (props) => {
     return <WrappedComponent Query={PreviewQuery} {...props} />;
   };
-}
+};

@@ -83,9 +83,9 @@ export default function Header() {
       <Route
         path="/"
         exact
-        render={(props) => <Header {...props} sticky={true} />}
+        render={(props) => <HeaderRender {...props} sticky={true} />}
       />
-      <Route render={(props) => <Header {...props} sticky={false} />} />
+      <Route render={(props) => <HeaderRender {...props} sticky={false} />} />
     </Switch>
   );
 }
