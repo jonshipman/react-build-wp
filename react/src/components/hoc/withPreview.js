@@ -55,6 +55,7 @@ const PreviewQuery = ({ children }) => {
 
   const { loading, error, data } = useQuery(PREVIEW_QUERY, {
     variables: { postId: revisionId },
+    ssr: false,
   });
 
   if (loading) return <Loading />;
