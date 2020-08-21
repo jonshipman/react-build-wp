@@ -106,3 +106,14 @@ if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
 // Disable comments and pingbacks.
 add_filter( 'comments_open', '__return_false' );
 add_filter( 'pings_open', '__return_false' );
+
+// Adds a redirect for people already logged in.
+add_action(
+	'login_init',
+	function() {
+		if (is_user_logged_in()) {
+			wp_safe_redirect( admin_url() );
+			die;
+		}
+	}
+);
