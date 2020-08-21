@@ -18,8 +18,10 @@ const MENU_QUERY = gql`
             url
             label
             cssClasses
-            connectedObject {
-              __typename
+            connectedNode {
+              node {
+                __typename
+              }
             }
             childItems {
               nodes {
@@ -50,12 +52,12 @@ const ChildItem = ({ menuItem, level, anchorOnClick = () => {}, ...props }) => {
   }
 
   const menuItemProps = {
-    className: menuItem.cssClasses || "",
+    spanClassName: menuItem.cssClasses?.join(" ") || "",
   };
 
   if (
-    undefined === menuItem?.connectedObject?.__typename ||
-    "MenuItem" === menuItem?.connectedObject?.__typename
+    undefined === menuItem?.connectedNode?.node?.__typename ||
+    "MenuItem" === menuItem?.connectedNode?.node?.__typename
   ) {
     menuItemProps.href = menuItem.url;
   } else {
@@ -104,6 +106,7 @@ export const MenuItem = ({
   id,
   level = 1,
   className = "",
+  spanClassName = "",
   href,
   to,
   children,
@@ -139,7 +142,7 @@ export const MenuItem = ({
     >
       {href ? (
         <a href={href} rel="nofollow noopen" className={anchorClass}>
-          <span className="link-inner">{children}</span>
+          <span className={`link-inner ${spanClassName}`}>{children}</span>
         </a>
       ) : (
         <NavLink
@@ -149,7 +152,7 @@ export const MenuItem = ({
           className={anchorClass}
           activeClassName="current-item"
         >
-          <span className="link-inner">{children}</span>
+          <span className={`link-inner ${spanClassName}`}>{children}</span>
         </NavLink>
       )}
       <TransformedSubmenu />
