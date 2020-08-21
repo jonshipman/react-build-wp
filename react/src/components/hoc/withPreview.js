@@ -60,9 +60,9 @@ const PreviewQuery = ({ children }) => {
   if (loading) return <Loading />;
   if (error) return <LoadingError error={error.message} />;
 
-  const obj = Object.assign({}, data?.contentNode);
+  const obj = data?.contentNode || {};
 
-  if (obj.isRestricted) {
+  if (obj?.isRestricted) {
     Config.removeAuthToken();
     Config.setRedirect(pathname);
     return <Redirect to="/login" />;
