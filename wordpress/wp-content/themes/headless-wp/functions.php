@@ -25,7 +25,7 @@ require_once 'inc/headers.php';
 // Admin modifications.
 require_once 'inc/admin.php';
 
-// Add Menus.
+// Menu hooks and actions.
 require_once 'inc/menus.php';
 
 // Add Headless Settings area.
@@ -57,9 +57,6 @@ require_once 'inc/add-frontend-url-in-admin.php';
 
 // Authentication secret.
 require_once 'inc/jwt.php';
-
-// Menu action hooks.
-require_once 'inc/menu.php';
 
 // Upload handling.
 require_once 'inc/upload.php';
