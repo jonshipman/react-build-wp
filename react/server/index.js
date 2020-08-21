@@ -13,7 +13,7 @@ const router = express.Router();
 const build_path = path.resolve(__dirname, "..", "build");
 
 const wordpress = (_, res) => {
-  res.redirect(`${BACKEND_URL}/wp-admin`);
+  res.redirect(`${BACKEND_URL}/wp-login.php`);
 };
 
 // root (/) should always serve our server rendered page
