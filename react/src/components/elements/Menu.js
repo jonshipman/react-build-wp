@@ -52,6 +52,7 @@ const ChildItem = ({ menuItem, level, anchorOnClick = () => {}, ...props }) => {
   }
 
   const menuItemProps = {
+    className: "",
     spanClassName: menuItem.cssClasses?.join(" ") || "",
   };
 
