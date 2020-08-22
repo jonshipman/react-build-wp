@@ -30,7 +30,7 @@ function HomeRender({ seo = {}, content, error }) {
 
       <Hero cta={{ text: "Contact Today", link: "/contact-us" }} />
 
-      <PageWidth>
+      <PageWidth className="overflow-hidden">
         <div className="mv4 flex-l nl4 nr4">
           <div className="ma4 w-50-l">
             <PostContent className="mb4" content={content || error || ""} />

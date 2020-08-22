@@ -30,7 +30,7 @@ const FOOTER_QUERY = gql`
 function FooterRender({ settings, desc, title, loading }) {
   return (
     <footer id="footer" className="footer bg-near-white">
-      <PageWidth>
+      <PageWidth className="overflow-hidden">
         <div className="flex-l f7 mv4 nl4 nr4">
           <div className="w-third-l pa4">
             <div className="brand mb3">
