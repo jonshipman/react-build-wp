@@ -5,8 +5,8 @@ const fieldClassName =
   "w-100 b--light-silver br0 bb-1 bl-0 br-0 bt-0 pa pl2 pb2";
 const labelClassName = "fw7 ttu db w-100 mb2 pl2";
 
-const keyGeneration = ({ loading = false, value = "" }) => {
-  return loading ? `loading-${value}}` : `loaded-${value}}`;
+const keyGeneration = ({ loading = false }) => {
+  return loading ? `loading` : `loaded`;
 };
 
 export const Checkbox = forwardRef(function Checkbox(
@@ -49,7 +49,7 @@ export const Checkbox = forwardRef(function Checkbox(
           value={value}
           checked={isChecked}
           className="dib ml2"
-          key={keyGeneration({ loading, value })}
+          key={keyGeneration({ loading })}
           {...props}
         />
       </label>
@@ -90,7 +90,7 @@ export const Input = forwardRef(function Input(
         value={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
-        key={keyGeneration({ loading, value })}
+        key={keyGeneration({ loading })}
         {...props}
       />
       {children}
@@ -127,7 +127,7 @@ export const Select = forwardRef(function Select(
         value={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
-        key={keyGeneration({ loading, value })}
+        key={keyGeneration({ loading })}
         {...props}
       >
         {placeholder && <option value="">{placeholder}</option>}
@@ -171,7 +171,7 @@ export const Textarea = forwardRef(function Textarea(
         value={value}
         className={fieldClassName}
         style={{ flexGrow: 1 }}
-        key={keyGeneration({ loading, value })}
+        key={keyGeneration({ loading })}
         {...props}
       />
       {children}
