@@ -234,3 +234,15 @@ add_action(
 		}
 	}
 );
+
+// Hide the ACF menu when debugging.
+add_filter(
+	'acf/settings/show_admin',
+	function( $bool ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			return true;
+		}
+
+		return false;
+	}
+);
