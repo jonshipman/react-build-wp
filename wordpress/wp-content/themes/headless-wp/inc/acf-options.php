@@ -235,7 +235,7 @@ add_action(
 	}
 );
 
-// Hide the ACF menu when debugging.
+// Hide the ACF menu when not debugging.
 add_filter(
 	'acf/settings/show_admin',
 	function( $bool ) {
