@@ -1,7 +1,9 @@
 import React from "react";
 
+import PageWidth from "./PageWidth";
+
 const NotFound = () => (
-  <div className="content post-not-found">
+  <PageWidth className="content post-not-found">
     <h1 className="content--title tc">
       <span className="content--title-inner">404: Page Not Found</span>
     </h1>
@@ -19,7 +21,7 @@ const NotFound = () => (
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: `<!-- status-code-404 -->` }}
     />
-  </div>
+  </PageWidth>
 );
 
 export default NotFound;

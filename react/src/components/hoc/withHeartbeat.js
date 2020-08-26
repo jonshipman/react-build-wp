@@ -1,6 +1,8 @@
 import React, { Component, useEffect, isValidElement } from "react";
 import { gql, useQuery } from "@apollo/client";
 
+import Cleanup from "../elements/Cleanup";
+
 const QUERY = gql`
   query HeartbeatQuery {
     viewer {
@@ -10,6 +12,10 @@ const QUERY = gql`
     }
   }
 `;
+
+export const protectedTypes = ["User"];
+
+const DefaultError = () => <Cleanup redirect="/login" types={protectedTypes} />;
 
 const HeartBeatQuery = ({ beats, onError, ...props }) => {
   const { error } = useQuery(QUERY, {
@@ -62,11 +68,11 @@ class Heartbeat extends Component {
   }
 }
 
-const withHeartbeatHOC = (
+export default function withHeartbeatHOC(
   WrappedComponent,
-  onError = () => true,
+  onError = DefaultError,
   ibi = 30000
-) => {
+) {
   return function withHeartbeat(props) {
     return (
       <>
@@ -75,6 +81,4 @@ const withHeartbeatHOC = (
       </>
     );
   };
-};
-
-export default withHeartbeatHOC;
+}

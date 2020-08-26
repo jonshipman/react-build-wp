@@ -3,31 +3,27 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 
 // Misc internal
-import withPreview from "./hoc/withPreview";
-import withHeartbeat from "./hoc/withHeartbeat";
-import withSearch from "./hoc/withSearch";
-import withCategory from "./hoc/withCategory";
+import { protectedTypes } from "./hoc/withHeartbeat";
 import Cleanup from "./elements/Cleanup";
+import withCategory from "./hoc/withCategory";
+import withSearch from "./hoc/withSearch";
 
 // External Scripts
 // import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
 
 // Pages and Header/Footer
 import Archive from "./Archive";
+import Contact from "./Contact";
 import Footer from "./Footer";
 import Header from "./Header";
 import Home from "./Home";
 import Login from "./Login";
+import Preview from "./Preview";
 import Single from "./Single";
 
 const App = () => {
-  const protectedTypes = ["User"];
   const Search = withSearch(Archive);
   const Category = withCategory(Archive);
-  const Preview = withHeartbeat(
-    withPreview(Single),
-    <Cleanup redirect="/login" types={protectedTypes} />
-  );
 
   return (
     <>
@@ -66,6 +62,13 @@ const App = () => {
 
           <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce">
             <Preview />
+          </Route>
+
+          <Route exact path="/contact">
+            <Contact />
+          </Route>
+          <Route exact path="/contact-us">
+            <Contact />
           </Route>
 
           <Route path="*">
