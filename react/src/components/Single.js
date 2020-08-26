@@ -84,73 +84,71 @@ const DefaultQuery = ({ children }) => {
   return <NotFound />;
 };
 
-function SingleRender({
+const SingleRender = ({
   obj,
   renderChildrenAfter = false,
   renderTitle = true,
   children,
-}) {
-  return (
-    <article className={`single post-${obj.databaseId}`}>
-      <Seo
-        title={obj.seo?.title}
-        description={obj.seo?.title}
-        canonical={obj.uri}
-        breadcrumbs={obj.seo?.breadcrumbs}
-      />
+}) => (
+  <article className={`single post-${obj.databaseId}`}>
+    <Seo
+      title={obj.seo?.title}
+      description={obj.seo?.title}
+      canonical={obj.uri}
+      breadcrumbs={obj.seo?.breadcrumbs}
+    />
 
-      {renderTitle &&
-        ("Page" !== obj.__typename ? (
-          <Title notHeading={true}>
-            {obj?.categories?.edges?.length > 0
-              ? obj.categories.edges[0].node.name
-              : "Blog"}
-          </Title>
-        ) : (
-          <Title>{obj?.title}</Title>
-        ))}
+    {renderTitle &&
+      ("Page" !== obj.__typename ? (
+        <Title notHeading={true}>
+          {obj?.categories?.edges?.length > 0
+            ? obj.categories.edges[0].node.name
+            : "Blog"}
+        </Title>
+      ) : (
+        <Title>{obj?.title}</Title>
+      ))}
 
-      {!renderChildrenAfter && children}
+    {!renderChildrenAfter && children}
 
-      <PageWidth className="mv4">
-        {"Page" !== obj.__typename && (
-          <>
-            <h1 className="f2 fw4 mb4">{obj.title}</h1>
+    <PageWidth className="mv4">
+      {"Page" !== obj.__typename && (
+        <>
+          <h1 className="f2 fw4 mb4">{obj.title}</h1>
 
-            <div className="post-meta mv4">
-              <div className="posted dib mr4">
-                <ClockIcon className="mr2 v-mid" width={20} height={20} />
-                <span>{obj.dateFormatted}</span>
-              </div>
-
-              {obj?.categories?.edges?.length > 0 && (
-                <div className="post-categories dib">
-                  <FolderIcon className="mr2 v-mid" width={20} height={20} />
-                  <ul className="list pl0 dib">
-                    {obj.categories.edges.map((category) => (
-                      <li
-                        key={`cat-${category.node.databaseId}-post-cats`}
-                        className="dib mr2 pr2 br b--near-white drop-last-br"
-                      >
-                        <Link to={category.node.uri}>{category.node.name}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+          <div className="post-meta mv4">
+            <div className="posted dib mr4">
+              <ClockIcon className="mr2 v-mid" width={20} height={20} />
+              <span>{obj.dateFormatted}</span>
             </div>
-          </>
-        )}
 
-        <PostContent content={obj.content} />
-      </PageWidth>
+            {obj?.categories?.edges?.length > 0 && (
+              <div className="post-categories dib">
+                <FolderIcon className="mr2 v-mid" width={20} height={20} />
+                <ul className="list pl0 dib">
+                  {obj.categories.edges.map((category) => (
+                    <li
+                      key={`cat-${category.node.databaseId}-post-cats`}
+                      className="dib mr2 pr2 br b--near-white drop-last-br"
+                    >
+                      <Link to={category.node.uri}>{category.node.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </>
+      )}
 
-      {renderChildrenAfter && children}
-    </article>
-  );
-}
+      <PostContent content={obj.content} />
+    </PageWidth>
 
-export default function Single({ Query = DefaultQuery }) {
+    {renderChildrenAfter && children}
+  </article>
+);
+
+const Single = ({ Query = DefaultQuery }) => {
   let LoadedSingle = SingleRender;
 
   const { pathname } = useLocation();
@@ -159,4 +157,6 @@ export default function Single({ Query = DefaultQuery }) {
   }
 
   return <Query>{(obj) => <LoadedSingle obj={obj} />}</Query>;
-}
+};
+
+export default Single;

@@ -45,12 +45,12 @@ export const TemplateTextarea = ({
   );
 };
 
-function FieldComponentWrapper({
+const FieldComponentWrapper = ({
   field,
   render: FieldComponent,
   updateState,
   ...props
-}) {
+}) => {
   props.onChange = useCallback(
     (v) => {
       updateState(field, v);
@@ -58,9 +58,15 @@ function FieldComponentWrapper({
     [updateState, field]
   );
   return <FieldComponent {...props} />;
-}
+};
 
-function BaseFormComponent({ name, fields, updateState, errors = {}, values }) {
+const BaseFormComponent = ({
+  name,
+  fields,
+  updateState,
+  errors = {},
+  values,
+}) => {
   return (
     <>
       {Object.entries(fields).map(([field, { component }]) => {
@@ -78,7 +84,7 @@ function BaseFormComponent({ name, fields, updateState, errors = {}, values }) {
       })}
     </>
   );
-}
+};
 
 export default class {
   getButton = () => {

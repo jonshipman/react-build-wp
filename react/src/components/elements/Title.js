@@ -2,10 +2,7 @@ import React, { forwardRef, createElement } from "react";
 
 import PageWidth from "./PageWidth";
 
-export default forwardRef(function Title(
-  { notHeading, className = "", children, ...props },
-  ref
-) {
+const Title = ({ notHeading, className = "", children, ...props }, ref) => {
   const Wrap = createElement(notHeading ? "div" : "h1", {});
   return (
     <div className={`bg-near-white ${className}`} {...props}>
@@ -18,4 +15,6 @@ export default forwardRef(function Title(
       </PageWidth>
     </div>
   );
-});
+};
+
+export default forwardRef(Title);

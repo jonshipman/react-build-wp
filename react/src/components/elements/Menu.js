@@ -231,10 +231,7 @@ const MenuRender = ({
 /**
  * Loads a flat menu without hover classes.
  */
-export const FlatMenu = forwardRef(function FlatMenu(
-  { location = "HEADER_MENU", ...props },
-  ref
-) {
+const FlatMenuRef = ({ location = "HEADER_MENU", ...props }, ref) => {
   const { error, loading, data } = useQuery(MENU_QUERY, {
     variables: { location },
   });
@@ -255,16 +252,15 @@ export const FlatMenu = forwardRef(function FlatMenu(
       }
     />
   );
-});
+};
+
+export const FlatMenu = forwardRef(FlatMenuRef);
 
 /**
- * Loading functional component that loads the skeleton, error,
+ * Loading component that loads the skeleton, error,
  * or finished component based on results.
  */
-export default forwardRef(function Menu(
-  { location = "HEADER_MENU", ...props },
-  ref
-) {
+const Menu = ({ location = "HEADER_MENU", ...props }, ref) => {
   const { error, loading, data } = useQuery(MENU_QUERY, {
     variables: { location },
   });
@@ -284,4 +280,6 @@ export default forwardRef(function Menu(
       }
     />
   );
-});
+};
+
+export default forwardRef(Menu);

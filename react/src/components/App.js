@@ -20,7 +20,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Single from "./Single";
 
-export default function App() {
+const App = () => {
   const protectedTypes = ["User"];
   const Search = withSearch(Archive);
   const Category = withCategory(Archive);
@@ -78,4 +78,6 @@ export default function App() {
       {/* Load the FacebookTracking and GoogleTracking components here */}
     </>
   );
-}
+};
+
+export default App;

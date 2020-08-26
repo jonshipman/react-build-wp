@@ -26,31 +26,25 @@ export const BreadcrumbList = (crumbs) => {
   return schema;
 };
 
-export default function Seo({
-  title,
-  description,
-  canonical,
-  breadcrumbs = [],
-  children,
-}) {
-  return (
-    <Helmet>
-      {title && <title>{title}</title>}
-      {description && <meta name="description" content={description} />}
-      {canonical && (
-        <link
-          rel="canonical"
-          href={`${FRONTEND_URL}${canonical.replace(/\/$/, "")}`}
-        />
-      )}
+const Seo = ({ title, description, canonical, breadcrumbs = [], children }) => (
+  <Helmet>
+    {title && <title>{title}</title>}
+    {description && <meta name="description" content={description} />}
+    {canonical && (
+      <link
+        rel="canonical"
+        href={`${FRONTEND_URL}${canonical.replace(/\/$/, "")}`}
+      />
+    )}
 
-      {breadcrumbs.length > 0 && (
-        <script type="application/ld+json">
-          {JSON.stringify(BreadcrumbList(breadcrumbs))}
-        </script>
-      )}
+    {breadcrumbs.length > 0 && (
+      <script type="application/ld+json">
+        {JSON.stringify(BreadcrumbList(breadcrumbs))}
+      </script>
+    )}
 
-      {children}
-    </Helmet>
-  );
-}
+    {children}
+  </Helmet>
+);
+
+export default Seo;

@@ -385,7 +385,7 @@ const BackToLogin = () => (
   </Link>
 );
 
-export default function Login() {
+const Login = () => {
   const [message, setMessage] = useState("");
 
   return (
@@ -416,4 +416,6 @@ export default function Login() {
       </div>
     </PageWidth>
   );
-}
+};
+
+export default Login;

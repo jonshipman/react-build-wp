@@ -9,7 +9,7 @@ const keyGeneration = ({ loading = false }) => {
   return loading ? `loading` : `loaded`;
 };
 
-export const Checkbox = forwardRef(function Checkbox(
+const CheckboxRef = (
   {
     id,
     label = "Checkbox",
@@ -23,7 +23,7 @@ export const Checkbox = forwardRef(function Checkbox(
     ...props
   },
   ref
-) {
+) => {
   const [isChecked, setIsChecked] = useState(checked);
 
   useEffect(() => {
@@ -57,9 +57,11 @@ export const Checkbox = forwardRef(function Checkbox(
       {children}
     </div>
   );
-});
+};
 
-export const Input = forwardRef(function Input(
+export const Checkbox = forwardRef(CheckboxRef);
+
+const InputRef = (
   {
     id,
     label,
@@ -73,32 +75,32 @@ export const Input = forwardRef(function Input(
     ...props
   },
   ref
-) {
-  return (
-    <div className={className}>
-      {label && (
-        <label htmlFor={id} className={labelClassName}>
-          {label}:{" "}
-        </label>
-      )}
-      <input
-        ref={ref}
-        onKeyDown={(e) => "Enter" === e.key && onEnter()}
-        onChange={(e) => onChange(e.currentTarget.value)}
-        id={id}
-        type={type}
-        value={value}
-        className={fieldClassName}
-        style={{ flexGrow: 1 }}
-        key={keyGeneration({ loading })}
-        {...props}
-      />
-      {children}
-    </div>
-  );
-});
+) => (
+  <div className={className}>
+    {label && (
+      <label htmlFor={id} className={labelClassName}>
+        {label}:{" "}
+      </label>
+    )}
+    <input
+      ref={ref}
+      onKeyDown={(e) => "Enter" === e.key && onEnter()}
+      onChange={(e) => onChange(e.currentTarget.value)}
+      id={id}
+      type={type}
+      value={value}
+      className={fieldClassName}
+      style={{ flexGrow: 1 }}
+      key={keyGeneration({ loading })}
+      {...props}
+    />
+    {children}
+  </div>
+);
 
-export const Select = forwardRef(function Select(
+export const Input = forwardRef(InputRef);
+
+const SelectRef = (
   {
     id,
     label,
@@ -112,37 +114,37 @@ export const Select = forwardRef(function Select(
     ...props
   },
   ref
-) {
-  return (
-    <div className={className}>
-      {label && (
-        <label htmlFor={id} className={labelClassName}>
-          {label}:{" "}
-        </label>
-      )}
-      <select
-        ref={ref}
-        onChange={(e) => onChange(e.currentTarget.value)}
-        id={id}
-        value={value}
-        className={fieldClassName}
-        style={{ flexGrow: 1 }}
-        key={keyGeneration({ loading })}
-        {...props}
-      >
-        {placeholder && <option value="">{placeholder}</option>}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      {children}
-    </div>
-  );
-});
+) => (
+  <div className={className}>
+    {label && (
+      <label htmlFor={id} className={labelClassName}>
+        {label}:{" "}
+      </label>
+    )}
+    <select
+      ref={ref}
+      onChange={(e) => onChange(e.currentTarget.value)}
+      id={id}
+      value={value}
+      className={fieldClassName}
+      style={{ flexGrow: 1 }}
+      key={keyGeneration({ loading })}
+      {...props}
+    >
+      {placeholder && <option value="">{placeholder}</option>}
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+    {children}
+  </div>
+);
 
-export const Textarea = forwardRef(function Textarea(
+export const Select = forwardRef(SelectRef);
+
+const TextareaRef = (
   {
     id,
     label,
@@ -155,34 +157,34 @@ export const Textarea = forwardRef(function Textarea(
     ...props
   },
   ref
-) {
-  return (
-    <div className={className}>
-      {label && (
-        <label htmlFor={id} className={labelClassName}>
-          {label}:{" "}
-        </label>
-      )}
-      <textarea
-        ref={ref}
-        onKeyDown={(e) => "Enter" === e.key && onEnter()}
-        onChange={(e) => onChange(e.currentTarget.value)}
-        id={id}
-        value={value}
-        className={fieldClassName}
-        style={{ flexGrow: 1 }}
-        key={keyGeneration({ loading })}
-        {...props}
-      />
-      {children}
-    </div>
-  );
-});
+) => (
+  <div className={className}>
+    {label && (
+      <label htmlFor={id} className={labelClassName}>
+        {label}:{" "}
+      </label>
+    )}
+    <textarea
+      ref={ref}
+      onKeyDown={(e) => "Enter" === e.key && onEnter()}
+      onChange={(e) => onChange(e.currentTarget.value)}
+      id={id}
+      value={value}
+      className={fieldClassName}
+      style={{ flexGrow: 1 }}
+      key={keyGeneration({ loading })}
+      {...props}
+    />
+    {children}
+  </div>
+);
 
-export default forwardRef(function FormGroup(
+export const Textarea = forwardRef(TextareaRef);
+
+const FormGroup = (
   { type = "text", className = "", children, ...props },
   ref
-) {
+) => {
   const mergedClassName = `${groupClassName} ${className}`;
 
   if ("textarea" === type) {
@@ -214,4 +216,6 @@ export default forwardRef(function FormGroup(
       {children}
     </Input>
   );
-});
+};
+
+export default forwardRef(FormGroup);

@@ -78,7 +78,7 @@ const ButtonRender = ({
   );
 };
 
-export default function Button({ loading, disabled, style = {}, ...props }) {
+const Button = ({ loading, disabled, style = {}, ...props }) => {
   if (loading) {
     return (
       <div
@@ -97,4 +97,6 @@ export default function Button({ loading, disabled, style = {}, ...props }) {
   }
 
   return <ButtonRender disabled={disabled} style={style} {...props} />;
-}
+};
+
+export default Button;

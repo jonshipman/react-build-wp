@@ -27,7 +27,7 @@ const FOOTER_QUERY = gql`
   }
 `;
 
-function FooterRender({ settings, desc, title, loading }) {
+const FooterRender = ({ settings, desc, title, loading }) => {
   return (
     <footer id="footer" className="footer bg-near-white">
       <PageWidth className="overflow-hidden">
@@ -121,9 +121,9 @@ function FooterRender({ settings, desc, title, loading }) {
       </div>
     </footer>
   );
-}
+};
 
-export default function Footer() {
+const Footer = () => {
   const { loading, error, data } = useQuery(FOOTER_QUERY, {
     errorPolicy: "all",
   });
@@ -138,4 +138,6 @@ export default function Footer() {
       title={data?.allSettings?.generalSettingsTitle}
     />
   );
-}
+};
+
+export default Footer;

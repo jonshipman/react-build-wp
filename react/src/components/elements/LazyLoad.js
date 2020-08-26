@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import scrollHandler from "../../handlers/scroll";
 
-export default function LazyLoad({ children }) {
+const LazyLoad = ({ children }) => {
   const container = useRef();
   const [visible, setVisible] = useState(false);
 
@@ -30,4 +30,6 @@ export default function LazyLoad({ children }) {
   }
 
   return <div ref={container}>{children}</div>;
-}
+};
+
+export default LazyLoad;

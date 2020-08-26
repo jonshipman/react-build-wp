@@ -20,7 +20,7 @@ export const PlacholderUrl = ({ width, height }) => {
   return src;
 };
 
-export default function Image(props) {
+const Image = (props) => {
   let {
     src,
     webp,
@@ -73,4 +73,6 @@ export default function Image(props) {
       {ImgTag}
     </picture>
   );
-}
+};
+
+export default Image;

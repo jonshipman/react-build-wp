@@ -11,13 +11,13 @@ const QUERY = gql`
   }
 `;
 
-export default function Permissions({
+const Permissions = ({
   cap,
   children,
   fallback = null,
   authorId,
   ...props
-}) {
+}) => {
   const { data } = useQuery(QUERY, { errorPolicy: "all" });
 
   if (data?.viewer?.capabilities?.length > 0) {
@@ -41,4 +41,6 @@ export default function Permissions({
   }
 
   return createElement(fallback, props);
-}
+};
+
+export default Permissions;

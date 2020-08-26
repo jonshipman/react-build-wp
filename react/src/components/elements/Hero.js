@@ -88,10 +88,12 @@ const DefaultQuery = ({ children, ...props }) => {
   return children(passedProps);
 };
 
-export default function Hero({ query: LocalQuery = DefaultQuery, ...props }) {
+const Hero = ({ query: LocalQuery = DefaultQuery, ...props }) => {
   return (
     <LocalQuery {...props}>
       {(passedProps) => <HeroRender {...passedProps} />}
     </LocalQuery>
   );
-}
+};
+
+export default Hero;

@@ -8,7 +8,7 @@ const Random = () => {
   return items[Math.floor(Math.random() * items.length)];
 };
 
-export default function PageSkeleton({ className, ...props }) {
+const PageSkeleton = ({ className, ...props }) => {
   return (
     <article
       className={`content loading-skeleton ${className || ""}`}
@@ -39,4 +39,6 @@ export default function PageSkeleton({ className, ...props }) {
       </PageWidth>
     </article>
   );
-}
+};
+
+export default PageSkeleton;

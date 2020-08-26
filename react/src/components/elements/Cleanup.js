@@ -22,8 +22,10 @@ export const useCleanup = (redirect = "/login", types = []) => {
   }, [redirect, history]);
 };
 
-export default function Cleanup({ redirect, types }) {
+const Cleanup = ({ redirect, types }) => {
   useCleanup(redirect, types);
 
   return null;
-}
+};
+
+export default Cleanup;

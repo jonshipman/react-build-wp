@@ -1,5 +1,7 @@
 import React from "react";
 
-export default function LoadingError({ error = "" }) {
+const LoadingError = ({ error = "" }) => {
   return <>{`Error: ${error}`}</>;
-}
+};
+
+export default LoadingError;

@@ -108,7 +108,7 @@ const HTTPRequest = ({ file, progress, post }) => {
   });
 };
 
-export default function Upload({
+const Upload = ({
   className = "",
   multiple = false,
   onStart = () => true,
@@ -118,7 +118,7 @@ export default function Upload({
   accept,
   post = {},
   ...props
-}) {
+}) => {
   const [files, setFiles] = useState([]);
 
   const stateManagement = useCallback(
@@ -275,4 +275,6 @@ export default function Upload({
       {files.length > 0 && files.map((f) => <Item key={f.name} file={f} />)}
     </div>
   );
-}
+};
+
+export default Upload;

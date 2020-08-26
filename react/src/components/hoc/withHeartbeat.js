@@ -62,11 +62,11 @@ class Heartbeat extends Component {
   }
 }
 
-export default function withHeartbeatHOC(
+const withHeartbeatHOC = (
   WrappedComponent,
   onError = () => true,
   ibi = 30000
-) {
+) => {
   return function withHeartbeat(props) {
     return (
       <>
@@ -75,4 +75,6 @@ export default function withHeartbeatHOC(
       </>
     );
   };
-}
+};
+
+export default withHeartbeatHOC;

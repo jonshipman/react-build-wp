@@ -23,7 +23,7 @@ const HOME_QUERY = gql`
   }
 `;
 
-function HomeRender({ seo = {}, content, error }) {
+const HomeRender = ({ seo = {}, content, error }) => {
   return (
     <div className="home">
       <Seo title={seo.title} description={seo.metaDesc} canonical="/" />
@@ -60,9 +60,9 @@ function HomeRender({ seo = {}, content, error }) {
       </div>
     </div>
   );
-}
+};
 
-export default function Home() {
+const Home = () => {
   const { error, data } = useQuery(HOME_QUERY, { errorPolicy: "all" });
 
   return (
@@ -72,4 +72,6 @@ export default function Home() {
       error={error?.message}
     />
   );
-}
+};
+
+export default Home;
