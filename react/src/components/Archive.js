@@ -71,19 +71,29 @@ export const ArchiveRender = ({
   );
 };
 
-const Archive = () => {
-  const { edges, loading, error, ...props } = useArchive();
-
+export const ArchiveLayout = ({ edges, loading, error, ...props }) => {
   if (loading || error || !edges.length) {
     return <ErrorRouting loading={loading} error={error} />;
   }
+
+  return <ArchiveRender edges={edges} {...props} />;
+};
+
+const Archive = () => {
+  const { edges, loading, error, ...props } = useArchive();
+  const layoutProps = {
+    edges,
+    loading,
+    error,
+    ...props,
+  };
 
   return (
     <>
       <Seo title="Blog" canonical="/blog" />
 
       <Title>Blog</Title>
-      <ArchiveRender edges={edges} {...props} />
+      <ArchiveLayout {...layoutProps} />
     </>
   );
 };
