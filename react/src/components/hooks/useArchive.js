@@ -34,17 +34,21 @@ const DEFAULT_QUERY = gql`
 `;
 
 const useArchive = (props = {}) => {
-  const { QUERY = DEFAULT_QUERY, variables: propVariables = {} } = props;
+  const {
+    QUERY = DEFAULT_QUERY,
+    variables: propVariables = {},
+    field = "posts",
+  } = props;
   const { variables, goNext, goPrev } = usePagination();
 
-  const { data, loading, error } = useQuery(QUERY, {
+  const { data = {}, loading, error } = useQuery(QUERY, {
     variables: { ...variables, ...propVariables },
     errorPolicy: "all",
   });
 
-  const edges = data?.posts?.edges?.length ? data.posts.edges : [];
+  const edges = data[field]?.edges?.length ? data[field].edges : [];
   const { endCursor, hasNextPage, hasPreviousPage, startCursor } = getPageInfo(
-    data?.posts?.pageInfo
+    data[field]?.pageInfo
   );
 
   const { prev, next } = useNavigation({
