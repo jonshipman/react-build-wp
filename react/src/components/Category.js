@@ -6,7 +6,14 @@ import Title from "./elements/Title";
 import useCategory from "./hooks/useCategory";
 
 const Category = () => {
-  const { edges, loading, error, ...props } = useCategory();
+  const {
+    category: { name, uri, seo = {} },
+    edges,
+    loading,
+    error,
+    ...props
+  } = useCategory();
+
   const layoutProps = {
     edges,
     loading,
@@ -16,9 +23,9 @@ const Category = () => {
 
   return (
     <>
-      <Seo title="Category" canonical="/blog" />
+      <Seo title={seo.title} canonical={uri} />
 
-      <Title>Blog</Title>
+      <Title>{name}</Title>
       <ArchiveLayout {...layoutProps} />
     </>
   );

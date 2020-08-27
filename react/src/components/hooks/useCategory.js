@@ -52,7 +52,14 @@ const useCategory = () => {
     id,
   };
 
-  return useArchive({ QUERY, variables });
+  const { data, ...props } = useArchive({
+    QUERY,
+    variables,
+  });
+
+  const category = data?.category || {};
+
+  return { category, ...props };
 };
 
 export default useCategory;

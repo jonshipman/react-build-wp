@@ -62,6 +62,7 @@ const useArchive = (props = {}) => {
     prev,
     hasNextPage,
     hasPreviousPage,
+    data,
   };
 };
 
