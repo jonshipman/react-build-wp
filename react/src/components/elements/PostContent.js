@@ -1,6 +1,8 @@
 import React from "react";
 
 const trimString = (str) => {
+  if (!str) return str;
+
   let _str = str.replace(/(<([^>]+)>)/gi, "");
   if (_str.length > 250) {
     _str = _str.substring(0, 250) + "&hellip;";
