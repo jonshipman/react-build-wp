@@ -1,14 +1,14 @@
 import { gql, useQuery } from "@apollo/client";
 
-import { FragmentSeo } from "../elements/Seo";
-import { FragmentPost } from "./useSingle";
-import usePagination, {
+import {
+  FragmentSeo,
+  FragmentCategory,
+  FragmentPost,
   FragmentPageInfo,
-  getPageInfo,
-  useNavigation,
-} from "./usePagination";
+} from "../gql/fragments";
+import usePagination, { getPageInfo, useNavigation } from "./usePagination";
 
-const QUERY = gql`
+const DEFAULT_QUERY = gql`
   query ArchiveHook($first: Int, $last: Int, $after: String, $before: String) {
     posts(
       first: $first
@@ -27,16 +27,18 @@ const QUERY = gql`
       }
     }
   }
-  ${FragmentPageInfo}
   ${FragmentSeo}
+  ${FragmentCategory}
+  ${FragmentPageInfo}
   ${FragmentPost}
 `;
 
-const useArchive = () => {
+const useArchive = (props = {}) => {
+  const { QUERY = DEFAULT_QUERY, variables: propVariables = {} } = props;
   const { variables, goNext, goPrev } = usePagination();
 
   const { data, loading, error } = useQuery(QUERY, {
-    variables,
+    variables: { ...variables, ...propVariables },
     errorPolicy: "all",
   });
 

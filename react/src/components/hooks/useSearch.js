@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 
-import { FragmentSeo } from "../elements/Seo";
-import { FragmentPost } from "./useSingle";
-import usePagination, {
+import {
+  FragmentSeo,
+  FragmentCategory,
+  FragmentPost,
   FragmentPageInfo,
-  getPageInfo,
-  useNavigation,
-} from "./usePagination";
+} from "../gql/fragments";
+import usePagination, { getPageInfo, useNavigation } from "./usePagination";
 
 const QUERY = gql`
   query SearchHook(
@@ -34,6 +34,7 @@ const QUERY = gql`
       }
     }
   }
+  ${FragmentCategory}
   ${FragmentPageInfo}
   ${FragmentSeo}
   ${FragmentPost}

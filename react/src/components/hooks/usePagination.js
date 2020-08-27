@@ -1,14 +1,4 @@
 import { useCallback, useState } from "react";
-import { gql } from "@apollo/client";
-
-export const FragmentPageInfo = gql`
-  fragment edgePageInfo on WPPageInfo {
-    endCursor
-    hasNextPage
-    hasPreviousPage
-    startCursor
-  }
-`;
 
 export const getPageInfo = (
   pageInfo = {

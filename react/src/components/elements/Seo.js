@@ -1,19 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { gql } from "@apollo/client";
 
 import { FRONTEND_URL } from "../../config";
-
-export const FragmentSeo = gql`
-  fragment seoInfo on SEO {
-    title
-    metaDesc
-    breadcrumbs {
-      url
-      text
-    }
-  }
-`;
 
 export const BreadcrumbList = (crumbs) => {
   const schema = {

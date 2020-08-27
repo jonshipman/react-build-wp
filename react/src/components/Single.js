@@ -19,9 +19,7 @@ export const TitleRender = ({
 }) => {
   if ("Post" === __typename) {
     return (
-      <Title notHeading={true}>
-        {categories.edges[0]?.node?.name || "Blog"}
-      </Title>
+      <Title heading="div">{categories.edges[0]?.node?.name || "Blog"}</Title>
     );
   } else {
     return <Title>{title}</Title>;
