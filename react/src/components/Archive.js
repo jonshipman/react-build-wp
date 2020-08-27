@@ -14,8 +14,8 @@ export const ArchiveRender = ({
   edges = [],
   hasPreviousPage,
   hasNextPage,
-  goNext,
-  goPrev,
+  next,
+  prev,
 }) => {
   if (!edges.length) {
     return <PageWidth>Nothing found.</PageWidth>;
@@ -23,6 +23,10 @@ export const ArchiveRender = ({
 
   return (
     <PageWidth className="entries">
+      <Seo>
+        <meta name="robots" content="noindex" />
+      </Seo>
+
       <div className="entries mb3">
         {edges.map((edge) => (
           <article
@@ -52,13 +56,13 @@ export const ArchiveRender = ({
 
       <div className="pagination cf">
         {hasPreviousPage && (
-          <Button className="fl" onClick={goPrev}>
+          <Button className="fl" onClick={prev}>
             Previous
           </Button>
         )}
 
         {hasNextPage && (
-          <Button className="fr" onClick={goNext}>
+          <Button className="fr" onClick={next}>
             Next
           </Button>
         )}
@@ -76,9 +80,7 @@ const Archive = () => {
 
   return (
     <>
-      <Seo title="Blog" canonical="/blog">
-        <meta name="robots" content="noindex" />
-      </Seo>
+      <Seo title="Blog" canonical="/blog" />
 
       <Title>Blog</Title>
       <ArchiveRender edges={edges} {...props} />

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 
 import { FragmentSeo } from "../elements/Seo";
@@ -9,13 +10,19 @@ import usePagination, {
 } from "./usePagination";
 
 const QUERY = gql`
-  query ArchiveHook($first: Int, $last: Int, $after: String, $before: String) {
+  query SearchHook(
+    $filter: String!
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+  ) {
     posts(
       first: $first
       last: $last
       after: $after
       before: $before
-      where: { status: PUBLISH, hasPassword: false }
+      where: { search: $filter, status: PUBLISH, hasPassword: false }
     ) {
       edges {
         node {
@@ -32,8 +39,11 @@ const QUERY = gql`
   ${FragmentPost}
 `;
 
-const useArchive = () => {
+const useSearch = () => {
+  const [filter, setFilter] = useState("");
   const { variables, goNext, goPrev } = usePagination();
+
+  variables.filter = filter;
 
   const { data, loading, error } = useQuery(QUERY, {
     variables,
@@ -53,6 +63,8 @@ const useArchive = () => {
   });
 
   return {
+    setFilter,
+    filter,
     edges,
     loading,
     error,
@@ -63,4 +75,4 @@ const useArchive = () => {
   };
 };
 
-export default useArchive;
+export default useSearch;

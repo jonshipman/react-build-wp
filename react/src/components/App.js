@@ -6,7 +6,6 @@ import { Switch, Route } from "react-router-dom";
 import { protectedTypes } from "./hoc/withHeartbeat";
 import Cleanup from "./elements/Cleanup";
 import withCategory from "./hoc/withCategory";
-import withSearch from "./hoc/withSearch";
 
 // External Scripts
 // import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
@@ -19,10 +18,10 @@ import Header from "./Header";
 import Home from "./Home";
 import Login from "./Login";
 import Preview from "./Preview";
+import Search from "./Search";
 import Single from "./Single";
 
 const App = () => {
-  const Search = withSearch(Archive);
   const Category = withCategory(Archive);
 
   return (
