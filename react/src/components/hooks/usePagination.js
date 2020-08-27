@@ -21,18 +21,18 @@ export const useNavigation = ({ goNext, endCursor, goPrev, startCursor }) => {
   return { prev, next };
 };
 
-const usePagination = () => {
+const usePagination = (perPage = 10) => {
   const [cursor, setCursor] = useState();
   const [direction, setDirection] = useState();
   const variables = {};
 
   if (!direction) {
-    variables.first = 10;
+    variables.first = perPage;
   } else if (direction < 0) {
-    variables.last = 10;
+    variables.last = perPage;
     variables.before = cursor;
   } else if (direction > 0) {
-    variables.first = 10;
+    variables.first = perPage;
     variables.after = cursor;
   }
 

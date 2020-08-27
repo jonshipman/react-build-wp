@@ -38,8 +38,9 @@ const useArchive = (props = {}) => {
     QUERY = DEFAULT_QUERY,
     variables: propVariables = {},
     field = "posts",
+    perPage = 10,
   } = props;
-  const { variables, goNext, goPrev } = usePagination();
+  const { variables, goNext, goPrev } = usePagination(perPage);
 
   const { data = {}, loading, error } = useQuery(QUERY, {
     variables: { ...variables, ...propVariables },
