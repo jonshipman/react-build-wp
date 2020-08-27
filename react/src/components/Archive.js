@@ -27,11 +27,11 @@ export const ArchiveRender = ({
         <meta name="robots" content="noindex" />
       </Seo>
 
-      <div className="entries mb3">
+      <div className="entries">
         {edges.map((edge) => (
           <article
             key={edge.node.id}
-            className={`content blog-entry post-${edge.node.databaseId}`}
+            className={`content blog-entry b--near-white bb pb4 mb4 post-${edge.node.databaseId}`}
           >
             <h2 className="mt0">
               <Link to={edge.node.uri}>{edge.node.title}</Link>
@@ -41,7 +41,7 @@ export const ArchiveRender = ({
               </div>
             </h2>
 
-            <PostContent className="mv4">
+            <PostContent className="mv4" trim={true}>
               {edge.node.excerpt || edge.node?.content}
             </PostContent>
 
