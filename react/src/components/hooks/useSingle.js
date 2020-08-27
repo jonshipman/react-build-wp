@@ -3,10 +3,13 @@ import { gql, useQuery } from "@apollo/client";
 
 import { FragmentSeo } from "../elements/Seo";
 
-const FragmentPost = gql`
+export const FragmentPost = gql`
   fragment postInfo on Post {
     id
+    databaseId
     title
+    uri
+    excerpt
     content
     dateFormatted
     seo {
