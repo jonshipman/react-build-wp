@@ -10,8 +10,40 @@ import Seo from "./elements/Seo";
 import Title from "./elements/Title";
 import useArchive from "./hooks/useArchive";
 
+const PostCard = ({
+  databaseId,
+  uri,
+  title,
+  dateFormatted,
+  excerpt,
+  content,
+}) => (
+  <article
+    className={`content blog-entry b--near-white bb pb4 mb4 post-${databaseId}`}
+  >
+    <h2 className="mt0">
+      <Link to={uri}>{title}</Link>
+      <div className="posted fr-ns mt2 mt0-ns f6">
+        <ClockIcon className="v-mid mr2" width={12} height={12} />
+        <span>{dateFormatted}</span>
+      </div>
+    </h2>
+
+    <PostContent className="mv4" trim={true}>
+      {excerpt || content}
+    </PostContent>
+
+    <div className="tr">
+      <Button to={uri} type={3}>
+        Read more
+      </Button>
+    </div>
+  </article>
+);
+
 export const ArchiveRender = ({
   edges = [],
+  card: Card = PostCard,
   hasPreviousPage,
   hasNextPage,
   next,
@@ -29,28 +61,7 @@ export const ArchiveRender = ({
 
       <div className="entries">
         {edges.map((edge) => (
-          <article
-            key={edge.node.id}
-            className={`content blog-entry b--near-white bb pb4 mb4 post-${edge.node.databaseId}`}
-          >
-            <h2 className="mt0">
-              <Link to={edge.node.uri}>{edge.node.title}</Link>
-              <div className="posted fr-ns mt2 mt0-ns f6">
-                <ClockIcon className="v-mid mr2" width={12} height={12} />
-                <span>{edge.node.dateFormatted}</span>
-              </div>
-            </h2>
-
-            <PostContent className="mv4" trim={true}>
-              {edge.node.excerpt || edge.node?.content}
-            </PostContent>
-
-            <div className="tr">
-              <Button to={edge.node.uri} type={3}>
-                Read more
-              </Button>
-            </div>
-          </article>
+          <Card key={edge.node.id} {...edge.node} />
         ))}
       </div>
 
