@@ -34,9 +34,14 @@ const SearchForm = ({ filter = "", setFilter = () => {} }) => {
   );
 };
 
-const ResultsWrap = ({ filter, loading, renderer: { edges, props } }) => {
-  if (loading) {
-    return <ErrorRouting loading={loading} />;
+const SearchLayout = ({
+  filter,
+  error,
+  loading,
+  renderer: { edges, props },
+}) => {
+  if (loading || error) {
+    return <ErrorRouting loading={loading} error={error} />;
   }
 
   if (filter.length < 3) {
@@ -55,8 +60,12 @@ const ResultsWrap = ({ filter, loading, renderer: { edges, props } }) => {
 
 const Search = () => {
   const { edges, loading, error, filter, setFilter, ...props } = useSearch();
-
-  window.shipmanFilter = setFilter;
+  const layoutProps = {
+    filter,
+    loading,
+    error,
+    renderer: { edges, props },
+  };
 
   return (
     <>
@@ -64,11 +73,7 @@ const Search = () => {
 
       <Title>Search</Title>
       <SearchForm filter={filter} setFilter={setFilter} />
-      <ResultsWrap
-        filter={filter}
-        loading={loading}
-        renderer={{ edges, props }}
-      />
+      <SearchLayout {...layoutProps} />
     </>
   );
 };
