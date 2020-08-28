@@ -48,7 +48,7 @@ const QUERY_BY_ID = gql`
 `;
 
 const useSingle = (props = {}) => {
-  const { ssr = true, databaseId } = props;
+  const { ssr = true, databaseId, uri: passedUri } = props;
   const { pathname: uri } = useLocation();
   const variables = {};
   let q = QUERY;
@@ -57,7 +57,11 @@ const useSingle = (props = {}) => {
     variables.databaseId = databaseId;
     q = QUERY_BY_ID;
   } else {
-    variables.uri = uri;
+    if (passedUri) {
+      variables.uri = passedUri.replace(/\/+$/, "");
+    } else {
+      variables.uri = uri.replace(/\/+$/, "");
+    }
   }
 
   const { data, loading, error } = useQuery(q, {
