@@ -30,7 +30,6 @@
     "phone": "*",
     "react": "*",
     "react-dom": "*",
-    "react-dropzone": "*",
     "react-helmet": "*",
     "react-router-dom": "*",
     "react-scripts": "*",
