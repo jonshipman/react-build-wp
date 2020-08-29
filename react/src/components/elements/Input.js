@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { forwardRef } from "react";
 
 const groupClassName = "form-group overflow-hidden w-100 mb4";
 const fieldClassName =
@@ -9,57 +9,59 @@ const keyGeneration = ({ loading = false }) => {
   return loading ? `loading` : `loaded`;
 };
 
-const CheckboxRef = (
+const _Checkbox = (
   {
     id,
-    label = "Checkbox",
     type = "checkbox",
+    label = "Checkbox",
     onChange = () => true,
     value = "",
     className = "",
     children,
-    checked = false,
     loading,
+    options = [{ value: "1", label: "" }],
     ...props
   },
   ref
 ) => {
-  const [isChecked, setIsChecked] = useState(checked);
-
-  useEffect(() => {
-    setIsChecked(checked);
-  }, [setIsChecked, checked]);
-
   return (
-    <div className={className}>
-      <label htmlFor={id} className="fw7 ttu dib w-100 pointer">
-        {label}:{" "}
-        <input
-          ref={ref}
-          onChange={() => {
-            setIsChecked((prev) => {
-              setTimeout(() => {
-                onChange(!prev, value, id);
-              });
-              return !prev;
-            });
-          }}
-          id={id}
-          type={type}
-          value={value}
-          checked={isChecked}
-          className="dib ml2"
-          key={keyGeneration({ loading })}
-          {...props}
-        />
-      </label>
+    <div className={className} ref={ref}>
+      <div className="flex-l">
+        <div className="w-50-l">
+          <label htmlFor={id} className={`primary ${labelClassName}`}>
+            {label}:{" "}
+          </label>
+        </div>
+
+        <div className="w-50-l">
+          {options.map(({ value: oValue, label: oLabel }) => (
+            <label
+              htmlFor={`${id}-${oValue}`}
+              className="dib pointer mr3 mb2"
+              key={`${id}-${oValue}`}
+            >
+              <input
+                id={`${id}-${oValue}`}
+                type={type}
+                value={oValue}
+                checked={value === oValue}
+                className="dib ml2"
+                onChange={(e) => onChange(e.currentTarget.value)}
+                key={keyGeneration({ loading })}
+                {...props}
+              />
+              {` ${oLabel}`}
+            </label>
+          ))}
+        </div>
+      </div>
 
       {children}
     </div>
   );
 };
 
-export const Checkbox = forwardRef(CheckboxRef);
+const Checkbox = forwardRef(_Checkbox);
 
 const InputRef = (
   {
