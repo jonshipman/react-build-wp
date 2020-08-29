@@ -35,11 +35,11 @@ const FooterRender = ({ settings, desc, title, loading }) => {
           <div className="w-third-l pa4">
             <div className="brand mb3">
               <Link to="/" className="dib border-box">
-                <Logo className="w5 fill-green" />
+                <Logo className="w5 fill-primary" />
               </Link>
             </div>
 
-            <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
+            <hr className="w2 ml0 b--primary bw2 bt-0 bl-0 br-0 mb3" />
 
             {loading ? (
               <Loading />
@@ -66,12 +66,12 @@ const FooterRender = ({ settings, desc, title, loading }) => {
           </div>
           <div className="w-third-l pa4">
             <div className="b f4 black mb3">Useful Links</div>
-            <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
+            <hr className="w2 ml0 b--primary bw2 bt-0 bl-0 br-0 mb3" />
             <FlatMenu location="FOOTER_MENU" className="nt3 f5" />
           </div>
           <div className="w-third-l pa4">
             <div className="b f4 black mb3">Get Social</div>
-            <hr className="w2 ml0 b--green bw2 bt-0 bl-0 br-0 mb3" />
+            <hr className="w2 ml0 b--primary bw2 bt-0 bl-0 br-0 mb3" />
             <div className="mt2">
               <a
                 className="mr3 dib"

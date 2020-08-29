@@ -57,7 +57,7 @@ const HeaderRender = ({ sticky }) => {
                       .classList.add("dn")
                   }
                 >
-                  <Logo className="w4 fill-green" />
+                  <Logo className="w4 fill-primary" />
                 </Link>
               </div>
               <div className="db tc dtc-l v-mid-l tr-l">

@@ -1,15 +1,24 @@
 /**
- * Root Imports
+ * Root Imports and Theming
  */
-@import "./_theme.scss";
 @import "tachyons-sass";
-@import "_tachyon/_extras.scss";
-@import "_tachyon/_percentage-coordinates.scss";
-@import "_tachyon/_hover-z-index.scss";
-@import "_tachyon/_svg.scss";
-@import "_tachyon/_drop-last.scss";
-@import "_tachyon/_hide-child-sizes.scss";
+
+$primary: $green;
+$secondary: $blue;
+
+@import "./_tachyon/tachyons.scss";
 @import "./_animations.scss";
+
+@include tachyons-color-gen("primary", $primary);
+@include tachyons-color-gen("secondary", $secondary);
+
+@include tachyons-prop(".text-shadow") {
+  text-shadow: 1px 0px $spacing-medium $black-50;
+}
+
+@include tachyons-prop(".pre-line") {
+  white-space: pre-line;
+}
 
 /**
  * Primary Layout
@@ -39,11 +48,8 @@ body {
 }
 
 /**
- * Global Styling
+ * Global Elemnet Styling
  */
-a {
-  @extend .green, .no-underline;
-}
 
 iframe {
   border: 0;
@@ -72,6 +78,10 @@ svg {
   box-sizing: border-box;
 }
 
+/**
+ * Interior CMS styles
+ */
+
 .post-content {
   @import "./_wordpress.scss";
   // @import "./_wpb.scss";
@@ -97,6 +107,16 @@ svg {
   }
 }
 
+/**
+ * Header and Footer styles
+ */
+#header, #footer {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 .nested-menu {
   .current-item {
     color: $green;
@@ -116,3 +136,7 @@ svg {
     }
   }
 }
+
+/**
+ * General purpose, theme specific styles
+ */

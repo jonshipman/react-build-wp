@@ -126,7 +126,7 @@ export const MenuItem = ({
       anchorClass += " ttu-l pv2 ph3-l hover-silver";
     } else {
       className += " nowrap";
-      anchorClass += " pa2 gray hover-blue";
+      anchorClass += " pa2 gray hover-secondary";
     }
   } else {
     className += " pv2";

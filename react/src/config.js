@@ -3,7 +3,8 @@ export const AUTH_TOKEN = "auth-token";
 // localStorage key to persist the username
 export const USERNAME = "username";
 // Backend WordPress URL
-export const BACKEND_URL = "https://development.local";
+export const BACKEND_URL = "https://wordpress.northstarfunding.com";
+// export const BACKEND_URL = "https://development.local";
 // The frontend React URL
 export const FRONTEND_URL = "http://localhost:3000";
 // Change to true to use the redirection query in ssr

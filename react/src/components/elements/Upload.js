@@ -67,7 +67,7 @@ const Item = ({ file }) => {
       {(file.loading || file.error) && (
         <div
           className={`absolute z-1 top-0 bottom-0 left-0 w-100 ${
-            file.error ? "bg-red" : "bg-green"
+            file.error ? "bg-red" : "bg-primary"
           }`}
           style={{ width: `${file.progress}%` }}
         />

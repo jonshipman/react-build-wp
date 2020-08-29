@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import Loading from "./Loading";
 
 export const PrimaryClasses =
-  "pointer link bg-animate hover-bg-blue br2 ph4 pv2 white bg-green bn";
+  "pointer link bg-animate hover-bg-secondary br2 ph4 pv2 white bg-primary bn";
 export const SecondaryClasses =
   "pointer link dim br2 ph4 pv2 white ba b--white";
-export const TertiaryClasses = "pointer link dim br2 ph4 pv2 green ba b--green";
+export const TertiaryClasses =
+  "pointer link dim br2 ph4 pv2 primary ba b--primary";
 
 const ButtonRender = ({
   children,
