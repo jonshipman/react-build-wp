@@ -1,6 +1,6 @@
 {
   "name": "name-react-apollo",
-  "version": "0.3",
+  "version": "0.31",
   "private": true,
   "devDependencies": {
     "@babel/core": "*",
