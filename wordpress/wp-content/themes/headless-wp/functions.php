@@ -58,9 +58,6 @@ require_once 'inc/add-frontend-url-in-admin.php';
 // Authentication secret.
 require_once 'inc/jwt.php';
 
-// Upload handling.
-require_once 'inc/upload.php';
-
 // If WPBakery is installed, trigger the shortcode execution.
 require_once 'inc/wpb.php';
 
