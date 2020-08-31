@@ -1,10 +1,9 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
+import { LeadForm, Button } from "react-boilerplate-leadform";
 
-import Button from "./elements/Button";
 import Hero from "./elements/Hero";
 import Image from "./elements/Image";
-import LeadForm from "./elements/LeadForm";
 import PageWidth from "./elements/PageWidth";
 import PostContent from "./elements/PostContent";
 import Seo from "./elements/Seo";

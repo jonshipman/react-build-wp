@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
+import { FormGroup } from "react-boilerplate-leadform";
 
 import { ArchiveRender } from "./Archive";
 import { ErrorRouting } from "./Single";
 import { ReactComponent as SearchIcon } from "../static/images/search.svg";
-import Input from "./elements/Input";
 import PageWidth from "./elements/PageWidth";
 import Seo from "./elements/Seo";
 import Title from "./elements/Title";
@@ -15,7 +15,7 @@ const SearchForm = ({ filter = "", setFilter = () => {} }) => {
 
   return (
     <PageWidth className="search flex-l items-center-l mb4">
-      <Input
+      <FormGroup
         ref={inputRef}
         type="search"
         value={filter}

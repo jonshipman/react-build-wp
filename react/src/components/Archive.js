@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "react-boilerplate-leadform";
 
 import { ErrorRouting } from "./Single";
 import { ReactComponent as ClockIcon } from "../static/images/clock.svg";
-import Button from "./elements/Button";
 import PageWidth from "./elements/PageWidth";
 import PostContent from "./elements/PostContent";
 import Seo from "./elements/Seo";

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, Switch, Route, useHistory, useParams } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
+import { Button, FormGroup } from "react-boilerplate-leadform";
 
-import Button from "./elements/Button";
 import Config from "../config";
-import Input from "./elements/Input";
 import PageWidth from "./elements/PageWidth";
 
 // Login Mutation.
@@ -181,7 +180,7 @@ const LoginRender = ({ setMessage }) => {
 
   return (
     <div>
-      <Input
+      <FormGroup
         className="f4"
         value={username}
         onChange={(username) => setState((p) => ({ ...p, username }))}
@@ -189,7 +188,7 @@ const LoginRender = ({ setMessage }) => {
         placeholder="Username or Email Address"
       />
 
-      <Input
+      <FormGroup
         className="f4"
         value={password}
         onChange={(password) => setState((p) => ({ ...p, password }))}
@@ -244,7 +243,7 @@ const ForgotPasswordRender = ({ setMessage }) => {
 
   return (
     <div>
-      <Input
+      <FormGroup
         className="f4"
         value={username}
         onChange={(username) => setState((p) => ({ ...p, username }))}
@@ -294,7 +293,7 @@ const RegisterRender = ({ setMessage }) => {
 
   return (
     <div>
-      <Input
+      <FormGroup
         className="f4"
         value={username}
         onChange={(username) => setState((p) => ({ ...p, username }))}
@@ -302,7 +301,7 @@ const RegisterRender = ({ setMessage }) => {
         placeholder="Username"
       />
 
-      <Input
+      <FormGroup
         className="f4"
         value={email}
         onChange={(email) => setState((p) => ({ ...p, email }))}
@@ -359,7 +358,7 @@ const ResetPasswordRender = ({ setMessage }) => {
     <div>
       <div className="mb2">Enter Your New Password:</div>
 
-      <Input
+      <FormGroup
         className="f4"
         value={password}
         onChange={(password) => setState((p) => ({ ...p, password }))}

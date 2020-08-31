@@ -1,8 +1,8 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
+import { Button } from "react-boilerplate-leadform";
 
 import { PlacholderUrl } from "./Image";
-import Button from "./Button";
 
 const HERO_QUERY = gql`
   query HeroQuery {

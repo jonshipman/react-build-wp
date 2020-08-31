@@ -29,6 +29,7 @@
     "graphql": "*",
     "phone": "*",
     "react": "*",
+    "react-boilerplate-leadform": "https://github.com/jonshipman/react-boilerplate-leadform",
     "react-dom": "*",
     "react-helmet": "*",
     "react-router-dom": "*",

@@ -1,7 +1,7 @@
 import React from "react";
+import { LeadForm } from "react-boilerplate-leadform";
 
 import { SingleRender, TitleRender, ErrorRouting } from "./Single";
-import LeadForm from "./elements/LeadForm";
 import useSingle from "./hooks/useSingle";
 
 const Contact = () => {
