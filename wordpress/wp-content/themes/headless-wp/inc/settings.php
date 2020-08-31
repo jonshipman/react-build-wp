@@ -16,18 +16,7 @@ class HeadlessWpSettings {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'init', array( $this, 'register' ) );
 
-		$this->settings = array(
-			'google_recaptcha' => array(
-				'label'  => __( 'Google Recaptcha', 'headless-wp' ),
-				'fields' => array(
-					'google_site_key'   => array(
-						'label' => __( 'Site Key', 'headless-wp' ),
-					),
-					'google_secret_key' => array(
-						'label' => __( 'Secret Key', 'headless-wp' ),
-					),
-				),
-			),
+		$settings = array(
 			'company_info'     => array(
 				'label'  => __( 'Company Info', 'headless-wp' ),
 				'fields' => array(
@@ -59,6 +48,8 @@ class HeadlessWpSettings {
 				),
 			),
 		);
+
+		$this->settings = apply_filters( 'headless_wp_settings', $settings );
 	}
 
 	// Create the admin menu.

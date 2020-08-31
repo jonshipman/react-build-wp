@@ -34,9 +34,6 @@ require_once 'inc/acf-options.php';
 // Add GraphQL resolvers.
 require_once 'inc/graphql/resolvers.php';
 
-// Add GraphQL mutations.
-require_once 'inc/graphql/mutations.php';
-
 // Prevent double HTML entity wrapping.
 require_once 'inc/html-entities.php';
 
@@ -45,9 +42,6 @@ require_once 'inc/settings.php';
 
 // The redirect for the frontpage to go to json.
 require_once 'inc/redirect.php';
-
-// Form actions that trigger on a successful submittion.
-require_once 'inc/form-actions.php';
 
 // Increases the maximum post count for sitemaps.
 require_once 'inc/increase-max-post-limit.php';
