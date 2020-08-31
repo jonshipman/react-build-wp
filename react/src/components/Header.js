@@ -35,8 +35,8 @@ const HeaderRender = ({ sticky }) => {
       >
         <div className="bg-white">
           <nav>
-            <PageWidth className="dt-l">
-              <div className="brand flex items-center tc dtc-l v-mid-l tl-l">
+            <PageWidth className="flex-l items-center-l">
+              <div className="brand flex items-center tc tl-l">
                 <div
                   className="mobile-toggle pr3 pv3 db dn-l"
                   onClick={openMenu}
@@ -60,7 +60,7 @@ const HeaderRender = ({ sticky }) => {
                   <Logo className="w4 fill-primary" />
                 </Link>
               </div>
-              <div className="db tc dtc-l v-mid-l tr-l">
+              <div className="db tc tr-l ml-auto-l">
                 <Menu
                   location="HEADER_MENU"
                   className="dn ma0 db-l dark-gray f6"
