@@ -93,7 +93,7 @@ const ChildItem = ({ menuItem, level, anchorOnClick = () => {}, ...props }) => {
       onClick={anchorOnClick}
       key={menuItem.id}
       level={localLevel}
-      id={`menu-item ${menuItem.databaseId}`}
+      id={`menu-item database-id-${menuItem.databaseId}`}
       flat={props.flat}
       {...menuItemProps}
     >
