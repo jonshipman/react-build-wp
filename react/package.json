@@ -30,6 +30,7 @@
     "phone": "*",
     "react": "*",
     "react-boilerplate-leadform": "https://github.com/jonshipman/react-boilerplate-leadform",
+    "react-boilerplate-nodes": "https://github.com/jonshipman/react-boilerplate-nodes",
     "react-dom": "*",
     "react-helmet": "*",
     "react-router-dom": "*",

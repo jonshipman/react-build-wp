@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link, Switch, Route, useHistory, useParams } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { Button, FormGroup } from "react-boilerplate-leadform";
+import { PageWidth } from "react-boilerplate-nodes";
 
 import Config from "../config";
-import PageWidth from "./elements/PageWidth";
 
 // Login Mutation.
 const LOGIN_MUTATION = gql`

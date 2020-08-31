@@ -1,24 +1,30 @@
 import React from "react";
 import { LeadForm } from "react-boilerplate-leadform";
+import {
+  NodeProvider,
+  SingleRender,
+  SingleTitle,
+  ErrorRouting,
+  useSingle,
+} from "react-boilerplate-nodes";
 
-import { SingleRender, TitleRender, ErrorRouting } from "./Single";
-import useSingle from "./hooks/useSingle";
-
-const Contact = () => {
+const Contact = (props) => {
   const { node, loading, error } = useSingle();
 
-  if (loading || error || !node.id) {
-    return <ErrorRouting loading={loading} error={error} />;
-  }
-
   return (
-    <>
-      <TitleRender {...node} />
-      <SingleRender node={node} />
-      <div className="bg-silver pv5">
-        <LeadForm className="mw6 center" />
-      </div>
-    </>
+    <NodeProvider value={props}>
+      {loading || error || !node.id ? (
+        <ErrorRouting loading={loading} error={error} />
+      ) : (
+        <React.Fragment>
+          <SingleTitle {...node} />
+          <SingleRender node={node} />
+          <div className="pv5">
+            <LeadForm className="mw6 center" />
+          </div>
+        </React.Fragment>
+      )}
+    </NodeProvider>
   );
 };
 

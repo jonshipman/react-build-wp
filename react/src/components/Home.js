@@ -1,12 +1,10 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { LeadForm, Button } from "react-boilerplate-leadform";
+import { PageWidth, Seo, PostContent } from "react-boilerplate-nodes";
 
 import Hero from "./elements/Hero";
 import Image from "./elements/Image";
-import PageWidth from "./elements/PageWidth";
-import PostContent from "./elements/PostContent";
-import Seo from "./elements/Seo";
 
 const HOME_QUERY = gql`
   query HomeQuery {

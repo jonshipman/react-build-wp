@@ -1,8 +1,17 @@
 // React
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import {
+  Archive,
+  Category,
+  Preview,
+  Search,
+  Single,
+} from "react-boilerplate-nodes";
+import { FormGroup, Button } from "react-boilerplate-leadform";
 
 // Misc internal
+import { FRONTEND_URL } from "../config";
 import { protectedTypes } from "./hoc/withHeartbeat";
 import Cleanup from "./elements/Cleanup";
 
@@ -10,16 +19,19 @@ import Cleanup from "./elements/Cleanup";
 // import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
 
 // Pages and Header/Footer
-import Archive from "./Archive";
-import Category from "./Category";
 import Contact from "./Contact";
 import Footer from "./Footer";
 import Header from "./Header";
 import Home from "./Home";
 import Login from "./Login";
-import Preview from "./Preview";
-import Search from "./Search";
-import Single from "./Single";
+
+const nodeProps = {
+  FRONTEND_URL,
+  components: {
+    FormGroup,
+    Button,
+  },
+};
 
 const App = () => (
   <>
@@ -42,28 +54,28 @@ const App = () => (
         </Route>
 
         <Route exact path="/search">
-          <Search />
+          <Search {...nodeProps} />
         </Route>
         <Route exact path="/blog">
-          <Archive />
+          <Archive {...nodeProps} />
         </Route>
         <Route path="/category/">
-          <Category />
+          <Category {...nodeProps} />
         </Route>
 
         <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce">
-          <Preview />
+          <Preview {...nodeProps} />
         </Route>
 
         <Route exact path="/contact">
-          <Contact />
+          <Contact {...nodeProps} />
         </Route>
         <Route exact path="/contact-us">
-          <Contact />
+          <Contact {...nodeProps} />
         </Route>
 
         <Route path="*">
-          <Single />
+          <Single {...nodeProps} />
         </Route>
       </Switch>
     </div>
