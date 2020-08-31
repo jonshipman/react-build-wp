@@ -1,5 +1,5 @@
 @mixin hide-child-sizes($suffix: "") {
-	.hide-child#{$suffix} .child {
+  .hide-child#{$suffix} .child {
     opacity: 0;
     transition: opacity .15s ease-in;
   }
@@ -14,7 +14,7 @@
 
   .hide-child#{$suffix} {
     &:not(:hover) {
-      .child {
+    .child {
         height: 0;
         overflow: hidden;
       }
@@ -23,12 +23,12 @@
 }
 
 .hide-child {
-	&:not(:hover) {
-		.child {
-			height: 0;
-			overflow: hidden;
-		}
-	}
+  &:not(:hover) {
+    .child {
+      height: 0;
+      overflow: hidden;
+    }
+  }
 }
 
 @media #{$breakpoint-not-small} {
