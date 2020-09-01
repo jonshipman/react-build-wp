@@ -7,13 +7,12 @@ import {
   Preview,
   Search,
   Single,
+  useCleanup,
 } from "react-boilerplate-nodes";
 import { FormGroup, Button } from "react-boilerplate-leadform";
 
 // Misc internal
 import { FRONTEND_URL } from "../config";
-import { protectedTypes } from "./hoc/withHeartbeat";
-import Cleanup from "./elements/Cleanup";
 
 // External Scripts
 // import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
@@ -33,6 +32,10 @@ const nodeProps = {
   },
 };
 
+const Logout = () => {
+  useCleanup({ redirect: "/" });
+};
+
 const App = () => (
   <>
     <Header />
@@ -50,7 +53,7 @@ const App = () => (
         </Route>
 
         <Route exact path="/logout">
-          <Cleanup redirect="/" types={protectedTypes} />
+          <Logout />
         </Route>
 
         <Route exact path="/search">
