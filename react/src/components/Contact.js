@@ -6,9 +6,11 @@ import {
   SingleTitle,
   ErrorRouting,
   useSingle,
+  Populate,
 } from "react-boilerplate-nodes";
 
 const Contact = (props) => {
+  Populate(props);
   const { node, loading, error } = useSingle();
 
   return (
