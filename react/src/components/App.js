@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import {
   Archive,
   Category,
+  NodeProvider,
   Preview,
   Search,
   Single,
@@ -37,7 +38,7 @@ const Logout = () => {
 };
 
 const App = () => (
-  <>
+  <NodeProvider {...nodeProps}>
     <Header />
     <div className="main lh-copy relative z-1">
       <Switch>
@@ -57,35 +58,35 @@ const App = () => (
         </Route>
 
         <Route exact path="/search">
-          <Search {...nodeProps} />
+          <Search />
         </Route>
         <Route exact path="/blog">
-          <Archive {...nodeProps} />
+          <Archive />
         </Route>
         <Route path="/category/">
-          <Category {...nodeProps} />
+          <Category />
         </Route>
 
         <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce">
-          <Preview {...nodeProps} />
+          <Preview />
         </Route>
 
         <Route exact path="/contact">
-          <Contact {...nodeProps} />
+          <Contact />
         </Route>
         <Route exact path="/contact-us">
-          <Contact {...nodeProps} />
+          <Contact />
         </Route>
 
         <Route path="*">
-          <Single {...nodeProps} />
+          <Single />
         </Route>
       </Switch>
     </div>
     <Footer />
 
     {/* Load the FacebookTracking and GoogleTracking components here */}
-  </>
+  </NodeProvider>
 );
 
 export default App;
