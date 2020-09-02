@@ -11,7 +11,7 @@
  * @return str Frontend origin URL, e.g. the React URL.
  */
 function get_frontend_origin( $original_url = '' ) {
-	$origin = 'http://localhost:3000';
+	$origin = apply_filters( 'frontend_origin', 'http://localhost:3000' );
 
 	// If we're debugging, allow localhost.
 	if (
@@ -114,4 +114,19 @@ add_filter(
 	},
 	99,
 	2
+);
+
+// Modifies links in the content to point to the origin.
+add_filter(
+	'the_content',
+	function ( $content ) {
+		$content = str_replace( array( 'href="' . get_site_url() ), sprintf( 'href="%s', get_frontend_origin() ), $content );
+		$content = str_replace( 'src="/wp-content', 'src="' . get_site_url() . '/wp-content', $content );
+
+		// Fix links to the images.
+		$content = str_replace( sprintf( 'href="%s/wp-content/', get_frontend_origin() ), sprintf( 'href="%s/wp-content/', get_site_url() ), $content );
+
+		return $content;
+	},
+	PHP_INT_MAX
 );

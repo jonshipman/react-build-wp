@@ -5,7 +5,13 @@
  * @package Headless_WP
  */
 
-use \WPGraphQL\Data\DataSource;
+// Adds thumbnails.
+add_action(
+	'after_setup_theme',
+	function () {
+		add_theme_support( 'post-thumbnails' );
+	}
+);
 
 add_action(
 	'graphql_register_types',
