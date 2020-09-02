@@ -24,7 +24,6 @@
     "@apollo/client": "*",
     "@apollo/react-ssr": "*",
     "@types/react": "*",
-    "animate.css": "*",
     "express": "*",
     "graphql": "*",
     "phone": "*",
