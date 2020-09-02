@@ -1,5 +1,3 @@
-import phone from "phone";
-
 class _Persistent {
   isWebpSupported = () => {
     if (typeof this.support !== "undefined") return this.support;
@@ -27,15 +25,6 @@ export const screen = {
 
 export const isMobile = () => {
   return !screen.large();
-};
-
-export const isPhone = (str) => {
-  let check = phone(str, "", true);
-  return check.length > 0;
-};
-
-export const isEmail = (str) => {
-  return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(str);
 };
 
 export const preventHangingWords = (str) => {
