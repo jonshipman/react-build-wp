@@ -1,3 +1,5 @@
+import { isPhone } from "react-boilerplate-leadform";
+
 class _Persistent {
   isWebpSupported = () => {
     if (typeof this.support !== "undefined") return this.support;
