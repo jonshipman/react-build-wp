@@ -18,25 +18,9 @@ class HeadlessWpSettings {
 		add_action( 'graphql_register_types', array( $this, 'graphql' ) );
 
 		$settings = array(
-			'company_info' => array(
-				'label'  => __( 'Company Info', 'headless-wp' ),
+			'routing' => array(
+				'label'  => __( 'Routing', 'headless-wp' ),
 				'fields' => array(
-					'phone_number'                     => array(
-						'label' => __( 'Phone Number', 'headless-wp' ),
-						'args'  => array(
-							'type'              => 'string',
-							'sanitize_callback' => 'sanitize_text_field',
-							'show_in_graphql'   => true,
-						),
-					),
-					'contact_email'                    => array(
-						'label' => __( 'Contact Email', 'headless-wp' ),
-						'args'  => array(
-							'type'              => 'string',
-							'sanitize_callback' => 'sanitize_text_field',
-							'show_in_graphql'   => true,
-						),
-					),
 					'redirect_page_to_frontend_origin' => array(
 						'label' => __( 'Redirect frontend to React instead of REST API', 'headless-wp' ),
 						'args'  => array(
@@ -56,8 +40,8 @@ class HeadlessWpSettings {
 	// Create the admin menu.
 	public function admin_menu() {
 		add_options_page(
-			__( 'Headless Theme Settings', 'headless-wp' ),
-			__( 'Headless Theme', 'headless-wp' ),
+			apply_filters( 'headless_wp_settings_page_label', __( 'Headless Theme Settings', 'headless-wp' ) ),
+			apply_filters( 'headless_wp_settings_menu_label', __( 'Headless Theme', 'headless-wp' ) ),
 			'manage_options',
 			self::HEADLESS_WP_KEY,
 			array( $this, 'display_options_page' )

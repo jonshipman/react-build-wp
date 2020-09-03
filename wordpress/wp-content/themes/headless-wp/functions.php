@@ -10,6 +10,49 @@
  * @package  Headless_WP
  */
 
+ // Filter to change origin.
+add_filter(
+	'frontend_origin',
+	function() {
+		return 'http://localhost/';
+	}
+);
+
+// Filter to change local settings.
+add_filter(
+	'headless_wp_settings',
+	function( $settings ) {
+		$theme_settings = array(
+			'company_info' => array(
+				'label'  => __( 'Company Info', 'headless-wp' ),
+				'fields' => array(
+					'phone_number'  => array(
+						'label' => __( 'Phone Number', 'headless-wp' ),
+						'args'  => array(
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'show_in_graphql'   => true,
+						),
+					),
+					'contact_email' => array(
+						'label' => __( 'Contact Email', 'headless-wp' ),
+						'args'  => array(
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'show_in_graphql'   => true,
+						),
+					),
+				),
+			),
+		);
+
+		return array_merge(
+			$theme_settings,
+			$settings
+		);
+	}
+);
+
 // Frontend origin.
 require_once 'inc/frontend-origin.php';
 
