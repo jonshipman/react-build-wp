@@ -15,7 +15,6 @@ import ScrollToTop from "./components/elements/ScrollToTop";
 
 import Config from "./config";
 
-import "animate.css";
 import "./styles/style.scss";
 
 /**

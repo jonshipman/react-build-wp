@@ -10,7 +10,8 @@ import {
   Single,
   useCleanup,
 } from "react-boilerplate-nodes";
-import { FormGroup, Button } from "react-boilerplate-leadform";
+import { FormGroup } from "react-boilerplate-leadform";
+import Button from "./elements/Button";
 
 // Misc internal
 import { FRONTEND_URL } from "../config";

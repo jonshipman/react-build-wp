@@ -32,8 +32,7 @@
     "react-dom": "*",
     "react-router-dom": "*",
     "react-scripts": "*",
-    "subscriptions-transport-ws": "*",
-    "tachyons-sass": "*"
+    "subscriptions-transport-ws": "*"
   },
   "scripts": {
     "start": "BROWSER=none PORT=3000 CHOKIDAR_USEPOLLING=true react-scripts start",

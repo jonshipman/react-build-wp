@@ -1,8 +1,9 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import { LeadForm, Button } from "react-boilerplate-leadform";
+import { LeadForm } from "react-boilerplate-leadform";
 import { PageWidth, Seo, PostContent } from "react-boilerplate-nodes";
 
+import Button, { ButtonClasses } from "./elements/Button";
 import Hero from "./elements/Hero";
 import Image from "./elements/Image";
 
@@ -53,7 +54,10 @@ const HomeRender = ({ seo = {}, content, error }) => {
       </PageWidth>
 
       <div className="bg-silver pv5">
-        <LeadForm className="mw6 bg-white pa4 center" />
+        <LeadForm
+          className="mw6 bg-white pa4 center"
+          classes={{ button: ButtonClasses.buttonType1 }}
+        />
       </div>
     </div>
   );

@@ -9,6 +9,8 @@ import {
   Populate,
 } from "react-boilerplate-nodes";
 
+import { ButtonClasses } from "./elements/Button";
+
 const Contact = (props) => {
   Populate(props);
   const { node, loading, error } = useSingle();
@@ -22,7 +24,10 @@ const Contact = (props) => {
           <SingleTitle {...node} />
           <SingleRender node={node} />
           <div className="pv5">
-            <LeadForm className="mw6 center" />
+            <LeadForm
+              className="mw6 center"
+              classes={{ button: ButtonClasses.buttonType1 }}
+            />
           </div>
         </React.Fragment>
       )}

@@ -1,31 +1,6 @@
 /**
- * Root Imports and Theming
- */
-@import "tachyons-sass";
-
-$primary: $green;
-$secondary: $blue;
-
-@import "./_tachyon/tachyons.scss";
-@import "./_animations.scss";
-
-@include tachyons-color-gen("primary", $primary);
-@include tachyons-color-gen("secondary", $secondary);
-
-@include tachyons-prop(".text-shadow") {
-  text-shadow: 1px 0px $spacing-medium $black-50;
-}
-
-@include tachyons-prop(".pre-line") {
-  white-space: pre-line;
-}
-
-/**
- * Defaults
+ * Import Boilerplate
  */
 
- @import "./_defaults.scss";
+@import "~react-boilerplate-nodes/dist/scss/style.scss";
 
-/**
- * General purpose, theme specific styles
- */
