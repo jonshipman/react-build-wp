@@ -1,5 +1,3 @@
-// localStorage key to persist the token
-export const AUTH_TOKEN = "auth-token";
 // localStorage key to persist the username
 export const USERNAME = "username";
 // Backend WordPress URL
@@ -12,10 +10,4 @@ export const useRedirectionSsr = false;
 // Config
 export default {
   gqlUrl: BACKEND_URL + "/graphql",
-  getAuthToken: () => localStorage.getItem(AUTH_TOKEN),
-  setAuthToken: (token) => localStorage.setItem(AUTH_TOKEN, token),
-  removeAuthToken: () => localStorage.removeItem(AUTH_TOKEN),
-  getRedirect: () => localStorage.getItem("redirect"),
-  setRedirect: (redirect) => localStorage.setItem("redirect", redirect),
-  removeRedirect: () => localStorage.removeItem("redirect"),
 };

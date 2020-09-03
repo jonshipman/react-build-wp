@@ -9,6 +9,11 @@ import {
   ApolloLink,
   from,
 } from "@apollo/client";
+import {
+  getAuthToken,
+  removeAuthToken,
+  setAuthToken,
+} from "react-boilerplate-nodes";
 
 import App from "./components/App";
 import ScrollToTop from "./components/elements/ScrollToTop";
@@ -30,7 +35,7 @@ const link = new HttpLink({
  * If there is an auth_token localStorage, pass it as an auth bearer for jwt.
  */
 const authMiddleware = new ApolloLink((operation, forward) => {
-  const token = Config.getAuthToken();
+  const token = getAuthToken();
   const authHeader = token ? `Bearer ${token}` : null;
 
   if (authHeader) {
@@ -59,16 +64,13 @@ const authAfterware = new ApolloLink((operation, forward) => {
       console.error(response.errors);
 
       response.errors.forEach((error) => {
-        if (
-          "Internal server error" === error.message &&
-          Config.getAuthToken()
-        ) {
+        if ("Internal server error" === error.message && getAuthToken()) {
           if (
             window.confirm(
               "We have detected an invalid login session. You will be logged out"
             )
           ) {
-            Config.removeAuthToken();
+            removeAuthToken();
             window.location.reload();
           }
         }
@@ -79,7 +81,7 @@ const authAfterware = new ApolloLink((operation, forward) => {
     if (headers) {
       const refreshToken = headers.get("x-jwt-refresh");
       if (refreshToken) {
-        Config.setAuthToken(refreshToken);
+        setAuthToken(refreshToken);
       }
     }
 

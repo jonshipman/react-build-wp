@@ -8,6 +8,7 @@ import {
   Preview,
   Search,
   Single,
+  Login,
   useCleanup,
 } from "react-boilerplate-nodes";
 import { FormGroup } from "react-boilerplate-leadform";
@@ -24,7 +25,6 @@ import Contact from "./Contact";
 import Footer from "./Footer";
 import Header from "./Header";
 import Home from "./Home";
-import Login from "./Login";
 
 const nodeProps = {
   FRONTEND_URL,
