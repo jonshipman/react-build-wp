@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import scrollHandler from "../../handlers/scroll";
+import { scrollHandler } from "react-boilerplate-nodes";
 
 const LazyLoad = ({ children }) => {
   const container = useRef();
