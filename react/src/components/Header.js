@@ -1,10 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { PageWidth } from "react-boilerplate-nodes";
+import { PageWidth, Menu } from "react-boilerplate-nodes";
 
 import { ReactComponent as Logo } from "../static/images/logo.svg";
-import Menu from "./elements/Menu";
 
 const openMenu = () => {
   let menu = document.getElementById("menu-header-menu").classList;

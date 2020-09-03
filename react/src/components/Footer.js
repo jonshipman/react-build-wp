@@ -1,14 +1,18 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { Loading, LoadingError, PageWidth } from "react-boilerplate-nodes";
+import {
+  FlatMenu,
+  Loading,
+  LoadingError,
+  PageWidth,
+} from "react-boilerplate-nodes";
 
 import { ReactComponent as FacebookIcon } from "../static/images/facebook.svg";
 import { ReactComponent as LinkedinIcon } from "../static/images/linkedin.svg";
 import { ReactComponent as Logo } from "../static/images/logo.svg";
 import { ReactComponent as TwitterIcon } from "../static/images/twitter.svg";
 import { ReactComponent as YoutubeIcon } from "../static/images/youtube.svg";
-import { FlatMenu } from "./elements/Menu";
 
 const FOOTER_QUERY = gql`
   query SettingsQuery {
