@@ -27,7 +27,7 @@ add_filter( 'wp_boilerplate_nodes_settings_menu_label', 'headless_wp_settings_la
 
 // Filter to change local settings.
 add_filter(
-	'headless_wp_settings',
+	'wp_boilerplate_nodes_settings',
 	function( $settings ) {
 		$theme_settings = array(
 			'company_info' => array(
@@ -54,8 +54,8 @@ add_filter(
 		);
 
 		return array_merge(
-			$theme_settings,
-			$settings
+			$settings,
+			$theme_settings
 		);
 	}
 );
