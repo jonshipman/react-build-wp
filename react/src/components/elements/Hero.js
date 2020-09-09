@@ -1,27 +1,11 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
 
 import { PlacholderUrl } from "./Image";
 import Button from "./Button";
+import useSettings from "../hooks/useSettings";
 
-const HERO_QUERY = gql`
-  query HeroQuery {
-    allSettings {
-      generalSettingsTitle
-      generalSettingsDescription
-    }
-  }
-`;
-
-const HeroRender = ({
-  heading,
-  subheading,
-  error,
-  className = "",
-  cta,
-  secondaryCta,
-  background,
-}) => {
+const Hero = ({ error, className = "", cta, secondaryCta, background }) => {
+  let { title: heading, description: subheading } = useSettings();
   if (error) heading = error.message;
 
   const style = {};
@@ -71,28 +55,6 @@ const HeroRender = ({
         </div>
       </div>
     </div>
-  );
-};
-
-const DefaultQuery = ({ children, ...props }) => {
-  const { loading, error, data } = useQuery(HERO_QUERY);
-
-  const passedProps = {
-    heading: data?.allSettings?.generalSettingsTitle,
-    subheading: data?.allSettings?.generalSettingsDescription,
-    loading,
-    error,
-    ...props,
-  };
-
-  return children(passedProps);
-};
-
-const Hero = ({ query: LocalQuery = DefaultQuery, ...props }) => {
-  return (
-    <LocalQuery {...props}>
-      {(passedProps) => <HeroRender {...passedProps} />}
-    </LocalQuery>
   );
 };
 
