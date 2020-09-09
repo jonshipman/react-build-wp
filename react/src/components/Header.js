@@ -1,37 +1,32 @@
-import React, { useRef, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { PageWidth, Menu } from "react-boilerplate-nodes";
 
 import { ReactComponent as Logo } from "../static/images/logo.svg";
 
-const openMenu = () => {
-  let menu = document.getElementById("menu-header-menu").classList;
-  if (menu.contains("dn")) {
-    menu.remove("dn");
-  } else {
-    menu.add("dn");
-  }
-};
+const Header = () => {
+  const menuRef = useRef();
 
-const HeaderRender = ({ sticky }) => {
-  const headerRef = useRef();
-  const spacerRef = useRef();
+  const openMenu = useCallback(
+    (props = {}) => {
+      const { current: menuElement } = menuRef || {};
+      const { close } = props;
 
-  useEffect(() => {
-    if (sticky && spacerRef.current) {
-      spacerRef.current.style.height = `${headerRef?.current?.clientHeight}px`;
-    }
-  }, [sticky, headerRef, spacerRef]);
+      if (menuElement) {
+        const { classList } = menuElement;
+        if (!classList.contains("dn") || close === true) {
+          classList.add("dn");
+        } else {
+          classList.remove("dn");
+        }
+      }
+    },
+    [menuRef]
+  );
 
   return (
     <header id="header">
-      <div
-        ref={headerRef}
-        className={`w-100 z-2 ${
-          sticky ? "absolute fixed-l top-0" : "relative"
-        }`}
-      >
+      <div className="w-100 z-2 relative">
         <div className="bg-white">
           <nav>
             <PageWidth className="flex-l items-center-l">
@@ -40,9 +35,9 @@ const HeaderRender = ({ sticky }) => {
                   className="mobile-toggle pr3 pv3 db dn-l"
                   onClick={openMenu}
                 >
-                  {Array.from(new Array(3)).map(() => (
+                  {Array.from(new Array(3)).map((_, i) => (
                     <div
-                      key={Math.random()}
+                      key={`menu-toggle-${i}`}
                       className="w2 bg-black-60 pb1 mt1 mb1"
                     />
                   ))}
@@ -50,17 +45,14 @@ const HeaderRender = ({ sticky }) => {
                 <Link
                   to="/"
                   className="dib border-box mv3"
-                  onClick={() =>
-                    document
-                      .getElementById("menu-header-menu")
-                      .classList.add("dn")
-                  }
+                  onClick={() => openMenu({ close: true })}
                 >
                   <Logo className="w4 fill-primary" />
                 </Link>
               </div>
               <div className="db tc tr-l ml-auto-l">
                 <Menu
+                  ref={menuRef}
                   location="HEADER_MENU"
                   className="dn ma0 db-l dark-gray f6"
                   anchorOnClick={openMenu}
@@ -70,22 +62,7 @@ const HeaderRender = ({ sticky }) => {
           </nav>
         </div>
       </div>
-
-      {sticky && <div ref={spacerRef} />}
     </header>
-  );
-};
-
-const Header = () => {
-  return (
-    <Switch>
-      <Route
-        path="/"
-        exact
-        render={(props) => <HeaderRender {...props} sticky={true} />}
-      />
-      <Route render={(props) => <HeaderRender {...props} sticky={false} />} />
-    </Switch>
   );
 };
 
