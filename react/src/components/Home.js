@@ -1,27 +1,22 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
 import { LeadForm } from "react-boilerplate-leadform";
-import { PageWidth, Seo, PostContent } from "react-boilerplate-nodes";
+import {
+  PageWidth,
+  Seo,
+  PostContent,
+  useSingle,
+} from "react-boilerplate-nodes";
 
 import Button, { ButtonClasses } from "./elements/Button";
 import Hero from "./elements/Hero";
 import Image from "./elements/Image";
 
-const HOME_QUERY = gql`
-  query HomeQuery {
-    page(id: "/", idType: URI) {
-      id
-      title
-      content
-      seo {
-        title
-        metaDesc
-      }
-    }
-  }
-`;
+const Home = () => {
+  const {
+    node: { seo = {}, content },
+    error,
+  } = useSingle();
 
-const HomeRender = ({ seo = {}, content, error }) => {
   return (
     <div className="home">
       <Seo title={seo.title} description={seo.metaDesc} canonical="/" />
@@ -60,18 +55,6 @@ const HomeRender = ({ seo = {}, content, error }) => {
         />
       </div>
     </div>
-  );
-};
-
-const Home = () => {
-  const { error, data } = useQuery(HOME_QUERY, { errorPolicy: "all" });
-
-  return (
-    <HomeRender
-      seo={data?.page?.seo}
-      content={data?.page?.content}
-      error={error?.message}
-    />
   );
 };
 
