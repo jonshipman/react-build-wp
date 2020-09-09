@@ -26,6 +26,7 @@ wp plugin install --activate --force \
 		https://github.com/wp-graphql/wp-graphql-acf/archive/develop.zip \
     https://github.com/jonshipman/wp-graphql-redirection/archive/master.zip \
 		https://github.com/jonshipman/wp-boilerplate-leadform/archive/develop.zip \
+		https://github.com/jonshipman/wp-boilerplate-nodes/archive/master.zip \
 		https://github.com/ashhitch/wp-graphql-yoast-seo/archive/master.zip
 
 wp term update category 1 --name="Sample Category"
