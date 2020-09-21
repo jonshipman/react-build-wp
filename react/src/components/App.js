@@ -36,6 +36,8 @@ const nodeProps = {
 
 const Logout = () => {
   useCleanup({ redirect: "/" });
+
+  return null;
 };
 
 const App = () => (
