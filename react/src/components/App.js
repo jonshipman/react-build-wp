@@ -17,9 +17,6 @@ import Button from "./elements/Button";
 // Misc internal
 import { FRONTEND_URL } from "../config";
 
-// External Scripts
-// import { FacebookTracking, GoogleTracking } from './external-scripts/Tracking';
-
 // Pages and Header/Footer
 import Contact from "./Contact";
 import Footer from "./Footer";
@@ -87,8 +84,6 @@ const App = () => (
       </Switch>
     </div>
     <Footer />
-
-    {/* Load the FacebookTracking and GoogleTracking components here */}
   </NodeProvider>
 );
 
