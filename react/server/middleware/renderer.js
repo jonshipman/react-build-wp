@@ -11,7 +11,7 @@ import {
 import { renderToStringWithData } from "@apollo/react-ssr";
 
 import Redirect from "./redirection";
-import Config, { FRONTEND_URL, useRedirectionSsr } from "../../src/config";
+import { gqlUrl, FRONTEND_URL, useRedirectionSsr } from "../../src/config";
 import App from "../../src/components/App";
 
 global.ReactComponent = <React.Component />;
@@ -46,7 +46,7 @@ export default async (req, res) => {
   const client = new ApolloClient({
     ssrMode: true,
     link: new HttpLink({
-      uri: Config.gqlUrl,
+      uri: gqlUrl,
       fetch: fetch,
       credentials: "include",
       headers: {
