@@ -1,16 +1,7 @@
 // React
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import {
-  Archive,
-  Category,
-  NodeProvider,
-  Preview,
-  Search,
-  Single,
-  Login,
-  useCleanup,
-} from "react-boilerplate-nodes";
+import { WordPressRoutes, NodeProvider } from "react-boilerplate-nodes";
 import { FormGroup } from "react-boilerplate-leadform";
 import Button from "./elements/Button";
 
@@ -31,12 +22,6 @@ const nodeProps = {
   },
 };
 
-const Logout = () => {
-  useCleanup({ redirect: "/" });
-
-  return null;
-};
-
 const App = () => (
   <NodeProvider {...nodeProps}>
     <Header />
@@ -46,31 +31,6 @@ const App = () => (
           <Home />
         </Route>
 
-        <Route
-          exact
-          path={["/login", "/register", "/forgot-password", "/rp/:key/:login"]}
-        >
-          <Login />
-        </Route>
-
-        <Route exact path="/logout">
-          <Logout />
-        </Route>
-
-        <Route exact path="/search">
-          <Search />
-        </Route>
-        <Route exact path="/blog">
-          <Archive />
-        </Route>
-        <Route path="/category/">
-          <Category />
-        </Route>
-
-        <Route path="/_preview/:parentId/:revisionId/:type/:status/:nonce">
-          <Preview />
-        </Route>
-
         <Route exact path="/contact">
           <Contact />
         </Route>
@@ -78,9 +38,7 @@ const App = () => (
           <Contact />
         </Route>
 
-        <Route path="*">
-          <Single />
-        </Route>
+        <WordPressRoutes />
       </Switch>
     </div>
     <Footer />
