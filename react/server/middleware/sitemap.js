@@ -10,7 +10,7 @@ import {
 } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/react-ssr";
 
-import Config from "../../src/config";
+import { gqlUrl } from "../../src/config";
 import { FRONTEND_URL } from "../../src/config";
 
 export const posts = ["posts", "pages"];
@@ -170,7 +170,7 @@ export default async (req, res) => {
   const client = new ApolloClient({
     ssrMode: true,
     link: new HttpLink({
-      uri: Config.gqlUrl,
+      uri: gqlUrl,
       fetch: fetch,
       credentials: "include",
       headers: {
