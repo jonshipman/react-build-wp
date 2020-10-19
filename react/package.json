@@ -1,51 +1,37 @@
 {
-  "name": "name-react-apollo",
-  "version": "0.35",
+  "name": "react-project",
+  "version": "0.1.0",
+  "license": "GPL 2.0",
   "private": true,
-  "devDependencies": {
-    "@babel/core": "*",
-    "@babel/plugin-proposal-class-properties": "*",
-    "@babel/plugin-transform-runtime": "*",
-    "@babel/preset-env": "*",
-    "@babel/preset-react": "*",
-    "@babel/register": "*",
-    "babel-plugin-inline-import-data-uri": "*",
-    "babel-plugin-inline-react-svg": "*",
-    "canvas": "*",
-    "dom-storage": "*",
-    "ignore-styles": "*",
-    "isomorphic-fetch": "*",
-    "jsdom": "*",
-    "node-sass": "*",
-    "prettier": "*",
-    "typescript": "*"
-  },
   "dependencies": {
-    "@apollo/client": "*",
-    "@apollo/react-ssr": "*",
-    "@types/react": "*",
-    "express": "*",
-    "graphql": "*",
-    "react": "*",
+    "@apollo/client": "^3.2.4",
+    "graphql": "^15.3.0",
+    "node-sass": "^4.14.1",
+    "react": "^16.14.0",
     "react-boilerplate-leadform": "https://github.com/jonshipman/react-boilerplate-leadform",
     "react-boilerplate-nodes": "https://github.com/jonshipman/react-boilerplate-nodes",
-    "react-dom": "*",
-    "react-router-dom": "*",
-    "react-scripts": "*",
-    "subscriptions-transport-ws": "*"
+    "react-dom": "^16.14.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3"
   },
   "scripts": {
     "start": "BROWSER=none PORT=3000 CHOKIDAR_USEPOLLING=true react-scripts start",
-    "start:server": "NODE_ENV=development node server/bootstrap.js",
-    "deploy": "yarn build && NODE_ENV=production node server/bootstrap.js",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

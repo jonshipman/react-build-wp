@@ -2,12 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloSetup, ApolloProvider } from "react-boilerplate-nodes";
-
-import App from "./components/App";
-import ScrollToTop from "./components/elements/ScrollToTop";
 import { gqlUrl } from "./config";
-
-import "./styles/style.scss";
+import { ScrollToTop } from "./components/ScrollToTop";
+import { App } from "./App";
+import * as serviceWorker from "./serviceWorker";
 
 const client = ApolloSetup({ gqlUrl });
 
@@ -28,3 +26,6 @@ renderMethod(
   </BrowserRouter>,
   document.getElementById("root")
 );
+
+// Enable when live.
+serviceWorker.unregister();
