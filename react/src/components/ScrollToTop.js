@@ -18,7 +18,7 @@ export const ScrollToTop = () => {
     if (pathname !== prevPathname) {
       window.scrollTo(0, 0);
     }
-  }, []);
+  }, [pathname, prevPathname]);
 
   return null;
 };
