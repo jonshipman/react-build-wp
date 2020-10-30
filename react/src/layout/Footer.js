@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatMenu, PageWidth } from "react-boilerplate-nodes";
-import { useSettings } from "../hooks/useSettings";
+import { useSettings } from "../hooks";
 
 const FooterColumn = ({ children, className = "" }) => (
   <div className={`w-100 w-third-l ${className}`}>{children}</div>
