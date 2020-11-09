@@ -5,7 +5,7 @@ import { ApolloSetup, ApolloProvider } from "react-boilerplate-nodes";
 import { gqlUrl } from "./config";
 import { ScrollToTop } from "./components";
 import { App } from "./App";
-import * as serviceWorker from "./serviceWorker";
+import reportWebVitals from "./reportWebVitals";
 
 const client = ApolloSetup({ gqlUrl });
 
@@ -27,5 +27,4 @@ renderMethod(
   document.getElementById("root")
 );
 
-// Enable when live.
-serviceWorker.unregister();
+reportWebVitals();

@@ -1,8 +1,8 @@
 import React from "react";
-import { PageWidth, PostContent, useSingle } from "react-boilerplate-nodes";
+import { PageWidth, PostContent, useNode } from "react-boilerplate-nodes";
 
 export const Home = () => {
-  const { node } = useSingle();
+  const { node } = useNode();
 
   return (
     <PageWidth>
