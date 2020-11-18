@@ -93,6 +93,7 @@ remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
 // Prevents unwarranted redirects.
 remove_action( 'template_redirect', 'redirect_canonical' );
+remove_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
 
 // Prevent the adminbar from showing up.
 add_filter( 'show_admin_bar', '__return_false', PHP_INT_MAX );
