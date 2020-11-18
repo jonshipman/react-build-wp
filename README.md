@@ -1,3 +1,5 @@
-# And another headless WordPress|React|Apollo frontend.
+# React Build to WordPress Theme
 
-Completely reworked. Need to flesh this readme out more, but the jist is that most of the core functionality has been moved to react-boilerplate-nodes.
+This repo shows the process in how https://github.com/jonshipman/react-wp-gql works as well as provides a base for how to get Create-React-App into a standard WordPress theme.
+
+All WordPress integration is done inside the ./public folder and involves outputting the index.html with str_replace for the static uris. Adds WPGQL and WPTHEMEURI window global variables for use inside the theme. During ``yarn start`` development, add these urls to ./src/config.js to develop without needing to build on each change.
