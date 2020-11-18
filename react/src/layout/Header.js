@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PageWidth, Menu } from "react-boilerplate-nodes";
+import { PageWidth, Menu } from "react-wp-gql";
 import { Link } from "react-router-dom";
 
 export const Header = () => {

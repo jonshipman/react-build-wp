@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { ApolloSetup, ApolloProvider } from "react-boilerplate-nodes";
+import { ApolloProvider } from "@apollo/client";
+import { ApolloSetup } from "react-wp-gql";
 import { gqlUrl } from "./config";
 import { ScrollToTop } from "./components";
 import { App } from "./App";

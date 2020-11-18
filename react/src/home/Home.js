@@ -1,5 +1,5 @@
 import React from "react";
-import { PageWidth, PostContent, useNode } from "react-boilerplate-nodes";
+import { PageWidth, PostContent, useNode } from "react-wp-gql";
 
 export const Home = () => {
   const { node } = useNode();

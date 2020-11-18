@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatMenu, PageWidth } from "react-boilerplate-nodes";
+import { FlatMenu, PageWidth } from "react-wp-gql";
 import { useSettings } from "../hooks";
 
 const FooterColumn = ({ children, className = "" }) => (

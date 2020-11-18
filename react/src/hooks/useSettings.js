@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { useQueries } from "react-boilerplate-nodes";
+import { useQueries } from "react-wp-gql";
 
 export const useSettings = () => {
   const { queries } = useQueries();
