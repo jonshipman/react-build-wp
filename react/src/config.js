@@ -1,5 +1,9 @@
-export const gqlUrl =
-  (window || {}).WPGQL || `<<Put gql endpoint here when developing>>`;
+const domain = "http://localhost";
 
-export const THEME_URL =
-  (window || {}).WPTHEMEURI || "<<Put theme uri here when developing>>";
+const WP = (window || {}).__WP || {};
+
+export const gqlUrl = WP.GQLURL || `${domain}/graphql`;
+
+export const THEME_URL = WP.THEME_URL || `${domain}/wp-content/themes/build`;
+
+export const isLocalhost = !window.__WP;

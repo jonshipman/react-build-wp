@@ -42,9 +42,25 @@ function rbld_get_build() {
 		$output
 	);
 
-	$output = sprintf( '<script type="text/javascript">window.WPGQL="%s";window.WPTHEMEURI="%s";</script>', esc_attr( rbld_get_gql_endpoint() ), esc_attr( get_stylesheet_directory_uri() ) ) . $output;
+	$wordpress_window_object = wp_json_encode( apply_filters( 'rbld_wp_js_window', array() ) );
+
+	$output = sprintf( '<script type="text/javascript">window.__WP=%s;</script>', $wordpress_window_object ) . $output;
 	return $output;
 }
+
+/**
+ * Filters the __WP window object.
+ *
+ * @param array $wp Associative array being filtered.
+ * @return array
+ */
+function rbld_js_window_filter( $wp ) {
+	$wp['GQLURL']    = rbld_get_gql_endpoint();
+	$wp['THEME_URL'] = get_stylesheet_directory_uri();
+	return $wp;
+}
+
+add_filter( 'rbld_wp_js_window', 'rbld_js_window_filter' );
 
 /**
  * Remove all scripts.
