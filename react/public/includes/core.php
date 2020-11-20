@@ -37,8 +37,8 @@ function rbld_get_build() {
 	$output = $wp_filesystem->get_contents( $path );
 
 	$output = str_replace(
-		array( '/static/', '<html><head>', '</head><body>', '</body></html>' ),
-		array( trailingslashit( get_stylesheet_directory_uri() ) . 'static/', '', '', '' ),
+		array( '<html><head>', '</head><body>', '</body></html>' ),
+		array( '', '', '' ),
 		$output
 	);
 
