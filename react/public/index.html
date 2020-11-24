@@ -1,1 +1,37 @@
-<html><head></head><body><div id="root"></div></body></html>
+<?php
+/**
+ * React Bootstrap
+ *
+ * Main entrypoint for the theme. Allows plugins to modify routing, header, and footer.
+ *
+ * @package react
+ * @since 1.0.0
+ */
+
+?><!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<meta name="theme-color" content="#000000" />
+
+		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+		<title><?php wp_title(); ?></title>
+		<?php wp_head(); ?>
+	</head>
+	<body>
+		<noscript>
+			You need to enable JavaScript to run this app.
+		</noscript>
+
+		<?php do_action( 'rbld_wp_js' );	?>
+
+		<div id="root"></div>
+
+		<?php wp_footer(); ?>
+	</body>
+</html>

@@ -19,34 +19,17 @@ function rbld_get_gql_endpoint() {
 }
 
 /**
- * Returns the contents of index.html as output by react-scripts build.
+ * Builds the __WP javascript object.
  *
- * @return string
+ * @return void
  */
-function rbld_get_build() {
-	global $wp_filesystem;
-
-	if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-		include_once ABSPATH . 'wp-admin/includes/file.php';
-		$creds = request_filesystem_credentials( site_url() );
-		wp_filesystem( $creds );
-	}
-
-	$path = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'index.html';
-
-	$output = $wp_filesystem->get_contents( $path );
-
-	$output = str_replace(
-		array( '<html><head>', '</head><body>', '</body></html>' ),
-		array( '', '', '' ),
-		$output
-	);
-
+function rbld_wp_js() {
 	$wordpress_window_object = wp_json_encode( apply_filters( 'rbld_wp_js_window', array() ) );
 
-	$output = sprintf( '<script type="text/javascript">window.__WP=%s;</script>', $wordpress_window_object ) . $output;
-	return $output;
+	printf( '<script type="text/javascript">window.__WP=%s;</script>', $wordpress_window_object ); // phpcs:ignore
 }
+
+add_action( 'rbld_wp_js', 'rbld_wp_js' );
 
 /**
  * Filters the __WP window object.
