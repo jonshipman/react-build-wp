@@ -15,7 +15,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "BROWSER=none PORT=3000 CHOKIDAR_USEPOLLING=true react-scripts start",
+    "start": "BROWSER=none PORT=3000 CHOKIDAR_USEPOLLING=true FAST_FRESH=false react-scripts start",
     "build": "react-scripts build",
     "postbuild": "mv ./build/index.html ./build/index.php",
     "eject": "react-scripts eject"
