@@ -33,8 +33,6 @@ export const useFormData = ({ nonce: nonceRef, formName, trigger }) => {
     [data]
   );
 
-  console.log(trigger);
-
   const { token } = useRecaptcha({
     trigger,
     key: recaptchaSiteKey,
