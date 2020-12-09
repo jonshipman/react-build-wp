@@ -103,8 +103,8 @@ export const LeadForm = (props) => {
       if (!form[key]) {
         __f[key] = "";
       }
-      setForm((existing) => ({ ...existing, ...__f }));
     });
+    setForm((existing) => ({ ...existing, ...__f }));
   }, [fields, form, setForm, setProcessForm]);
 
   const onChange = (value, field) => {
