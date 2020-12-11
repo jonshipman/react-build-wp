@@ -43,6 +43,7 @@ export const LeadForm = (props) => {
     children,
     className,
     form: formProp,
+    loading: loadingProp,
   } = props;
 
   const {
@@ -61,6 +62,8 @@ export const LeadForm = (props) => {
     trigger,
     triggerField,
   } = useLeadFormState();
+
+  loading.current = loadingProp ? loadingProp : loading.current;
 
   // Pass on any initial values set in prop.
   useEffect(() => {
