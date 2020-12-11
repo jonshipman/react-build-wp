@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useMemo } from "react";
 import { FormGroup, Button } from "react-wp-gql";
 import { gql, useMutation } from "@apollo/client";
 import { useLeadFormState } from "./useLeadFormState";
@@ -63,7 +63,8 @@ export const LeadForm = (props) => {
     triggerField,
   } = useLeadFormState();
 
-  loading.current = loadingProp ? loadingProp : loading.current;
+  const _loading = loadingProp ? loadingProp : loading.current;
+  const loadingMemo = useMemo(() => _loading, [_loading]);
 
   // Pass on any initial values set in prop.
   useEffect(() => {
@@ -190,7 +191,7 @@ export const LeadForm = (props) => {
       </div>
       <div className="button-wrap tr" style={{ marginBottom: 0 }}>
         <Button
-          loading={loading.current}
+          loading={loadingMemo}
           disabled={completed}
           onClick={onSubmit}
           className={buttonClassName}
