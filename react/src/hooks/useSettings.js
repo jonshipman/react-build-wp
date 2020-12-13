@@ -6,7 +6,6 @@ export const useSettings = () => {
 
   const { data, loading, error } = useQuery(queries.QuerySettings, {
     errorPolicy: "all",
-    ssr: true,
   });
 
   const allSettings = data?.allSettings || {};
