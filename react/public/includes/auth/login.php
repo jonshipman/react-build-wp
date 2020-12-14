@@ -48,7 +48,8 @@ function rbld_login_with_cookies() {
 					'type'        => 'User',
 					'description' => __( 'Returns the current user', 'react-build' ),
 					'resolve'     => function( $source, array $args, $context, $info ) {
-						return isset( $context->viewer->ID ) && ! empty( $context->viewer->ID ) ? \WPGraphQL\Data\DataSource::resolve_user( $context->viewer->ID, $context ) : null;
+						$id = $source['user_id'];
+						return \WPGraphQL\Data\DataSource::resolve_user( $id, $context );
 					},
 				),
 			),
@@ -74,7 +75,15 @@ function rbld_login_with_cookies() {
 					throw new \GraphQL\Error\UserError( ! empty( $user->get_error_code() ) ? $user->get_error_code() : 'invalid login' );
 				}
 
-				return array( 'status' => 'SUCCESS' );
+				$user_login = $credentials['user_login'];
+				wp_set_current_user( $user->ID, $user_login );
+				wp_set_auth_cookie( $user->ID, true, false );
+				do_action( 'wp_login', $user_login );
+
+				return array(
+					'status'  => 'SUCCESS',
+					'user_id' => $user->ID,
+				);
 			},
 		)
 	);
