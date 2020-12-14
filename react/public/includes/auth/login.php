@@ -77,7 +77,7 @@ function rbld_login_with_cookies() {
 
 				$user_login = $credentials['user_login'];
 				wp_set_current_user( $user->ID, $user_login );
-				wp_set_auth_cookie( $user->ID, true, false );
+				wp_set_auth_cookie( $user->ID, true );
 				do_action( 'wp_login', $user_login );
 
 				return array(
