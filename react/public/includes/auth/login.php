@@ -44,6 +44,13 @@ function rbld_login_with_cookies() {
 						return $payload['status'];
 					},
 				),
+				'viewer' => array(
+					'type'        => 'User',
+					'description' => __( 'Returns the current user', 'react-build' ),
+					'resolve'     => function( $source, array $args, $context, $info ) {
+						return isset( $context->viewer->ID ) && ! empty( $context->viewer->ID ) ? \WPGraphQL\Data\DataSource::resolve_user( $context->viewer->ID, $context ) : null;
+					},
+				),
 			),
 			'mutateAndGetPayload' => function( $input ) {
 				// Prepare credentials.
