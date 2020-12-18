@@ -8,3 +8,6 @@
 
 // Menus in use by theme.
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'menus.php';
+
+// Hide menus not suitable for production.
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'debug-off.php';
