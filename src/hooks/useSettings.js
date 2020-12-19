@@ -1,10 +1,16 @@
-import { useQuery } from "@apollo/client";
-import { useQueries } from "react-wp-gql";
+import { gql, useQuery } from "@apollo/client";
+
+const SettingsQuery = gql`
+  query SettingsQuery {
+    allSettings {
+      title: generalSettingsTitle
+      description: generalSettingsDescription
+    }
+  }
+`;
 
 export const useSettings = () => {
-  const { queries } = useQueries();
-
-  const { data, loading, error } = useQuery(queries.QuerySettings, {
+  const { data, loading, error } = useQuery(SettingsQuery, {
     errorPolicy: "all",
   });
 

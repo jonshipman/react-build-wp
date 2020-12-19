@@ -12,6 +12,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-wp-gql": "https://github.com/jonshipman/react-wp-gql",
+    "react-wp-form": "https://github.com/jonshipman/react-wp-form",
+    "react-wp-tachyons": "https://github.com/jonshipman/react-wp-tachyons",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

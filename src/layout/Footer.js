@@ -1,13 +1,49 @@
 import React from "react";
-import { FlatMenu, PageWidth } from "react-wp-gql";
+import { PageWidth } from "react-wp-gql";
 import { useSettings } from "../hooks";
+import { gql, useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
+
+const FooterMenu = gql`
+  query FooterMenu {
+    menuItems(where: { location: FOOTER_MENU }) {
+      nodes {
+        id
+        url
+        label
+        connectedNode {
+          node {
+            __typename
+          }
+        }
+      }
+    }
+  }
+`;
+
+const MenuLink = ({ url, label, connectedNode }) => {
+  let Tag = "a";
+  const props = { className: "color-inherit no-underline" };
+  const type = connectedNode?.node?.__typename || "MenuItem";
+
+  if (type === "MenuItem") {
+    props.href = url;
+  } else {
+    Tag = Link;
+    props.to = url.replace(/^.*\/\/[^/]+/, "");
+  }
+
+  return <Tag {...props}>{label}</Tag>;
+};
 
 const FooterColumn = ({ children, className = "" }) => (
   <div className={`w-100 w-third-l ${className}`}>{children}</div>
 );
 
 export const Footer = () => {
-  const { generalSettingsTitle, generalSettingsDescription } = useSettings();
+  const { title, description } = useSettings();
+  const { data } = useQuery(FooterMenu);
+  const menu = data?.menuItems?.nodes || [];
 
   return (
     <footer id="footer">
@@ -15,13 +51,14 @@ export const Footer = () => {
         <PageWidth>
           <div className="flex-l pv4">
             <FooterColumn>
-              <div className="f3 mb2">{generalSettingsTitle}</div>
-              <div>{generalSettingsDescription}</div>
+              <div className="f3 mb2">{title}</div>
+              <div>{description}</div>
             </FooterColumn>
             <FooterColumn className="ml-auto-l tr-l">
-              <div className="f3 mb2">Menu</div>
-              <nav>
-                <FlatMenu location="FOOTER_MENU" className="pl0 list lh-copy" />
+              <nav className="lh-copy">
+                {menu.map((node) => (
+                  <MenuLink key={node.id} {...node} />
+                ))}
               </nav>
             </FooterColumn>
           </div>
@@ -32,7 +69,7 @@ export const Footer = () => {
           <div className="flex-l items-center-l">
             <div>
               Copyright {new Date().getFullYear()}{" "}
-              {generalSettingsTitle ? ` - ${generalSettingsTitle}` : "..."}
+              {title ? ` - ${title}` : "..."}
               <span> | All rights reserved</span>
             </div>
 

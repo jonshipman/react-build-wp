@@ -5,13 +5,15 @@ import { BrowserRouter } from "react-router-dom";
 import { gqlUrl } from "./config";
 import { NodeProvider } from "react-wp-gql";
 import { ScrollToTop } from "./components";
-import * as queries from "./gql/queries";
 import reportWebVitals from "./reportWebVitals";
+import { cache } from "./Apollo";
+import * as fragments from "./gql/fragments";
 
 const nodeProps = {
   siteName: "React Build",
-  queries,
   gqlUrl,
+  cache,
+  fragments,
 };
 
 ReactDOM.render(
