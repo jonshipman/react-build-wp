@@ -2,16 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { App } from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { gqlUrl } from "./config";
 import { NodeProvider } from "react-wp-gql";
 import { ScrollToTop } from "./components";
-import reportWebVitals from "./reportWebVitals";
 import { cache } from "./Apollo";
 import * as fragments from "./gql/fragments";
+import reportWebVitals from "./reportWebVitals";
 
 const nodeProps = {
   siteName: "React Build",
-  gqlUrl,
+  gqlUrl: `${process.env.REACT_APP_DOMAIN}/graphql`,
   cache,
   fragments,
 };
