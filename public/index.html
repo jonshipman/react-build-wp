@@ -21,7 +21,12 @@
 		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
 		<title><?php wp_title(); ?></title>
+
 		<?php wp_head(); ?>
+
+		<!-- Include these two styles for the block editor -->
+		<link href="%REACT_APP_DOMAIN%/wp-includes/css/dist/block-library/style.min.css" rel="stylesheet" />
+		<link href="%REACT_APP_DOMAIN%/wp-includes/css/dist/block-library/theme.min.css" rel="stylesheet" />
 	</head>
 	<body>
 		<noscript>
