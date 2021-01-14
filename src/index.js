@@ -11,6 +11,7 @@ import reportWebVitals from "./reportWebVitals";
 const nodeProps = {
   siteName: "React Build",
   fragments,
+  cache: true,
 };
 
 ReactDOM.render(
