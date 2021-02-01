@@ -1,3 +1,5 @@
+import { CreatePaginationQuery } from "react-wp-gql";
+
 export const LiteralSeo = `
   title
   metaDesc
@@ -43,5 +45,33 @@ export const FragmentPage = `
     seo {
       ${LiteralSeo}
     }
+  }
+`;
+
+export const FragmentCategory = `
+  fragment CategoryFragment on Category {
+    id
+    databaseId
+    slug
+    name
+    uri
+    seo {
+      ${LiteralSeo}
+    }
+    ${CreatePaginationQuery("posts", "...PostFragment")}
+  }
+`;
+
+export const FragmentTag = `
+  fragment TagFragment on Tag {
+    id
+    databaseId
+    slug
+    name
+    uri
+    seo {
+      ${LiteralSeo}
+    }
+    ${CreatePaginationQuery("posts", "...PostFragment")}
   }
 `;
