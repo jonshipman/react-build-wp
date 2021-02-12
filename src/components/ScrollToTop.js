@@ -17,6 +17,15 @@ export const ScrollToTop = () => {
   useEffect(() => {
     if (pathname !== prevPathname) {
       window.scrollTo(0, 0);
+
+      if ((window || {})?.ga) {
+        window.ga("set", "page", pathname);
+        window.ga("send", "pageview");
+      }
+
+      if ((window || {})?.fbq) {
+        window.fbq(...args);
+      }
     }
   }, [pathname, prevPathname]);
 
