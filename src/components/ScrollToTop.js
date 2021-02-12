@@ -24,7 +24,7 @@ export function ScrollToTop() {
       }
 
       if ((window || {})?.fbq) {
-        window.fbq(...args);
+        window.fbq("track", "PageView");
       }
     }
   }, [pathname, prevPathname]);
