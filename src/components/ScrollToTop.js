@@ -1,16 +1,16 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
-const usePrevious = (value) => {
+function usePrevious(value) {
   const ref = useRef();
   useEffect(() => {
     ref.current = value;
   });
 
   return ref.current;
-};
+}
 
-export const ScrollToTop = () => {
+export function ScrollToTop() {
   const { pathname } = useLocation();
   const prevPathname = usePrevious(pathname);
 
@@ -30,4 +30,6 @@ export const ScrollToTop = () => {
   }, [pathname, prevPathname]);
 
   return null;
-};
+}
+
+export default ScrollToTop;

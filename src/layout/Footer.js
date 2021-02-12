@@ -21,7 +21,7 @@ const FooterMenu = gql`
   }
 `;
 
-const MenuLink = ({ url, label, connectedNode }) => {
+function MenuLink({ url, label, connectedNode }) {
   let Tag = "a";
   const props = { className: "color-inherit no-underline" };
   const type = connectedNode?.node?.__typename || "MenuItem";
@@ -34,13 +34,13 @@ const MenuLink = ({ url, label, connectedNode }) => {
   }
 
   return <Tag {...props}>{label}</Tag>;
-};
+}
 
-const FooterColumn = ({ children, className = "" }) => (
-  <div className={`w-100 w-third-l ${className}`}>{children}</div>
-);
+function FooterColumn({ children, className = "" }) {
+  return <div className={`w-100 w-third-l ${className}`}>{children}</div>;
+}
 
-export const Footer = () => {
+export function Footer() {
   const { title, description } = useSettings();
   const { data } = useQuery(FooterMenu);
   const menu = data?.menuItems?.nodes || [];
@@ -79,4 +79,6 @@ export const Footer = () => {
       </div>
     </footer>
   );
-};
+}
+
+export default Footer;

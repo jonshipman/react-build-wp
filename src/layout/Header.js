@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PageWidth, Menu } from "react-wp-gql";
 import { Link } from "react-router-dom";
 
-export const Header = () => {
+export function Header() {
   const [open, setOpen] = useState();
 
   return (
@@ -36,4 +36,6 @@ export const Header = () => {
       </PageWidth>
     </header>
   );
-};
+}
+
+export default Header;

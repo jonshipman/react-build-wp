@@ -9,7 +9,7 @@ const SettingsQuery = gql`
   }
 `;
 
-export const useSettings = () => {
+export function useSettings() {
   const { data, loading, error } = useQuery(SettingsQuery, {
     errorPolicy: "all",
   });
@@ -21,4 +21,6 @@ export const useSettings = () => {
     loading,
     error,
   };
-};
+}
+
+export default useSettings;

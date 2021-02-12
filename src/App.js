@@ -6,7 +6,7 @@ import { Header, Footer, Main } from "./layout";
 import { Home } from "./home";
 import "./app.scss";
 
-export const App = () => {
+export function App() {
   const { search } = useLocation();
   const previewId = new URLSearchParams(search).get("p");
 
@@ -25,4 +25,6 @@ export const App = () => {
       <Footer />
     </div>
   );
-};
+}
+
+export default App;

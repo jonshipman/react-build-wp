@@ -1,7 +1,7 @@
 import React from "react";
 import { PageWidth, PostContent, useNode } from "react-wp-gql";
 
-export const Home = () => {
+export function Home() {
   const { node } = useNode();
 
   return (
@@ -9,4 +9,6 @@ export const Home = () => {
       <PostContent>{node.content}</PostContent>
     </PageWidth>
   );
-};
+}
+
+export default Home;

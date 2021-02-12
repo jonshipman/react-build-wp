@@ -56,11 +56,13 @@ const link = new HttpLink({
   uri: `${process.env.REACT_APP_DOMAIN}/graphql`,
 });
 
-export const ApolloProvider = ({ children }) => {
+export function ApolloProvider({ children }) {
   const client = new ApolloClient({
     link: from([authAfterware, link]),
     cache,
   });
 
   return <Provider {...{ client }}>{children}</Provider>;
-};
+}
+
+export default ApolloProvider;

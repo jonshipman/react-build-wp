@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { App } from "./App";
+import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { NodeProvider } from "react-wp-gql";
 import { ScrollToTop } from "./components";
-import { ApolloProvider } from "./Apollo";
+import ApolloProvider from "./Apollo";
 import * as fragments from "./gql/fragments";
 import reportWebVitals from "./reportWebVitals";
 
 const nodeProps = {
-  siteName: "React Build",
+  siteName: process.env.REACT_APP_TITLE,
   fragments,
   cache: true,
 };
